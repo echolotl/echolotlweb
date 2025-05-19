@@ -1,0 +1,24 @@
+@use 'sass:color';
+
+    $foreground: #3f3f3f;
+    $background: #282828;
+    $distant: #121212;
+
+
+    $foreground-light: #ededed;
+    $background-light: #e0e0e0;
+    $distant-light: #c0c0c0;
+
+    $primary: #DA39A4;
+    $primary-light: color.mix($primary, $foreground, 90%);
+
+    $surface: color.mix($background, $primary, 80%);
+    $surface-light: color.mix($background-light, $primary, 80%);
+
+    $invert-filter: invert(1);
+
+    // Font
+    $display-font: 'Red Hat Display', sans-serif;
+    $body-font: 'IBM Plex Sans', sans-serif;
+
+
