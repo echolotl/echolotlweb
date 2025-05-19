@@ -1,10 +1,11 @@
 export interface Character {
+  id: string;
   name: string;
   species: string;
   age: number;
   height: string;
-  created_date: number;
-  last_modified: number;
+  created_date: string;
+  last_modified: string;
   pronouns: string;
   friends?: string[];
   enemies?: string[];
