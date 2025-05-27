@@ -95,12 +95,17 @@ function toggleTheme() {
 .navbar-top__content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row;
   padding: 0 1rem;
   padding-top: 0.75rem;
   height: 100%;
   width: calc(100% - 2rem);
+  position: relative;
+}
+.navbar-top__themeicon {
+  position: absolute;
+  left: 1rem;
 }
 .navbar-top__logo:hover * .navbar-top__logo-icon {
   animation: jumpAndFlip 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -117,6 +122,8 @@ function toggleTheme() {
   display: flex;
   gap: 1rem;
   align-items: center;
+  position: absolute;
+  right: 1rem;
 }
 .navbar-bottom {
   width: 100%;

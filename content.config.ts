@@ -6,7 +6,7 @@ export default defineContentConfig({
       source: "characters/*.md",
       type: "page",
       schema: z.object({
-        id: z.string(),
+        slug: z.string(),
         name: z.string(),
         species: z.string(),
         age: z.number(),

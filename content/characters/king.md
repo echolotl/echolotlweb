@@ -1,5 +1,5 @@
 ---
-id: king
+slug: king
 name: King
 species: Cat
 age: 17
@@ -10,4 +10,5 @@ pronouns: he/they
 clan: Unaffiliated
 short_description: A purple cat
 theme_color: "#b157db"
+icon_image: /images/no_image.png
 ---

@@ -12,21 +12,40 @@
 
 <script setup lang="ts">
 import Navbar from '~/components/common/Navbar.vue';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 
+const route = useRoute();
 const theme = ref(false);
-const navIcons = ref([
-  {
-    icon: 'art_brush',
-    alt: 'Art',
-    to: '/art'
-  },
-  {
-    icon: 'characters-icon',
-    alt: 'Characters',
-    to: '/characters'
+
+// Define all possible navigation icons
+const allNavIcons = {
+  home: { icon: 'house-icon', alt: 'Home', to: '/' },
+  art: { icon: 'art_brush', alt: 'Art', to: '/art' },
+  characters: { icon: 'characters-icon', alt: 'Characters', to: '/characters' }
+};
+
+// Compute nav icons based on current route
+const navIcons = computed(() => {
+  const currentPath = route.path;
+  
+  // Always show home if not on home page
+  const icons = [];
+  
+  if (currentPath !== '/') {
+    icons.push(allNavIcons.home);
   }
-]);
+  
+  // Show other pages that aren't the current page
+  if (currentPath !== '/art') {
+    icons.push(allNavIcons.art);
+  }
+  
+  if (currentPath !== '/characters') {
+    icons.push(allNavIcons.characters);
+  }
+  
+  return icons;
+});
 
 function toggleTheme() {
   theme.value = !theme.value;

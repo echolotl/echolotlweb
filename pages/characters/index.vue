@@ -22,17 +22,21 @@ const { data: characters } = await useAsyncData(() => {
 
 <style scoped lang="scss">
 .characters-page {
-  padding: 2rem;
-  max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
+  max-width: 1600px;
   h1 {
     text-align: center;
   }
 }
 
 .characters-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  gap: 2rem;
+  margin-top: 2rem;
+
 }
 </style>
