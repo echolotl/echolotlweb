@@ -78,29 +78,36 @@ watch(theme, () => {
 </script>
 
 <style lang="scss">
-@use "~/assets/styles/partials/_variables.scss" as vars;
+@use "~/assets/styles/partials/_reusables.scss" as *;
+@use "~/assets/styles/partials/_mixins.scss" as *;
 @use "~/assets/styles/main.scss" as *;
 
 :root {
-  --foreground: #{vars.$foreground};
-  --text: #{vars.$foreground-light};
-  --background: #{vars.$background};
-  --distant: #{vars.$distant};
-  --primary: #{vars.$primary};
+  --foreground: #{$foreground};
+  --text: #{$foreground-light};
+  --text-secondary: #{transparentize($foreground-light, 0.6)};
+  --background: #{$background};
+  --distant: #{$distant};
+  --primary: #{$primary};
+  --solid: #{$solid};
+  --inverted-solid: #{$solid-light};
 
-  --surface: #{vars.$surface};
-  
+  --surface: #{$surface};
+
   background-color: var(--background);
   color: var(--text);
 }
 
 :root[data-theme="light"] {
-  --foreground: #{vars.$foreground-light};
-  --text: #{vars.$foreground};
-  --background: #{vars.$background-light};
-  --distant: #{vars.$distant-light};
-  --primary: #{vars.$primary-light};
-  --surface: #{vars.$surface-light};
+  --foreground: #{$foreground-light};
+  --text: #{$foreground};
+  --text-secondary: #{transparentize($foreground, 0.25)};
+  --background: #{$background-light};
+  --distant: #{$distant-light};
+  --primary: #{$primary-light};
+  --surface: #{$surface-light};
+  --solid: #{$solid-light};
+  --inverted-solid: #{$solid};
   
   color: var(--text);
 }

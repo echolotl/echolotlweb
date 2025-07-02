@@ -10,5 +10,8 @@ pronouns: he/they
 clan: Unaffiliated
 short_description: A purple cat
 theme_color: "#b157db"
-icon_image: /images/no_image.png
+background_texture: /images/characters/king/background_texture.png
+banner_image: /images/characters/king/banner_image.png
+icon_image: /images/tes2t.png
+icon_image_hover: /images/test.png
 ---

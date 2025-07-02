@@ -1,6 +1,7 @@
 <template>
   <div class="characters-page">
-    <h1>Characters</h1>
+    <h1 class="large-title">Characters</h1>
+    <p class="subtitle">Want to know more about my characters? Click on any of their cards to go to their page!</p>
     <div class="characters-list">
       <CharacterCard
         v-for="(character, index) in characters"
@@ -37,6 +38,9 @@ const { data: characters } = await useAsyncData(() => {
   flex-direction: row;
   gap: 2rem;
   margin-top: 2rem;
+}
 
+.subtitle {
+  text-align: center;
 }
 </style>

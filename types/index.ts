@@ -17,6 +17,7 @@ export interface Character {
   title_image?: string;
   background_texture?: string;
   icon_image?: string;
+  icon_image_hover?: string;
   banner_image?: string;
 }
 

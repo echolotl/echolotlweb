@@ -24,6 +24,7 @@ export default defineContentConfig({
         title_image: z.string().optional(),
         background_texture: z.string().optional(),
         icon_image: z.string().optional(),
+        icon_image_hover: z.string().optional(),
         banner_image: z.string().optional(),
       }),
     }),

@@ -4,12 +4,13 @@
     $background: #282828;
     $surface: #1f1f1f;
     $distant: #121212;
-
+    $solid: #000000;
 
     $foreground-light: #ededed;
     $background-light: #e0e0e0;
     $surface-light: #d6d6d6;
     $distant-light: #c0c0c0;
+    $solid-light: #ffffff;
 
     $primary: #DA39A4;
     $primary-light: color.mix($primary, $foreground, 90%);

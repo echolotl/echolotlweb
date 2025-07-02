@@ -1,7 +1,7 @@
 <template>
   <div class="art-page">
-    <h1>Art Gallery</h1>
-    <p>Coming soon - This will showcase echolotl's artwork!</p>
+    <h1 class="large-title">Art Archive</h1>
+    <p class="subtitle"></p>
   </div>
 </template>
 

@@ -1,0 +1,28 @@
+@import '_variables';
+// Mixins for reusable styles
+@mixin smooth-transition($properties, $duration: 0.3s, $easing: ease) {
+  $transition-list: ();
+  @each $property in $properties {
+    $transition-list: append($transition-list, $property $duration $easing, comma);
+  }
+  transition: $transition-list;
+}
+
+@mixin theme-transition {
+  @include smooth-transition((background-color, color));
+}
+
+@mixin full-transition {
+  @include smooth-transition((background-color, color, border-color));
+}
+
+@mixin link-style($color: $primary, $hover-color: #000000) {
+  color: $color;
+  text-decoration: none;
+  @include smooth-transition(color);
+  
+  &:hover {
+    color: $hover-color;
+    text-decoration: underline;
+  }
+}

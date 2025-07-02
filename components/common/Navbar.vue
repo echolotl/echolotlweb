@@ -162,6 +162,6 @@ function toggleTheme() {
   }
 }
 .navbar-spacer {
-  height: 120px;
+  height: 64px;
 }
 </style>
