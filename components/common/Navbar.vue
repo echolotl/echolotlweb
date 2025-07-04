@@ -17,14 +17,14 @@
               width="48"
               height="48"
               class="navbar-top__logo-icon"
-              :invert="props.light"
+              color="var(--inverted-solid)"
             />
             <img
               src="~/assets/images/logo.png"
               alt="echolotl"
               height="48"
               :class="props.light ? 'invert' : ''"
-            />
+            >
           </nuxt-link>
         </div>
         <div class="navbar-top__nav-icons">
@@ -38,8 +38,7 @@
               :alt="navIcon.alt"
               width="48"
               height="48"
-              :invert="props.light"
-                class="icon"
+              class="icon"
             />
           </nuxt-link>
         </div>
@@ -136,6 +135,7 @@ function toggleTheme() {
 .icon {
   cursor: pointer;
   transition: transform 0.2s ease;
+  color: var(--inverted-solid);
 
   &:hover {
     transform: scale(1.1);

@@ -101,6 +101,13 @@ watch(theme, () => {
   --inverted-solid: #{$solid-light};
   --filter-invert: 0;
 
+  --red: #{$red};
+  --green: #{$green};
+  --blue: #{$blue};
+  --yellow: #{$yellow};
+  --purple: #{$purple};
+  --orange: #{$orange};
+
   --surface: #{$surface};
 
   background-color: var(--background);
@@ -118,6 +125,13 @@ watch(theme, () => {
   --solid: #{$solid-light};
   --inverted-solid: #{$solid};
   --filter-invert: 1;
+
+  --red: #{$red-light};
+  --green: #{$green-light};
+  --blue: #{$blue-light};
+  --yellow: #{$yellow-light};
+  --purple: #{$purple-light};
+  --orange: #{$orange-light};
   
   color: var(--text);
 }

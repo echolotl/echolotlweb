@@ -10,7 +10,7 @@
 }
 
 @mixin theme-transition {
-  @include smooth-transition((background-color, color));
+  @include smooth-transition((background-color, color, border-color), 0.2s, ease-out);
 }
 
 @mixin full-transition {

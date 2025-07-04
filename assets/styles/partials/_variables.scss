@@ -15,6 +15,24 @@
     $primary: #DA39A4;
     $primary-light: color.mix($primary, black, 90%);
 
+    $red: #da3939;
+    $red-light: color.mix($red, black, 90%);
+
+    $green: #39da39;
+    $green-light: color.mix($green, black, 90%);
+
+    $blue: #3939da;
+    $blue-light: color.mix($blue, black, 90%);
+
+    $yellow: #dada39;
+    $yellow-light: color.mix($yellow, black, 90%);
+
+    $purple: #9b39da;
+    $purple-light: color.mix($purple, black, 90%);
+
+    $orange: #da9b39;
+    $orange-light: color.mix($orange, black, 90%);
+
     $invert-filter: invert(1);
 
     // Font

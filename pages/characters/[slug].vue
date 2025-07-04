@@ -2,86 +2,98 @@
     <div v-if="character" class="character-page">
         <CharacterBanner :character="character" />
         <div class="character-content">
-            <div class="character-infobox">
-                <span class="character-infobox__label" :style="{ color: character.theme_color }">... CHARACTER INFO</span>
-                <div class="character-infobox__details" :style="{ borderTop: `2px solid ${character.theme_color}` }">
-                    <span class="font-display character-infobox__title" :style="{ color: character.theme_color }">{{ character.name }}</span>
-                    <hr>
-                    <div class="character-infobox__header">
-                        <figure style="text-align: center; margin: 0;">
-                            <nuxt-img
-                                :src="character.image || '/images/no_image.png'"
-                                alt="Character Image"
-                            />
-                            <figcaption style="color: var(--text-secondary)">
-                                <i>{{ character.image_description || "no description available" }}</i>
-                            </figcaption>
-                        </figure>
+            <div class="character-main-content">
+                <div class="character-infobox">
+                    <span class="character-infobox__label" :style="{ color: character.theme_color }">... CHARACTER INFO</span>
+                    <div class="character-infobox__details" :style="{ borderTop: `2px solid ${character.theme_color}` }">
+                        <span class="font-display character-infobox__title" :style="{ color: character.theme_color }">{{ character.name }}</span>
+                        <hr>
+                        <div class="character-infobox__header">
+                            <figure style="text-align: center; margin: 0;">
+                                <nuxt-img
+                                    :src="character.image || '/images/no_image.png'"
+                                    alt="Character Image"
+                                />
+                                <figcaption style="color: var(--text-secondary)">
+                                    <i>{{ character.image_description || "no description available" }}</i>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <hr>
+                        <table class="character-infobox__table">
+                            <tbody>
+                                <tr>
+                                    <td class="character-infobox__item-label">Age</td>
+                                    <td>{{ character.age || "Unknown" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Pronouns</td>
+                                    <td>{{ character.pronouns || "Unknown" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Species</td>
+                                    <td>{{ character.species || "Unknown" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Creation Date</td>
+                                    <td>{{ utils.formatDate(new Date(character.created_date)) || "Unknown" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Height</td>
+                                    <td>{{ `${character.height} (${utils.feetStringToCm(character.height)}cm)` || "Unknown" }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Friends</td>
+                                    <td>
+                                        <span v-if="character.friends && character.friends.length > 0">
+                                            <template v-for="(friend, index) in character.friends" :key="friend.slug">
+                                                <nuxt-link :to="`/characters/${friend.slug}`" class="link">{{ friend.name }}</nuxt-link>
+                                                <span v-if="index < character.friends.length - 1">, </span>
+                                            </template>
+                                        </span>
+                                        <span v-else>None</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Enemies</td>
+                                    <td>
+                                        <span v-if="character.enemies && character.enemies.length > 0">
+                                            <template v-for="(enemy, index) in character.enemies" :key="enemy.slug">
+                                                <nuxt-link :to="`/characters/${enemy.slug}`" class="link">{{ enemy.name }}</nuxt-link>
+                                                <span v-if="index < character.enemies.length - 1">, </span>
+                                            </template>
+                                        </span>
+                                        <span v-else>None</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">Type</td>
+                                    <td>{{ character.clan || "Unknown" }} <nuxt-img :src="`/images/icons/${character.clan}.png`" height="24" class="character-infobox__clan-icon" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <hr>
-                    <table class="character-infobox__table">
-                        <tbody>
-                            <tr>
-                                <td class="character-infobox__item-label">Age</td>
-                                <td>{{ character.age || "Unknown" }}</td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Pronouns</td>
-                                <td>{{ character.pronouns || "Unknown" }}</td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Species</td>
-                                <td>{{ character.species || "Unknown" }}</td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Creation Date</td>
-                                <td>{{ utils.formatDate(new Date(character.created_date)) || "Unknown" }}</td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Height</td>
-                                <td>{{ `${character.height} (${utils.feetStringToCm(character.height)}cm)` || "Unknown" }}</td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Friends</td>
-                                <td>
-                                    <span v-if="character.friends && character.friends.length > 0">
-                                        <template v-for="(friend, index) in character.friends" :key="friend.slug">
-                                            <nuxt-link :to="`/characters/${friend.slug}`" class="link">{{ friend.name }}</nuxt-link>
-                                            <span v-if="index < character.friends.length - 1">, </span>
-                                        </template>
-                                    </span>
-                                    <span v-else>None</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Enemies</td>
-                                <td>
-                                    <span v-if="character.enemies && character.enemies.length > 0">
-                                        <template v-for="(enemy, index) in character.enemies" :key="enemy.slug">
-                                            <nuxt-link :to="`/characters/${enemy.slug}`" class="link">{{ enemy.name }}</nuxt-link>
-                                            <span v-if="index < character.enemies.length - 1">, </span>
-                                        </template>
-                                    </span>
-                                    <span v-else>None</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="character-infobox__item-label">Type</td>
-                                <td>{{ character.clan || "Unknown" }} <nuxt-img :src="`/images/icons/${character.clan}.png`" height="24" class="character-infobox__clan-icon" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                </div>
+                <content-renderer
+                    :value="character"
+                    class="character-text"
+                    prose
+                />
+            </div>
+        </div>
+                    <div class="character-images">
+                <h2 class="section-title">Character Images</h2>
+                <hr>
+                <div class="character-images__list">
+                    <nuxt-img
+                        v-for="(image, index) in character_images"
+                        :key="index"
+                        :src="image?.image_url || '/images/no_image.png'"
+                        :alt="image?.description || 'No description available'"
+                        class="character-image"
+                    />
                 </div>
             </div>
-            <content-renderer
-                :value="character"
-                class="character-text"
-                prose
-            />
-        </div>
-        <div class="character-images">
-
-        </div>
 
     </div>
 </template>
@@ -89,6 +101,7 @@
 <script setup lang="ts">
 import CharacterBanner from '~/components/characters/CharacterBanner.vue';
 import utils from '~/utils'
+import Database from '~/utils/database';
 
 const route = useRoute();
 
@@ -109,12 +122,21 @@ if (!character.value) {
 }
 
 </script>
+<script lang="ts" module>
+
+
+const route = useRoute();
+const { data: character_images } = await useAsyncData( async () => {
+    const slug = Array.isArray(route.params.slug) ? route.params.slug[0] : route.params.slug;
+    return await Database.getCharacterArt(slug);
+});
+</script>
 
 <style lang="scss" scoped>
 .character-page {
     min-height: 100vh;
 }
-.character-content {
+.character-content, .character-images {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;

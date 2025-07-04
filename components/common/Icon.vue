@@ -1,13 +1,33 @@
 <template v-if="props.icon">
-    <img :src="path" :alt="props.alt" :width="props.width" :height="props.height" :class="{ 'invert': props.invert }" />
+    <div 
+        :style="maskStyle" 
+        :class="{ 'invert': props.invert }"
+        role="img"
+        :aria-label="props.alt"
+    />
 </template>
 
 <script setup lang="ts">
 import { defineProps, computed } from 'vue';
 
-
-const path = computed(() => {
-    return `/images/icons/${props.icon}.png`;
+const maskStyle = computed(() => {
+    const width = props.width.includes('px') ? props.width : `${props.width}px`;
+    const height = props.height.includes('px') ? props.height : `${props.height}px`;
+    
+    return {
+        width,
+        height,
+        backgroundColor: props.color,
+        maskImage: `url(/images/icons/${props.icon}.png)`,
+        WebkitMaskImage: `url(/images/icons/${props.icon}.png)`,
+        maskSize: 'contain',
+        WebkitMaskSize: 'contain',
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        WebkitMaskPosition: 'center',
+        display: 'inline-block'
+    };
 });
 
 const props = defineProps({
@@ -30,6 +50,10 @@ const props = defineProps({
     invert: {
         type: Boolean,
         default: false
+    },
+    color: {
+        type: String,
+        default: 'currentColor'
     }
 });
 </script>

@@ -35,3 +35,19 @@ export interface BlogPost {
   related_characters?: { slug: string; name: string }[];
   pinned?: boolean;
 }
+
+export interface Art {
+  id: string;
+  created_at: string;
+  modified_at: string;
+  character?: string;
+  related_characters?: string[];
+  title: string;
+  description?: string;
+  tags?: string[];
+  pinned: boolean;
+  image_url?: string;
+  thumbnail_url?: string;
+  artist_name?: string;
+  sketch?: boolean;
+}

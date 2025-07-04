@@ -48,6 +48,7 @@ defineProps({
   border-radius: 4px;
   overflow-x: auto;
   white-space: pre;
+    background: rgba(0, 0, 0, 0.05);
 }
 .prose-code__header {
   display: flex;
