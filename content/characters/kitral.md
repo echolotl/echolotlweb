@@ -11,4 +11,14 @@ clan: Natural
 short_description: an orange girl-fox
 theme_color: "#e7984e"
 icon_image: /images/no_image.png
+title_image: /images/characters/kitral/title.png
+background_texture: /images/characters/kitral/texture.png
+friends:
+  - slug: glory
+    name: Glory
+  - slug: chomb
+    name: Chomb
+enemies:
+  - slug: nautilus
+    name: Nautilus
 ---

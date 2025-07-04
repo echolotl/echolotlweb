@@ -2,6 +2,9 @@
   <nuxt-link :to="`/characters/${props.character.slug}`" class="character-card">
     <div class="character-card__content">
       <div class="character-card__image" />
+      <div class="character-card__details">
+        <h2 class="character-card__name">{{ props.character.name }}</h2>
+      </div>
     </div>
   </nuxt-link>
 </template>
@@ -32,12 +35,13 @@ const characterHoverImage = props.character?.icon_image_hover ? `url(${props.cha
 
 .character-card:hover {
   transform: translateY(-5px);
-
+  transition-timing-function: cubic-bezier(0.64, 0.57, 0.67, 1.53);
 }
 
 .character-card__content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem;
   text-decoration: none;
 .character-card__image {
@@ -54,5 +58,18 @@ const characterHoverImage = props.character?.icon_image_hover ? `url(${props.cha
 .character-card__content:hover .character-card__image {
   background-image: v-bind(characterHoverImage);
 }
+
+.character-card__details {
+  position: absolute;
+  bottom: -32px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.character-card__content:hover .character-card__details {
+  opacity: 1;
+}
+
 
 </style>

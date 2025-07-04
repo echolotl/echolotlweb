@@ -14,8 +14,14 @@ export default defineContentConfig({
         created_date: z.string().date(),
         last_modified: z.string().date(),
         pronouns: z.string(),
-        friends: z.array(z.string()).optional(),
-        enemies: z.array(z.string()).optional(),
+            friends: z.array(z.object({
+          slug: z.string(),
+          name: z.string()
+        })).optional(),
+        enemies: z.array(z.object({
+          slug: z.string(),
+          name: z.string()
+        })).optional(),
         clan: z.string(),
         short_description: z.string().optional(),
         theme_color: z.string().startsWith("#").length(7),
@@ -28,5 +34,26 @@ export default defineContentConfig({
         banner_image: z.string().optional(),
       }),
     }),
+    blog: defineCollection({
+      source: "blog/*.md",
+      type: "page",
+      schema: z.object({
+        slug: z.string(),
+        type: z.enum(["blog", "lore", "site_update"]),
+        title: z.string(),
+        author: z.string(),
+        created_date: z.string().date(),
+        last_modified: z.string().date().optional(),
+        abstract: z.string().optional(),
+        thumbnail_image: z.string().optional(),
+        thumbnail_image_description: z.string().optional(),
+        tags: z.array(z.string()).optional(),
+        related_characters: z.array(z.object({
+          slug: z.string(),
+          name: z.string()
+        })).optional(),
+        pinned: z.boolean().optional(),
+      }),
+    })
   },
 });

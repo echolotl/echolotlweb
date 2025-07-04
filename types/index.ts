@@ -7,8 +7,8 @@ export interface Character {
   created_date: string;
   last_modified: string;
   pronouns: string;
-  friends?: string[];
-  enemies?: string[];
+  friends?: { slug: string; name: string }[];
+  enemies?: { slug: string; name: string }[];
   clan: string;
   short_description?: string;
   theme_color: string;
@@ -21,3 +21,17 @@ export interface Character {
   banner_image?: string;
 }
 
+export interface BlogPost {
+  slug: string;
+  type: 'blog' | 'lore' | 'site_update';
+  title: string;
+  author: string;
+  created_date: string;
+  last_modified?: string;
+  abstract?: string;
+  thumbnail_image?: string;
+  thumbnail_image_description?: string;
+  tags?: string[];
+  related_characters?: { slug: string; name: string }[];
+  pinned?: boolean;
+}

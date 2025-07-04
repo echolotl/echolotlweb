@@ -19,9 +19,10 @@ const theme = ref(false);
 
 // Define all possible navigation icons
 const allNavIcons = {
-  home: { icon: 'house-icon', alt: 'Home', to: '/' },
   art: { icon: 'art_brush', alt: 'Art', to: '/art' },
-  characters: { icon: 'characters-icon', alt: 'Characters', to: '/characters' }
+  characters: { icon: 'characters-icon', alt: 'Characters', to: '/characters' },
+  blog: { icon: 'blog', alt: 'Blog', to: '/blog' },
+  home: { icon: 'house-icon', alt: 'Home', to: '/' },
 };
 
 // Compute nav icons based on current route
@@ -43,6 +44,10 @@ const navIcons = computed(() => {
   if (currentPath !== '/characters') {
     icons.push(allNavIcons.characters);
   }
+
+  if (currentPath !== '/blog') {
+    icons.push(allNavIcons.blog);
+  }
   
   return icons;
 });
@@ -55,6 +60,7 @@ function toggleTheme() {
 
 function updateDocumentTheme() {
   document.documentElement.setAttribute('data-theme', theme.value ? 'light' : 'dark');
+  document.documentElement.classList.toggle('light', theme.value);
 }
 
 onMounted(() => {
@@ -78,6 +84,8 @@ watch(theme, () => {
 </script>
 
 <style lang="scss">
+@use "sass:color";
+@use "~/assets/styles/partials/_variables.scss" as *;
 @use "~/assets/styles/partials/_reusables.scss" as *;
 @use "~/assets/styles/partials/_mixins.scss" as *;
 @use "~/assets/styles/main.scss" as *;
@@ -85,12 +93,13 @@ watch(theme, () => {
 :root {
   --foreground: #{$foreground};
   --text: #{$foreground-light};
-  --text-secondary: #{transparentize($foreground-light, 0.6)};
+  --text-secondary: #{color.scale($foreground-light, $alpha: -60%)};
   --background: #{$background};
   --distant: #{$distant};
   --primary: #{$primary};
   --solid: #{$solid};
   --inverted-solid: #{$solid-light};
+  --filter-invert: 0;
 
   --surface: #{$surface};
 
@@ -101,15 +110,27 @@ watch(theme, () => {
 :root[data-theme="light"] {
   --foreground: #{$foreground-light};
   --text: #{$foreground};
-  --text-secondary: #{transparentize($foreground, 0.25)};
+  --text-secondary: #{color.scale($foreground, $alpha: -25%)};
   --background: #{$background-light};
   --distant: #{$distant-light};
   --primary: #{$primary-light};
   --surface: #{$surface-light};
   --solid: #{$solid-light};
   --inverted-solid: #{$solid};
+  --filter-invert: 1;
   
   color: var(--text);
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: color-mix(in srgb, var(--primary), blue 20%);
+    text-decoration: underline;
+  }
 }
 
 .page-enter-active,

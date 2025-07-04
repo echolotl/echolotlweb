@@ -1,110 +1,229 @@
 <template>
     <div v-if="character" class="character-page">
-        <div class="character-banner">
-            <div class="character-banner__content">
-            <div class="character-banner__texture" :style="{ maskImage: `url(${character.background_texture})` }" />
-            <div class="character-banner__underlay" :style="{ '--character-theme-color': character.theme_color }" />
-            <div class="character-banner__images">
-                <div class="character-banner__image" :style="{ maskImage: `url(${character.banner_image})`}" />
-                <div class="character-banner__image left" :style="{ maskImage: `url(${character.banner_image})`}" />
+        <CharacterBanner :character="character" />
+        <div class="character-content">
+            <div class="character-infobox">
+                <span class="character-infobox__label" :style="{ color: character.theme_color }">... CHARACTER INFO</span>
+                <div class="character-infobox__details" :style="{ borderTop: `2px solid ${character.theme_color}` }">
+                    <span class="font-display character-infobox__title" :style="{ color: character.theme_color }">{{ character.name }}</span>
+                    <hr>
+                    <div class="character-infobox__header">
+                        <figure style="text-align: center; margin: 0;">
+                            <nuxt-img
+                                :src="character.image || '/images/no_image.png'"
+                                alt="Character Image"
+                            />
+                            <figcaption style="color: var(--text-secondary)">
+                                <i>{{ character.image_description || "no description available" }}</i>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <hr>
+                    <table class="character-infobox__table">
+                        <tbody>
+                            <tr>
+                                <td class="character-infobox__item-label">Age</td>
+                                <td>{{ character.age || "Unknown" }}</td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Pronouns</td>
+                                <td>{{ character.pronouns || "Unknown" }}</td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Species</td>
+                                <td>{{ character.species || "Unknown" }}</td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Creation Date</td>
+                                <td>{{ utils.formatDate(new Date(character.created_date)) || "Unknown" }}</td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Height</td>
+                                <td>{{ `${character.height} (${utils.feetStringToCm(character.height)}cm)` || "Unknown" }}</td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Friends</td>
+                                <td>
+                                    <span v-if="character.friends && character.friends.length > 0">
+                                        <template v-for="(friend, index) in character.friends" :key="friend.slug">
+                                            <nuxt-link :to="`/characters/${friend.slug}`" class="link">{{ friend.name }}</nuxt-link>
+                                            <span v-if="index < character.friends.length - 1">, </span>
+                                        </template>
+                                    </span>
+                                    <span v-else>None</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Enemies</td>
+                                <td>
+                                    <span v-if="character.enemies && character.enemies.length > 0">
+                                        <template v-for="(enemy, index) in character.enemies" :key="enemy.slug">
+                                            <nuxt-link :to="`/characters/${enemy.slug}`" class="link">{{ enemy.name }}</nuxt-link>
+                                            <span v-if="index < character.enemies.length - 1">, </span>
+                                        </template>
+                                    </span>
+                                    <span v-else>None</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="character-infobox__item-label">Type</td>
+                                <td>{{ character.clan || "Unknown" }} <nuxt-img :src="`/images/icons/${character.clan}.png`" height="24" class="character-infobox__clan-icon" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <content-renderer
+                :value="character"
+                class="character-text"
+                prose
+            />
         </div>
-    </div>
+        <div class="character-images">
+
+        </div>
+
     </div>
 </template>
 
 <script setup lang="ts">
+import CharacterBanner from '~/components/characters/CharacterBanner.vue';
+import utils from '~/utils'
 
 const route = useRoute();
 
+// Fetch character data based on the slug
 const { data: character } = await useAsyncData(() => {
     const slug = route.params.slug;
     return queryCollection("characters").where("slug", "=", slug).first();
 });
+
+// Redirect to 404 if character is not found
+if (!character.value) {
+    throw createError({
+        statusCode: 404,
+        statusMessage: 'Character not found'
+    });
+} else {
+    console.log("Character data loaded:", character.value);
+}
+
 </script>
 
-<style scoped lang="scss">
-@use '~/assets/styles/partials/_mixins' as *;
-.character-banner {
-    top: 64px;
-    height: 600px;
-    overflow: hidden;
-    z-index: -1;
+<style lang="scss" scoped>
+.character-page {
+    min-height: 100vh;
 }
-
-.character-banner__content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: -1;
-}
-
-.character-banner__texture {
-    display:block;
-    position: fixed;
-    top: 64px;
-    left: 0;
-    width: 100%;
-    height: 600px;
-    background-color: var(--inverted-solid);
-    opacity: 0.3;
-    background-position: center;
-    z-index: -1;
-    mask-origin: content-box;
-}
-
-.character-banner__image {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--inverted-solid);
-    background-position: center;
-    z-index: -1;
-    mask-origin: content-box;
-    mask-repeat: no-repeat;
-    mask-position: right;
-    &.left {
-        left: 0;
-        right: auto;
-        transform: scaleX(-1);
+.character-content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    @media (max-width: 768px) {
+        /* On mobile, stack vertically */
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Clear floats after content */
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
     }
 }
-.character-banner__underlay {
-    --gradient-end: var(--background);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(in oklab to bottom, var(--character-theme-color), transparent);
-    transition: --gradient-end .3s;
+.character-text {
+    /* Text will naturally wrap around the floated infobox */
+    text-align: justify;
+    
+    @media (max-width: 768px) {
+        order: 1;
+    }
 }
-.character-banner__underlay::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-color: var(--background);
-    mask-image: linear-gradient(to top, black, transparent);
-    transition: background-color .3s ease;
+.character-infobox {
+    float: right;
+    width: 300px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    
+    @media (max-width: 768px) {
+        float: none;
+        width: 100%;
+        margin: 0 0 20px 0;
+        order: -1; /* Places infobox above content on mobile */
+    }
 }
-.character-banner__images {
-    mask-image: linear-gradient(to top, transparent, black 70%);
-    position: absolute;
-    top: 0;
-    left: 0;
+.character-infobox__label {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+    color: var(--distant);
+    text-transform: uppercase;
     width: 100%;
-    height: 100%;
+    display: inline-block;
+    text-align: right;
 }
-
+.character-infobox__item-label {
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    text-transform: uppercase;
+}
+.character-infobox__details {
+    padding: 10px;
+    font-size: 0.8em;
+    line-height: 1.5;
+    color: var(--text);
+    border: 1px solid var(--distant);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.character-infobox__title {
+    font-size: 1.75em;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 900;
+    text-align: center;
+}
+.character-infobox__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    img {
+        width: 100%;
+        height: auto;
+        max-width: 200px;
+        border-radius: 8px;
+        margin-bottom: 5px;
+    }
+}
+.character-infobox__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    --theme-color: v-bind(character.theme_color);
+    tr {
+        &:nth-child(even) {
+            background-color: color-mix(in srgb, var(--theme-color) 5%, transparent);
+        }
+        td {
+            padding: 8px 4px;
+            vertical-align: middle;
+            &:last-child {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+        }
+    }
+}
+.character-infobox__clan-icon {
+    filter: invert(var(--filter-invert));
+    transition: filter 0.2s ease;
+    width: 24px;
+    height: 24px;
+}
 </style>
+

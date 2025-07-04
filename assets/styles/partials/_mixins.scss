@@ -1,9 +1,10 @@
-@import '_variables';
+@use './_variables' as *;
+@use 'sass:list';
 // Mixins for reusable styles
 @mixin smooth-transition($properties, $duration: 0.3s, $easing: ease) {
   $transition-list: ();
   @each $property in $properties {
-    $transition-list: append($transition-list, $property $duration $easing, comma);
+    $transition-list: list.append($transition-list, $property $duration $easing, comma);
   }
   transition: $transition-list;
 }
