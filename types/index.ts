@@ -37,17 +37,18 @@ export interface BlogPost {
 }
 
 export interface Art {
-  id: string;
+  slug: string;
   created_at: string;
   modified_at: string;
   character?: string;
+  // The character's slug
   related_characters?: string[];
   title: string;
   description?: string;
   tags?: string[];
   pinned: boolean;
-  image_url?: string;
-  thumbnail_url?: string;
   artist_name?: string;
+  image_url: string;
+  thumbnail_url?: string;
   sketch?: boolean;
 }

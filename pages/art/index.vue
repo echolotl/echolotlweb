@@ -1,12 +1,36 @@
 <template>
   <div class="art-page">
     <h1 class="large-title">Art Archive</h1>
-    <p class="subtitle"></p>
+    
   </div>
 </template>
 
 <script setup lang="ts">
-// Art page setup will go here
+import type { Art } from '~/types';
+import { getArtworks } from '#imports';
+
+const page = ref(0);
+
+const { data: artworks } = await useAsyncData('art', () => getArtworks(10, page.value));
+
+const loadMore = async () => {
+  page.value++;
+  const newArtworks = await getArtworks(10, page.value);
+  if (artworks.value) {
+    artworks.value.push(...newArtworks);
+  }
+};
+
+const navigateToArt = (artwork: Art) => {
+  // temp
+  window.open(artwork.image_url, '_blank');
+};
+
+// Meta data for the page
+useSeoMeta({
+  title: 'Art Archive - Echolotl',
+  description: 'Explore our collection of artwork featuring Echolotl characters',
+});
 </script>
 
 <style scoped lang="scss">

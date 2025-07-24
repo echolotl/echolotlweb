@@ -54,6 +54,25 @@ export default defineContentConfig({
         })).optional(),
         pinned: z.boolean().optional(),
       }),
+    }),
+    art: defineCollection({
+      source: "art/**/*.{json,yml,yaml}",
+      type: "data",
+      schema: z.object({
+        slug: z.string(),
+        created_at: z.string().datetime(),
+        modified_at: z.string().datetime(),
+        character: z.string().optional(),
+        related_characters: z.array(z.string()).optional(),
+        title: z.string(),
+        description: z.string().optional(),
+        tags: z.array(z.string()).optional(),
+        pinned: z.boolean(),
+        artist_name: z.string().optional(),
+        image_url: z.string().url(),
+        thumbnail_url: z.string().url().optional(),
+        sketch: z.boolean().optional(),
+      }),
     })
   },
 });

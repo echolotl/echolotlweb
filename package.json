@@ -8,13 +8,16 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "migrate": "tsx database/migrate.ts"
+    "migrate": "tsx database/migrate.ts",
+    "migrate-art": "bun migrate-art.js",
+    "migrate-art:dry": "bun migrate-art.js --dry-run"
   },
   "dependencies": {
     "@nuxt/content": "3.5.1",
     "@nuxt/eslint": "1.4.0",
     "@nuxt/image": "1.10.0",
     "@supabase/supabase-js": "^2.50.3",
+    "csv-parse": "^5.6.0",
     "dotenv": "^17.0.1",
     "eslint": "^9.0.0",
     "nuxt": "^3.17.3",

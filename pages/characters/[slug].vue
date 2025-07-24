@@ -47,7 +47,7 @@
                                     <td>
                                         <span v-if="character.friends && character.friends.length > 0">
                                             <template v-for="(friend, index) in character.friends" :key="friend.slug">
-                                                <nuxt-link :to="`/characters/${friend.slug}`" class="link">{{ friend.name }}</nuxt-link>
+                                                <CharacterLink :slug="friend.slug">{{ friend.name }}</CharacterLink>
                                                 <span v-if="index < character.friends.length - 1">, </span>
                                             </template>
                                         </span>
@@ -59,7 +59,7 @@
                                     <td>
                                         <span v-if="character.enemies && character.enemies.length > 0">
                                             <template v-for="(enemy, index) in character.enemies" :key="enemy.slug">
-                                                <nuxt-link :to="`/characters/${enemy.slug}`" class="link">{{ enemy.name }}</nuxt-link>
+                                                <CharacterLink :slug="enemy.slug">{{ enemy.name }}</CharacterLink>
                                                 <span v-if="index < character.enemies.length - 1">, </span>
                                             </template>
                                         </span>
@@ -84,15 +84,7 @@
                     <div class="character-images">
                 <h2 class="section-title">Character Images</h2>
                 <hr>
-                <div class="character-images__list">
-                    <nuxt-img
-                        v-for="(image, index) in character_images"
-                        :key="index"
-                        :src="image?.image_url || '/images/no_image.png'"
-                        :alt="image?.description || 'No description available'"
-                        class="character-image"
-                    />
-                </div>
+                <div class="character-images__list"/>
             </div>
 
     </div>
@@ -100,15 +92,16 @@
 
 <script setup lang="ts">
 import CharacterBanner from '~/components/characters/CharacterBanner.vue';
-import utils from '~/utils'
-import Database from '~/utils/database';
+import CharacterLink from '~/components/common/CharacterLink.vue';
+import utils from '~/utils';
 
 const route = useRoute();
 
-// Fetch character data based on the slug
-const { data: character } = await useAsyncData(() => {
+const { data: character } = await useAsyncData(`character-${route.params.slug}`, () => {
     const slug = route.params.slug;
     return queryCollection("characters").where("slug", "=", slug).first();
+}, {
+    watch: [() => route.params.slug]
 });
 
 // Redirect to 404 if character is not found
@@ -121,15 +114,6 @@ if (!character.value) {
     console.log("Character data loaded:", character.value);
 }
 
-</script>
-<script lang="ts" module>
-
-
-const route = useRoute();
-const { data: character_images } = await useAsyncData( async () => {
-    const slug = Array.isArray(route.params.slug) ? route.params.slug[0] : route.params.slug;
-    return await Database.getCharacterArt(slug);
-});
 </script>
 
 <style lang="scss" scoped>
