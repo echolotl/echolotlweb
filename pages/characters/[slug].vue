@@ -68,7 +68,7 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">Type</td>
-                                    <td>{{ character.clan || "Unknown" }} <nuxt-img :src="`/images/icons/${character.clan}.png`" height="24" class="character-infobox__clan-icon" /></td>
+                                    <td>{{ character.clan || "Unknown" }} <Icon :icon="character.clan" height="24" class="character-infobox__clan-icon" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -307,8 +307,6 @@ onUnmounted(() => {
     }
 }
 .character-infobox__clan-icon {
-    filter: invert(var(--filter-invert));
-    transition: filter 0.2s ease;
     width: 24px;
     height: 24px;
 }
