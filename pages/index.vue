@@ -1,15 +1,13 @@
 <template>
-    <div>
-                    <nuxt-img
-            src="/images/home/header.webp"
-            alt="Main header image"
-            class="top-overlay"
-        />
-        <div class="main-content">
-            <div
-            class="hi-image"
-                alt="hi! i'm echolotl"
-            />
+    <div style="position: relative;">
+        <div class="under-construction-banner">
+            <nuxt-img class="under-construction-text" src="/images/underconstructiontxt.png" alt="Under Construction" />
+            <nuxt-img class="king-image" src="/images/king_pink.png" alt="King w/ a power tool" />
+        </div>
+        <div class="main-content" style="text-align: center;">
+            im working on stuff (im stuff)
+            <br>
+            The art pages work, character pages are WIP but kinda work, and the blog works but its just a bunch of tests.
         </div>
     </div>
 </template>
@@ -39,5 +37,25 @@
     height: 200px;
     display: block;
     mask-repeat: no-repeat;
+}
+.under-construction-banner {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/images/underconstruction.png');
+    background-position: center;
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 64px;
+    bottom: 0;
+}
+.under-construction-text {
+    background: black;
+}
+.king-image {
+    align-self: flex-end;
+    height: 256px;
+    width: auto;
 }
 </style>
