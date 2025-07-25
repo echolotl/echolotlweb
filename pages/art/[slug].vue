@@ -89,16 +89,20 @@ if (!art.value) {
     margin: 0 auto;
     border: 1px solid var(--distant);
     border-radius: .25rem;
-    padding: 1rem;
+    padding: .25rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .art-image {
     max-height: 75vh;
+    max-width: 100%;
     width: auto;
-    height: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .art-description {
