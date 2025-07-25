@@ -2,11 +2,10 @@
     <div v-if="art" class="art-page">
         <div class="art-header">
             <h1 class="large-title">{{ art.title }}</h1>
-            <div v-if="art.description" class="art-description">
-                <MDC :value="art.description" />
-            </div>
-            <div v-else class="art-description">
-                <p>No description available.</p>
+            <div class="art-description">
+                <p v-if="art.description" v-html="parsedDescription">
+                </p>
+                <p v-else>No description available.</p>
             </div>
             <div class="art-meta">
                 <div v-if="art.tags && art.tags.length > 0" class="art-meta__section">
@@ -18,15 +17,19 @@
                     </div>
                 </div>
 
-                <div v-if="art.related_characters && art.related_characters.length > 0 || art.character" class="art-meta__section">
+                <div v-if="(art.related_characters && art.related_characters.length > 0) || art.character" class="art-meta__section">
                     <Icon icon="character" color="var(--text-secondary)"/>
                     <div class="art-meta__items">
                         <CharacterLink v-if="art.character" :slug="art.character" class="art-meta__character" />
                         <CharacterLink v-for="character in art.related_characters" :key="character" :slug="character" class="art-meta__character" />
                     </div>
                 </div>
+                <div v-if="art.created_at" class="art-meta__section">
+                    <Icon icon="date" color="var(--text-secondary)"/>
+                    <span class="art-meta__date">{{ new Date(art.created_at).toLocaleDateString() }}</span>
+                </div>
+                </div>
             </div>
-        </div>
 
         <!-- Main Art Section -->
         <div class="art-content">
@@ -45,8 +48,13 @@
 import { useRoute } from 'vue-router';
 import CharacterLink from '~/components/common/CharacterLink.vue';
 import Icon from '~/components/common/Icon.vue';
+import { micromark } from 'micromark';
 
 const route = useRoute();
+
+const parsedDescription = computed(() => {
+    return art.value?.description ? micromark(art.value.description) : '';
+});
 
 const { data: art, refresh } = await useAsyncData(`art-${route.params.slug}`, () => {
     const slug = route.params.slug;

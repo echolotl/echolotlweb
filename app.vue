@@ -82,12 +82,23 @@ watch(theme, () => {
   updateDocumentTheme();
 });
 
+// Set up SEO meta with client-side theme color
+const themeColor = ref('#000000'); // Default fallback color
+
+onMounted(() => {
+  // Update theme color from CSS variables after component is mounted
+  const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+  if (primaryColor) {
+    themeColor.value = primaryColor;
+  }
+});
+
 useSeoMeta({
   ogSiteName: 'echolotl.lol',
   ogType: 'website',
   ogLocale: 'en_US',
   ogTitle: 'echolotl',
-  themeColor: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(),
+  themeColor: themeColor,
 })
 </script>
 

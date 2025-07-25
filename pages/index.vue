@@ -1,5 +1,5 @@
 <template>
-    <div style="position: relative;">
+    <div style="height: 100vh;">
         <div class="under-construction-banner">
             <nuxt-img class="under-construction-text" src="/images/underconstructiontxt.png" alt="Under Construction" />
             <nuxt-img class="king-image" src="/images/king_pink.png" alt="King w/ a power tool" />
@@ -44,7 +44,7 @@
     align-items: center;
     justify-content: center;
     background-image: url('/images/underconstruction.png');
-    background-position: center;
+    background-position: bottom;
     background-repeat: repeat-x;
     width: 100%;
     height: 64px;
@@ -52,10 +52,18 @@
 }
 .under-construction-text {
     background: black;
+    @media (max-width: 768px) {
+        width: 50%;
+        height: auto;
+        margin-left: .5rem;
+    }
 }
 .king-image {
     align-self: flex-end;
-    height: 256px;
+    max-height: 256px;
     width: auto;
+        @media (max-width: 768px) {
+        width: 50%;
+    }
 }
 </style>

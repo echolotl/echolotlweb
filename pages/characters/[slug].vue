@@ -85,7 +85,7 @@
                 <h2 class="section-title">Character Images</h2>
                 <hr>
                 <div v-if="characterArtworks && characterArtworks.length > 0" class="character-images__grid">
-                    <ArtItem v-for="artwork in characterArtworks" :key="artwork.slug" :artwork="artwork" />
+                    <ArtItem v-for="artwork in characterArtworks" :key="artwork.slug" :artwork="artwork" show-metadata />
                 </div>
                 <div v-else-if="!artworkLoading" class="no-artwork">
                     <p>No artwork found for this character yet.</p>
@@ -135,7 +135,14 @@ const hasReachedEnd = ref(false);
 
 const { data: characterArtworks } = await useAsyncData(`character-artworks-${route.params.slug}`, async () => {
     if (!character.value) return [];
-    return await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
+    const artworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
+    
+    // Remove any potential duplicates from the initial load
+    const uniqueArtworks = artworks.filter((artwork, index, arr) => 
+        arr.findIndex(a => a.slug === artwork.slug) === index
+    );
+    
+    return uniqueArtworks;
 }, {
     watch: [() => route.params.slug]
 });
@@ -152,7 +159,18 @@ const loadMoreArtwork = async () => {
     if (newArtworks.length === 0) {
       hasReachedEnd.value = true;
     } else if (characterArtworks.value) {
-      characterArtworks.value.push(...newArtworks);
+      // Filter out duplicates by checking if artwork slug already exists
+      const existingArtworkSlugs = new Set(characterArtworks.value.map(artwork => artwork.slug));
+      const uniqueNewArtworks = newArtworks.filter(artwork => !existingArtworkSlugs.has(artwork.slug));
+      
+      if (uniqueNewArtworks.length > 0) {
+        characterArtworks.value.push(...uniqueNewArtworks);
+      }
+      
+      // If no unique artworks were added, we might have reached the end
+      if (uniqueNewArtworks.length === 0 && newArtworks.length > 0) {
+        hasReachedEnd.value = true;
+      }
     }
   } catch (error) {
     console.error('Error loading more character artworks:', error);

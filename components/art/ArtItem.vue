@@ -1,16 +1,18 @@
 <template>
   <nuxt-link :to="`/art/${artwork.slug}`" class="art-item">
     <div class="art-item__image">
-      <nuxt-img :src="artwork.thumbnail_url" :alt="artwork.title">
-        <div v-if="showMetadata" class="art-item__metadata">
-          <div v-if="artwork.character">
+                      <div v-if="showMetadata" class="art-item__metadata">
+          <div v-if="artwork.character && showCharacterBadge">
             <Icon icon="character" />
           </div>
           <div v-if="artwork.pinned">
             <Icon icon="pin" />
           </div>
+          <div v-if="artwork.sketch">
+            <Icon icon="sketch" />
+            </div>
         </div>
-      </nuxt-img>
+      <nuxt-img :src="artwork.thumbnail_url" :alt="artwork.title" />
     </div>
   </nuxt-link>
 </template>
@@ -22,6 +24,7 @@ import Icon from "~/components/common/Icon.vue";
 defineProps<{
   artwork: Art;
   showMetadata?: boolean;
+  showCharacterBadge?: boolean;
 }>();
 </script>
 
@@ -45,17 +48,18 @@ defineProps<{
     border-radius: 0.5rem;
     border: 1px solid var(--distant);
     border-bottom-width: 2px;
-  }
 
-  &__metadata {
-    position: absolute;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: flex-end;
-    align-items: flex-end;
-    color: var(--primary);
-    filter: drop-shadow(0 1px 2px black);
+    .art-item__metadata {
+      position: absolute;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      color: var(--primary);
+      align-items: flex-end;
+      justify-content: center;
+      filter: drop-shadow(0 1px 0 var(--background)) drop-shadow(1px 0 0 var(--background)) drop-shadow(-1px 0 0 var(--background)) drop-shadow(0 -1px 0 var(--background));
+      transition: filter 0.2s ease;
+    }
   }
 
   img {

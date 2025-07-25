@@ -69,7 +69,7 @@
     </div>
             <hr>
     <div class="art-grid">
-      <ArtItem v-for="artwork in filteredArtworks" :key="artwork.slug" :artwork="artwork" />
+      <ArtItem v-for="artwork in filteredArtworks" :key="artwork.slug" :artwork="artwork" show-metadata show-character-badge />
     </div>
     <div v-if="loading" class="loading">
       <Icon icon="loading" />

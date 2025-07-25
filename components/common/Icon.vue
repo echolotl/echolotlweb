@@ -1,5 +1,6 @@
-<template v-if="props.icon">
+<template>
     <div 
+        v-if="props.icon"
         :style="maskStyle" 
         :class="{ 'invert': props.invert }"
         role="img"
