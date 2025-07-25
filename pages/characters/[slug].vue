@@ -195,6 +195,17 @@ onUnmounted(() => {
   }
 });
 
+useSeoMeta({
+  title: character.value.name,
+  description: character.value.short_description,
+  ogTitle: character.value.name,
+  ogDescription: character.value.short_description,
+  ogImage: character.value.image || '/images/no_image.png',
+  twitterCard: 'summary_large_image',
+  twitterImage: character.value.image || '/images/no_image.png',
+  themeColor: character.value.theme_color || '#000000',
+});
+
 </script>
 
 <style lang="scss" scoped>

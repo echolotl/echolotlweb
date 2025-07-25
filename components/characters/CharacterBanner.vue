@@ -119,7 +119,7 @@ defineProps<{
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5)) invert(var(--filter-invert));
     @include smooth-transition(filter, 0.2s);
         @media (max-width: 768px) {
-        max-width: 60%;
+        min-width: 50%;
         img {
             width: 100%;
             height: auto;

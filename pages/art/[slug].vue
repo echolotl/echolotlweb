@@ -71,6 +71,16 @@ if (!art.value) {
         statusMessage: 'Art not found'
     });
 }
+
+useSeoMeta({
+    title: art.value.title,
+    description: art.value.description || 'No description available for this artwork.',
+    ogTitle: art.value.title,
+    ogDescription: art.value.description || 'No description available for this artwork.',
+    ogImage: art.value.image_url || '/images/no_image.png',
+    twitterCard: 'summary_large_image',
+    twitterImage: art.value.image_url || '/images/no_image.png'
+});
 </script>
 
 <style scoped lang="scss">
