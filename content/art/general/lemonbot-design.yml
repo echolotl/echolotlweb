@@ -1,10 +1,12 @@
-slug: "lemonbot-design"
-created_at: "2022-04-01T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.332Z"
-title: "Lemonbot Design"
+slug: lemonbot-design
+created_at: '2022-04-01T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:56.528Z'
+title: Lemonbot Design
 pinned: false
 sketch: false
-image_url: "/art/general/lemonbot_desig.png"
-description: "Proposed design for Lemon Tree's \"Lemonbot\""
-tags: ["idea", "oc"]
-thumbnail_url: "/art/general/thumbnails/thumb_lemonbot_desig.webp"
+image_url: /art/general/lemonbot_desig.png
+description: Proposed design for Lemon Tree's "Lemonbot"
+tags:
+  - idea
+  - oc
+thumbnail_url: /art/general/thumbnails/lemonbot_desig.webp

@@ -1,10 +1,12 @@
-slug: "dog-thing"
-created_at: "2022-12-27T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.298Z"
-title: "Dog Thing"
+slug: dog-thing
+created_at: '2022-12-27T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:55.070Z'
+title: Dog Thing
 pinned: false
 sketch: false
-image_url: "/art/general/dog_thing.png"
-description: "This was mostly just an idea, and it eventually turned into [Phosphor](/characters/phosphor)"
-tags: ["idea", "oc"]
-thumbnail_url: "/art/general/thumbnails/thumb_dog_thing.webp"
+image_url: /art/general/dog_thing.png
+description: This was mostly just an idea, and it eventually turned into [Phosphor](/characters/phosphor)
+tags:
+  - idea
+  - oc
+thumbnail_url: /art/general/thumbnails/dog_thing.webp

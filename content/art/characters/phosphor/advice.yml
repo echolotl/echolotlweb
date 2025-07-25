@@ -1,11 +1,12 @@
-slug: "advice"
-created_at: "2024-05-24T00:00:00.000Z"
-modified_at: "2024-12-24T21:27:02.963Z"
-title: "Advice"
+slug: advice
+created_at: '2024-05-24T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:53.707Z'
+title: Advice
 pinned: false
 sketch: true
-image_url: "/art/characters/phosphor/phosphorAdvice.png"
-character: "phosphor"
-related_characters: ["orchy"]
-description: "Poor guy... just wants to wear they shirt... he mad"
-thumbnail_url: "/art/characters/phosphor/thumbnails/thumb_phosphorAdvice.webp"
+image_url: /art/characters/phosphor/phosphorAdvice.png
+character: phosphor
+related_characters:
+  - orchy
+description: Poor guy... just wants to wear they shirt... he mad
+thumbnail_url: /art/characters/phosphor/thumbnails/phosphorAdvice.webp

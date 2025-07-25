@@ -1,10 +1,13 @@
-slug: "quantum-gourdo"
-created_at: "2023-11-16T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.313Z"
-title: "Quantum Gourdo"
+slug: quantum-gourdo
+created_at: '2023-11-16T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:55.743Z'
+title: Quantum Gourdo
 pinned: false
 sketch: false
-image_url: "/art/general/gourdo2.png"
-description: "Painting of the Quantum Gourdo from [Slime Rancher](https://www.slimerancher.com/)"
-tags: ["fanart", "video game", "painting"]
-thumbnail_url: "/art/general/thumbnails/thumb_gourdo2.webp"
+image_url: /art/general/gourdo2.png
+description: Painting of the Quantum Gourdo from [Slime Rancher](https://www.slimerancher.com/)
+tags:
+  - fanart
+  - video game
+  - painting
+thumbnail_url: /art/general/thumbnails/gourdo2.webp

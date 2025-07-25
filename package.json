@@ -8,20 +8,24 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "migrate": "tsx database/migrate.ts",
-    "migrate-art": "bun migrate-art.js",
-    "migrate-art:dry": "bun migrate-art.js --dry-run"
+    "thumbnails:create": "bun scripts/create-thumbnails.ts",
+    "thumbnails:regenerate": "bun scripts/regenerate-all-thumbnails.ts",
+    "art:add": "bun scripts/add-art.ts"
   },
   "dependencies": {
     "@nuxt/content": "3.5.1",
     "@nuxt/eslint": "1.4.0",
     "@nuxt/image": "1.10.0",
+    "@nuxtjs/mdc": "^0.17.2",
     "@supabase/supabase-js": "^2.50.3",
+    "@types/js-yaml": "^4.0.9",
     "csv-parse": "^5.6.0",
     "dotenv": "^17.0.1",
     "eslint": "^9.0.0",
+    "js-yaml": "^4.1.0",
     "nuxt": "^3.17.3",
     "sass": "^1.89.0",
+    "sharp": "^0.34.3",
     "tsx": "^4.7.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"

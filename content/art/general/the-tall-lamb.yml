@@ -1,10 +1,12 @@
-slug: "the-tall-lamb"
-created_at: "2024-02-16T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.277Z"
-title: "The (Tall) Lamb"
+slug: the-tall-lamb
+created_at: '2024-02-16T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:54.491Z'
+title: The (Tall) Lamb
 pinned: false
 sketch: false
-image_url: "/art/general/cotl.png"
-description: "Fanart of The Lamb from [Cult of the Lamb](https://store.steampowered.com/app/1313140/Cult_of_the_Lamb/)"
-tags: ["fanart", "video game"]
-thumbnail_url: "/art/general/thumbnails/thumb_cotl.webp"
+image_url: /art/general/cotl.png
+description: Fanart of The Lamb from [Cult of the Lamb](https://store.steampowered.com/app/1313140/Cult_of_the_Lamb/)
+tags:
+  - fanart
+  - video game
+thumbnail_url: /art/general/thumbnails/cotl.webp

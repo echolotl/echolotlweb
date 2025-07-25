@@ -1,11 +1,18 @@
-slug: "height-sheet-2024"
-created_at: "2024-03-10T00:00:00.000Z"
-modified_at: "2024-12-26T00:53:41.161Z"
-title: "Height Sheet (2024)"
+slug: height-sheet-2024
+created_at: '2024-03-10T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:49.473Z'
+title: Height Sheet (2024)
 pinned: false
 sketch: false
-image_url: "/art/characters/king/heightSheet.png"
-character: "king"
-related_characters: ["chomb", "echo", "glory", "kitral", "nautilus", "orchy", "phosphor"]
-description: "Height sheet of every character that existed at the time (You can check each characters' individual heights on their page!)"
-thumbnail_url: "/art/characters/king/thumbnails/thumb_heightSheet.webp"
+image_url: /art/characters/king/heightSheet.png
+character: king
+related_characters:
+  - chomb
+  - echo
+  - glory
+  - kitral
+  - nautilus
+  - orchy
+  - phosphor
+description: Height sheet of every character that existed at the time (You can check each characters' individual heights on their page!)
+thumbnail_url: /art/characters/king/thumbnails/heightSheet.webp

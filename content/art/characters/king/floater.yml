@@ -1,9 +1,9 @@
-slug: "floater"
-created_at: "2022-03-14T00:00:00.000Z"
-modified_at: "2024-12-26T00:53:41.149Z"
-title: "floater"
+slug: floater
+created_at: '2022-03-14T00:00:00.000Z'
+modified_at: '2025-07-24T22:45:56.297Z'
+title: floater
 pinned: false
 sketch: false
-image_url: "/art/characters/king/floater.png"
-character: "king"
-thumbnail_url: "/art/characters/king/thumbnails/thumb_floater.webp"
+image_url: /art/characters/king/floater.png
+character: king
+thumbnail_url: /art/characters/king/thumbnails/floater.webp

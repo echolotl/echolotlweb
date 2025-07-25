@@ -1,10 +1,13 @@
-slug: "gigantamax-eevee"
-created_at: "2022-02-26T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.304Z"
-title: "Gigantamax Eevee"
+slug: gigantamax-eevee
+created_at: '2022-02-26T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:55.281Z'
+title: Gigantamax Eevee
 pinned: false
 sketch: false
-image_url: "/art/general/eeveegigantamax.png"
-description: "Fanart of Gigantamax Eevee from Pokemon"
-tags: ["fanart", "video game", "pokemon"]
-thumbnail_url: "/art/general/thumbnails/thumb_eeveegigantamax.webp"
+image_url: /art/general/eeveegigantamax.png
+description: Fanart of Gigantamax Eevee from Pokemon
+tags:
+  - fanart
+  - video game
+  - pokemon
+thumbnail_url: /art/general/thumbnails/eeveegigantamax.webp

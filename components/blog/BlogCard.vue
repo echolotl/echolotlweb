@@ -29,7 +29,7 @@
               class="blog-post-card__tags"
             >
             <Icon icon="character" color="var(--text-secondary)"/>
-              <span class="blog-post-card__tag character"><nuxt-link :to="`/characters/${post.related_characters[0].slug}`">{{ post.related_characters[0].name }}</nuxt-link></span>
+              <span class="blog-post-card__tag character"><CharacterLink :slug="post.related_characters[0].slug">{{ post.related_characters[0].name }}</CharacterLink></span>
               <span
                 v-if="post.related_characters.length > 1"
                 class="blog-post-card__tag blog-post-card__tag--more"
@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import type { BlogPost } from "~/types";
 import Icon from "~/components/common/Icon.vue";
+import CharacterLink from "../common/CharacterLink.vue";
 
 defineProps<{
   post: BlogPost;

@@ -84,15 +84,28 @@
                     <div class="character-images">
                 <h2 class="section-title">Character Images</h2>
                 <hr>
-                <div class="character-images__list"/>
-            </div>
-
-    </div>
+                <div v-if="characterArtworks && characterArtworks.length > 0" class="character-images__grid">
+                    <ArtItem v-for="artwork in characterArtworks" :key="artwork.slug" :artwork="artwork" />
+                </div>
+                <div v-else-if="!artworkLoading" class="no-artwork">
+                    <p>No artwork found for this character yet.</p>
+                </div>
+                <div v-if="artworkLoading" class="loading">
+                    <Icon icon="loading" />
+                    Loading more artwork...
+                </div>
+                <div v-if="hasReachedEnd && characterArtworks && characterArtworks.length > 0" class="end-message">
+                    That's all the artwork for {{ character.name }}!
+                </div>
+            </div>    </div>
 </template>
 
 <script setup lang="ts">
 import CharacterBanner from '~/components/characters/CharacterBanner.vue';
 import CharacterLink from '~/components/common/CharacterLink.vue';
+import ArtItem from '~/components/art/ArtItem.vue';
+import Icon from '~/components/common/Icon.vue';
+import { getArtworksByCharacter } from '~/utils/art';
 import utils from '~/utils';
 
 const route = useRoute();
@@ -113,6 +126,74 @@ if (!character.value) {
 } else {
     console.log("Character data loaded:", character.value);
 }
+
+// Character artwork loading
+const ITEMS_PER_PAGE = 12;
+const artworkPage = ref(0);
+const artworkLoading = ref(false);
+const hasReachedEnd = ref(false);
+
+const { data: characterArtworks } = await useAsyncData(`character-artworks-${route.params.slug}`, async () => {
+    if (!character.value) return [];
+    return await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
+}, {
+    watch: [() => route.params.slug]
+});
+
+const loadMoreArtwork = async () => {
+  if (artworkLoading.value || hasReachedEnd.value || !character.value) return;
+  
+  artworkLoading.value = true;
+  artworkPage.value++;
+  
+  try {
+    const newArtworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
+    
+    if (newArtworks.length === 0) {
+      hasReachedEnd.value = true;
+    } else if (characterArtworks.value) {
+      characterArtworks.value.push(...newArtworks);
+    }
+  } catch (error) {
+    console.error('Error loading more character artworks:', error);
+    // Revert page increment on error
+    artworkPage.value--;
+  } finally {
+    artworkLoading.value = false;
+  }
+};
+
+const checkScrollPosition = () => {
+  const scrollPosition = window.innerHeight + window.scrollY;
+  const threshold = document.body.offsetHeight - 1000; // Load when 1000px from bottom
+  
+  if (scrollPosition >= threshold) {
+    loadMoreArtwork();
+  }
+};
+
+// Throttle scroll events for better performance
+let scrollTimeout: NodeJS.Timeout | null = null;
+const throttledScrollCheck = () => {
+  if (scrollTimeout) return;
+  
+  scrollTimeout = setTimeout(() => {
+    checkScrollPosition();
+    scrollTimeout = null;
+  }, 100);
+};
+
+// Set up infinite scrolling
+onMounted(() => {
+  window.addEventListener('scroll', throttledScrollCheck);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', throttledScrollCheck);
+  if (scrollTimeout) {
+    clearTimeout(scrollTimeout);
+  }
+});
 
 </script>
 
@@ -231,5 +312,41 @@ if (!character.value) {
     width: 24px;
     height: 24px;
 }
+
+.character-images {
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        
+        @media (max-width: 600px) {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+    }
+}
+
+
+.no-artwork {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+}
+
+.end-message {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+
 </style>
 

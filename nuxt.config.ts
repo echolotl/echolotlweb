@@ -15,7 +15,14 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@nuxt/eslint', '@nuxt/image'],
+  modules: ['@nuxt/content', '@nuxt/eslint', '@nuxt/image', '@nuxtjs/mdc'],
+  components: {
+    global: true,
+    dirs: [
+      '~/components',
+      '~/components/content'
+    ]
+  },
   app: {
     head: {
       title: 'echolotl',

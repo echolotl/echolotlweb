@@ -1,10 +1,11 @@
-slug: "tarot-moth"
-created_at: "2022-03-07T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.376Z"
-title: "Tarot Moth"
+slug: tarot-moth
+created_at: '2022-03-07T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:58.478Z'
+title: Tarot Moth
 pinned: false
 sketch: false
-image_url: "/art/general/tarotmoth.png"
-description: "Drawing of a friends moth girl OC"
-tags: ["friends"]
-thumbnail_url: "/art/general/thumbnails/thumb_tarotmoth.webp"
+image_url: /art/general/tarotmoth.png
+description: Drawing of a friends moth girl OC
+tags:
+  - friends
+thumbnail_url: /art/general/thumbnails/tarotmoth.webp

@@ -24,14 +24,14 @@
                 <div v-if="post.related_characters && post.related_characters.length > 0" class="blog-meta__section">
                     <Icon icon="character" color="var(--text-secondary)"/>
                     <div class="blog-meta__items">
-                        <nuxt-link 
+                        <CharacterLink
                             v-for="character in post.related_characters" 
-                            :key="character.slug" 
-                            :to="`/characters/${character.slug}`" 
+                            :key="character.slug"
+                            :slug="character.slug" 
                             class="blog-meta__character link"
                         >
                             {{ character.name }}
-                        </nuxt-link>
+                        </CharacterLink>
                     </div>
                 </div>
             </div>
@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import CharacterLink from '~/components/common/CharacterLink.vue';
 import Icon from '~/components/common/Icon.vue';
 
 const route = useRoute();

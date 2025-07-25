@@ -1,11 +1,12 @@
-slug: "loomking-right-because-christmas"
-created_at: "2022-12-25T00:00:00.000Z"
-modified_at: "2024-12-25T20:58:39.613Z"
-title: "Loomking Right because Christmas"
+slug: loomking-right-because-christmas
+created_at: '2022-12-25T00:00:00.000Z'
+modified_at: '2025-07-24T22:51:50.426Z'
+title: Loomking Right because Christmas
 pinned: false
 sketch: false
-image_url: "/art/characters/king/kingOldChristmas.png"
-character: "king"
-related_characters: ["orchy"]
-description: "Merry Christmas! What's King looking at? I wouldn't know"
-thumbnail_url: "/art/characters/king/thumbnails/thumb_kingOldChristmas.webp"
+image_url: /art/characters/king/kingOldChristmas.png
+character: king
+related_characters:
+  - orchy
+description: Merry Christmas! What's King looking at? I wouldn't know
+thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp

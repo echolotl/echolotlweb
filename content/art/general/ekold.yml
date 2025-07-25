@@ -1,10 +1,12 @@
-slug: "ekold"
-created_at: "2024-12-05T00:00:00.000Z"
-modified_at: "2025-01-07T23:51:06.307Z"
-title: "Ekold"
+slug: ekold
+created_at: '2024-12-05T00:00:00.000Z'
+modified_at: '2025-07-24T22:46:01.961Z'
+title: Ekold
 pinned: false
 sketch: false
-image_url: "/art/general/ekold.png"
-description: "Drawing of my Kubold OC from [Atlyss](https://store.steampowered.com/app/2768430/ATLYSS/): Ekold"
-tags: ["video game", "oc"]
-thumbnail_url: "/art/general/thumbnails/thumb_ekold.webp"
+image_url: /art/general/ekold.png
+description: 'Drawing of my Kubold OC from [Atlyss](https://store.steampowered.com/app/2768430/ATLYSS/): Ekold'
+tags:
+  - video game
+  - oc
+thumbnail_url: /art/general/thumbnails/ekold.webp

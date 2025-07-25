@@ -31,14 +31,18 @@ export async function getPinnedArtworks(): Promise<Art[]> {
 /**
  * Get artworks by character
  */
-export async function getArtworksByCharacter(characterSlug: string): Promise<Art[]> {
-  return await queryCollection('art')
-    .orWhere(query => 
+export async function getArtworksByCharacter(characterSlug: string, limit: number, page?: number): Promise<Art[]> {
+  let query = queryCollection('art')
+    .orWhere(query =>
       query
         .where('character', '=', characterSlug)
         .where('related_characters', 'LIKE', `%${characterSlug}%`)
     ).order('created_at', 'DESC')
-    .all();
+    .limit(limit);
+  if (page) {
+    query = query.skip((page - 1) * limit);
+  }
+  return await query.all();
 }
 
 /**
