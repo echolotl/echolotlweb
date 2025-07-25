@@ -19,6 +19,13 @@ import CharacterCard from "~/components/characters/CharacterCard.vue";
 const { data: characters } = await useAsyncData(() => {
   return queryCollection("characters").all();
 });
+
+useSeoMeta({
+  title: 'Characters',
+  description: 'Check out all of echolotl\'s characters!',
+  ogTitle: 'echolotl\'s Characters',
+  ogDescription: 'Check out all of echolotl\'s characters!',
+});
 </script>
 
 <style scoped lang="scss">

@@ -268,6 +268,8 @@ const handleClickOutside = (event: Event) => {
 useSeoMeta({
   title: 'Art Archive',
   description: 'Explore all of the art created by echolotl!',
+  ogTitle: 'echolotl\'s Art Archive',
+  ogDescription: 'Explore all of the art created by echolotl!',
 });
 </script>
 

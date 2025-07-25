@@ -201,6 +201,7 @@ useSeoMeta({
   ogTitle: character.value.name,
   ogDescription: character.value.short_description,
   ogImage: character.value.image || '/images/no_image.png',
+  ogImageAlt: character.value.image_description || '',
   twitterCard: 'summary_large_image',
   twitterImage: character.value.image || '/images/no_image.png',
   themeColor: character.value.theme_color || '#000000',

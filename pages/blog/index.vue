@@ -44,6 +44,13 @@ const { data: allPosts } = await useAsyncData(() => {
 const posts = computed(() => {
   return allPosts.value?.filter(post => post.pinned) || [];
 });
+
+useSeoMeta({
+  title: 'Blog',
+  description: 'Read the latest blog posts from echolotl.',
+  ogTitle: 'echolotl\'s Blog',
+  ogDescription: 'Read the latest blog posts from echolotl.',
+});
 </script>
 
 <style scoped lang="scss">

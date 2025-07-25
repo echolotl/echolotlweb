@@ -81,6 +81,14 @@ onMounted(() => {
 watch(theme, () => {
   updateDocumentTheme();
 });
+
+useSeoMeta({
+  ogSiteName: 'echolotl.lol',
+  ogType: 'website',
+  ogLocale: 'en_US',
+  ogTitle: 'echolotl',
+  themeColor: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(),
+})
 </script>
 
 <style lang="scss">

@@ -66,6 +66,17 @@ if (!post.value) {
 } else {
     console.log("Post data loaded:", post.value);
 }
+
+useSeoMeta({
+    title: post.value.title,
+    description: post.value.abstract || 'No description available for this blog post.',
+    ogTitle: post.value.title,
+    ogDescription: post.value.abstract || 'No description available for this blog post.',
+    ogImage: post.value.thumbnail_image || '',
+    twitterCard: 'summary_large_image',
+    twitterImage: post.value.thumbnail_image || '',
+    ogImageAlt: post.value.thumbnail_image_description || '',
+});
 </script>
 <style scoped lang="scss">
 .blog-page {
