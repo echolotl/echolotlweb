@@ -12,12 +12,11 @@
 
 <script setup lang="ts">
 import Navbar from '~/components/common/Navbar.vue';
-import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useTheme } from '../composables/useTheme';
 
 const route = useRoute();
-const theme = ref(false);
-const userHasManualOverride = ref(false);
-let mediaQueryCleanup: (() => void) | null = null;
+const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 
 // Define all possible navigation icons
 const allNavIcons = {
@@ -30,15 +29,12 @@ const allNavIcons = {
 // Compute nav icons based on current route
 const navIcons = computed(() => {
   const currentPath = route.path;
-  
-  // Always show home if not on home page
   const icons = [];
   
   if (currentPath !== '/') {
     icons.push(allNavIcons.home);
   }
   
-  // Show other pages that aren't the current page
   if (currentPath !== '/art') {
     icons.push(allNavIcons.art);
   }
@@ -54,80 +50,22 @@ const navIcons = computed(() => {
   return icons;
 });
 
-function toggleTheme() {
-  theme.value = !theme.value;
-  userHasManualOverride.value = true;
-  localStorage.setItem('theme', theme.value ? 'light' : 'dark');
-  localStorage.setItem('userHasManualOverride', 'true');
-  updateDocumentTheme();
-}
-
-function updateDocumentTheme() {
-  document.documentElement.setAttribute('data-theme', theme.value ? 'light' : 'dark');
-  document.documentElement.classList.toggle('light', theme.value);
-}
-
 onMounted(() => {
-  // Check if user has manually overridden theme
-  const hasManualOverride = localStorage.getItem('userHasManualOverride') === 'true';
-  userHasManualOverride.value = hasManualOverride;
+  initializeTheme();
   
-  // Load theme from localStorage if available
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme && hasManualOverride) {
-    theme.value = savedTheme === 'light';
-  } else {
-    // Check if user prefers dark mode at system level
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    theme.value = !prefersDark; // theme.value true = light, false = dark
-    if (!hasManualOverride) {
-      localStorage.setItem('theme', theme.value ? 'light' : 'dark');
-    }
-  }
-  updateDocumentTheme();
-
-  // Listen for system theme changes
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-    // Only update if user hasn't manually overridden the theme
-    if (!userHasManualOverride.value) {
-      theme.value = !e.matches; // true = light, false = dark
-      localStorage.setItem('theme', theme.value ? 'light' : 'dark');
-      updateDocumentTheme();
-    }
-  };
-  
-  mediaQuery.addEventListener('change', handleSystemThemeChange);
-  
-  // Store the cleanup function
-  mediaQueryCleanup = () => {
-    mediaQuery.removeEventListener('change', handleSystemThemeChange);
-  };
-});
-
-onUnmounted(() => {
-  // Clean up event listener
-  if (mediaQueryCleanup) {
-    mediaQueryCleanup();
-    mediaQueryCleanup = null;
-  }
-});
-
-// Watch for system theme preference changes
-watch(theme, () => {
-  updateDocumentTheme();
-});
-
-// Set up SEO meta with client-side theme color
-const themeColor = ref('#000000'); // Default fallback color
-
-onMounted(() => {
-  // Update theme color from CSS variables after component is mounted
+  // Set up SEO meta with client-side theme color
   const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
   if (primaryColor) {
     themeColor.value = primaryColor;
   }
 });
+
+onUnmounted(() => {
+  cleanupTheme();
+});
+
+// Set up SEO meta with client-side theme color
+const themeColor = ref('#000000'); // Default fallback color
 
 useSeoMeta({
   ogSiteName: 'echolotl.lol',
