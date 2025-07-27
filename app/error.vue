@@ -44,7 +44,7 @@ onUnmounted(() => {
         @toggle-theme="toggleTheme"
       />
       <div>
-      <div class="error-image" :style="{ maskImage: `url('/images/${error?.statusCode}.png')` }" alt="Error Image" width="300" height="200"/>
+      <div class="error-image" :style="{ maskImage: `url('/images/${error?.statusCode}.png')` }" :alt="`Error ${error?.statusCode}`" width="300" height="200"/>
       <p v-if="error?.statusCode">
         {{ error.message || 'An unexpected error occurred.' }}
       </p>

@@ -203,9 +203,10 @@ const loadMore = async () => {
       const uniqueNewArtworks = newArtworks.filter(artwork => !existingSlugs.has(artwork.slug));
       
       console.log('Unique new artworks:', uniqueNewArtworks.length, 'out of', newArtworks.length);
-      
+      console.log('All artworks:', artworks.value);
+
       if (uniqueNewArtworks.length > 0) {
-        artworks.value.push(...uniqueNewArtworks);
+        artworks.value = [...artworks.value, ...uniqueNewArtworks];
       }
       
       // If we got less than expected or all were duplicates, we might have reached the end

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Art } from "~/types";
+import type { Art } from "~~/types";
 import Icon from "~/components/common/Icon.vue";
 
 defineProps<{

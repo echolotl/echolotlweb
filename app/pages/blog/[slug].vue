@@ -58,13 +58,14 @@
 import { useRoute } from 'vue-router';
 import CharacterLink from '~/components/common/CharacterLink.vue';
 import Icon from '~/components/common/Icon.vue';
+import type { BlogPost } from '~~/types';
 
 const route = useRoute();
 
 // Fetch post data based on the slug
 const { data: post } = await useAsyncData(() => {
     const slug = route.params.slug;
-    return queryCollection("blog").where("slug", "=", slug).first();
+    return queryCollection("blog").where("slug", "=", slug).first() as Promise<BlogPost | null>;
 });
 
 // Redirect to 404 if post is not found
@@ -77,6 +78,12 @@ if (!post.value) {
     console.log("Post data loaded:", post.value);
 }
 
+const colorMap = {
+    'blog': "#DA39A4",
+    'lore': "#6A1B9A",
+    'site_update': "#39da39"
+}
+
 useSeoMeta({
     title: post.value.title,
     description: post.value.abstract || 'No description available for this blog post.',
@@ -86,6 +93,7 @@ useSeoMeta({
     twitterCard: 'summary_large_image',
     twitterImage: post.value.thumbnail_image || '',
     ogImageAlt: post.value.thumbnail_image_description || '',
+    themeColor: colorMap[post.value.type] || '#000000',
 });
 </script>
 <style scoped lang="scss">

@@ -16,6 +16,22 @@ export const useTheme = () => {
   function updateDocumentTheme() {
     document.documentElement.setAttribute('data-theme', theme.value ? 'light' : 'dark');
     document.documentElement.classList.toggle('light', theme.value);
+    updateFavicon();
+  }
+
+  function updateFavicon() {
+    const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+    const faviconPath = theme.value ? '/images/favicon-light.ico' : '/images/favicon-dark.ico';
+    
+    if (favicon) {
+      favicon.href = faviconPath;
+    } else {
+      // Create favicon link if it doesn't exist
+      const newFavicon = document.createElement('link');
+      newFavicon.rel = 'icon';
+      newFavicon.href = faviconPath;
+      document.head.appendChild(newFavicon);
+    }
   }
 
   function initializeTheme() {

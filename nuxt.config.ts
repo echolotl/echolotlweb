@@ -28,7 +28,14 @@ export default defineNuxtConfig({
       title: 'echolotl',
       htmlAttrs: {
         lang: 'en',
-      }
+      },
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/images/favicon-light.ico'
+        }
+      ]
     },
     pageTransition: { name: 'page', mode: 'out-in' }
   },
