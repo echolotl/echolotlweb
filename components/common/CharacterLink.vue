@@ -17,7 +17,7 @@ const { data: character } = await useAsyncData(`character-link-${props.slug}`, a
 
 const darkerColor = computed(() => {
     if (!character.value?.theme_color) return '';
-    return `color-mix(in srgb, ${character.value.theme_color} 50%, var(--solid) 50%)`;
+    return `color-mix(in oklab, ${character.value.theme_color} 50%, black 50%)`;
 });
 
 

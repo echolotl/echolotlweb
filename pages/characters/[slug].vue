@@ -82,7 +82,7 @@
             </div>
         </div>
                     <div class="character-images">
-                <h2 class="section-title">Character Images</h2>
+                <h2 class="section-title"><Icon icon="art" /> Character Images</h2>
                 <hr>
                 <div v-if="characterArtworks && characterArtworks.length > 0" class="character-images__grid">
                     <ArtItem v-for="artwork in characterArtworks" :key="artwork.slug" :artwork="artwork" show-metadata />
@@ -97,15 +97,26 @@
                 <div v-if="hasReachedEnd && characterArtworks && characterArtworks.length > 0" class="end-message">
                     That's all the artwork for {{ character.name }}!
                 </div>
-            </div>    </div>
+            </div>
+            
+            <div v-if="characterBlogPosts && characterBlogPosts.length > 0" class="character-blog-posts">
+                <h2 class="section-title"><Icon icon="blog" />Tagged Posts</h2>
+                <hr>
+                <div class="character-blog-posts__grid">
+                    <BlogCard v-for="post in characterBlogPosts" :key="post.slug" :post="post" />
+                </div>
+            </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 import CharacterBanner from '~/components/characters/CharacterBanner.vue';
 import CharacterLink from '~/components/common/CharacterLink.vue';
 import ArtItem from '~/components/art/ArtItem.vue';
+import BlogCard from '~/components/blog/BlogCard.vue';
 import Icon from '~/components/common/Icon.vue';
 import { getArtworksByCharacter } from '~/utils/art';
+import { getBlogPostsByCharacter } from '~/utils/blog';
 import utils from '~/utils';
 
 const route = useRoute();
@@ -143,6 +154,14 @@ const { data: characterArtworks } = await useAsyncData(`character-artworks-${rou
     );
     
     return uniqueArtworks;
+}, {
+    watch: [() => route.params.slug]
+});
+
+// Character blog posts loading
+const { data: characterBlogPosts } = await useAsyncData(`character-blog-posts-${route.params.slug}`, async () => {
+    if (!character.value) return [];
+    return await getBlogPostsByCharacter(character.value.slug);
 }, {
     watch: [() => route.params.slug]
 });
@@ -231,6 +250,7 @@ useSeoMeta({
 .character-page {
     min-height: 100vh;
 }
+
 .character-content, .character-images {
     padding: 20px;
     max-width: 1200px;
@@ -303,6 +323,11 @@ useSeoMeta({
     font-weight: 900;
     text-align: center;
 }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 .character-infobox__header {
     display: flex;
     flex-direction: column;
@@ -351,6 +376,25 @@ useSeoMeta({
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         }
     }
+}
+
+.character-blog-posts {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+}
+
+.no-posts {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-style: italic;
 }
 
 
