@@ -10,7 +10,8 @@
         <div class="blog-post-card__details">
           <h2 class="blog-post-card__header font-display">
             <div class="blog-post-card__title">
-              <Icon :icon="`${post.type}`" />{{ post.title }}
+              <Icon :icon="`${post.type}`" />
+              <span class="blog-post-card__title-text">{{ post.title }}</span>
             </div>
             <div
               v-if="post.tags && !post.related_characters"
@@ -37,7 +38,20 @@
               >
             </div>
           </h2>
+          <div class="blog-post-card__other-details">
+            <span class="blog-post-card__other-detail">
+              <Icon icon="date" color="var(--text-secondary)" height="16" width="16" />
+              {{ new Date(post.created_date).toLocaleDateString() }}
+            </span>
+            <span class="blog-post-card__other-detail">
+              <Icon icon="pencil" color="var(--text-secondary)" height="16" width="16" />
+              {{ post.author }}
+            </span>
+          </div>
           <p class="blog-post-card__excerpt">{{ post.abstract }}</p>
+            <span class="blog-post-card__other-detail-type" :style="{ color: post.type === 'blog' ? 'var(--primary)' : post.type === 'lore' ? 'var(--purple)' : 'var(--green)', textTransform: 'uppercase' }">
+              <span>{{ utils.blogTypeToString(post.type) }}</span>
+            </span>
         </div>
       </div>
     </nuxt-link>
@@ -120,17 +134,29 @@ defineProps<{
   line-height: 1.3;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 .blog-post-card__title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+  &-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
 }
 .blog-post-card__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  flex-shrink: 0;
+  align-items: center;
 }
 .blog-post-card__tag {
   border: 1px solid var(--distant);
@@ -159,10 +185,30 @@ defineProps<{
     }
 }
 .blog-post-card__excerpt {
-  margin: 0;
+  margin: .5rem 0;
   flex: 1;
   font-size: 0.9rem;
   line-height: 1.4;
   color: var(--text-secondary);
+}
+
+.blog-post-card__other-details {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  justify-content: space-between; /* Add this to create space between elements */
+}
+.blog-post-card__other-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  &-type {
+    font-weight: 600;
+    color: var(--text);
+    margin-left: auto;
+    font-size: 0.8rem;
+  }
 }
 </style>

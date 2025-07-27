@@ -13,8 +13,8 @@ theme_color: "#b157db"
 background_texture: /images/characters/king/background_texture.png
 banner_image: /images/characters/king/banner_image.png
 title_image: /images/characters/king/title.png
-icon_image: /images/tes2t.png
-icon_image_hover: /images/test.png
+icon_image: /images/characters/king/icon.webp
+icon_image_hover: /images/characters/king/hover.webp
 image: /images/characters/king/figure.webp
 image_description: "King's current design, wearing his sweater and scarf."
 friends: 

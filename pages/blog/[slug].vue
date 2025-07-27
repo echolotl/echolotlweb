@@ -34,6 +34,16 @@
                         </CharacterLink>
                     </div>
                 </div>
+                <div class="blog-meta__items" style="display: flex; flex-wrap: wrap; gap: 0.5rem; color: var(--text-secondary);">
+                <div class="blog-meta__section" style="display: inline-flex;">
+                    <Icon icon="date" color="var(--text-secondary)"/>
+                    <span class="blog-meta__date">{{ new Date(post.created_date).toLocaleDateString() }}</span>
+                </div>
+                <div class="blog-meta__section" style="display: inline-flex;">
+                    <Icon icon="pencil" color="var(--text-secondary)"/>
+                    <span class="blog-meta__author">{{ post.author }}</span>
+                </div>
+                </div>
             </div>
             
             <hr>

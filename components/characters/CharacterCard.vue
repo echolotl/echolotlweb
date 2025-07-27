@@ -1,11 +1,12 @@
 <template>
   <nuxt-link :to="`/characters/${props.character.slug}`" class="character-card">
-    <div class="character-card__content">
-      <div class="character-card__image" />
-      <div class="character-card__details">
-        <h2 class="character-card__name">{{ props.character.name }}</h2>
-      </div>
+    <div class="character-card__image">
+      <div class="character-card__image-frame"></div>
+        <div class="character-card__image-icon" :style="{ backgroundImage: characterImage }"></div>
+        <div class="character-card__image-icon-hover" :style="{ backgroundImage: characterHoverImage }"></div>
     </div>
+    <div class="character-card__name">{{ props.character.name }}</div>
+
   </nuxt-link>
 </template>
 
@@ -28,48 +29,100 @@ const characterHoverImage = props.character?.icon_image_hover ? `url(${props.cha
 @use "~/assets/styles/partials/mixins" as *;
 
 .character-card {
-  color: v-bind(characterColor);
-  text-decoration: none;
-  @include smooth-transition((transform, box-shadow, border-color, color), 0.2s);
-}
-
-.character-card:hover {
-  transform: translateY(-5px);
-  transition-timing-function: cubic-bezier(0.64, 0.57, 0.67, 1.53);
-}
-
-.character-card__content {
+  position: relative;
+  max-width: 300px;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
   text-decoration: none;
-.character-card__image {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  background-image: v-bind(characterImage);
-  background-size: cover;
-  background-position: center;
-  @include smooth-transition(background-image, 0.2s);
-}
+  transition: all 0.3s ease;
+
+  &__image {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+  }
+
+  &__image-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--text);
+    mask-image: url('/images/characters/frame.webp');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+  }
+
+  &__image-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+  }
+
+  &__image-icon-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 3;
+  }
+
+  &__name {
+    position: absolute;
+    color: transparent;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &:hover {
+    .character-card__image-frame {
+      background-color: v-bind(characterColor);
+    }
+
+    .character-card__image-icon-hover {
+      opacity: 1;
+          animation: bounceScale 0.3s ease forwards;
+    }
+    .character-card__image-icon {
+      opacity: 0;
+    }
+
+    .character-card__name {
+      opacity: 1;
+      color: v-bind(characterColor);
+    }
+  }
 }
 
-.character-card__content:hover .character-card__image {
-  background-image: v-bind(characterHoverImage);
+@keyframes bounceScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
 }
-
-.character-card__details {
-  position: absolute;
-  bottom: -32px;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.character-card__content:hover .character-card__details {
-  opacity: 1;
-}
-
-
 </style>

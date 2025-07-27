@@ -1,8 +1,10 @@
 <template>
   <div class="art-page">
-    <h1 class="large-title">Art Archive</h1>
-    <p class="subtitle">This contains all of the art that I've made!</p>
-    
+    <div style="width: 100%; display: flex; justify-content: center;">
+      <div class="art-title" />
+    </div>
+    <p class="subtitle">This stores all of the art I've made, including character and general art.</p>
+
         <div v-if="filteredPinnedArtworks.length > 0" class="section-header" >
       <Icon icon="pin" />
       <h2 class="section-title">Pinned</h2>
@@ -277,8 +279,24 @@ useSeoMeta({
 .art-page {
   margin: 0 auto;
   padding: 2rem;
+  margin-top: 2rem;
   max-width: 1200px;
   text-align: center;
+  @media (max-width: 600px) {
+    padding: 1rem;
+  }
+}
+
+.art-title {
+  mask-image: url('/images/art/art_archive_title.webp');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  width: 100%;
+  max-width: 500px;
+  height: 100px;
+  image-rendering: crisp-edges;
+  background-color: var(--text);
 }
 
 .filter-container {
@@ -389,7 +407,7 @@ useSeoMeta({
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   h2 {
     margin: 0;
   }

@@ -43,7 +43,6 @@ useSeoMeta({
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: row;
-  gap: 2rem;
   margin-top: 2rem;
 }
 

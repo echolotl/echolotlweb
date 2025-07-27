@@ -14,6 +14,18 @@ const utils = {
     const feet = parseInt(parts[0], 10);
     const inches = parseInt(parts[1].replace('"', ''), 10);
     return Math.round((feet * 12 + inches) * 2.54);
+  },
+  blogTypeToString(type: 'blog' | 'lore' | 'site_update'): string {
+    switch (type) {
+      case 'blog':
+        return 'Blog';
+      case 'lore':
+        return 'Lore';
+      case 'site_update':
+        return 'Site Update';
+      default:
+        return 'Unknown';
+    }
   }
 };
 
