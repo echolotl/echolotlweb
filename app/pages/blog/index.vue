@@ -274,7 +274,7 @@ useSeoMeta({
   title: 'Blog',
   description: 'Read the latest blog posts from echolotl.',
   ogTitle: 'echolotl\'s Blog',
-  ogDescription: 'Read the latest blog posts from echolotl.',
+  ogDescription: 'read my posts',
 });
 </script>
 
