@@ -68,6 +68,7 @@ const themeColor = ref("#000000"); // Default fallback color
 
 useSeoMeta({
   ogSiteName: "echolotl.lol",
+  description: "echolotl's personal website, containing their art, characters, blog, and more.",
   ogType: "website",
   ogLocale: "en_US",
   ogTitle: "echolotl",
