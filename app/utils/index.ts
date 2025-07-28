@@ -11,8 +11,8 @@ const utils = {
     if (parts.length !== 2) {
       throw new Error('Invalid feet string format');
     }
-    const feet = parseInt(parts[0], 10);
-    const inches = parseInt(parts[1].replace('"', ''), 10);
+    const feet = parseInt(parts[0] || '0', 10);
+    const inches = parseInt((parts[1] || '0').replace('"', ''), 10);
     return Math.round((feet * 12 + inches) * 2.54);
   },
   blogTypeToString(type: 'blog' | 'lore' | 'site_update'): string {

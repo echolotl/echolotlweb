@@ -1,5 +1,5 @@
 
-import type { Art } from '~/types';
+import type { Art } from '~~/types';
 
 /**
  * Get all artworks

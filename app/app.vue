@@ -1,84 +1,11 @@
 <template>
-  <div :class="{ 'light-theme': theme }">
-    <Analytics />
-    <SpeedInsights />
-    <Navbar
-      :nav-icons="navIcons"
-      :light="theme"
-      @toggle-theme="toggleTheme"
-    />
+  <div>
+    <NuxtLayout>
     <NuxtRouteAnnouncer />
-    <NuxtPage/>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
-
-<script setup lang="ts">
-import Navbar from '~/components/common/Navbar.vue';
-import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { useTheme } from '../composables/useTheme';
-import { Analytics } from '@vercel/analytics/nuxt';
-import { SpeedInsights } from "@vercel/speed-insights/nuxt"
-
-const route = useRoute();
-const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
-
-// Define all possible navigation icons
-const allNavIcons = {
-  art: { icon: 'art_brush', alt: 'Art', to: '/art' },
-  characters: { icon: 'characters-icon', alt: 'Characters', to: '/characters' },
-  blog: { icon: 'blog', alt: 'Blog', to: '/blog' },
-  home: { icon: 'house-icon', alt: 'Home', to: '/' },
-};
-
-// Compute nav icons based on current route
-const navIcons = computed(() => {
-  const currentPath = route.path;
-  const icons = [];
-  
-  if (currentPath !== '/') {
-    icons.push(allNavIcons.home);
-  }
-  
-  if (currentPath !== '/art') {
-    icons.push(allNavIcons.art);
-  }
-  
-  if (currentPath !== '/characters') {
-    icons.push(allNavIcons.characters);
-  }
-
-  if (currentPath !== '/blog') {
-    icons.push(allNavIcons.blog);
-  }
-  
-  return icons;
-});
-
-onMounted(() => {
-  initializeTheme();
-  
-  // Set up SEO meta with client-side theme color
-  const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-  if (primaryColor) {
-    themeColor.value = primaryColor;
-  }
-});
-
-onUnmounted(() => {
-  cleanupTheme();
-});
-
-// Set up SEO meta with client-side theme color
-const themeColor = ref('#000000'); // Default fallback color
-
-useSeoMeta({
-  ogSiteName: 'echolotl.lol',
-  ogType: 'website',
-  ogLocale: 'en_US',
-  ogTitle: 'echolotl',
-  themeColor: themeColor,
-})
-</script>
 
 <style lang="scss">
 @use "sass:color";
@@ -129,7 +56,7 @@ useSeoMeta({
   --yellow: #{$yellow-light};
   --purple: #{$purple-light};
   --orange: #{$orange-light};
-  
+
   color: var(--text);
 }
 
@@ -149,7 +76,7 @@ useSeoMeta({
   transition: all 0.4s;
 }
 
-.page-enter-from{
+.page-enter-from {
   opacity: 0;
 
   transform: translateY(-1rem);
