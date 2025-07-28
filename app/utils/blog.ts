@@ -1,4 +1,4 @@
-import type { BlogPost } from '~/types';
+import type { BlogPost } from '~~/types';
 
 /**
  * Get all blog posts

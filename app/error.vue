@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import type { NuxtError } from '#app'
-import Navbar from './components/common/Navbar.vue'
-import Icon from './components/common/Icon.vue';
-import { useTheme } from '~~/composables/useTheme';
+import type { NuxtError } from "#app";
+import Icon from "./components/common/Icon.vue";
 
 defineProps({
   error: {
     type: Object as () => NuxtError,
-    default: () => ({ statusCode: null, message: '' }),
+    default: () => ({ statusCode: null, message: "" }),
   },
-})
+});
 
-const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 
-const availableChars = [
-  'echo', 'glory', 'king'
-]
+const availableChars = ["echo", "glory", "king"];
 
 const selectedChar = computed(() => {
   return availableChars[Math.floor(Math.random() * availableChars.length)];
@@ -25,35 +20,33 @@ const handleError = () => {
   clearError();
   history.back();
 };
-
-onMounted(() => {
-  initializeTheme();
-});
-
-onUnmounted(() => {
-  cleanupTheme();
-});
 </script>
 
 <template>
-  <div :class="{ 'light-theme': theme }" >
-    <div class="error-page">
-      <Navbar 
-        :nav-icons="[{ icon: 'house-icon', alt: 'Home', to: '/' }]" 
-        :light="theme"
-        @toggle-theme="toggleTheme"
-      />
-      <div>
-      <div class="error-image" :style="{ maskImage: `url('/images/${error?.statusCode}.png')` }" :alt="`Error ${error?.statusCode}`" width="300" height="200"/>
-      <p v-if="error?.statusCode">
-        {{ error.message || 'An unexpected error occurred.' }}
-      </p>
-      <button @click="handleError" class="clear-error-button"><Icon icon="back-arrow" style="margin-right: 0.5rem;" />BACK</button>
-    </div>
-  </div>
-      <div class="funny-little-guys" :style="{ maskImage: `url('/images/error/${selectedChar}.webp')` }">
-    </div>
-
+  <div>
+    <NuxtLayout>
+      <div class="error-page">
+        <div>
+          <div
+            class="error-image"
+            :style="{ maskImage: `url('/images/${error?.statusCode}.png')` }"
+            :alt="`Error ${error?.statusCode}`"
+            width="300"
+            height="200"
+          />
+          <p v-if="error?.statusCode">
+            {{ error.message || "An unexpected error occurred." }}
+          </p>
+          <button @click="handleError" class="clear-error-button">
+            <Icon icon="back-arrow" style="margin-right: 0.5rem" />BACK
+          </button>
+        </div>
+      </div>
+      <div
+        class="funny-little-guys"
+        :style="{ maskImage: `url('/images/error/${selectedChar}.webp')` }"
+      ></div>
+    </NuxtLayout>
   </div>
 </template>
 
@@ -85,7 +78,7 @@ onUnmounted(() => {
   background-color: var(--yellow);
   mask-size: contain;
   mask-repeat: repeat-x;
-  animation: horizScroll .5s linear infinite, rainbow 5s linear infinite;
+  animation: horizScroll 0.5s linear infinite, rainbow 5s linear infinite;
 }
 
 @keyframes horizScroll {
@@ -95,11 +88,11 @@ onUnmounted(() => {
   100% {
     mask-position: 100px 0;
   }
-  
 }
 
 @keyframes rainbow {
-  0%, 100% {
+  0%,
+  100% {
     background-color: var(--red);
   }
   16.67% {
@@ -118,6 +111,4 @@ onUnmounted(() => {
     background-color: var(--purple);
   }
 }
-
-
 </style>
