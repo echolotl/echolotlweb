@@ -17,4 +17,8 @@ banner_image: /images/characters/orchy/banner.png
 friends:
   - name: Phosphor
     slug: phosphor
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-07-03
 ---

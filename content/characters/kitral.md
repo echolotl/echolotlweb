@@ -21,4 +21,8 @@ friends:
 enemies:
   - slug: nautilus
     name: Nautilus
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-05-24
 ---

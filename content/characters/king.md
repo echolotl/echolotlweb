@@ -20,6 +20,10 @@ image_description: "King's current design, wearing his sweater and scarf."
 friends: 
 - slug: kitral
   name: Kitral
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-05-18
 ---
 
 # test

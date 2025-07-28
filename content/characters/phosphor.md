@@ -18,4 +18,8 @@ friends:
     slug: orchy
   - name: Kitral
     slug: kitral
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-07-03
 ---

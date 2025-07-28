@@ -16,4 +16,8 @@ background_texture: /images/characters/glory/texture.png
 friends:
   - name: Kitral
     slug: kitral
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-07-03
 ---

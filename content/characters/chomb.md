@@ -17,4 +17,8 @@ background_texture: /images/characters/chomb/texture.png
 friends:
   - name: "Nautilus"
     slug: nautilus
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-07-03
 ---
