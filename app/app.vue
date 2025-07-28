@@ -1,5 +1,7 @@
 <template>
   <div :class="{ 'light-theme': theme }">
+    <Analytics />
+    <SpeedInsights />
     <Navbar
       :nav-icons="navIcons"
       :light="theme"
@@ -14,6 +16,8 @@
 import Navbar from '~/components/common/Navbar.vue';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useTheme } from '../composables/useTheme';
+import { Analytics } from '@vercel/analytics/nuxt';
+import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 
 const route = useRoute();
 const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
