@@ -10,6 +10,10 @@ tags:
 related_characters:
     - slug: chomb
       name: Chomb
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-03-30
 ---
 
 *From Lindol Corporation's archives. Smudged writing is present near the top of the page.*

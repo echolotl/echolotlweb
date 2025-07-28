@@ -9,7 +9,10 @@ abstract: The site has been completely rewritten from the ground up; this post d
 tags:
     - echolotlweb
     - web dev
-
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-07-26
 ---
 
 If you haven't noticed by the slight redesign of the site, it has been completely **rewritten from the ground up**!

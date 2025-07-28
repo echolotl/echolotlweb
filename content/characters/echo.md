@@ -14,4 +14,8 @@ icon_image: /images/no_image.png
 title_image: /images/characters/echo/title.png
 background_texture: /images/characters/echo/texture.png
 banner_image: /images/characters/echo/banner.png
+sitemap:
+    changefreq: monthly
+    priority: 0.5
+    lastmod: 2025-07-03
 ---
