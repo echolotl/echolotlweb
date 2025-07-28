@@ -1,8 +1,9 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
+import { asSitemapCollection } from '@nuxtjs/sitemap/content'
 
 export default defineContentConfig({
   collections: {
-    characters: defineCollection({
+    characters: defineCollection(asSitemapCollection({
       source: "characters/*.md",
       type: "page",
       schema: z.object({
@@ -33,8 +34,8 @@ export default defineContentConfig({
         icon_image_hover: z.string().optional(),
         banner_image: z.string().optional(),
       }),
-    }),
-    blog: defineCollection({
+    })),
+    blog: defineCollection(asSitemapCollection({
       source: "blog/*.md",
       type: "page",
       schema: z.object({
@@ -54,8 +55,8 @@ export default defineContentConfig({
         })).optional(),
         pinned: z.boolean().optional(),
       }),
-    }),
-    art: defineCollection({
+    })),
+    art: defineCollection(asSitemapCollection({
       source: "art/**/*.{json,yml,yaml}",
       type: "data",
       schema: z.object({
@@ -73,6 +74,6 @@ export default defineContentConfig({
         thumbnail_url: z.string().url().optional(),
         sketch: z.boolean().optional(),
       }),
-    })
+    }))
   },
 });

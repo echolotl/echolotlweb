@@ -17,12 +17,12 @@ export default defineNuxtConfig({
   site: {  url: 'https://echolotl.lol',  name: 'echolotl'  }, 
   devtools: { enabled: true },
   modules: [
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
     '@nuxt/content',
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxtjs/mdc',
-    '@nuxtjs/sitemap',
-    '@nuxtjs/robots',
   ],
   components: {
     global: true,
