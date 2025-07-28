@@ -14,8 +14,16 @@ export default defineNuxtConfig({
       }
     }
   },
+  site: {  url: 'https://echolotl.lol',  name: 'echolotl'  }, 
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@nuxt/eslint', '@nuxt/image', '@nuxtjs/mdc'],
+  modules: [
+    '@nuxt/content',
+    '@nuxt/eslint',
+    '@nuxt/image',
+    '@nuxtjs/mdc',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
+  ],
   components: {
     global: true,
     dirs: [
