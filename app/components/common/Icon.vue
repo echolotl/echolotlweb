@@ -14,21 +14,28 @@ import { defineProps, computed } from 'vue';
 const maskStyle = computed(() => {
     const width = props.width.includes('px') ? props.width : `${props.width}px`;
     const height = props.height.includes('px') ? props.height : `${props.height}px`;
-    
-    return {
+    const style: Record<string, string> = {
         width,
         height,
-        backgroundColor: props.color,
-        maskImage: `url(/images/icons/${props.icon}.webp)`,
-        WebkitMaskImage: `url(/images/icons/${props.icon}.webp)`,
-        maskSize: 'contain',
-        WebkitMaskSize: 'contain',
-        maskRepeat: 'no-repeat',
-        WebkitMaskRepeat: 'no-repeat',
-        maskPosition: 'center',
-        WebkitMaskPosition: 'center',
         display: 'inline-block'
     };
+    if (props.disableMask) {
+        style.backgroundImage = `url(/images/icons/${props.icon}.webp)`;
+        style.backgroundSize = 'contain';
+        style.backgroundRepeat = 'no-repeat';
+        style.backgroundPosition = 'center';
+    } else {
+        style.maskImage = `url(/images/icons/${props.icon}.webp)`;
+        style.WebkitMaskImage = `url(/images/icons/${props.icon}.webp)`;
+        style.maskSize = 'contain';
+        style.WebkitMaskSize = 'contain';
+        style.maskRepeat = 'no-repeat';
+        style.WebkitMaskRepeat = 'no-repeat';
+        style.maskPosition = 'center';
+        style.WebkitMaskPosition = 'center';
+        style.backgroundColor = props.color;
+    }
+    return style;
 });
 
 const props = defineProps({
@@ -55,6 +62,10 @@ const props = defineProps({
     color: {
         type: String,
         default: 'currentColor'
+    },
+    disableMask: {
+        type: Boolean,
+        default: false
     }
 });
 </script>

@@ -51,7 +51,7 @@
     bottom: 0;
 }
 .under-construction-text {
-    background: black;
+    filter: drop-shadow(2px 0 0 black) drop-shadow(-2px 0 0 black) drop-shadow(0 -2px 0 black) drop-shadow(0 2px 0 black);
     @media (max-width: 768px) {
         width: 50%;
         height: auto;
