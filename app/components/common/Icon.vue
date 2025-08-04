@@ -12,11 +12,9 @@
 import { defineProps, computed } from 'vue';
 
 const maskStyle = computed(() => {
-    const width = props.width.includes('px') ? props.width : `${props.width}px`;
-    const height = props.height.includes('px') ? props.height : `${props.height}px`;
     const style: Record<string, string> = {
-        width,
-        height,
+        width: props.width,
+        height: props.height,
         display: 'inline-block'
     };
     if (props.disableMask) {

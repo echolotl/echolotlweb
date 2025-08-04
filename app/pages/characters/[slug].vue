@@ -47,8 +47,8 @@
                                     <td>
                                         <span v-if="character.friends && character.friends.length > 0">
                                             <template v-for="(friend, index) in character.friends" :key="friend.slug">
-                                                <CharacterLink :slug="friend.slug">{{ friend.name }}</CharacterLink>
-                                                <span v-if="index < character.friends.length - 1">, </span>
+                                                <CharacterLink :slug="friend.slug" sketch-text></CharacterLink>
+                                                <span v-if="index < character.friends.length - 1" style="display: block; margin-bottom: 0.25rem;"></span>
                                             </template>
                                         </span>
                                         <span v-else>None</span>
@@ -59,8 +59,8 @@
                                     <td>
                                         <span v-if="character.enemies && character.enemies.length > 0">
                                             <template v-for="(enemy, index) in character.enemies" :key="enemy.slug">
-                                                <CharacterLink :slug="enemy.slug">{{ enemy.name }}</CharacterLink>
-                                                <span v-if="index < character.enemies.length - 1">, </span>
+                                                <CharacterLink :slug="enemy.slug" sketch-text></CharacterLink>
+                                                <span v-if="index < character.enemies.length - 1" style="display: block; margin-bottom: 0.25rem;"></span>
                                             </template>
                                         </span>
                                         <span v-else>None</span>

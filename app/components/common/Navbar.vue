@@ -7,15 +7,15 @@
           class="navbar-top__themeicon navbar-top__themeicon--desktop"
           @click="toggleTheme"
         >
-          <Icon :icon="currentThemeIcon" width="48" height="48" class="icon" />
+          <Icon :icon="currentThemeIcon" width="48px" height="48px" class="icon" />
         </div>
 
         <!-- Mobile hamburger menu -->
         <div class="navbar-top__hamburger" @click="toggleMobileMenu">
           <Icon
             :icon="mobileMenuOpen ? 'close' : 'hamburger-open'"
-            width="48"
-            height="48"
+            width="48px"
+            height="48px"
             class="icon"
           />
         </div>
@@ -24,8 +24,8 @@
           <nuxt-link to="/">
             <Icon
               icon="echolotl"
-              width="48"
-              height="48"
+              width="48px"
+              height="48px"
               class="navbar-top__logo-icon navbar-top__logo-icon--desktop"
               color="var(--inverted-solid)"
             />
@@ -48,8 +48,8 @@
             <Icon
               :icon="navIcon.icon"
               :alt="navIcon.alt"
-              width="48"
-              height="48"
+              width="48px"
+              height="48px"
               class="icon"
             />
           </nuxt-link>
@@ -66,8 +66,8 @@
           <div class="navbar-top__mobile-item" @click="toggleTheme">
             <Icon
               :icon="currentThemeIcon"
-              width="32"
-              height="32"
+              width="32px"
+              height="32px"
               class="icon"
             />
             <span>{{ props.light ? "Dark Mode" : "Light Mode" }}</span>
@@ -84,8 +84,8 @@
             <Icon
               :icon="navIcon.icon"
               :alt="navIcon.alt"
-              width="32"
-              height="32"
+              width="32px"
+              height="32px"
               class="icon"
             />
             <span>{{ navIcon.alt }}</span>

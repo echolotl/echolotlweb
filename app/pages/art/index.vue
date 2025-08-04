@@ -1,7 +1,9 @@
 <template>
   <div class="art-page">
     <div style="width: 100%; display: flex; justify-content: center;">
-      <div class="art-title" />
+        <SketchText size="4rem">ART ARCHIVE</SketchText>
+        <Icon icon="art" height="4rem" width="4rem" style="margin-left: .5rem;"/>
+        <Icon icon="sketch" height="4rem" width="4rem"/>
     </div>
     <p class="subtitle">This stores all of the art I've made, including character and general art.</p>
 

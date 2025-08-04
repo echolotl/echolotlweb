@@ -24,6 +24,10 @@ const props = defineProps({
 const characterColor = props.character?.theme_color || "#000000";
 const characterImage = props.character?.icon_image ? `url(${props.character.icon_image})` : "";
 const characterHoverImage = props.character?.icon_image_hover ? `url(${props.character.icon_image_hover})` : "";
+
+// Generate random frame (0-2)
+const randomFrameNumber = Math.floor(Math.random() * 3);
+const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
 </script>
 
 <style scoped lang="scss">
@@ -53,7 +57,7 @@ const characterHoverImage = props.character?.icon_image_hover ? `url(${props.cha
     width: 100%;
     height: 100%;
     background-color: var(--text);
-    mask-image: url('/images/characters/frame.webp');
+    mask-image: v-bind(frameImage);
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;

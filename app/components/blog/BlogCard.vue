@@ -13,30 +13,32 @@
               <Icon :icon="`${post.type}`" />
               <span class="blog-post-card__title-text">{{ post.title }}</span>
             </div>
-            <div
+            <TagList
               v-if="post.tags && !post.related_characters"
-              class="blog-post-card__tags"
+              icon="tag"
+              :items="post.tags"
             >
-            <Icon icon="tag" color="var(--text-secondary)"/>
-              <span class="blog-post-card__tag">{{ post.tags[0] }}</span>
-              <span
+              <Tag>{{ post.tags[0] }}</Tag>
+              <Tag
                 v-if="post.tags.length > 1"
-                class="blog-post-card__tag blog-post-card__tag--more"
-                >+{{ post.tags.length - 1 }}</span
-              >
-            </div>
-            <div
-              v-if="post.related_characters"
-              class="blog-post-card__tags"
+                variant="more"
+              >+{{ post.tags.length - 1 }}</Tag>
+            </TagList>
+            <TagList
+              v-if="post.related_characters && post.related_characters.length > 0"
+              icon="character"
+              :items="post.related_characters"
             >
-            <Icon icon="character" color="var(--text-secondary)"/>
-              <span class="blog-post-card__tag character"><CharacterLink :slug="post.related_characters[0].slug">{{ post.related_characters[0].name }}</CharacterLink></span>
-              <span
+              <CharacterTag 
+                v-if="post.related_characters[0]" 
+                :slug="post.related_characters[0].slug" 
+                sketch-text 
+              />
+              <Tag
                 v-if="post.related_characters.length > 1"
-                class="blog-post-card__tag blog-post-card__tag--more"
-                >+{{ post.related_characters.length - 1 }}</span
-              >
-            </div>
+                variant="more"
+              >+{{ post.related_characters.length - 1 }}</Tag>
+            </TagList>
           </h2>
           <div class="blog-post-card__other-details">
             <span class="blog-post-card__other-detail">
@@ -59,9 +61,12 @@
 </template>
 
 <script setup lang="ts">
-import type { BlogPost } from "~/types";
+import type { BlogPost } from "~~/types";
+import utils from "~/utils";
 import Icon from "~/components/common/Icon.vue";
-import CharacterLink from "../common/CharacterLink.vue";
+import Tag from "~/components/common/Tag.vue";
+import TagList from "~/components/common/TagList.vue";
+import CharacterTag from "~/components/common/CharacterTag.vue";
 
 defineProps<{
   post: BlogPost;
@@ -150,39 +155,6 @@ defineProps<{
     flex: 1;
     min-width: 0;
   }
-}
-.blog-post-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  flex-shrink: 0;
-  align-items: center;
-}
-.blog-post-card__tag {
-  border: 1px solid var(--distant);
-          background: rgba(0, 0, 0, 0.05);
-  color: var(--text);
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  transition: background-color 0.2s ease;
-    font-family: $body-font;
-    font-weight: 400;
-  &--more {
-    border: none;
-    font-weight: 600;
-    padding: 0.25rem 0;
-    background: transparent;
-  }
-    &.character {
-        text-decoration: none;
-        &:hover {
-        background: var(--distant);
-        }
-        text-transform: none;
-    }
 }
 .blog-post-card__excerpt {
   margin: .5rem 0;
