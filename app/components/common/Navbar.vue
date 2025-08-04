@@ -3,15 +3,13 @@
     <nav class="navbar-top">
       <div class="navbar-top__content">
         <!-- Desktop theme icon -->
-        <div class="navbar-top__themeicon navbar-top__themeicon--desktop" @click="toggleTheme">
-          <Icon
-            :icon="currentThemeIcon"
-            width="48"
-            height="48"
-            class="icon"
-          />
+        <div
+          class="navbar-top__themeicon navbar-top__themeicon--desktop"
+          @click="toggleTheme"
+        >
+          <Icon :icon="currentThemeIcon" width="48" height="48" class="icon" />
         </div>
-        
+
         <!-- Mobile hamburger menu -->
         <div class="navbar-top__hamburger" @click="toggleMobileMenu">
           <Icon
@@ -21,7 +19,7 @@
             class="icon"
           />
         </div>
-        
+
         <div class="navbar-top__logo">
           <nuxt-link to="/">
             <Icon
@@ -36,10 +34,10 @@
               alt="echolotl"
               height="48"
               :class="props.light ? 'invert' : ''"
-            >
+            />
           </nuxt-link>
         </div>
-        
+
         <!-- Desktop navigation icons -->
         <div class="navbar-top__nav-icons navbar-top__nav-icons--desktop">
           <nuxt-link
@@ -57,10 +55,10 @@
           </nuxt-link>
         </div>
       </div>
-      
+
       <!-- Mobile menu dropdown -->
-      <div 
-        class="navbar-top__mobile-menu" 
+      <div
+        class="navbar-top__mobile-menu"
         :class="{ 'navbar-top__mobile-menu--open': mobileMenuOpen }"
       >
         <div class="navbar-top__mobile-menu-content">
@@ -72,9 +70,9 @@
               height="32"
               class="icon"
             />
-            <span>{{ props.light ? 'Dark Mode' : 'Light Mode' }}</span>
+            <span>{{ props.light ? "Dark Mode" : "Light Mode" }}</span>
           </div>
-          
+
           <!-- Mobile navigation items -->
           <nuxt-link
             v-for="(navIcon, index) in props.navIcons"
@@ -140,16 +138,16 @@ function closeMobileMenu() {
 // Close mobile menu when clicking outside or when route changes
 onMounted(() => {
   const handleClickOutside = (event: Event) => {
-    const navbar = document.querySelector('.navbar');
+    const navbar = document.querySelector(".navbar");
     if (navbar && !navbar.contains(event.target as Node)) {
       mobileMenuOpen.value = false;
     }
   };
 
-  document.addEventListener('click', handleClickOutside);
-  
+  document.addEventListener("click", handleClickOutside);
+
   onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener("click", handleClickOutside);
   });
 });
 </script>
@@ -163,6 +161,9 @@ onMounted(() => {
   left: 0;
   width: 100%;
   z-index: 1000;
+  @media not screen {
+    display: none;
+  }
 }
 
 .navbar-top {
@@ -181,7 +182,7 @@ onMounted(() => {
   height: 100%;
   width: calc(100% - 2rem);
   position: relative;
-  
+
   @media (max-width: 768px) {
     justify-content: space-between;
   }
@@ -190,7 +191,7 @@ onMounted(() => {
 .navbar-top__themeicon--desktop {
   position: absolute;
   left: 1rem;
-  
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -200,7 +201,7 @@ onMounted(() => {
   position: absolute;
   left: 1rem;
   display: none;
-  
+
   @media (max-width: 768px) {
     display: block;
     position: static;
@@ -216,7 +217,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   min-width: auto;
-  
+
   @media (max-width: 768px) {
     order: 1;
   }
@@ -238,7 +239,7 @@ onMounted(() => {
   align-items: center;
   position: absolute;
   right: 1rem;
-  
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -254,11 +255,11 @@ onMounted(() => {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
   display: none;
-  
+
   @media (max-width: 768px) {
     display: block;
   }
-  
+
   &--open {
     max-height: 400px;
   }
@@ -281,16 +282,16 @@ onMounted(() => {
   text-decoration: none;
   color: var(--inverted-solid);
   transition: background-color 0.2s ease;
-  
+
   &:hover {
     background-color: var(--surface);
   }
-  
+
   span {
     font-size: 1rem;
     font-weight: 500;
   }
-  
+
   .icon {
     flex-shrink: 0;
   }
@@ -337,5 +338,8 @@ onMounted(() => {
 
 .navbar-spacer {
   height: 64px;
+    @media not screen {
+    display: none;
+  }
 }
 </style>

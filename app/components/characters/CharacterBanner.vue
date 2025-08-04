@@ -32,6 +32,9 @@ defineProps<{
     height: 600px;
     overflow: hidden;
     z-index: -1;
+    @media not screen {
+        display: none;
+    }
 }
 
 .character-banner__content {

@@ -6,7 +6,7 @@
                 <div class="character-infobox">
                     <span class="character-infobox__label" :style="{ color: character.theme_color }">... CHARACTER INFO</span>
                     <div class="character-infobox__details" :style="{ borderTop: `2px solid ${character.theme_color}` }">
-                        <span class="font-display character-infobox__title" :style="{ color: character.theme_color }">{{ character.name }}</span>
+                        <span class="font-display character-infobox__title" :style="{ color: character.theme_color }"><SketchText size="1.75em" style="margin: .25rem 0">{{ character.name }}</SketchText></span>
                         <hr>
                         <div class="character-infobox__header">
                             <figure style="text-align: center; margin: 0;">
@@ -112,6 +112,7 @@
 <script setup lang="ts">
 import CharacterBanner from '~/components/characters/CharacterBanner.vue';
 import CharacterLink from '~/components/common/CharacterLink.vue';
+import SketchText from '~/components/common/SketchText.vue';
 import ArtItem from '~/components/art/ArtItem.vue';
 import BlogCard from '~/components/blog/BlogCard.vue';
 import Icon from '~/components/common/Icon.vue';

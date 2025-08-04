@@ -1,6 +1,6 @@
 <template>
   <div class="characters-page">
-    <h1 class="large-title">Characters</h1>
+    <h1 class="large-title"><SketchText size="4rem">Characters</SketchText></h1>
     <p class="subtitle">Want to know more about my characters? Click on any of their cards to go to their page!</p>
     <div class="characters-list">
       <CharacterCard
@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import { useAsyncData } from "nuxt/app";
 import CharacterCard from "~/components/characters/CharacterCard.vue";
+import SketchText from "~/components/common/SketchText.vue";
 
 const { data: characters } = await useAsyncData(() => {
   return queryCollection("characters").all();
