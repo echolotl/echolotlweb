@@ -1,6 +1,6 @@
 <template>
     <div class="blog-page">
-        <h1 class="large-title">Blog</h1>
+        <h1 class="large-title"><SketchText size="4rem">Blog</SketchText></h1>
         <p class="subtitle">
             This contains all of my blog posts, which are mostly about me, or my characters, or my website.
         </p>
@@ -92,6 +92,7 @@
 import { getBlogPosts } from '#imports';
 import BlogCard from "~/components/blog/BlogCard.vue";
 import Icon from "~/components/common/Icon.vue";
+import SketchText from '~/components/common/SketchText.vue';
 
 const ITEMS_PER_PAGE = 20;
 

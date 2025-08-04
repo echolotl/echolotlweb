@@ -7,33 +7,33 @@
                 alt="Blog Post Thumbnail"
                 class="blog-header__image"
                 />
-            <h1 class="large-title">{{ post.title }}</h1>
+            <h1 class="large-title"><SketchText size="3rem">{{ post.title }}</SketchText></h1>
             <p class="subtitle">{{ post.abstract }}</p>
             
             <!-- Tags and Characters -->
             <div class="blog-meta">
-                <div v-if="post.tags && post.tags.length > 0" class="blog-meta__section">
-                    <Icon icon="tag" color="var(--text-secondary)"/>
-                    <div class="blog-meta__items">
-                        <span v-for="tag in post.tags" :key="tag" class="blog-meta__tag">
-                            {{ tag }}
-                        </span>
-                    </div>
-                </div>
+                <TagList
+                    v-if="post.tags && post.tags.length > 0"
+                    icon="tag"
+                    :items="post.tags"
+                >
+                    <Tag v-for="tag in post.tags" :key="tag">
+                        {{ tag }}
+                    </Tag>
+                </TagList>
                 
-                <div v-if="post.related_characters && post.related_characters.length > 0" class="blog-meta__section">
-                    <Icon icon="character" color="var(--text-secondary)"/>
-                    <div class="blog-meta__items">
-                        <CharacterLink
-                            v-for="character in post.related_characters" 
-                            :key="character.slug"
-                            :slug="character.slug" 
-                            class="blog-meta__character link"
-                        >
-                            {{ character.name }}
-                        </CharacterLink>
-                    </div>
-                </div>
+                <TagList
+                    v-if="post.related_characters && post.related_characters.length > 0"
+                    icon="character"
+                    :items="post.related_characters"
+                >
+                    <CharacterTag
+                        v-for="character in post.related_characters" 
+                        :key="character.slug"
+                        :slug="character.slug"
+                        sketch-text
+                    />
+                </TagList>
                 <div class="blog-meta__items" style="display: flex; flex-wrap: wrap; gap: 0.5rem; color: var(--text-secondary);">
                 <div class="blog-meta__section" style="display: inline-flex;">
                     <Icon icon="date" color="var(--text-secondary)"/>
@@ -56,8 +56,11 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import CharacterLink from '~/components/common/CharacterLink.vue';
+import CharacterTag from '~/components/common/CharacterTag.vue';
 import Icon from '~/components/common/Icon.vue';
+import SketchText from '~/components/common/SketchText.vue';
+import Tag from '~/components/common/Tag.vue';
+import TagList from '~/components/common/TagList.vue';
 import type { BlogPost } from '~~/types';
 
 const route = useRoute();
@@ -130,37 +133,5 @@ useSeoMeta({
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-.blog-meta__items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.blog-meta__tag {
-    border: 1px solid var(--distant);
-    color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    background: rgba(0, 0, 0, 0.05);
-}
-
-.blog-meta__character {
-    border: 1px solid var(--distant);
-    color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-decoration: none;
-    background: rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s ease, color 0.2s ease;
-    
-    &:hover {
-        background: var(--distant);
-        color: var(--text);
-    }
 }
 </style>

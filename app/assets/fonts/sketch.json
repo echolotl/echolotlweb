@@ -108,7 +108,7 @@
     "©": { "left": 6, "top": 0, "width": 34, "height": 36, "baselineOffset": -30 },
     "*": { "left": 6, "top": 0, "width": 52, "height": 62, "baselineOffset": 0 },
     
-    " ": { "left": 0, "top": 0, "width": 32, "height": 64, "baselineOffset": 0 }
+    " ": { "left": 0, "top": 0, "width": 15, "height": 64, "baselineOffset": 0 }
   },
   "kerningPairs": {
     "ct": -4,
@@ -178,6 +178,9 @@
     "Yu": -14,
     "Zi": -4,
     "ut": -4,
-    ".?": -12
+    ".?": -12,
+    "ry": -2,
+    "fe": -4,
+    "Ta": -12
   }
 }

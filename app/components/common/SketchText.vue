@@ -1,3 +1,41 @@
+<!--
+  SketchText Component - Accessible Spritesheet Font Renderer
+  
+  This component renders text using a custom spritesheet-based pixel font while maintaining
+  full accessibility for screen readers and assistive technologies.
+  
+  Accessibility Features:
+  - Screen reader compatible: Provides actual text content via sr-only element
+  - ARIA support: Uses aria-label, aria-hidden, and aria-describedby appropriately
+  - High contrast mode support: Enhanced contrast for better visibility
+  - Print friendly: Shows actual text instead of sprites when printing
+  - Reduced motion support: Respects user's motion preferences
+  - Semantic flexibility: Supports custom roles and labels
+  
+  Props:
+  - text: The text content to display
+  - scale: Visual scaling factor for the font
+  - spacing: Additional character spacing
+  - size: CSS size value for the font
+  - ariaLabel: Custom aria-label (defaults to the display text)
+  - role: Custom ARIA role for semantic meaning
+  - isDecorative: If true, hides from screen readers (use sparingly)
+  
+  Usage Examples:
+  
+  Basic usage:
+  <SketchText>Hello World</SketchText>
+  
+  For headings:
+  <SketchText role="heading" size="2rem">Page Title</SketchText>
+  
+  For decorative text (use sparingly):
+  <SketchText is-decorative>✨ Decoration ✨</SketchText>
+  
+  With custom accessibility label:
+  <SketchText aria-label="Welcome to our website">WLCM 2 UR SITE</SketchText>
+-->
+
 <script lang="ts" setup>
 import { computed, useSlots, ref, onMounted, onUnmounted } from 'vue';
 import { SpritesheetFont, type FontData } from '~~/types/SpritesheetFont';
@@ -8,14 +46,20 @@ interface Props {
     text?: string;
     scale?: number;
     spacing?: number;
-    size?: string; 
+    size?: string;
+    ariaLabel?: string;
+    role?: string;
+    isDecorative?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     text: '',
     scale: 1,
     spacing: 0,
-    size: '16px'
+    size: '16px',
+    ariaLabel: '',
+    role: '',
+    isDecorative: false
 });
 
 // Create font
@@ -131,34 +175,76 @@ const getJustifyContent = computed(() => {
     }
 });
 
+// Compute accessibility attributes
+const accessibilityAttrs = computed(() => {
+    const attrs: Record<string, string | boolean> = {};
+    
+    if (props.isDecorative) {
+        attrs['aria-hidden'] = 'true';
+    } else {
+        // Provide the actual text content for screen readers
+        attrs['aria-label'] = props.ariaLabel || displayText.value;
+        
+        // Set role if provided, otherwise let it be implicit
+        if (props.role) {
+            attrs['role'] = props.role;
+        }
+    }
+    
+    return attrs;
+});
+
+// Generate a unique ID for associating with screen reader text
+const textId = computed(() => `sketch-text-${Math.random().toString(36).substr(2, 9)}`);
+
 </script>
 
 <template>
-    <div ref="sketchTextRef" class="sketch-text">
-        <div 
-            v-for="(line, lineIndex) in textLines" 
-            :key="`line-${lineIndex}`"
-            class="sketch-text-line"
-            :style="{ justifyContent: getJustifyContent }"
+    <div 
+        ref="sketchTextRef" 
+        class="sketch-text"
+        v-bind="accessibilityAttrs"
+    >
+        <!-- Screen reader accessible text -->
+        <span 
+            v-if="!props.isDecorative" 
+            class="sr-only"
+            :id="textId"
         >
-            <div
-                v-for="(word, wordIndex) in line"
-                :key="`word-${lineIndex}-${wordIndex}`"
-                class="sketch-word"
-                :class="{ 'sketch-space': word.isSpace }"
+            {{ displayText }}
+        </span>
+        
+        <!-- Visual spritesheet text -->
+        <div 
+            class="sketch-text-visual"
+            aria-hidden="true"
+            :aria-describedby="!props.isDecorative ? textId : undefined"
+        >
+            <div 
+                v-for="(line, lineIndex) in textLines" 
+                :key="`line-${lineIndex}`"
+                class="sketch-text-line"
+                :style="{ justifyContent: getJustifyContent }"
             >
-                <template v-for="(char, charIndex) in word.content" :key="`char-${lineIndex}-${wordIndex}-${charIndex}`">
-                    <span 
-                        v-if="char === ' '"
-                        :style="getSpaceStyle()"
-                        class="sketch-space-char"
-                    ></span>
-                    <span 
-                        v-else
-                        :style="getCharacterStyle(char, word.content[charIndex + 1])"
-                        class="sketch-char"
-                    ></span>
-                </template>
+                <div
+                    v-for="(word, wordIndex) in line"
+                    :key="`word-${lineIndex}-${wordIndex}`"
+                    class="sketch-word"
+                    :class="{ 'sketch-space': word.isSpace }"
+                >
+                    <template v-for="(char, charIndex) in word.content" :key="`char-${lineIndex}-${wordIndex}-${charIndex}`">
+                        <span 
+                            v-if="char === ' '"
+                            :style="getSpaceStyle()"
+                            class="sketch-space-char"
+                        ></span>
+                        <span 
+                            v-else
+                            :style="getCharacterStyle(char, word.content[charIndex + 1])"
+                            class="sketch-char"
+                        ></span>
+                    </template>
+                </div>
             </div>
         </div>
     </div>
@@ -171,6 +257,19 @@ const getJustifyContent = computed(() => {
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
     line-height: normal;
+}
+
+/* Screen reader only text - visually hidden but accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .sketch-text-line {
@@ -201,5 +300,42 @@ const getJustifyContent = computed(() => {
 .sketch-space-char {
     flex-shrink: 0;
     align-self: baseline;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .sketch-text-visual {
+        /* In high contrast mode, add a fallback text or enhance contrast */
+        filter: contrast(2);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .sketch-text {
+        /* Disable any animations if they exist */
+        animation: none;
+        transition: none;
+    }
+}
+
+/* Print styles - show actual text instead of sprites */
+@media print {
+    .sketch-text-visual {
+        display: none;
+    }
+    
+    .sr-only {
+        position: static;
+        width: auto;
+        height: auto;
+        padding: initial;
+        margin: initial;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+        border: initial;
+        font-family: serif;
+    }
 }
 </style>

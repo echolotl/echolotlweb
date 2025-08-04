@@ -1,29 +1,31 @@
 <template>
     <div v-if="art" class="art-page">
         <div class="art-header">
-            <h1 class="large-title">{{ art.title }}</h1>
+            <h1 class="large-title"><SketchText size="3rem">{{ art.title }}</SketchText></h1>
             <div class="art-description">
                 <p v-if="art.description" v-html="parsedDescription">
                 </p>
                 <p v-else>No description available.</p>
             </div>
             <div class="art-meta">
-                <div v-if="art.tags && art.tags.length > 0" class="art-meta__section">
-                    <Icon icon="tag" color="var(--text-secondary)"/>
-                    <div class="art-meta__items">
-                        <span v-for="tag in art.tags" :key="tag" class="art-meta__tag">
-                            {{ tag }}
-                        </span>
-                    </div>
-                </div>
+                <TagList
+                    v-if="art.tags && art.tags.length > 0"
+                    icon="tag"
+                    :items="art.tags"
+                >
+                    <Tag v-for="tag in art.tags" :key="tag">
+                        {{ tag }}
+                    </Tag>
+                </TagList>
 
-                <div v-if="(art.related_characters && art.related_characters.length > 0) || art.character" class="art-meta__section">
-                    <Icon icon="character" color="var(--text-secondary)"/>
-                    <div class="art-meta__items">
-                        <CharacterLink v-if="art.character" :slug="art.character" class="art-meta__character" />
-                        <CharacterLink v-for="character in art.related_characters" :key="character" :slug="character" class="art-meta__character" />
-                    </div>
-                </div>
+                <TagList
+                    v-if="(art.related_characters && art.related_characters.length > 0) || art.character"
+                    icon="character"
+                    :items="art.related_characters || [art.character].filter(Boolean)"
+                >
+                    <CharacterTag v-if="art.character" :slug="art.character" sketch-text />
+                    <CharacterTag v-for="character in art.related_characters" :key="character" :slug="character" sketch-text/>
+                </TagList>
                 <div v-if="art.created_at" class="art-meta__section">
                     <Icon icon="date" color="var(--text-secondary)"/>
                     <span class="art-meta__date">{{ new Date(art.created_at).toLocaleDateString() }}</span>
@@ -46,8 +48,11 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import CharacterLink from '~/components/common/CharacterLink.vue';
+import CharacterTag from '~/components/common/CharacterTag.vue';
 import Icon from '~/components/common/Icon.vue';
+import Tag from '~/components/common/Tag.vue';
+import TagList from '~/components/common/TagList.vue';
+import SketchText from '~/components/common/SketchText.vue';
 import { micromark } from 'micromark';
 
 const route = useRoute();
@@ -154,38 +159,6 @@ useSeoMeta({
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-.art-meta__items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.art-meta__tag {
-    border: 1px solid var(--distant);
-    color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    background: rgba(0, 0, 0, 0.05);
-}
-
-.art-meta__character {
-    border: 1px solid var(--distant);
-    color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-decoration: none;
-    background: rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s ease, color 0.2s ease;
-    
-    &:hover {
-        background: var(--distant);
-        color: var(--text);
-    }
 }
 
 .art-title {
