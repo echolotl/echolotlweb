@@ -4,11 +4,11 @@
             <nuxt-img class="under-construction-text" src="/images/underconstructiontxt.png" alt="Under Construction" />
             <nuxt-img class="king-image" src="/images/king_pink.png" alt="King w/ a power tool" />
         </div>
-        <div class="main-content" style="text-align: center;">
-            im working on stuff (im stuff)
+        <SketchText class="main-content" style="text-align: center;" word-wrap :max-width="600">
+            i'm working on stuff (i'm stuff)
             <br>
             The art pages work, character pages are WIP but kinda work, and the blog works but its just a bunch of tests.
-        </div>
+        </SketchText>
     </div>
 </template>
 
@@ -67,3 +67,6 @@
     }
 }
 </style>
+<script lang="ts" setup>
+import SketchText from '~/components/common/SketchText.vue';
+</script>

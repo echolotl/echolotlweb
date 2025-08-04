@@ -5,13 +5,14 @@
         <div class="character-card__image-icon" :style="{ backgroundImage: characterImage }"></div>
         <div class="character-card__image-icon-hover" :style="{ backgroundImage: characterHoverImage }"></div>
     </div>
-    <div class="character-card__name">{{ props.character.name }}</div>
+    <SketchText class="character-card__name" size="1.5rem">{{ props.character.name }}</SketchText>
 
   </nuxt-link>
 </template>
 
 <script setup lang="ts">
-import type { Character } from "~/types";
+import type { Character } from "~~/types";
+import SketchText from "../common/SketchText.vue";
 
 const props = defineProps({
   character: {
@@ -88,11 +89,10 @@ const characterHoverImage = props.character?.icon_image_hover ? `url(${props.cha
   &__name {
     position: absolute;
     color: transparent;
-    bottom: 0;
+    bottom: -10px;
     opacity: 0;
     transition: opacity 0.3s ease, color 0.3s ease;
     font-weight: bold;
-    font-size: 1.2rem;
     text-transform: uppercase;
     text-align: center;
   }

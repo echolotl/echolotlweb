@@ -7,7 +7,7 @@
 
         <div v-if="filteredPinnedArtworks.length > 0" class="section-header" >
       <Icon icon="pin" />
-      <h2 class="section-title">Pinned</h2>
+      <h2 class="section-title"><SketchText size="1.5rem">PINNED</SketchText></h2>
       </div>
       <hr v-if="filteredPinnedArtworks.length > 0">
     <div class="art-grid">
@@ -86,6 +86,7 @@
 <script setup lang="ts">
 import { getArtworks } from '#imports';
 import Icon from '~/components/common/Icon.vue';
+import SketchText from '~/components/common/SketchText.vue';
 
 const ITEMS_PER_PAGE = 20;
 
