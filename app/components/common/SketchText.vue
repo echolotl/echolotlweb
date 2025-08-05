@@ -219,6 +219,7 @@ const textId = computed(() => `sketch-text-${Math.random().toString(36).substr(2
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
     line-height: normal;
+    display: inline;
 }
 
 /* Screen reader only text - visually hidden but accessible to screen readers */
@@ -235,14 +236,13 @@ const textId = computed(() => `sketch-text-${Math.random().toString(36).substr(2
 }
 
 .sketch-text-line {
-    display: flex;
-    width: 100%;
+    display: inline-flex;
     flex-wrap: wrap;
     align-items: baseline;
 }
 
 .sketch-word {
-    display: flex;
+    display: inline-flex;
     align-items: baseline;
     flex-shrink: 0;
 }

@@ -118,6 +118,9 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
       opacity: 1;
       color: v-bind(characterColor);
     }
+    .character-card__image-frame {
+      animation: frameShrinkShake 0.3s ease forwards;
+    }
   }
 }
 
@@ -125,8 +128,21 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
   0%, 100% {
     transform: scale(1);
   }
-  50% {
-    transform: scale(1.01);
+  45% {
+    transform: scale(1.01) translateY(1px);
   }
+}
+
+@keyframes frameShrinkShake {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: rotate3d(0, 0, 1, -1deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+
 }
 </style>
