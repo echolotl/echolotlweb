@@ -36,6 +36,9 @@
 
   background-color: var(--background);
   color: var(--text);
+  @media print {
+    --distant: black;
+  }
 }
 
 :root[data-theme="light"] {
