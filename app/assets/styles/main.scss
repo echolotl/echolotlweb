@@ -20,14 +20,24 @@ button {
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease, 
+                filter 0.2s ease;
     box-sizing: border-box;
-    &:hover {
-        background-color: var(--surface);
+    &:hover:not(.disabled) {
+        filter: brightness(0.9);
     }
-    &:active {
+    &:not(.disabled):active {
         border-bottom-width: 1px;
         transform: translateY(1px);
+    }
+    &.filled {
+        background-color: var(--primary);
+        border: none;
+        color: $foreground-light;
+    }
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
     }
 }
 
