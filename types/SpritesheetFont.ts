@@ -6,8 +6,7 @@ export interface CharacterBounds {
     baselineOffset: number;
 }
 
-export interface FontData {
-    name: string;
+export interface FontStyleData {
     imagePath: string;
     characterWidth: number;
     characterHeight: number;
@@ -16,6 +15,12 @@ export interface FontData {
     characters: string;
     characterBounds: Record<string, CharacterBounds>;
     kerningPairs?: Record<string, number>;
+}
+
+export interface FontData {
+    name: string;
+    styles: Record<string, FontStyleData>;
+    defaultStyle: string;
 }
 
 export interface CharacterStyle {
@@ -43,35 +48,67 @@ export interface SpaceStyle {
 
 export class SpritesheetFont {
     private fontData: FontData;
-    private characterPositions: Record<string, { x: number; y: number }> = {};
+    private characterPositions: Record<string, Record<string, { x: number; y: number }>> = {};
+    private currentStyle: string;
 
-    constructor(fontData: FontData) {
+    constructor(fontData: FontData, defaultStyle?: string) {
         this.fontData = fontData;
+        this.currentStyle = defaultStyle || fontData.defaultStyle;
         this.calculateCharacterPositions();
     }
 
     private calculateCharacterPositions(): void {
-        for (let i = 0; i < this.fontData.characters.length; i++) {
-            const char = this.fontData.characters[i];
-            if (typeof char !== 'undefined') {
-                const x = (i % this.fontData.spritesheetColumns) * this.fontData.characterWidth;
-                const y = Math.floor(i / this.fontData.spritesheetColumns) * this.fontData.characterHeight;
-                this.characterPositions[char] = { x, y };
+        for (const [styleName, styleData] of Object.entries(this.fontData.styles)) {
+            this.characterPositions[styleName] = {};
+            for (let i = 0; i < styleData.characters.length; i++) {
+                const char = styleData.characters[i];
+                if (typeof char !== 'undefined') {
+                    const x = (i % styleData.spritesheetColumns) * styleData.characterWidth;
+                    const y = Math.floor(i / styleData.spritesheetColumns) * styleData.characterHeight;
+                    this.characterPositions[styleName][char] = { x, y };
+                }
             }
         }
     }
 
-    getKerning(leftChar: string, rightChar: string): number {
-        if (!this.fontData.kerningPairs) return 0;
-        const pairKey = leftChar + rightChar;
-        return this.fontData.kerningPairs[pairKey] || 0;
+    setStyle(styleName: string): void {
+        if (this.fontData.styles[styleName]) {
+            this.currentStyle = styleName;
+        } else {
+            console.warn(`Font style "${styleName}" not found. Available styles: ${Object.keys(this.fontData.styles).join(', ')}`);
+        }
     }
 
-    getCharacterStyle(char: string, scale: number = 1, spacing: number = 0, size?: string, nextChar?: string): CharacterStyle {
-        const { x, y } = this.characterPositions[char] || { x: 0, y: 0 };
-        const bounds = this.fontData.characterBounds[char] || 
-                      this.fontData.characterBounds[' '] || 
-                      { left: 0, top: 0, width: this.fontData.characterWidth, height: this.fontData.characterHeight, baselineOffset: 0 };
+    getAvailableStyles(): string[] {
+        return Object.keys(this.fontData.styles);
+    }
+
+    getCurrentStyle(): string {
+        return this.currentStyle;
+    }
+
+    getKerning(leftChar: string, rightChar: string, styleName?: string): number {
+        const style = styleName || this.currentStyle;
+        const styleData = this.fontData.styles[style];
+        if (!styleData?.kerningPairs) return 0;
+        const pairKey = leftChar + rightChar;
+        return styleData.kerningPairs[pairKey] || 0;
+    }
+
+    getCharacterStyle(char: string, scale: number = 1, spacing: number = 0, size?: string, nextChar?: string, styleName?: string): CharacterStyle {
+        const style = styleName || this.currentStyle;
+        const styleData = this.fontData.styles[style];
+        
+        if (!styleData) {
+            console.warn(`Font style "${style}" not found. Using default style.`);
+            const defaultStyleData = this.fontData.styles[this.fontData.defaultStyle];
+            return this.getCharacterStyle(char, scale, spacing, size, nextChar, this.fontData.defaultStyle);
+        }
+
+        const { x, y } = this.characterPositions[style]?.[char] || { x: 0, y: 0 };
+        const bounds = styleData.characterBounds[char] || 
+                      styleData.characterBounds[' '] || 
+                      { left: 0, top: 0, width: styleData.characterWidth, height: styleData.characterHeight, baselineOffset: 0 };
         
         // If size is provided, use it directly; otherwise calculate from scale
         let finalWidth: string;
@@ -82,7 +119,7 @@ export class SpritesheetFont {
             // When size is provided, calculate the scale factor based on the font's overall character height
             const sizeValue = parseFloat(size);
             const sizeUnit = size.replace(sizeValue.toString(), '');
-            finalScale = sizeValue / this.fontData.characterHeight;
+            finalScale = sizeValue / styleData.characterHeight;
             finalWidth = `${bounds.width * finalScale}${sizeUnit}`;
             finalHeight = `${bounds.height * finalScale}${sizeUnit}`;
         } else {
@@ -100,16 +137,16 @@ export class SpritesheetFont {
             `-${(y + bounds.top) * finalScale}${size.replace(parseFloat(size).toString(), '')}` :
             `-${(y + bounds.top) * finalScale}px`;
         const maskSizeWidth = size ?
-            `${this.fontData.spritesheetColumns * this.fontData.characterWidth * finalScale}${size.replace(parseFloat(size).toString(), '')}` :
-            `${this.fontData.spritesheetColumns * this.fontData.characterWidth * finalScale}px`;
+            `${styleData.spritesheetColumns * styleData.characterWidth * finalScale}${size.replace(parseFloat(size).toString(), '')}` :
+            `${styleData.spritesheetColumns * styleData.characterWidth * finalScale}px`;
         const maskSizeHeight = size ?
-            `${this.fontData.spritesheetRows * this.fontData.characterHeight * finalScale}${size.replace(parseFloat(size).toString(), '')}` :
-            `${this.fontData.spritesheetRows * this.fontData.characterHeight * finalScale}px`;
+            `${styleData.spritesheetRows * styleData.characterHeight * finalScale}${size.replace(parseFloat(size).toString(), '')}` :
+            `${styleData.spritesheetRows * styleData.characterHeight * finalScale}px`;
         
         // Calculate kerning adjustment if nextChar is provided
         let kerningAdjustment = 0;
         if (nextChar) {
-            kerningAdjustment = this.getKerning(char, nextChar) * finalScale;
+            kerningAdjustment = this.getKerning(char, nextChar, style) * finalScale;
         }
         
         // Calculate final margin including spacing and kerning
@@ -128,7 +165,7 @@ export class SpritesheetFont {
             width: finalWidth,
             height: finalHeight,
             backgroundColor: 'currentColor',
-            maskImage: `url(${this.fontData.imagePath})`,
+            maskImage: `url(${styleData.imagePath})`,
             maskPosition: `${maskPositionX} ${maskPositionY}`,
             maskSize: `${maskSizeWidth} ${maskSizeHeight}`,
             display: 'inline-block',
@@ -140,8 +177,16 @@ export class SpritesheetFont {
         };
     }
 
-    getSpaceStyle(scale: number = 1, spacing: number = 0, size?: string): SpaceStyle {
-        const bounds = this.fontData.characterBounds[' '] || { left: 0, top: 0, width: 32, height: 64, baselineOffset: 0 };
+    getSpaceStyle(scale: number = 1, spacing: number = 0, size?: string, styleName?: string): SpaceStyle {
+        const style = styleName || this.currentStyle;
+        const styleData = this.fontData.styles[style];
+        
+        if (!styleData) {
+            console.warn(`Font style "${style}" not found. Using default style.`);
+            return this.getSpaceStyle(scale, spacing, size, this.fontData.defaultStyle);
+        }
+
+        const bounds = styleData.characterBounds[' '] || { left: 0, top: 0, width: 32, height: 64, baselineOffset: 0 };
         
         // If size is provided, use it directly; otherwise calculate from scale
         let finalWidth: string;
@@ -152,7 +197,7 @@ export class SpritesheetFont {
             // This ensures consistent scaling with getCharacterStyle
             const sizeValue = parseFloat(size);
             const sizeUnit = size.replace(sizeValue.toString(), '');
-            const calculatedScale = sizeValue / this.fontData.characterHeight;
+            const calculatedScale = sizeValue / styleData.characterHeight;
             finalWidth = `${bounds.width * calculatedScale}${sizeUnit}`;
             finalHeight = `${bounds.height * calculatedScale}${sizeUnit}`;
         } else {
@@ -169,21 +214,30 @@ export class SpritesheetFont {
         };
     }
 
-    splitTextIntoLines(text: string): string[][] {
+    splitTextIntoLines(text: string, styleName?: string): string[][] {
+        const style = styleName || this.currentStyle;
+        const styleData = this.fontData.styles[style];
+        
+        if (!styleData) {
+            console.warn(`Font style "${style}" not found. Using default style.`);
+            return this.splitTextIntoLines(text, this.fontData.defaultStyle);
+        }
+
         return text.split('\n').map(line => {
-            return line.split('').filter(char => this.fontData.characters.includes(char) || char === ' ');
+            return line.split('').filter(char => styleData.characters.includes(char) || char === ' ');
         });
     }
 
-    getTextStyles(text: string, scale: number = 1, spacing: number = 0, size?: string): (CharacterStyle | SpaceStyle)[] {
+    getTextStyles(text: string, scale: number = 1, spacing: number = 0, size?: string, styleName?: string): (CharacterStyle | SpaceStyle)[] {
+        const style = styleName || this.currentStyle;
         const chars = text.split('');
         return chars.map((char, index) => {
             const nextChar = index < chars.length - 1 ? chars[index + 1] : undefined;
             
             if (char === ' ') {
-                return this.getSpaceStyle(scale, spacing, size);
+                return this.getSpaceStyle(scale, spacing, size, style);
             } else {
-                return this.getCharacterStyle(char, scale, spacing, size, nextChar);
+                return this.getCharacterStyle(char, scale, spacing, size, nextChar, style);
             }
         });
     }
@@ -193,6 +247,7 @@ export class SpritesheetFont {
     }
 
     get characters(): string {
-        return this.fontData.characters;
+        const styleData = this.fontData.styles[this.currentStyle];
+        return styleData?.characters || '';
     }
 }

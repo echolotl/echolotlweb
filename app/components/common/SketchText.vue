@@ -12,6 +12,7 @@ interface Props {
     ariaLabel?: string;
     role?: string;
     isDecorative?: boolean;
+    textStyle?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -21,32 +22,33 @@ const props = withDefaults(defineProps<Props>(), {
     size: '16px',
     ariaLabel: '',
     role: '',
-    isDecorative: false
+    isDecorative: false,
+    textStyle: 'regular'
 });
 
 // Create font
-const font = new SpritesheetFont(sketchFontData as FontData);
+const font = new SpritesheetFont(sketchFontData as FontData, props.textStyle);
 
 const slots = useSlots();
 
 const getCharacterStyle = (char: string, nextChar: string | undefined) => {
-    return font.getCharacterStyle(char, props.scale, props.spacing, props.size, nextChar);
+    return font.getCharacterStyle(char, props.scale, props.spacing, props.size, nextChar, props.textStyle);
 };
 
 const getSpaceStyle = () => {
-    return font.getSpaceStyle(props.scale, props.spacing, props.size);
+    return font.getSpaceStyle(props.scale, props.spacing, props.size, props.textStyle);
 };
 
 // Extract text from slots or props
 const displayText = computed(() => {
     if (props.text) {
-        return props.text;
+        return props.text.trim();
     }
     
     // Extract text from default slot, and replace br vnodes with newlines
     const defaultSlot = slots.default?.();
     if (defaultSlot && defaultSlot.length > 0) {
-        return defaultSlot
+        const extractedText = defaultSlot
             .map(vnode => {
                 // Handle text nodes
                 if (typeof vnode.children === 'string') {
@@ -73,6 +75,9 @@ const displayText = computed(() => {
                 return '';
             })
             .join('');
+        
+        // Trim the entire extracted text to remove leading/trailing whitespace
+        return extractedText.trim();
     }
     
     return '';
@@ -83,7 +88,7 @@ const textLines = computed(() => {
     const text = displayText.value;
     return text.split('\n').map(line => {
         // Split line into words, preserving spaces as separate elements
-        const words = line.split(/(\s+)/);
+        const words = line.split(/(\s+)/).filter(word => word.length > 0);
         return words.map(word => ({
             isSpace: /^\s+$/.test(word),
             content: word.split(''),

@@ -5,11 +5,14 @@
             <nuxt-img class="king-image" src="/images/king_pink.png" alt="King w/ a power tool" />
         </div>
         <div class="main-content">
-        <SketchText style="text-align: center;" word-wrap>
-            i'm working on stuff (i'm stuff)
+        <SketchText style="text-align: center;" word-wrap size="1rem">
+            Currently under construction, but...
             <br>
-            The art pages work, character pages are WIP but kinda work, and the blog works but its just a bunch of tests.
+            the character pages, blog page, and art page currently work, just might not be finished!
         </SketchText>
+        <nuxt-link to="/fridaylight" class="link" style="text-align: center; display: block; margin-top: 1rem;">
+            Check out the WIP page for Fridaylight, while you're here!
+        </nuxt-link>
     </div>
     </div>
 </template>
