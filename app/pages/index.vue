@@ -10,6 +10,7 @@
             <br>
             the character pages, blog page, and art page currently work, just might not be finished!
         </SketchText>
+        <SocialIcons style="margin-top: 1rem;" />
         <nuxt-link to="/fridaylight" class="link" style="text-align: center; display: block; margin-top: 1rem;">
             Check out the WIP page for Fridaylight, while you're here!
         </nuxt-link>
@@ -74,4 +75,5 @@
 </style>
 <script lang="ts" setup>
 import SketchText from '~/components/common/SketchText.vue';
+import SocialIcons from '~/components/common/SocialIcons.vue';
 </script>

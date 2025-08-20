@@ -84,7 +84,43 @@
     </div>
     <div class="main-content">
       <!-- Feature Overview  -->
-       idk what to put here
+       <div class="section">
+        <div class="section-content">
+          <div class="section-card">
+            <h3 class="title"><Icon icon="folder" width="1.75rem" height="1.75rem" /> Organize</h3>
+            <img
+              src="@/assets/images/fridaylight/sections/placeholder_card_image.webp"
+              alt="Organize"
+              class="section-image"
+            />
+            <div class="description">
+              Import your existing collection of mods, or add new ones quickly! Fridaylight organizes your mods into a single, easy-to-navigate library, along with powerful search, filtering, and folder management features.
+            </div>
+          </div>
+          <div class="section-card">
+            <h3 class="title"><Icon icon="download" width="1.75rem" height="1.75rem" /> Download</h3>
+            <img
+              src="@/assets/images/fridaylight/sections/placeholder_card_image.webp"
+              alt="Download"
+              class="section-image"
+            />
+            <div class="description">
+              Download mods directly from Gamebanana without leaving the app! With one click in-app or on the Gamebanana website, you can download and install mods directly into your Fridaylight library.
+            </div>
+          </div>
+          <div class="section-card">
+            <h3 class="title"><Icon icon="open_in_new" width="1.75rem" height="1.75rem" />Launch</h3>
+            <img
+              src="@/assets/images/fridaylight/sections/placeholder_card_image.webp"
+              alt="Organize"
+              class="section-image"
+            />
+            <div class="description">
+              Launch your mods quickly and easily! Along with launching your mods, Fridaylight also provides a built-in mod manager for engine mods, a live terminal, and log saving features.
+            </div>
+          </div>
+        </div>
+       </div>
 
       <!-- Organization/Customization -->
 
@@ -160,20 +196,21 @@
       &:nth-child(1) {
         z-index: 4;
         animation: screenshotFadeIn1 0.5s ease forwards;
-        animation-delay: 300ms;
+        animation-delay: 800ms;
       }
     &:nth-child(2) {
         z-index: 3;
         left: 25%;
         bottom: -10%;
         animation: screenshotFadeIn2 0.5s ease forwards;
-        animation-delay: 100ms;
+        animation-delay: 600ms;
       }
         &:nth-child(3) {
         z-index: 2;
         left: 50%;
         bottom: -20%;
         animation: screenshotFadeIn3 0.5s ease forwards;
+        animation-delay: 400ms;
       }
     }
   }
@@ -203,6 +240,16 @@
           align-items: center;
           text-align: center;
         }
+        .hint {
+          font-size: 0.875rem;
+          text-transform: uppercase;
+          border: 2px solid var(--primary);
+          color: var(--primary);
+          width: fit-content;
+          padding: 0.25rem 0.5rem;
+          border-radius: 20px;
+          background: color-mix(in srgb, var(--solid) 20%, transparent 80%);
+        }
           .fridaylight-logo {
             max-width: 60%;
             min-width: 300px;
@@ -229,7 +276,7 @@
     .section-content {
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       padding: 0 1rem;
       border-radius: 12px;
       gap: 1rem;
@@ -250,12 +297,23 @@
         border-bottom-width: 2px;
         padding: 1rem;
         border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         flex: 1;
         .title {
           font-size: 1.5rem;
           margin: 0;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+        .section-image {
+          width: 100%;
+          height: auto;
+        }
+        .description {
+          font-size: 1rem;
+          color: var(--text-secondary);
+          margin-top: 0.5rem;
         }
       }
     }
@@ -269,7 +327,7 @@
   }
   100% {
     opacity: 1;
-    transform: rotateZ(2deg) scale(1.2) translateY(40px);
+    transform: rotateZ(1deg) scale(1.2) translateY(40px);
   }
 }
 
