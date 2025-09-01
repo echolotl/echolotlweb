@@ -1,35 +1,63 @@
-import { readdir, readFile } from 'fs/promises'
-import { join } from 'path'
+interface EngineData {
+  id?: string
+  engine_type: string
+  engine_name: string
+  engine_url: string
+  engine_banner: string
+  engine_logo: string
+  engine_icon: string
+  engine_description: string
+  engine_version: string
+  primary?: boolean
+  credits: Array<{
+    name: string
+    role: string
+    url: string
+  }>
+  credits_url: string
+}
 
 export default defineEventHandler(async (event) => {
   try {
-    // Path to the JSON files directory
-    const dataDir = join(process.cwd(), 'assets', 'fridaylight', 'data')
+    // Get the server assets storage
+    const storage = useStorage('assets:server')
     
-    // Read all files in the directory
-    const files = await readdir(dataDir)
-    
-    // Filter only JSON files
-    const jsonFiles = files.filter(file => file.endsWith('.json'))
+    // List of JSON files to load (since we can't list directory contents with storage)
+    const jsonFiles = [
+      'codename.json',
+      'fps-plus.json', 
+      'kade.json',
+      'nightmarevision.json',
+      'pslice.json',
+      'psych.json',
+      'psychonline.json',
+      'vanilla.json'
+    ]
     
     // Read and parse all JSON files
     const engines = await Promise.all(
-      jsonFiles.map(async (file) => {
-        const filePath = join(dataDir, file)
-        const fileContent = await readFile(filePath, 'utf-8')
-        const engineData = JSON.parse(fileContent)
-        
-        // Add the filename (without extension) as an id if not present
-        if (!engineData.id) {
-          engineData.id = file.replace('.json', '')
+      jsonFiles.map(async (file): Promise<EngineData | null> => {
+        try {
+          const engineData = await storage.getItem(`fridaylight/data/${file}`) as EngineData
+          
+          // Add the filename (without extension) as an id if not present
+          if (engineData && !engineData.id) {
+            engineData.id = file.replace('.json', '')
+          }
+          
+          return engineData
+        } catch (error) {
+          console.warn(`Failed to load ${file}:`, error)
+          return null
         }
-        
-        return engineData
       })
     )
     
+    // Filter out any null results from failed loads
+    const validEngines = engines.filter((engine): engine is EngineData => engine !== null)
+    
     // Sort engines: primary engines first, then alphabetically by name
-    const sortedEngines = engines.sort((a, b) => {
+    const sortedEngines = validEngines.sort((a, b) => {
       if (a.primary && !b.primary) return -1
       if (!a.primary && b.primary) return 1
       return a.engine_name.localeCompare(b.engine_name)
@@ -37,7 +65,7 @@ export default defineEventHandler(async (event) => {
     
     return {
       success: true,
-      count: engines.length,
+      count: validEngines.length,
       engines: sortedEngines
     }
   } catch (error) {
