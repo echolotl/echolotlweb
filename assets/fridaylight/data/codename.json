@@ -1,0 +1,19 @@
+{
+  "type": "codename",
+  "name": "Codename Engine",
+  "download_url": "https://github.com/CodenameCrew/CodenameEngine/releases/download/v1.0.0/Codename.Engine-Windows.zip",
+  "banner": "banner_codename.png",
+  "logo": "logo_codename.png",
+  "icon": "Codename.webp",
+  "description": "Codename Engine is a fork of Friday Night Funkin' with a focus on softcoding and modding.",
+  "version": "1.0.0",
+  "primary": true,
+  "credits": [
+    {
+      "name": "Codename Crew",
+      "role": "Main Developers",
+      "url": "https://github.com/CodenameCrew"
+    }
+  ],
+  "credits_url": "https://github.com/orgs/CodenameCrew/people"
+}
