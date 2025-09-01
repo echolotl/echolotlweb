@@ -3,7 +3,7 @@
   "engine_name": "Nightmare Vision",
   "engine_url": "src-tauri/resources/data/psychonline.json",
   "engine_logo": "logo_nightmarevision.png",
-  "engine_icon": "Psych.webp",
+  "engine_icon": "Nightmarevision.webp",
   "engine_description": "helloe we hit single <br/> <b>Fridaylight note:<b/> Currently doesn't set the mods folder to \"content\" immediately, nor will it autodetect mods.",
   "engine_version": "1",
   "credits": [
