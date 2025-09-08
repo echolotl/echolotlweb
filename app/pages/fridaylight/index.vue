@@ -94,7 +94,7 @@
               class="section-image"
             />
             <div class="description">
-              Import your existing collection of mods, or add new ones quickly! Fridaylight organizes your mods into a single, easy-to-navigate library, along with powerful search, filtering, and folder management features.
+              <b>Import your existing collection of mods, or add new ones quickly!</b><br></br> Fridaylight organizes your mods into a single, easy-to-navigate library, along with powerful search, filtering, and folder management features.
             </div>
           </div>
           <div class="section-card">
@@ -276,6 +276,7 @@
     .section-content {
       display: flex;
       flex-direction: row;
+  flex-wrap: wrap;
       align-items: flex-start;
       padding: 0 1rem;
       border-radius: 12px;
@@ -297,7 +298,8 @@
         border-bottom-width: 2px;
         padding: 1rem;
         border-radius: 4px;
-        flex: 1;
+  /* Allow cards to wrap and keep a sensible width */
+  flex: 1 1 320px;
         .title {
           font-size: 1.5rem;
           margin: 0;
@@ -312,7 +314,6 @@
         }
         .description {
           font-size: 1rem;
-          color: var(--text-secondary);
           margin-top: 0.5rem;
         }
       }

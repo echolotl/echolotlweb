@@ -23,9 +23,6 @@ friends:
 sitemap:
     changefreq: monthly
     priority: 0.5
-    lastmod: 2025-05-18
+    lastmod: 2025-09-07
 ---
-
-# test
-
-**King** is an anthropromorphic cat with light purple fur, with white spots dotted around his body. He is echolotl's fursona.
+**King** is echolotl's main fursona. He is a purple, anthropomorphic cat with white spots dotted around his body. He isn't and won't be used in any stories.

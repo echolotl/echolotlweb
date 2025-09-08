@@ -20,5 +20,6 @@ friends:
 sitemap:
     changefreq: monthly
     priority: 0.5
-    lastmod: 2025-07-03
+    lastmod: 2025-09-07
 ---
+**Orchy** is a dark-furred, dragon-bunny hybrid with a potion bottle stuck to its tail. He lives in **Mount Salto**.
