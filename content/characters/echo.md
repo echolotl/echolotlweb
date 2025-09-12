@@ -19,3 +19,5 @@ sitemap:
     priority: 0.5
     lastmod: 2025-07-03
 ---
+
+**Echo** is echolotl's pokesona, an anthropomorphic Mimikyu. It is not used in any stories.
