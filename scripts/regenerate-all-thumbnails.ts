@@ -1,4 +1,3 @@
-#!/usr/bin/env bun
 import { existsSync, mkdirSync, statSync, readFileSync, writeFileSync, readdirSync } from 'fs';
 import { join, extname, basename, dirname, relative } from 'path';
 import sharp from 'sharp';
@@ -107,9 +106,10 @@ async function updateYamlThumbnailUrl(imagePath: string, newThumbnailPath: strin
 async function createThumbnail(inputPath: string, outputPath: string): Promise<void> {
   try {
     await sharp(inputPath)
-      .resize(200, 200, {
+      .resize(300, 300, {
         fit: 'cover',
-        position: 'center'
+        position: 'center',
+        withoutEnlargement: true
       })
       .webp({ quality: 100 })
       .toFile(outputPath);
@@ -155,7 +155,7 @@ function getAllArtImages(artDir: string): string[] {
   return images;
 }
 
-async function regenerateAllThumbnails(dryRun: boolean = false): Promise<void> {
+async function regenerateAllThumbnails(dryRun: boolean = false, force: boolean = false): Promise<void> {
   console.log('🔍 Scanning for all art images...\n');
   
   const allImages = getAllArtImages(PUBLIC_ART_DIR);
@@ -169,6 +169,9 @@ async function regenerateAllThumbnails(dryRun: boolean = false): Promise<void> {
   
   if (dryRun) {
     console.log('🔍 DRY RUN MODE - No files will be modified\n');
+    if (force) {
+      console.log('🔧 FORCE MODE - Would regenerate all thumbnails regardless of modification times\n');
+    }
     for (const imagePath of allImages) {
       const relativePath = relative(process.cwd(), imagePath);
       console.log(`  Would process: ${relativePath}`);
@@ -231,7 +234,7 @@ async function regenerateAllThumbnails(dryRun: boolean = false): Promise<void> {
       const thumbnailPath = join(thumbnailDir, `${nameWithoutExt}.webp`);
       
       // Check if thumbnail already exists and compare modification times
-      if (existsSync(thumbnailPath)) {
+      if (existsSync(thumbnailPath) && !force) {
         const originalStat = statSync(imagePath);
         const thumbnailStat = statSync(thumbnailPath);
         
@@ -276,17 +279,20 @@ function printUsage() {
   console.log('');
   console.log('Options:');
   console.log('  --dry-run    Show what would be processed without making changes');
+  console.log('  --force      Regenerate all thumbnails, even if they appear up-to-date');
   console.log('  --help, -h   Show this help message');
   console.log('');
   console.log('This script will:');
   console.log('1. Find all art images in public/art/ (excluding existing thumbnails)');
   console.log('2. Generate/regenerate thumbnails in their respective thumbnails/ directories');
   console.log('3. Update corresponding YAML files with new thumbnail URLs');
-  console.log('4. Skip thumbnails that are already up-to-date (based on file modification times)');
+  console.log('4. Skip thumbnails that are already up-to-date (unless --force is used)');
   console.log('');
   console.log('Examples:');
   console.log('  bun scripts/regenerate-all-thumbnails.ts');
   console.log('  bun scripts/regenerate-all-thumbnails.ts --dry-run');
+  console.log('  bun scripts/regenerate-all-thumbnails.ts --force');
+  console.log('  bun scripts/regenerate-all-thumbnails.ts --dry-run --force');
 }
 
 async function main() {
@@ -298,11 +304,16 @@ async function main() {
   }
   
   const dryRun = args.includes('--dry-run');
+  const force = args.includes('--force');
+  
+  if (force && !dryRun) {
+    console.log('🔧 FORCE MODE: Regenerating all thumbnails regardless of modification times\n');
+  }
   
   console.log('🎨 Regenerating thumbnails for all art...\n');
   
   try {
-    await regenerateAllThumbnails(dryRun);
+    await regenerateAllThumbnails(dryRun, force);
   } catch (error) {
     console.error('Fatal error:', error);
     process.exit(1);

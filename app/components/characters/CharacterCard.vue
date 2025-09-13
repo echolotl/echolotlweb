@@ -1,7 +1,8 @@
 <template>
   <nuxt-link :to="`/characters/${props.character.slug}`" class="character-card">
     <div class="character-card__image">
-      <div class="character-card__image-frame"></div>
+        <div class="character-card__image-bg"></div>
+
         <div class="character-card__image-icon" :style="{ backgroundImage: characterImage }"></div>
         <div class="character-card__image-icon-hover" :style="{ backgroundImage: characterHoverImage }"></div>
     </div>
@@ -48,6 +49,8 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
     width: 200px;
     height: 200px;
     margin-bottom: 10px;
+    filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant));
+    transition: filter 0.3s ease;
   }
 
   &__image-frame {
@@ -75,6 +78,24 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
+    mask-image: url('/images/art_mask.png');
+    mask-size: 160px 160px;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  &__image-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    z-index: 0;
+    mask-image: url('/images/art_mask.png');
+    mask-size: 160px 160px;
+    mask-repeat: no-repeat;
+    mask-position: center;
   }
 
   &__image-icon-hover {
@@ -102,8 +123,11 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
   }
 
   &:hover {
-    .character-card__image-frame {
-      background-color: v-bind(characterColor);
+    .character-card__image {
+      filter: drop-shadow(0 .25px 0 v-bind(characterColor)) drop-shadow(.25px 0 0 v-bind(characterColor)) drop-shadow(-.25px 0 0 v-bind(characterColor)) drop-shadow(0 -.25px 0 v-bind(characterColor)) drop-shadow(.25px .25px 0 v-bind(characterColor)) drop-shadow(-.25px -.25px 0 v-bind(characterColor)) drop-shadow(.25px -.25px 0 v-bind(characterColor)) drop-shadow(-.25px .25px 0 v-bind(characterColor));
+    }
+    .character-card__image-bg {
+      background: linear-gradient(to bottom, v-bind(characterColor), transparent);
     }
 
     .character-card__image-icon-hover {
@@ -111,6 +135,7 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
           animation: bounceScale 0.3s ease forwards;
     }
     .character-card__image-icon {
+
       opacity: 0;
     }
 
@@ -126,23 +151,10 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
 
 @keyframes bounceScale {
   0%, 100% {
-    transform: scale(1);
+    transform: none;
   }
   45% {
-    transform: scale(1.01) translateY(1px);
+    transform: translateY(-2px);
   }
-}
-
-@keyframes frameShrinkShake {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: rotate3d(0, 0, 1, -1deg);
-  }
-  100% {
-    transform: scale(1);
-  }
-
 }
 </style>
