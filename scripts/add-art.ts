@@ -1,4 +1,3 @@
-#!/usr/bin/env bun
 import { existsSync, mkdirSync, copyFileSync, writeFileSync } from 'fs';
 import { join, extname, dirname } from 'path';
 import { createInterface } from 'readline';
@@ -20,6 +19,7 @@ interface ArtData {
   description?: string;
   tags?: string[];
   character?: string;
+  related_characters?: string[];
   thumbnail_url: string;
 }
 
@@ -129,6 +129,7 @@ async function processImage(imagePath: string, rl: ReturnType<typeof createInter
     const isCharacterArt = categoryInput.toLowerCase().startsWith('c');
 
     let character: string | undefined;
+    let related_characters: string[] | undefined;
     let destImagePath: string;
     let yamlPath: string;
     let thumbnailPath: string;
@@ -146,6 +147,10 @@ async function processImage(imagePath: string, rl: ReturnType<typeof createInter
       destImagePath = join(PUBLIC_ART_DIR, 'characters', character, imageFilename);
       thumbnailPath = join(PUBLIC_ART_DIR, 'characters', character, 'thumbnails', `${slug}.webp`);
       yamlPath = join(CONTENT_ART_DIR, 'characters', character, `${slug}.yml`);
+
+      // Ask for related characters
+      const relatedInput = await askQuestion(rl, 'Enter related characters (comma-separated, optional): ');
+      related_characters = relatedInput ? relatedInput.split(',').map(rc => rc.trim()).filter(rc => rc) : [];
     } else {
       const imageExt = extname(imagePath);
       const imageFilename = `${slug}${imageExt}`;
@@ -206,6 +211,9 @@ async function processImage(imagePath: string, rl: ReturnType<typeof createInter
 
     if (character) {
       artData.character = character;
+    }
+    if (related_characters && related_characters.length > 0) {
+      artData.related_characters = related_characters;
     }
 
     createYamlFile(artData, yamlPath);

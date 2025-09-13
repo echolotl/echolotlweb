@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="`/art/${artwork.slug}`" class="art-item">
-    <div class="art-item__image">
+    <div class="art-item__image" :style="`background-image: url(${artwork.thumbnail_url});`" >
                       <div v-if="showMetadata" class="art-item__metadata">
           <div v-if="artwork.character && showCharacterBadge">
             <Icon icon="character" />
@@ -12,7 +12,6 @@
             <Icon icon="sketch" />
             </div>
         </div>
-      <nuxt-img :src="artwork.thumbnail_url" :alt="artwork.title" />
     </div>
   </nuxt-link>
 </template>
@@ -39,15 +38,17 @@ defineProps<{
   width: 100%;
   aspect-ratio: 1;
   max-width: 200px;
+  filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant));
 
   &__image {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
-    border-radius: 0.5rem;
-    border: 1px solid var(--distant);
-    border-bottom-width: 2px;
+    background-size: cover;
+    mask-image: url('/images/art_mask.png');
+    mask-size: cover;
+    mask-repeat: no-repeat;
 
     .art-item__metadata {
       position: absolute;

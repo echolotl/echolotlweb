@@ -50,13 +50,16 @@
 
     <!-- Main Art Section -->
     <div class="art-content">
-      <nuxt-img
-        v-if="art.image_url"
-        :src="art.image_url"
-        alt="Art Image"
-        class="art-image"
-        loading="lazy"
-      />
+      <div class="art-image-container">
+        <nuxt-img
+          v-if="art.image_url"
+          :data-src="art.image_url"
+          :src="art.image_url"
+          alt="Art Image"
+          class="art-image"
+          loading="lazy"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -138,11 +141,7 @@ useSeoMeta({
   overflow: hidden;
   img {
     margin: 1rem;
-    background: linear-gradient(45deg, var(--distant), white, var(--distant));
-    border: 1px solid transparent;
-    background-clip: border-area;
-    background-size: cover;
-    background-origin: border-box;
+    border: 1px solid var(--distant);
   }
 }
 
@@ -152,6 +151,8 @@ useSeoMeta({
   width: auto;
   height: auto;
   object-fit: contain;
+  min-height: 200px; /* Prevents border collapse while loading */
+  min-width: 200px;  /* Ensures some dimension for the border */
 }
 
 .art-description {

@@ -1,4 +1,3 @@
-#!/usr/bin/env bun
 import { existsSync, mkdirSync, statSync, readFileSync, writeFileSync, readdirSync } from 'fs';
 import { join, extname, basename, dirname, relative } from 'path';
 import sharp from 'sharp';
@@ -107,9 +106,10 @@ async function updateYamlThumbnailUrl(imagePath: string, newThumbnailPath: strin
 async function createThumbnail(inputPath: string, outputPath: string): Promise<void> {
   try {
     await sharp(inputPath)
-      .resize(200, 200, {
+      .resize(300, 300, {
         fit: 'cover',
-        position: 'center'
+        position: 'center',
+        withoutEnlargement: true
       })
       .webp({ quality: 100 })
       .toFile(outputPath);
