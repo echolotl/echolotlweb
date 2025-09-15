@@ -45,7 +45,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 
   &__image {
     position: relative;
@@ -119,7 +119,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     color: transparent;
     bottom: -10px;
     opacity: 0;
-    transition: opacity 0.3s ease, color 0.3s ease;
+    transition: opacity 0.3s, color 0.3s;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
