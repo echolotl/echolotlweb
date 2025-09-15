@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, copyFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, copyFileSync, writeFileSync, statSync } from 'fs';
 import { join, extname, dirname } from 'path';
 import { createInterface } from 'readline';
 import sharp from 'sharp';
@@ -177,6 +177,10 @@ async function processImage(imagePath: string, rl: ReturnType<typeof createInter
     const tagsInput = await askQuestion(rl, 'Enter tags (comma-separated, optional): ');
     const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
 
+    const fileStats = statSync(imagePath);
+    const createdAt = fileStats.mtime.toISOString();
+    console.log(`Using file modification date as creation date: ${fileStats.mtime.toLocaleDateString()}`);
+
     console.log('\n🔄 Processing...\n');
 
     // Copy image
@@ -192,7 +196,7 @@ async function processImage(imagePath: string, rl: ReturnType<typeof createInter
 
     const artData: ArtData = {
       slug,
-      created_at: now,
+      created_at: createdAt,
       modified_at: now,
       title,
       pinned,
