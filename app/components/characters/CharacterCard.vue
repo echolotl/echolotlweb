@@ -29,6 +29,9 @@ const characterHoverImage = props.character?.icon_image_hover ? `url(${props.cha
 // Generate random frame (0-2)
 const randomFrameNumber = Math.floor(Math.random() * 3);
 const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
+
+// Generate random rotation (-20 to 20 degrees)
+const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
 </script>
 
 <style scoped lang="scss">
@@ -128,6 +131,8 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
     }
     .character-card__image-bg {
       background: linear-gradient(to bottom, v-bind(characterColor), transparent);
+      transform: rotate(v-bind(randomRotation));
+      transition: transform 0.3s;
     }
 
     .character-card__image-icon-hover {
