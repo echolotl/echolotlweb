@@ -49,7 +49,7 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
     width: 200px;
     height: 200px;
     margin-bottom: 10px;
-    filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant));
+    filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant)) drop-shadow(1px 1px 0 var(--distant)) drop-shadow(-1px -1px 0 var(--distant)) drop-shadow(1px -1px 0 var(--distant)) drop-shadow(-1px 1px 0 var(--distant));
     transition: filter 0.3s ease;
   }
 
@@ -124,7 +124,7 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
 
   &:hover {
     .character-card__image {
-      filter: drop-shadow(0 .25px 0 v-bind(characterColor)) drop-shadow(.25px 0 0 v-bind(characterColor)) drop-shadow(-.25px 0 0 v-bind(characterColor)) drop-shadow(0 -.25px 0 v-bind(characterColor)) drop-shadow(.25px .25px 0 v-bind(characterColor)) drop-shadow(-.25px -.25px 0 v-bind(characterColor)) drop-shadow(.25px -.25px 0 v-bind(characterColor)) drop-shadow(-.25px .25px 0 v-bind(characterColor));
+      filter: drop-shadow(0 1px 0 v-bind(characterColor)) drop-shadow(1px 0 0 v-bind(characterColor)) drop-shadow(-1px 0 0 v-bind(characterColor)) drop-shadow(0 -1px 0 v-bind(characterColor)) drop-shadow(1px 1px 0 v-bind(characterColor)) drop-shadow(-1px -1px 0 v-bind(characterColor)) drop-shadow(1px -1px 0 v-bind(characterColor)) drop-shadow(-1px 1px 0 v-bind(characterColor));
     }
     .character-card__image-bg {
       background: linear-gradient(to bottom, v-bind(characterColor), transparent);
@@ -132,7 +132,7 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
 
     .character-card__image-icon-hover {
       opacity: 1;
-          animation: bounceScale 0.3s ease forwards;
+        animation: bounceScale 0.3s ease ;
     }
     .character-card__image-icon {
 
@@ -147,13 +147,18 @@ const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
       animation: frameShrinkShake 0.3s ease forwards;
     }
   }
+  &:not(:hover) {
+    .character-card__image-icon {
+      animation: bounceScale 0.3s ease backwards;
+    }
+  }
 }
 
 @keyframes bounceScale {
   0%, 100% {
     transform: none;
   }
-  45% {
+  40% {
     transform: translateY(-2px);
   }
 }
