@@ -224,6 +224,8 @@ const throttledScrollCheck = () => {
 // Set up infinite scrolling
 onMounted(() => {
   window.addEventListener('scroll', throttledScrollCheck);
+  // Manually change the --scrollbar-bar-- CSS variable to character theme color
+  document.documentElement.style.setProperty('--scrollbar-bar', character.value?.theme_color || '#000000');
 });
 
 onUnmounted(() => {
@@ -231,6 +233,7 @@ onUnmounted(() => {
   if (scrollTimeout) {
     clearTimeout(scrollTimeout);
   }
+  document.documentElement.style.setProperty('--scrollbar-bar', 'var(--primary)');
 });
 
 useSeoMeta({

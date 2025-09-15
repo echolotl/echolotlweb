@@ -137,10 +137,9 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
 
     .character-card__image-icon-hover {
       opacity: 1;
-        animation: bounceScale 0.3s ease ;
+        animation: bounceScale 0.3s ease;
     }
     .character-card__image-icon {
-
       opacity: 0;
     }
 
@@ -154,7 +153,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
   }
   &:not(:hover) {
     .character-card__image-icon {
-      animation: bounceScale 0.3s ease backwards;
+      animation: bounceScaleMask 0.3s ease forwards;
     }
   }
 }
@@ -165,6 +164,15 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
   }
   40% {
     transform: translateY(-2px);
+  }
+}
+@keyframes bounceScaleMask {
+  0% {
+    background-position: center 6px;
+    
+  }
+  100% {
+    background-position: center 0;
   }
 }
 </style>

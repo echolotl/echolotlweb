@@ -36,6 +36,9 @@
 
   background-color: var(--background);
   color: var(--text);
+    --scrollbar-bar: var(--primary);
+  scrollbar-color: var(--scrollbar-bar) var(--distant);
+  transition: scrollbar-color 0.3s ease;
   @media print {
     --distant: black;
   }
