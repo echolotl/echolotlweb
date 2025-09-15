@@ -38,7 +38,9 @@ defineProps<{
   width: 100%;
   aspect-ratio: 1;
   max-width: 200px;
-  filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant));
+  filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant) ) drop-shadow(1px 1px 0 var(--distant)) drop-shadow(-1px -1px 0 var(--distant)) drop-shadow(1px -1px 0 var(--distant)) drop-shadow(-1px 1px 0 var(--distant));
+  transition: filter 0.3s ease , transform 0.3s ease;
+  will-change: filter transform;
 
   &__image {
     width: 100%;
@@ -72,7 +74,8 @@ defineProps<{
 
 
   &:hover {
-    transform: scale(1.05);
+    filter: drop-shadow(0 1px 0 var(--primary)) drop-shadow(1px 0 0 var(--primary)) drop-shadow(-1px 0 0 var(--primary)) drop-shadow(0 -1px 0 var(--primary)) drop-shadow(1px 1px 0 var(--primary)) drop-shadow(-1px -1px 0 var(--primary)) drop-shadow(1px -1px 0 var(--primary)) drop-shadow(-1px 1px 0 var(--primary));
+    transform: scale(1.03);
   }
 }
 </style>
