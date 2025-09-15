@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { getArtworks } from '#imports';
+import { getArtworks, getPinnedArtworks } from '#imports';
 import Icon from '~/components/common/Icon.vue';
 import SketchText from '~/components/common/SketchText.vue';
 
@@ -112,14 +112,18 @@ const filters = ref({
   generalArt: false
 });
 
-const { data: artworks } = await useAsyncData('art', () => getArtworks(ITEMS_PER_PAGE, 1));
+// Fetch pinned artworks first, then regular artworks
+const { data: pinnedArtworks } = await useAsyncData('pinned-art', () => getPinnedArtworks());
+const { data: initialRegularArtworks } = await useAsyncData('regular-art', () => getArtworks(ITEMS_PER_PAGE, 1));
+
+// Use reactive refs for artworks that can be modified
+const allPinnedArtworks = ref(pinnedArtworks.value || []);
+const allRegularArtworks = ref(initialRegularArtworks.value || []);
 
 // Computed filtered artworks - exclude pinned items to prevent showing them twice
 const filteredArtworks = computed(() => {
-  if (!artworks.value) return [];
-  
-  // First exclude pinned artworks to prevent duplicates
-  const nonPinnedArtworks = artworks.value.filter(artwork => !artwork.pinned);
+  // Only filter the regular (non-pinned) artworks
+  const nonPinnedArtworks = allRegularArtworks.value;
   
   return nonPinnedArtworks.filter(artwork => {
     // If no filters are active, show all non-pinned
@@ -148,18 +152,34 @@ const filteredArtworks = computed(() => {
   });
 });
 
-// Computed filtered pinned artworks - prevent duplicates by using a Set to track seen slugs
+// Computed filtered pinned artworks - apply same filters to pinned artworks
 const filteredPinnedArtworks = computed(() => {
-  if (!artworks.value) return [];
+  const pinnedArtworks = allPinnedArtworks.value;
   
-  // Use a Set to track seen slugs and prevent duplicates
-  const seenSlugs = new Set();
-  return artworks.value.filter(a => {
-    if (a.pinned && !seenSlugs.has(a.slug)) {
-      seenSlugs.add(a.slug);
-      return true;
+  // If no filters are active, show all pinned artworks
+  if (!filters.value.sketches && !filters.value.characterArt && !filters.value.generalArt) {
+    return pinnedArtworks;
+  }
+  
+  return pinnedArtworks.filter(artwork => {
+    let showArtwork = false;
+    
+    // Check sketch filter
+    if (filters.value.sketches && artwork.sketch) {
+      showArtwork = true;
     }
-    return false;
+    
+    // Check character art filter
+    if (filters.value.characterArt && (artwork.character || (artwork.related_characters && artwork.related_characters.length > 0))) {
+      showArtwork = true;
+    }
+    
+    // Check general art filter (art without characters)
+    if (filters.value.generalArt && !artwork.character && (!artwork.related_characters || artwork.related_characters.length === 0)) {
+      showArtwork = true;
+    }
+    
+    return showArtwork;
   });
 });
 
@@ -198,16 +218,17 @@ const loadMore = async () => {
     
     if (newArtworks.length === 0) {
       hasReachedEnd.value = true;
-    } else if (artworks.value) {
+    } else {
       // Check for duplicates before adding new artworks
-      const existingSlugs = new Set(artworks.value.map(artwork => artwork.slug));
+      const existingSlugs = new Set([...allPinnedArtworks.value, ...allRegularArtworks.value].map(artwork => artwork.slug));
       const uniqueNewArtworks = newArtworks.filter(artwork => !existingSlugs.has(artwork.slug));
       
       console.log('Unique new artworks:', uniqueNewArtworks.length, 'out of', newArtworks.length);
-      console.log('All artworks:', artworks.value);
 
       if (uniqueNewArtworks.length > 0) {
-        artworks.value = [...artworks.value, ...uniqueNewArtworks];
+        // Add only non-pinned artworks to the regular artworks list
+        const nonPinnedNewArtworks = uniqueNewArtworks.filter(artwork => !artwork.pinned);
+        allRegularArtworks.value = [...allRegularArtworks.value, ...nonPinnedNewArtworks];
       }
       
       // If we got less than expected or all were duplicates, we might have reached the end
