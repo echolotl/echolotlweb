@@ -233,6 +233,10 @@ onUnmounted(() => {
   if (scrollTimeout) {
     clearTimeout(scrollTimeout);
   }
+});
+
+onBeforeUnmount(() => {
+  // Reset scrollbar color on unmount
   document.documentElement.style.setProperty('--scrollbar-bar', 'var(--primary)');
 });
 
