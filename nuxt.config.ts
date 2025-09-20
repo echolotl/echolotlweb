@@ -19,7 +19,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  site: {  url: 'https://echolotl.lol',  name: 'echolotl'  },
+  site: {  url: 'https://www.echolotl.lol',  name: 'echolotl'  },
   sitemap: {
     urls: async () => {
       const artDir = resolve(__dirname, 'content', 'art');
