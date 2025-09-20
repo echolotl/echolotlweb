@@ -141,13 +141,13 @@ if (!character.value) {
 
 // Character artwork loading
 const ITEMS_PER_PAGE = 12;
-const artworkPage = ref(0);
+const artworkPage = ref(1);
 const artworkLoading = ref(false);
 const hasReachedEnd = ref(false);
 
-const { data: characterArtworks } = await useAsyncData(`character-artworks-${route.params.slug}`, async () => {
+const { data: initialCharacterArtworks } = await useAsyncData(`character-artworks-${route.params.slug}`, async () => {
     if (!character.value) return [];
-    const artworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
+    const artworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, 1);
     
     // Remove any potential duplicates from the initial load
     const uniqueArtworks = artworks.filter((artwork, index, arr) => 
@@ -158,6 +158,8 @@ const { data: characterArtworks } = await useAsyncData(`character-artworks-${rou
 }, {
     watch: [() => route.params.slug]
 });
+
+const characterArtworks = ref(initialCharacterArtworks.value || []);
 
 // Character blog posts loading
 const { data: characterBlogPosts } = await useAsyncData(`character-blog-posts-${route.params.slug}`, async () => {
@@ -176,19 +178,22 @@ const loadMoreArtwork = async () => {
   try {
     const newArtworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
     
+    console.log('Loaded character artworks for page', artworkPage.value, ':', newArtworks.length, 'items');
+    
     if (newArtworks.length === 0) {
       hasReachedEnd.value = true;
-    } else if (characterArtworks.value) {
+    } else {
       // Filter out duplicates by checking if artwork slug already exists
       const existingArtworkSlugs = new Set(characterArtworks.value.map(artwork => artwork.slug));
       const uniqueNewArtworks = newArtworks.filter(artwork => !existingArtworkSlugs.has(artwork.slug));
       
+      console.log('Unique new character artworks:', uniqueNewArtworks.length, 'out of', newArtworks.length);
+      
       if (uniqueNewArtworks.length > 0) {
-        characterArtworks.value.push(...uniqueNewArtworks);
+        characterArtworks.value = [...characterArtworks.value, ...uniqueNewArtworks];
       }
       
-      // If no unique artworks were added, we might have reached the end
-      if (uniqueNewArtworks.length === 0 && newArtworks.length > 0) {
+      if (newArtworks.length < ITEMS_PER_PAGE) {
         hasReachedEnd.value = true;
       }
     }
