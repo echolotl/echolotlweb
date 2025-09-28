@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="`/art/${artwork.slug}`" class="art-item">
-    <div class="art-item__image" :style="`background-image: url(${artwork.thumbnail_url});`" >
+    <div class="art-item__image" :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`" >
                       <div v-if="showMetadata" class="art-item__metadata">
           <div v-if="artwork.character && showCharacterBadge">
             <Icon icon="character" />

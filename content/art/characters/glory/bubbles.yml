@@ -1,6 +1,6 @@
 slug: bubbles
 created_at: '2023-09-10T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:48.736Z'
+modified_at: '2025-09-28T20:15:02.286Z'
 title: Bubbles
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/glory/gloryBubbles.png
 character: glory
 description: No more two tails, had to make room for the one tail getting even larger
 thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
+images:
+  - image_url: /art/characters/glory/gloryBubbles.png
+    thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
+    alt: Bubbles

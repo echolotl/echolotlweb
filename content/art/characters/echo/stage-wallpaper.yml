@@ -1,6 +1,6 @@
 slug: stage-wallpaper
 created_at: '2022-01-07T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:48.538Z'
+modified_at: '2025-09-28T20:15:02.284Z'
 title: Stage Wallpaper
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ related_characters:
   - phosphor
 description: Wallpaper made to be used on my devices, including the OCs I had at the time
 thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
+images:
+  - image_url: /art/characters/echo/stageWallpaper.png
+    thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
+    alt: Stage Wallpaper

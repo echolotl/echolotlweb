@@ -1,6 +1,6 @@
 slug: cave-chair
 created_at: '2024-05-29T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:52.975Z'
+modified_at: '2025-09-28T20:15:02.366Z'
 title: Cave Chair
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/orchy/orchyCave.png
 character: orchy
 description: Sitting on rocks probably hurts, right?
 thumbnail_url: /art/characters/orchy/thumbnails/orchyCave.webp
+images:
+  - image_url: /art/characters/orchy/orchyCave.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchyCave.webp
+    alt: Cave Chair

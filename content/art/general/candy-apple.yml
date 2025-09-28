@@ -1,6 +1,6 @@
 slug: candy-apple
 created_at: '2023-07-26T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:54.992Z'
+modified_at: '2025-09-28T20:15:02.403Z'
 title: Candy Apple
 pinned: false
 sketch: false
@@ -9,3 +9,7 @@ description: Gift art for someone on Discord, I don't remember who
 tags:
   - gift
 thumbnail_url: /art/general/thumbnails/discordoc.webp
+images:
+  - image_url: /art/general/discordoc.png
+    thumbnail_url: /art/general/thumbnails/discordoc.webp
+    alt: Candy Apple

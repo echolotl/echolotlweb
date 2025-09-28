@@ -1,6 +1,6 @@
 slug: lemonbot-design
 created_at: '2022-04-01T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:56.528Z'
+modified_at: '2025-09-28T20:15:02.444Z'
 title: Lemonbot Design
 pinned: false
 sketch: false
@@ -10,3 +10,7 @@ tags:
   - idea
   - oc
 thumbnail_url: /art/general/thumbnails/lemonbot_desig.webp
+images:
+  - image_url: /art/general/lemonbot_desig.png
+    thumbnail_url: /art/general/thumbnails/lemonbot_desig.webp
+    alt: Lemonbot Design

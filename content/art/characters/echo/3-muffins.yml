@@ -1,6 +1,6 @@
 slug: 3-muffins
 created_at: '2023-03-20T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:48.492Z'
+modified_at: '2025-09-28T20:15:02.273Z'
 title: 3 Muffins
 pinned: false
 sketch: true
@@ -8,3 +8,7 @@ image_url: /art/characters/echo/image.png
 character: echo
 description: bro is only ~~2~~ 3 muffins tall
 thumbnail_url: /art/characters/echo/thumbnails/image.webp
+images:
+  - image_url: /art/characters/echo/image.png
+    thumbnail_url: /art/characters/echo/thumbnails/image.webp
+    alt: 3 Muffins

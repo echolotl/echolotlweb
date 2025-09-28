@@ -1,6 +1,6 @@
 slug: the-echo
 created_at: '2021-12-10T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:48.222Z'
+modified_at: '2025-09-28T20:15:02.285Z'
 title: The Echo
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/echo/echo.png
 character: echo
 description: the first drawing of Echo and also the first OC
 thumbnail_url: /art/characters/echo/thumbnails/echo.webp
+images:
+  - image_url: /art/characters/echo/echo.png
+    thumbnail_url: /art/characters/echo/thumbnails/echo.webp
+    alt: The Echo

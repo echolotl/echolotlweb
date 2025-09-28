@@ -1,6 +1,6 @@
 slug: slimy
 created_at: '2025-07-25T02:37:16.053Z'
-modified_at: '2025-07-25T02:37:16.053Z'
+modified_at: '2025-09-28T20:15:02.461Z'
 title: Slimy
 pinned: false
 sketch: false
@@ -9,3 +9,7 @@ thumbnail_url: /art/general/thumbnails/slimy.webp
 description: Attack on [S_shrimpy](https://artfight.net/~S_shrimpy)
 tags:
   - art fight
+images:
+  - image_url: /art/general/slimy.png
+    thumbnail_url: /art/general/thumbnails/slimy.webp
+    alt: Slimy

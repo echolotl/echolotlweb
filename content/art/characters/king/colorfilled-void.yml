@@ -1,6 +1,6 @@
 slug: colorfilled-void
 created_at: '2022-12-17T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:50.773Z'
+modified_at: '2025-09-28T20:15:02.306Z'
 title: Colorfilled Void
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/king/kingVoid.png
 character: king
 description: Artists when they don't want to draw backgrounds or the character
 thumbnail_url: /art/characters/king/thumbnails/kingVoid.webp
+images:
+  - image_url: /art/characters/king/kingVoid.png
+    thumbnail_url: /art/characters/king/thumbnails/kingVoid.webp
+    alt: Colorfilled Void

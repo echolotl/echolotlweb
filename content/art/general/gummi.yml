@@ -1,6 +1,6 @@
 slug: gummi
 created_at: '2024-04-16T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:57.694Z'
+modified_at: '2025-09-28T20:15:02.432Z'
 title: Gummi
 pinned: false
 sketch: false
@@ -10,3 +10,7 @@ tags:
   - idea
   - oc
 thumbnail_url: /art/general/thumbnails/mylittleoc.webp
+images:
+  - image_url: /art/general/mylittleoc.png
+    thumbnail_url: /art/general/thumbnails/mylittleoc.webp
+    alt: Gummi

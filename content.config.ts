@@ -1,6 +1,22 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 import { asSitemapCollection } from '@nuxtjs/sitemap/content'
 
+const imageVariant = z.object({
+  image_url: z.string().url(),
+  thumbnail_url: z.string().url().optional(),
+  label: z.string().optional(),
+  alt: z.string().optional(),
+});
+
+const galleryImage = z.object({
+  id: z.string().optional(),
+  title: z.string().optional(),
+  image_url: z.string().url(),
+  thumbnail_url: z.string().url().optional(),
+  alt: z.string().optional(),
+  variants: z.array(imageVariant).optional(),
+});
+
 export default defineContentConfig({
   collections: {
     characters: defineCollection(asSitemapCollection({
@@ -59,7 +75,7 @@ export default defineContentConfig({
     art: defineCollection(asSitemapCollection({
       source: "art/**/*.{json,yml,yaml}",
       type: "data",
-      schema: z.object({
+      schema: (z.object({
         slug: z.string(),
         created_at: z.string().datetime(),
         modified_at: z.string().datetime(),
@@ -70,10 +86,9 @@ export default defineContentConfig({
         tags: z.array(z.string()).optional(),
         pinned: z.boolean(),
         artist_name: z.string().optional(),
-        image_url: z.string().url(),
-        thumbnail_url: z.string().url().optional(),
+        images: z.array(galleryImage).min(1, 'At least one image required'),
         sketch: z.boolean().optional(),
-      }),
+      })) as any,
     }))
   },
 });

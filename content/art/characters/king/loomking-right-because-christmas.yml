@@ -1,6 +1,6 @@
 slug: loomking-right-because-christmas
 created_at: '2022-12-25T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:50.426Z'
+modified_at: '2025-09-28T20:15:02.329Z'
 title: Loomking Right because Christmas
 pinned: false
 sketch: false
@@ -10,3 +10,7 @@ related_characters:
   - orchy
 description: Merry Christmas! What's King looking at? I wouldn't know
 thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp
+images:
+  - image_url: /art/characters/king/kingOldChristmas.png
+    thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp
+    alt: Loomking Right because Christmas

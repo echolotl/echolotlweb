@@ -1,6 +1,6 @@
 slug: cinderace
 created_at: '2023-02-24T00:00:00.000Z'
-modified_at: '2025-07-24T22:46:00.974Z'
+modified_at: '2025-09-28T20:15:02.415Z'
 title: Cinderace
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ tags:
   - video game
   - pokemon
 thumbnail_url: /art/general/thumbnails/cinderace.webp
+images:
+  - image_url: /art/general/cinderace.png
+    thumbnail_url: /art/general/thumbnails/cinderace.webp
+    alt: Cinderace

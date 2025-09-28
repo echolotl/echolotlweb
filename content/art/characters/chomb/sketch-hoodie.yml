@@ -1,6 +1,6 @@
 slug: sketch-hoodie
 created_at: '2022-05-07T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:47.895Z'
+modified_at: '2025-09-28T20:15:02.269Z'
 title: Sketch - Hoodie
 pinned: false
 sketch: true
@@ -8,3 +8,7 @@ image_url: /art/characters/chomb/chombSketchHoodie.png
 character: chomb
 description: Less of a hoodie and more of a letterman, naming these retroactively sucks
 thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
+images:
+  - image_url: /art/characters/chomb/chombSketchHoodie.png
+    thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
+    alt: Sketch - Hoodie

@@ -1,6 +1,6 @@
 slug: hydra
 created_at: '2024-02-24T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:58.229Z'
+modified_at: '2025-09-28T20:15:02.438Z'
 title: Hydra
 pinned: false
 sketch: false
@@ -10,3 +10,7 @@ tags:
   - video game
   - oc
 thumbnail_url: /art/general/thumbnails/roblosoc.webp
+images:
+  - image_url: /art/general/roblosoc.png
+    thumbnail_url: /art/general/thumbnails/roblosoc.webp
+    alt: Hydra

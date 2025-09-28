@@ -52,9 +52,9 @@
     <div class="art-content">
       <div class="art-image-container">
         <nuxt-img
-          v-if="art.image_url"
-          :data-src="art.image_url"
-          :src="art.image_url"
+          v-if="art.images && art.images.length > 0"
+          :data-src="art.images[0]?.image_url"
+          :src="art.images[0]?.image_url"
           alt="Art Image"
           class="art-image"
           loading="lazy"
@@ -114,9 +114,9 @@ useSeoMeta({
   ogTitle: art.value.title,
   ogDescription:
     art.value.description || "No description available for this artwork.",
-  ogImage: art.value.image_url || "/images/no_image.png",
+  ogImage: art.value.images[0]?.image_url || "/images/no_image.png",
   twitterCard: "summary_large_image",
-  twitterImage: art.value.image_url || "/images/no_image.png",
+  twitterImage: art.value.images[0]?.image_url || "/images/no_image.png",
 });
 </script>
 

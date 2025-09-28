@@ -48,7 +48,23 @@ export interface Art {
   tags?: string[];
   pinned: boolean;
   artist_name?: string;
+  images: ArtImage[]; // At least one per schema
+  sketch?: boolean;
+}
+
+
+export interface ArtImageVariant {
   image_url: string;
   thumbnail_url?: string;
-  sketch?: boolean;
+  label?: string;   
+  alt?: string;     
+}
+
+export interface ArtImage {
+  id?: string;      
+  title?: string;
+  image_url: string;
+  thumbnail_url?: string;
+  alt?: string;
+  variants?: ArtImageVariant[];
 }

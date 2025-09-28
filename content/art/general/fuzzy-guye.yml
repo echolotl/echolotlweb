@@ -1,6 +1,6 @@
 slug: fuzzy-guye
 created_at: '2022-03-11T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:55.511Z'
+modified_at: '2025-09-28T20:15:02.429Z'
 title: Fuzzy Guye
 pinned: false
 sketch: false
@@ -9,3 +9,7 @@ description: Test of a lineless artstyle
 tags:
   - idea
 thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
+images:
+  - image_url: /art/general/fuzzyguye.png
+    thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
+    alt: Fuzzy Guye

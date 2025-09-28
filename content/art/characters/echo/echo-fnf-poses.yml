@@ -1,6 +1,6 @@
 slug: echo-fnf-poses
 created_at: '2021-12-12T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:48.470Z'
+modified_at: '2025-09-28T20:15:02.275Z'
 title: Echo FNF Poses
 pinned: false
 sketch: true
@@ -8,3 +8,7 @@ image_url: /art/characters/echo/image copy.png
 character: echo
 description: Poses for a [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod if Echo ever had one (speaking of FNF, check out its dedicated [page](/fnf)!)
 thumbnail_url: /art/characters/echo/thumbnails/image copy.webp
+images:
+  - image_url: /art/characters/echo/image copy.png
+    thumbnail_url: /art/characters/echo/thumbnails/image copy.webp
+    alt: Echo FNF Poses
