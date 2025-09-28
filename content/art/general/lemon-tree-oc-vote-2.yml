@@ -1,6 +1,6 @@
 slug: lemon-tree-oc-vote-2
 created_at: '2023-04-10T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:57.507Z'
+modified_at: '2025-09-28T20:15:02.442Z'
 title: 'Lemon Tree OC Vote #2'
 pinned: false
 sketch: false
@@ -9,3 +9,7 @@ description: Remade and improved design over the [OC](/art/view/art/lemon_treeoc
 tags:
   - oc
 thumbnail_url: /art/general/thumbnails/lemon_treeoc2.webp
+images:
+  - image_url: /art/general/lemon_treeoc2.png
+    thumbnail_url: /art/general/thumbnails/lemon_treeoc2.webp
+    alt: 'Lemon Tree OC Vote #2'

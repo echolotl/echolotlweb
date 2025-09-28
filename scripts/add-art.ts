@@ -8,6 +8,22 @@ const PUBLIC_ART_DIR = 'public/art';
 const CONTENT_ART_DIR = 'content/art';
 const SUPPORTED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.avif'];
 
+interface ArtImageVariantData {
+  image_url: string;
+  thumbnail_url?: string;
+  label?: string;
+  alt?: string;
+}
+
+interface ArtImageData {
+  id?: string;
+  title?: string;
+  image_url: string;
+  thumbnail_url?: string;
+  alt?: string;
+  variants?: ArtImageVariantData[];
+}
+
 interface ArtData {
   slug: string;
   created_at: string;
@@ -15,12 +31,11 @@ interface ArtData {
   title: string;
   pinned: boolean;
   sketch: boolean;
-  image_url: string;
   description?: string;
   tags?: string[];
   character?: string;
   related_characters?: string[];
-  thumbnail_url: string;
+  images: ArtImageData[];
 }
 
 function createReadlineInterface() {
@@ -103,96 +118,139 @@ function createYamlFile(artData: ArtData, yamlPath: string): void {
   });
 
   writeFileSync(yamlPath, yamlContent, 'utf8');
-  console.log(`✅ Created YAML file: ${yamlPath}`);
+  console.log(`Created YAML file: ${yamlPath}`);
 }
 
-async function processImage(imagePath: string, rl: ReturnType<typeof createInterface>, imageIndex: number, totalImages: number): Promise<boolean> {
-  console.log(`\n🎨 Processing image ${imageIndex}/${totalImages}: ${imagePath}\n`);
+async function buildGallery(rl: ReturnType<typeof createInterface>, imagePaths: string[]): Promise<{ images: ArtImageData[] } | null> {
+  const images: ArtImageData[] = [];
+  let baseIndex = 0;
 
-  if (!validateImageFile(imagePath)) {
-    console.error(`❌ Skipping invalid image: ${imagePath}\n`);
-    return false;
-  }
+  for (let i = 0; i < imagePaths.length; i++) {
+    const src = imagePaths[i];
+    if (!validateImageFile(src)) {
+      console.error(`Invalid image: ${src}`);
+      return null;
+    }
+    console.log(`\nSource ${i + 1}/${imagePaths.length}: ${src}`);
 
-  try {
-    // Ask for basic information
-    const title = await askQuestion(rl, 'Enter the title: ');
-    if (!title) {
-      console.error('❌ Title is required! Skipping this image.\n');
-      return false;
+    // Decide if this should join a previous base as a variant
+    let attachAsVariant = false;
+    if (images.length > 0) {
+      const asVar = await askQuestion(rl, 'Make this a variant of the previous base image? (y/N): ');
+      attachAsVariant = asVar.toLowerCase().startsWith('y');
     }
 
+    const fileExt = extname(src);
+
+    if (attachAsVariant) {
+      const base = images[baseIndex];
+      if (!base.variants) base.variants = [];
+      const label = await askQuestion(rl, 'Variant label (short, optional): ');
+      const alt = await askQuestion(rl, 'Variant alt text (recommended): ');
+      const variantSlugPart = label ? generateSlug(label) : `variant-${base.variants.length + 1}`;
+      const destImagePath = join(dirname(base.image_url), `${variantSlugPart}${fileExt}`);
+      const absoluteDest = join('public', destImagePath.replace(/^\//, ''));
+      const thumbnailPath = join(dirname(absoluteDest), 'thumbnails', `${variantSlugPart}.webp`);
+
+      copyImageToDestination(src, absoluteDest);
+      await generateThumbnail(absoluteDest, thumbnailPath);
+
+      const variant: ArtImageVariantData = {
+        image_url: '/' + destImagePath.replace(/\\/g, '/'),
+        thumbnail_url: '/' + thumbnailPath.replace(/\\/g, '/').replace(/^public\//, ''),
+        label: label || undefined,
+        alt: alt || undefined,
+      };
+      base.variants.push(variant);
+      console.log('Added variant to previous image!');
+    } else {
+      const title = await askQuestion(rl, 'Image title (optional): ');
+      const alt = await askQuestion(rl, 'Image alt text (recommended): ');
+      const id = generateSlug(title || `image-${images.length + 1}`);
+
+      // We'll place all images later once we know character/general root
+      images.push({ id, title: title || undefined, alt: alt || undefined, image_url: `__TEMP_SRC__${src}` });
+      baseIndex = images.length - 1;
+    }
+  }
+  // created_at is ultimately taken from first image's file time by caller
+  return { images };
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  if (args.length === 0) {
+    console.error('❌ Usage: bun scripts/add-art.ts <image1> [image2] ...');
+    process.exit(1);
+  }
+  const rl = createReadlineInterface();
+  try {
+    console.log(`Preparing gallery with ${args.length} source file(s).`);
+
+    // Global metadata
+    const title = await askQuestion(rl, 'Artwork title: ');
+    if (!title) {
+      console.error('Title required.');
+      process.exit(1);
+    }
     const slug = generateSlug(title);
-    console.log(`Generated slug: ${slug}\n`);
-
-    const categoryInput = await askQuestion(rl, 'Is this character art or general art? (character/general): ');
-    const isCharacterArt = categoryInput.toLowerCase().startsWith('c');
-
+    const pinned = (await askQuestion(rl, 'Pinned? (y/N): ')).toLowerCase().startsWith('y');
+    const sketch = (await askQuestion(rl, 'Sketch? (y/N): ')).toLowerCase().startsWith('y');
+    const description = await askQuestion(rl, 'Description (optional): ');
+    const tagsInput = await askQuestion(rl, 'Tags (comma, optional): ');
+    const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(Boolean) : undefined;
+    const categoryInput = await askQuestion(rl, 'Character art or general? (c/g): ');
+    const isCharacter = categoryInput.toLowerCase().startsWith('c');
     let character: string | undefined;
     let related_characters: string[] | undefined;
-    let destImagePath: string;
-    let yamlPath: string;
-    let thumbnailPath: string;
-
-    if (isCharacterArt) {
-      character = await askQuestion(rl, 'Enter the character name: ');
+    if (isCharacter) {
+      character = await askQuestion(rl, 'Primary character slug: ');
       if (!character) {
-        console.error('❌ Character name is required for character art! Skipping this image.\n');
-        return false;
+        console.error('Character slug required for character art.');
+        process.exit(1);
       }
-
-      const imageExt = extname(imagePath);
-      const imageFilename = `${slug}${imageExt}`;
-      
-      destImagePath = join(PUBLIC_ART_DIR, 'characters', character, imageFilename);
-      thumbnailPath = join(PUBLIC_ART_DIR, 'characters', character, 'thumbnails', `${slug}.webp`);
-      yamlPath = join(CONTENT_ART_DIR, 'characters', character, `${slug}.yml`);
-
-      // Ask for related characters
-      const relatedInput = await askQuestion(rl, 'Enter related characters (comma-separated, optional): ');
-      related_characters = relatedInput ? relatedInput.split(',').map(rc => rc.trim()).filter(rc => rc) : [];
-    } else {
-      const imageExt = extname(imagePath);
-      const imageFilename = `${slug}${imageExt}`;
-      
-      destImagePath = join(PUBLIC_ART_DIR, 'general', imageFilename);
-      thumbnailPath = join(PUBLIC_ART_DIR, 'general', 'thumbnails', `${slug}.webp`);
-      yamlPath = join(CONTENT_ART_DIR, 'general', `${slug}.yml`);
+      const related = await askQuestion(rl, 'Related characters (comma, optional): ');
+      related_characters = related ? related.split(',').map(c => c.trim()).filter(Boolean) : undefined;
     }
 
-    // Check if files already exist
-    if (existsSync(destImagePath) || existsSync(yamlPath)) {
-      console.error('❌ Error: Files with this slug already exist! Skipping this image.\n');
-      return false;
+    const gallery = await buildGallery(rl, args);
+    if (!gallery) {
+      console.error('Failed to build gallery.');
+      process.exit(1);
     }
 
-    const description = await askQuestion(rl, 'Enter a description (optional): ');
-    
-    const isSketch = await askQuestion(rl, 'Is this a sketch? (y/n): ');
-    const sketch = isSketch.toLowerCase().startsWith('y');
+    // Determine base directory paths
+    const basePublicDir = isCharacter ? join(PUBLIC_ART_DIR, 'characters', character!) : join(PUBLIC_ART_DIR, 'general');
+    const yamlPath = isCharacter ? join(CONTENT_ART_DIR, 'characters', character!, `${slug}.yml`) : join(CONTENT_ART_DIR, 'general', `${slug}.yml`);
 
-    const isPinned = await askQuestion(rl, 'Should this be pinned? (y/n): ');
-    const pinned = isPinned.toLowerCase().startsWith('y');
+    if (existsSync(yamlPath)) {
+      console.error('❌ YAML already exists for slug.');
+      process.exit(1);
+    }
 
-    const tagsInput = await askQuestion(rl, 'Enter tags (comma-separated, optional): ');
-    const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+    // Ensure base directory exists
+    if (!existsSync(basePublicDir)) mkdirSync(basePublicDir, { recursive: true });
+    const thumbsDir = join(basePublicDir, 'thumbnails');
+    if (!existsSync(thumbsDir)) mkdirSync(thumbsDir, { recursive: true });
 
-    const fileStats = statSync(imagePath);
-    const createdAt = fileStats.mtime.toISOString();
-    console.log(`Using file modification date as creation date: ${fileStats.mtime.toLocaleDateString()}`);
+    // Move/copy images replacing temp placeholders
+    for (const img of gallery.images) {
+      if (!img.image_url.startsWith('__TEMP_SRC__')) continue; // variants already copied
+      const originalSrc = img.image_url.replace('__TEMP_SRC__', '');
+      const ext = extname(originalSrc);
+      const filename = `${img.id}${ext}`;
+      const dest = join(basePublicDir, filename);
+      copyImageToDestination(originalSrc, dest);
+      const thumbDest = join(thumbsDir, `${img.id}.webp`);
+      await generateThumbnail(dest, thumbDest);
+      img.image_url = '/' + dest.replace(/\\/g, '/').replace(/^public\//, '');
+      img.thumbnail_url = '/' + thumbDest.replace(/\\/g, '/').replace(/^public\//, '');
+    }
 
-    console.log('\n🔄 Processing...\n');
-
-    // Copy image
-    copyImageToDestination(imagePath, destImagePath);
-
-    // Generate thumbnail
-    await generateThumbnail(destImagePath, thumbnailPath);
-
-    // Create YAML data
+    // Compute created_at from earliest source file mtime
+    const mtimes = args.map(p => statSync(p).mtime.getTime());
+    const createdAt = new Date(Math.min(...mtimes)).toISOString();
     const now = new Date().toISOString();
-    const imageUrl = '/' + destImagePath.replace(/\\/g, '/').replace(/^public\//, '');
-    const thumbnailUrl = '/' + thumbnailPath.replace(/\\/g, '/').replace(/^public\//, '');
 
     const artData: ArtData = {
       slug,
@@ -201,83 +259,21 @@ async function processImage(imagePath: string, rl: ReturnType<typeof createInter
       title,
       pinned,
       sketch,
-      image_url: imageUrl,
-      thumbnail_url: thumbnailUrl
+      images: gallery.images,
     };
+    if (description) artData.description = description;
+    if (tags?.length) artData.tags = tags;
+    if (character) artData.character = character;
+    if (related_characters?.length) artData.related_characters = related_characters;
 
-    if (description) {
-      artData.description = description;
-    }
-
-    if (tags.length > 0) {
-      artData.tags = tags;
-    }
-
-    if (character) {
-      artData.character = character;
-    }
-    if (related_characters && related_characters.length > 0) {
-      artData.related_characters = related_characters;
-    }
-
-    createYamlFile(artData, yamlPath);
-
-    console.log('🎉 Art successfully added!');
-    console.log(`📁 Image: ${destImagePath}`);
-    console.log(`🖼️  Thumbnail: ${thumbnailPath}`);
-    console.log(`📄 Data: ${yamlPath}\n`);
-
-    return true;
-  } catch (error) {
-    console.error(`❌ Error processing ${imagePath}:`, error);
-    return false;
-  }
-}
-
-async function main() {
-  const args = process.argv.slice(2);
-  
-  if (args.length === 0) {
-    console.error('❌ Usage: bun scripts/add-art.ts <image-path> [image-path2] [image-path3] ...');
-    process.exit(1);
-  }
-
-  const imagePaths = args;
-  const rl = createReadlineInterface();
-
-  console.log(`🎨 Adding ${imagePaths.length} art image(s)...\n`);
-
-  let successCount = 0;
-  let skipCount = 0;
-
-  try {
-    for (let i = 0; i < imagePaths.length; i++) {
-      const imagePath = imagePaths[i];
-      const success = await processImage(imagePath, rl, i + 1, imagePaths.length);
-      
-      if (success) {
-        successCount++;
-      } else {
-        skipCount++;
-      }
-
-      // Ask if user wants to continue if there are more images and this one failed
-      if (!success && i < imagePaths.length - 1) {
-        const continueProcessing = await askQuestion(rl, 'Continue with the next image? (y/n): ');
-        if (!continueProcessing.toLowerCase().startsWith('y')) {
-          console.log('🛑 Processing stopped by user.');
-          break;
-        }
-      }
-    }
-
-    console.log('\n📊 Summary:');
-    console.log(`✅ Successfully processed: ${successCount}`);
-    console.log(`⏭️  Skipped: ${skipCount}`);
-    console.log(`📁 Total: ${imagePaths.length}`);
-
-  } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    createYamlFile(artData as any, yamlPath);
+    console.log('\x1b[1m\x1b[42m\x1b[30m\nGallery artwork created! \x1b[0m');
+    console.log(`* YAML: ${yamlPath}`);
+    console.log(`* Images: ${gallery.images.length}`);
+    const variantCount = gallery.images.reduce((n, im) => n + (im.variants?.length || 0), 0);
+    console.log(`* Variants: ${variantCount}`);
+  } catch (e) {
+    console.error('Error:', e);
     process.exit(1);
   } finally {
     rl.close();

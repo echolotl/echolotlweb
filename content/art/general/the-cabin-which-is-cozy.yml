@@ -1,6 +1,6 @@
 slug: the-cabin-which-is-cozy
 created_at: '2023-04-17T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:54.762Z'
+modified_at: '2025-09-28T20:15:02.468Z'
 title: The Cabin Which is Cozy
 pinned: false
 sketch: false
@@ -9,3 +9,7 @@ description: Art used for the starting, ending, and inbetween screens on the [co
 tags:
   - friends
 thumbnail_url: /art/general/thumbnails/cozycabin.webp
+images:
+  - image_url: /art/general/cozycabin.png
+    thumbnail_url: /art/general/thumbnails/cozycabin.webp
+    alt: The Cabin Which is Cozy

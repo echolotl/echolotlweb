@@ -1,6 +1,6 @@
 slug: bedtime
 created_at: '2023-10-19T00:00:00.000Z'
-modified_at: '2025-07-24T22:45:56.112Z'
+modified_at: '2025-09-28T20:15:02.303Z'
 title: Bedtime
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/king/bedtime.png
 character: king
 description: sleepy time w/ "The Lamb" from Cult of the Lamb (plushie)
 thumbnail_url: /art/characters/king/thumbnails/bedtime.webp
+images:
+  - image_url: /art/characters/king/bedtime.png
+    thumbnail_url: /art/characters/king/thumbnails/bedtime.webp
+    alt: Bedtime

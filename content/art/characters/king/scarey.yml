@@ -1,6 +1,6 @@
 slug: scarey
 created_at: '2022-12-15T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:50.679Z'
+modified_at: '2025-09-28T20:15:02.333Z'
 title: Scarey
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/king/kingScarey.png
 character: king
 description: Made when trying out Procreate's gradient map feature
 thumbnail_url: /art/characters/king/thumbnails/kingScarey.webp
+images:
+  - image_url: /art/characters/king/kingScarey.png
+    thumbnail_url: /art/characters/king/thumbnails/kingScarey.webp
+    alt: Scarey

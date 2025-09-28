@@ -1,6 +1,6 @@
 slug: tarot-moth
 created_at: '2022-03-07T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:58.478Z'
+modified_at: '2025-09-28T20:15:02.466Z'
 title: Tarot Moth
 pinned: false
 sketch: false
@@ -9,3 +9,7 @@ description: Drawing of a friends moth girl OC
 tags:
   - friends
 thumbnail_url: /art/general/thumbnails/tarotmoth.webp
+images:
+  - image_url: /art/general/tarotmoth.png
+    thumbnail_url: /art/general/thumbnails/tarotmoth.webp
+    alt: Tarot Moth

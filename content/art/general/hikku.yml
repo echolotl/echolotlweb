@@ -1,6 +1,6 @@
 slug: hikku
 created_at: '2024-01-05T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:57.810Z'
+modified_at: '2025-09-28T20:15:02.436Z'
 title: Hikku
 pinned: false
 sketch: false
@@ -10,3 +10,7 @@ tags:
   - fanart
   - video game
 thumbnail_url: /art/general/thumbnails/nikkublindinglights.webp
+images:
+  - image_url: /art/general/nikkublindinglights.png
+    thumbnail_url: /art/general/thumbnails/nikkublindinglights.webp
+    alt: Hikku

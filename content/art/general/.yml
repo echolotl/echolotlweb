@@ -1,6 +1,6 @@
 slug: ''
 created_at: '2022-03-05T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:59.859Z'
+modified_at: '2025-09-28T20:15:02.392Z'
 title: ''
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ tags:
   - video game
   - pokemon
 thumbnail_url: /art/general/thumbnails/wooloo.webp
+images:
+  - image_url: /art/general/wooloo.png
+    thumbnail_url: /art/general/thumbnails/wooloo.webp
+    alt: ''

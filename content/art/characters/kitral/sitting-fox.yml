@@ -1,6 +1,6 @@
 slug: sitting-fox
 created_at: '2025-09-13T19:04:02.890Z'
-modified_at: '2025-09-13T19:04:02.890Z'
+modified_at: '2025-09-28T20:15:02.352Z'
 title: Sitting Fox
 pinned: false
 sketch: true
@@ -10,3 +10,7 @@ description: She has an onlooker...
 character: kitral
 related_characters:
   - glory
+images:
+  - image_url: /art/characters/kitral/sitting-fox.png
+    thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
+    alt: Sitting Fox

@@ -1,6 +1,6 @@
 slug: coolbg
 created_at: '2024-01-28T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:33.484Z'
+modified_at: '2025-09-28T20:15:02.263Z'
 title: coolBG
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/chomb/chombcoolbg.png
 character: chomb
 description: He has four arms it just kinda looks like he only has three I promise
 thumbnail_url: /art/characters/chomb/thumbnails/chombcoolbg.webp
+images:
+  - image_url: /art/characters/chomb/chombcoolbg.png
+    thumbnail_url: /art/characters/chomb/thumbnails/chombcoolbg.webp
+    alt: coolBG

@@ -1,6 +1,6 @@
 slug: echo-pfp
 created_at: '2021-12-10T00:00:00.001Z'
-modified_at: '2025-07-24T22:51:48.278Z'
+modified_at: '2025-09-28T20:15:02.276Z'
 title: Echo - PFP
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/echo/echoPFP.png
 character: echo
 description: Profile picture made of Echo before [King](/characters/king) existed
 thumbnail_url: /art/characters/echo/thumbnails/echoPFP.webp
+images:
+  - image_url: /art/characters/echo/echoPFP.png
+    thumbnail_url: /art/characters/echo/thumbnails/echoPFP.webp
+    alt: Echo - PFP

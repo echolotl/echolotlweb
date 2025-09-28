@@ -1,6 +1,6 @@
 slug: big-ol-eyes
 created_at: '2024-04-08T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:53.803Z'
+modified_at: '2025-09-28T20:15:02.390Z'
 title: Big Ol' Eyes
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/xelex/xelexBigOlEyes.png
 character: xelex
 description: Original design of Xelex
 thumbnail_url: /art/characters/xelex/thumbnails/xelexBigOlEyes.webp
+images:
+  - image_url: /art/characters/xelex/xelexBigOlEyes.png
+    thumbnail_url: /art/characters/xelex/thumbnails/xelexBigOlEyes.webp
+    alt: Big Ol' Eyes

@@ -1,6 +1,6 @@
 slug: stance
 created_at: '2024-02-03T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:53.459Z'
+modified_at: '2025-09-28T20:15:02.381Z'
 title: Stance
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/orchy/orchyStance.png
 character: orchy
 description: New ear design. [YAY!](https://www.youtube.com/watch?v=attUrDwfdr8)
 thumbnail_url: /art/characters/orchy/thumbnails/orchyStance.webp
+images:
+  - image_url: /art/characters/orchy/orchyStance.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchyStance.webp
+    alt: Stance

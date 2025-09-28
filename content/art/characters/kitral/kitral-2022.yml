@@ -1,6 +1,6 @@
 slug: kitral-2022
 created_at: '2022-01-31T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:52.083Z'
+modified_at: '2025-09-28T20:15:02.346Z'
 title: Kitral (2022)
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/kitral/oldestRef.png
 character: kitral
 description: Old Kitral reference sheet, also the original drawing
 thumbnail_url: /art/characters/kitral/thumbnails/oldestRef.webp
+images:
+  - image_url: /art/characters/kitral/oldestRef.png
+    thumbnail_url: /art/characters/kitral/thumbnails/oldestRef.webp
+    alt: Kitral (2022)

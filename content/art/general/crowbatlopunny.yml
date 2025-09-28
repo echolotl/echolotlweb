@@ -1,6 +1,6 @@
 slug: crowbatlopunny
 created_at: '2023-01-29T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:54.843Z'
+modified_at: '2025-09-28T20:15:02.419Z'
 title: Crowbat/Lopunny
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ tags:
   - video game
   - pokemon
 thumbnail_url: /art/general/thumbnails/crowbat_lopunny1.webp
+images:
+  - image_url: /art/general/crowbat_lopunny1.png
+    thumbnail_url: /art/general/thumbnails/crowbat_lopunny1.webp
+    alt: Crowbat/Lopunny

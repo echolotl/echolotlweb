@@ -1,6 +1,6 @@
 slug: dog-thing
 created_at: '2022-12-27T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:55.070Z'
+modified_at: '2025-09-28T20:15:02.423Z'
 title: Dog Thing
 pinned: false
 sketch: false
@@ -10,3 +10,7 @@ tags:
   - idea
   - oc
 thumbnail_url: /art/general/thumbnails/dog_thing.webp
+images:
+  - image_url: /art/general/dog_thing.png
+    thumbnail_url: /art/general/thumbnails/dog_thing.webp
+    alt: Dog Thing

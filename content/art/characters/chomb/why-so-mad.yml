@@ -1,6 +1,6 @@
 slug: why-so-mad
 created_at: '2021-12-20T00:53:41.072Z'
-modified_at: '2025-07-24T22:51:48.174Z'
+modified_at: '2025-09-28T20:15:02.272Z'
 title: Why So Mad
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/chomb/ogChomb.png
 character: chomb
 description: the original design of Chomb
 thumbnail_url: /art/characters/chomb/thumbnails/ogChomb.webp
+images:
+  - image_url: /art/characters/chomb/ogChomb.png
+    thumbnail_url: /art/characters/chomb/thumbnails/ogChomb.webp
+    alt: Why So Mad

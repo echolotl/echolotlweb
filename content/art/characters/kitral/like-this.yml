@@ -1,6 +1,6 @@
 slug: like-this
 created_at: '2022-02-07T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:52.031Z'
+modified_at: '2025-09-28T20:15:02.348Z'
 title: Like This?
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/kitral/likethis.png
 character: kitral
 description: The kitral drawing ever, unfortunately
 thumbnail_url: /art/characters/kitral/thumbnails/likethis.webp
+images:
+  - image_url: /art/characters/kitral/likethis.png
+    thumbnail_url: /art/characters/kitral/thumbnails/likethis.webp
+    alt: Like This?

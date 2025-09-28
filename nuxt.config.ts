@@ -1,4 +1,4 @@
-import type { Art } from './types';
+import type { Art, ArtImage } from './types';
 import { readdir, readFile } from 'fs/promises';
 import { resolve } from 'node:path';
 import { load } from 'js-yaml';
@@ -51,13 +51,32 @@ export default defineNuxtConfig({
                 priority: data.pinned ? 0.8 as const : 0.6 as const,
                 changefreq: 'monthly' as const,
                 lastmod: data.modified_at || new Date().toISOString(),
-                images: [
-                  {
-                    loc: `https://echolotl.lol/images${data.image_url}`,
-                    caption: data.description,
-                    title: data.title
+                images: (() => {
+                  const imgs: { loc: string; caption?: string; title?: string }[] = [];
+                  if (Array.isArray((data as any).images)) {
+                    for (const img of (data as any).images as ArtImage[]) {
+                      if (img?.image_url) {
+                        imgs.push({
+                          loc: `https://echolotl.lol${img.image_url}`,
+                          caption: (data as any).description,
+                          title: img.title || (data as any).title
+                        });
+                      }
+                      if (Array.isArray(img?.variants)) {
+                        for (const v of img.variants) {
+                          if (v?.image_url) {
+                            imgs.push({
+                              loc: `https://echolotl.lol${v.image_url}`,
+                              caption: (data as any).description,
+                              title: v.label || img.title || (data as any).title
+                            });
+                          }
+                        }
+                      }
+                    }
                   }
-                ]
+                  return imgs;
+                })()
               });
             }
           } catch (e) {

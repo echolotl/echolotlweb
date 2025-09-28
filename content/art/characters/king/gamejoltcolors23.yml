@@ -1,6 +1,6 @@
 slug: gamejoltcolors23
 created_at: '2023-07-04T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:50.135Z'
+modified_at: '2025-09-28T20:15:02.318Z'
 title: '#GameJoltColors23'
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/king/kingGameJolt.png
 character: king
 description: A themed drawing around the event on Game Jolt at the time
 thumbnail_url: /art/characters/king/thumbnails/kingGameJolt.webp
+images:
+  - image_url: /art/characters/king/kingGameJolt.png
+    thumbnail_url: /art/characters/king/thumbnails/kingGameJolt.webp
+    alt: '#GameJoltColors23'

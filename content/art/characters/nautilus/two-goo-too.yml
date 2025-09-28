@@ -1,6 +1,6 @@
 slug: two-goo-too
 created_at: '2022-04-27T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:52.448Z'
+modified_at: '2025-09-28T20:15:02.365Z'
 title: Two Goo Too
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/nautilus/nautilusTwoGoo.png
 character: nautilus
 description: Still gooey, this time with a split design and attennae. Big shift from the [last design](/art/view/characters/nautilus/art/nautilusOG.png)
 thumbnail_url: /art/characters/nautilus/thumbnails/nautilusTwoGoo.webp
+images:
+  - image_url: /art/characters/nautilus/nautilusTwoGoo.png
+    thumbnail_url: /art/characters/nautilus/thumbnails/nautilusTwoGoo.webp
+    alt: Two Goo Too

@@ -1,6 +1,6 @@
 slug: sketch-axolotl
 created_at: '2022-01-03T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:58.347Z'
+modified_at: '2025-09-28T20:15:02.459Z'
 title: Sketch - Axolotl
 pinned: false
 sketch: true
@@ -9,3 +9,7 @@ description: Pencil style test with an ugly axolotl
 tags:
   - idea
 thumbnail_url: /art/general/thumbnails/sketch_axolotl.webp
+images:
+  - image_url: /art/general/sketch_axolotl.jpg
+    thumbnail_url: /art/general/thumbnails/sketch_axolotl.webp
+    alt: Sketch - Axolotl

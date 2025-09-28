@@ -1,6 +1,6 @@
 slug: sketch-new-echo-design
 created_at: '2024-12-26T04:34:41.256Z'
-modified_at: '2025-07-24T22:51:48.309Z'
+modified_at: '2025-09-28T20:15:02.282Z'
 title: Sketch - New Echo Design
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/echo/echoSketchdesign.png
 character: echo
 description: a sketch of Echo's newer design
 thumbnail_url: /art/characters/echo/thumbnails/echoSketchdesign.webp
+images:
+  - image_url: /art/characters/echo/echoSketchdesign.png
+    thumbnail_url: /art/characters/echo/thumbnails/echoSketchdesign.webp
+    alt: Sketch - New Echo Design

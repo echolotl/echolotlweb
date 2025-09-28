@@ -1,6 +1,6 @@
 slug: weirdsketch
 created_at: '2022-04-28T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:50.863Z'
+modified_at: '2025-09-28T20:15:02.344Z'
 title: weirdSketch
 pinned: false
 sketch: true
@@ -8,3 +8,7 @@ image_url: /art/characters/king/kingWeirdSketch.png
 character: king
 description: Attempt at trying something new
 thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
+images:
+  - image_url: /art/characters/king/kingWeirdSketch.png
+    thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
+    alt: weirdSketch

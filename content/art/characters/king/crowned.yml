@@ -1,6 +1,6 @@
 slug: crowned
 created_at: '2021-12-14T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:50.965Z'
+modified_at: '2025-09-28T20:15:02.308Z'
 title: Crowned
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/king/oldestKing.png
 character: king
 description: The original drawing of King
 thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
+images:
+  - image_url: /art/characters/king/oldestKing.png
+    thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
+    alt: Crowned

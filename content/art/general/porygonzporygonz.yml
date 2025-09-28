@@ -1,6 +1,6 @@
 slug: porygonzporygonz
 created_at: '2023-01-29T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:58.159Z'
+modified_at: '2025-09-28T20:15:02.450Z'
 title: PorygonZ/PorygonZ
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ tags:
   - video game
   - pokemon
 thumbnail_url: /art/general/thumbnails/porygonz_porygonz.webp
+images:
+  - image_url: /art/general/porygonz_porygonz.png
+    thumbnail_url: /art/general/thumbnails/porygonz_porygonz.webp
+    alt: PorygonZ/PorygonZ

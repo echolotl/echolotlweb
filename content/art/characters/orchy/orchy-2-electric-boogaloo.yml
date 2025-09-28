@@ -1,6 +1,6 @@
 slug: orchy-2-electric-boogaloo
 created_at: '2022-03-25T00:00:00.000Z'
-modified_at: '2025-07-24T22:51:52.750Z'
+modified_at: '2025-09-28T20:15:02.371Z'
 title: 'Orchy 2: Electric Boogaloo'
 pinned: false
 sketch: false
@@ -8,3 +8,7 @@ image_url: /art/characters/orchy/oldOrchy2.png
 character: orchy
 description: New wing and tail design
 thumbnail_url: /art/characters/orchy/thumbnails/oldOrchy2.webp
+images:
+  - image_url: /art/characters/orchy/oldOrchy2.png
+    thumbnail_url: /art/characters/orchy/thumbnails/oldOrchy2.webp
+    alt: 'Orchy 2: Electric Boogaloo'
