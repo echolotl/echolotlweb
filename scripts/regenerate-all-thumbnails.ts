@@ -5,7 +5,7 @@ import * as yaml from 'js-yaml';
 
 const PUBLIC_ART_DIR = 'public/art';
 const CONTENT_ART_DIR = 'content/art';
-const SUPPORTED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.avif'];
+const SUPPORTED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif'];
 
 async function findYamlFileForImage(imagePath: string): Promise<string | null> {
   try {

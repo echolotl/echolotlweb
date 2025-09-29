@@ -83,6 +83,7 @@ export default defineNuxtConfig({
             console.warn(`Could not parse YAML for ${filePath}:`, e);
           }
         }
+        console.log(`[sitemap] Added ${artUrls.length} art item(s) to sitemap at ${new Date().toISOString()}`);
         return artUrls;
       } catch (error) {
         console.error('Error generating art URLs for sitemap:', error);
