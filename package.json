@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare",
     "thumbnails:create": "bun scripts/create-thumbnails.ts",
     "thumbnails:regenerate": "bun scripts/regenerate-all-thumbnails.ts",
-    "art:add": "bun scripts/add-art.ts"
+    "art": "bun scripts/add-art.ts"
   },
   "dependencies": {
     "@nuxt/content": "3.5.1",

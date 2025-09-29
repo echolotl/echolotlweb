@@ -7,7 +7,7 @@
 
         <div v-if="filteredPinnedArtworks.length > 0" class="section-header" >
       <Icon icon="pin" />
-      <h2 class="section-title"><SketchText size="1.5rem">PINNED</SketchText></h2>
+      <h2 class="section-title" style="transform: translateY(2px);"><SketchText size="1.5rem">PINNED</SketchText></h2>
       </div>
       <hr v-if="filteredPinnedArtworks.length > 0">
     <div class="art-grid">
@@ -20,53 +20,36 @@
     <div class="section-header section-header-with-filter">
       <div class="section-title-group">
         <Icon icon="art" />
-        <h2 class="section-title">All Art</h2>
+        <h2 class="section-title" style="transform: translateY(2px);"><SketchText size="1.5rem">All</SketchText></h2>
       </div>
-      
-      <!-- Filter Dropdown -->
-      <div class="filter-container">
-        <button 
-          class="filter-button body-font" 
-          :class="{ 'active': isDropdownOpen || hasActiveFilters }"
-          @click="toggleDropdown"
+      <div class="filter-chips" aria-label="Artwork filters">
+        <button
+          class="filter-chip"
+          :class="{ active: filters.sketches }"
+          @click="toggleFilter('sketches')"
+          :aria-pressed="filters.sketches"
         >
-          <Icon icon="filter" />
-          <span style="font-family: 'IBM Plex Sans', sans-serif;">Filters</span>
-          <span v-if="activeFilterCount > 0" class="filter-count">{{ activeFilterCount }}</span>
-          <Icon 
-            icon="dropdown" 
-            :style="{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }"
-          />
+          <Icon icon="sketch" />
+          <span>Sketches</span>
         </button>
-        
-        <div v-if="isDropdownOpen" class="filter-dropdown">
-          <div class="filter-option" @click="toggleFilter('sketches')">
-            <Icon 
-              :icon="filters.sketches ? 'checkbox' : 'checkbox-empty'" 
-              color="var(--text)"
-            />
-            <Icon icon="sketch" />
-            <span>Sketches</span>
-          </div>
-          
-          <div class="filter-option" @click="toggleFilter('characterArt')">
-            <Icon 
-              :icon="filters.characterArt ? 'checkbox' : 'checkbox-empty'" 
-              color="var(--text)"
-            />
-            <Icon icon="character" />
-            <span>Character Art</span>
-          </div>
-          
-          <div class="filter-option" @click="toggleFilter('generalArt')">
-            <Icon 
-              :icon="filters.generalArt ? 'checkbox' : 'checkbox-empty'" 
-              color="var(--text)"
-            />
-            <Icon icon="art" />
-            <span>General Art</span>
-          </div>
-        </div>
+        <button
+          class="filter-chip"
+          :class="{ active: filters.characterArt }"
+          @click="toggleFilter('characterArt')"
+          :aria-pressed="filters.characterArt"
+        >
+          <Icon icon="character" />
+          <span>Character Art</span>
+        </button>
+        <button
+          class="filter-chip"
+          :class="{ active: filters.generalArt }"
+          @click="toggleFilter('generalArt')"
+          :aria-pressed="filters.generalArt"
+        >
+          <Icon icon="art" />
+          <span>General Art</span>
+        </button>
       </div>
     </div>
             <hr>
@@ -104,8 +87,7 @@ const page = ref(1);
 const loading = ref(false);
 const hasReachedEnd = ref(false);
 
-// Filter state
-const isDropdownOpen = ref(false);
+// Filter state (chip toggles)
 const filters = ref({
   sketches: false,
   characterArt: false,
@@ -183,24 +165,10 @@ const filteredPinnedArtworks = computed(() => {
   });
 });
 
-// Computed filter helpers
-const hasActiveFilters = computed(() => {
-  return filters.value.sketches || filters.value.characterArt || filters.value.generalArt;
-});
+// (Optional) could compute hasActiveFilters if needed elsewhere
+// const hasActiveFilters = computed(() => filters.value.sketches || filters.value.characterArt || filters.value.generalArt);
 
-const activeFilterCount = computed(() => {
-  let count = 0;
-  if (filters.value.sketches) count++;
-  if (filters.value.characterArt) count++;
-  if (filters.value.generalArt) count++;
-  return count;
-});
-
-// Filter methods
-const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
-
+// Filter method
 const toggleFilter = (filterName: 'sketches' | 'characterArt' | 'generalArt') => {
   filters.value[filterName] = !filters.value[filterName];
 };
@@ -265,29 +233,17 @@ const throttledScrollCheck = () => {
   }, 100);
 };
 
-// Set up infinite scrolling and click outside handler
+// Set up infinite scrolling
 onMounted(() => {
   window.addEventListener('scroll', throttledScrollCheck);
-  document.addEventListener('click', handleClickOutside);
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', throttledScrollCheck);
-  document.removeEventListener('click', handleClickOutside);
   if (scrollTimeout) {
     clearTimeout(scrollTimeout);
   }
 });
-
-// Handle click outside to close dropdown
-const handleClickOutside = (event: Event) => {
-  const target = event.target as HTMLElement;
-  const filterContainer = document.querySelector('.filter-container');
-  
-  if (filterContainer && !filterContainer.contains(target)) {
-    isDropdownOpen.value = false;
-  }
-};
 
 // Meta data for the page
 useSeoMeta({
@@ -326,77 +282,45 @@ useSeoMeta({
   position: relative;
 }
 
-.filter-button {
+.filter-chips {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
-  background: transparent;
-  border: none;
-  color: var(--text);
-  cursor: pointer;
-  font-size: 1rem;
-  
-  
-  &.active {
-    color: var(--primary);
-  }
-  
-  .filter-count {
-    background: var(--distant);
-    border-radius: 50%;
-    min-width: 1.2rem;
-    height: 1.2rem;
-    display: flex;
-    align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 100%;
+  @media (max-width: 700px) {
     justify-content: center;
-    font-size: 0.75rem;
-    font-weight: bold;
-    margin: 0 0.25rem;
+    margin-top: 0.5rem;
   }
 }
 
-.filter-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: var(--background);
-  border: 1px solid var(--distant);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  min-width: 200px;
-  margin-top: 0.5rem;
-  overflow: hidden;
-  
-  @media (max-width: 600px) {
-    right: 0;
-    min-width: auto;
-    margin: 0.5rem 0 0;
-  }
-}
-
-.filter-option {
-  display: flex;
+.filter-chip {
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  gap: 0.35rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--distant);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--border-color);
-  
-  &:last-child {
-    border-bottom: none;
-  }
-  
+  line-height: 1;
+  color: var(--text);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  font-family: var(--body-font, 'IBM Plex Sans', sans-serif);
   &:hover {
-    background: var(--bg-tertiary);
+    background: var(--bg-secondary);
   }
-  
-  span {
-    flex: 1;
-    text-align: left;
-    font-size: 0.95rem;
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
+  &.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--background);
+  }
+  span { pointer-events: none; }
 }
 
 
@@ -439,6 +363,7 @@ useSeoMeta({
 .section-header-with-filter {
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .section-title-group {

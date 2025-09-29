@@ -49,18 +49,7 @@
     </div>
 
     <!-- Main Art Section -->
-    <div class="art-content">
-      <div class="art-image-container">
-        <nuxt-img
-          v-if="art.images && art.images.length > 0"
-          :data-src="art.images[0]?.image_url"
-          :src="art.images[0]?.image_url"
-          alt="Art Image"
-          class="art-image"
-          loading="lazy"
-        />
-      </div>
-    </div>
+     <ArtGallery :art="art" />
   </div>
 </template>
 

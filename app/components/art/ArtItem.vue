@@ -1,7 +1,10 @@
 <template>
+  <div style="position: relative;">
   <nuxt-link :to="`/art/${artwork.slug}`" class="art-item">
     <div class="art-item__image" :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`" >
-                      <div v-if="showMetadata" class="art-item__metadata">
+    </div>
+  </nuxt-link>
+      <div v-if="showMetadata" class="art-item__metadata">
           <div v-if="artwork.character && showCharacterBadge">
             <Icon icon="character" />
           </div>
@@ -10,21 +13,34 @@
           </div>
           <div v-if="artwork.sketch">
             <Icon icon="sketch" />
-            </div>
+          </div>
+          <div v-if="hasVariants">
+            <Icon icon="layers" />
+          </div>
+          <div v-if="hasMultipleImages">
+            <Icon icon="images" />
+          </div>
         </div>
-    </div>
-  </nuxt-link>
+  </div>
 </template>
 
 <script setup lang="ts">
 import type { Art } from "~~/types";
 import Icon from "~/components/common/Icon.vue";
 
-defineProps<{
+const props = defineProps<{
   artwork: Art;
   showMetadata?: boolean;
   showCharacterBadge?: boolean;
 }>();
+
+const hasVariants = computed(() => {
+  return (props.artwork.images?.[0]?.variants?.length || 0) > 0;
+});
+
+const hasMultipleImages = computed(() => {
+  return (props.artwork.images?.length || 0) > 1;
+});
 </script>
 
 <style scoped lang="scss">
@@ -52,17 +68,6 @@ defineProps<{
     mask-size: cover;
     mask-repeat: no-repeat;
 
-    .art-item__metadata {
-      position: absolute;
-      display: flex;
-      width: 100%;
-      height: 100%;
-      color: var(--primary);
-      align-items: flex-end;
-      justify-content: center;
-      filter: drop-shadow(0 1px 0 var(--background)) drop-shadow(1px 0 0 var(--background)) drop-shadow(-1px 0 0 var(--background)) drop-shadow(0 -1px 0 var(--background));
-      transition: filter 0.2s ease;
-    }
   }
 
   img {
@@ -78,4 +83,22 @@ defineProps<{
     transform: scale(1.03);
   }
 }
+      .art-item__metadata {
+      position: absolute;
+      display: flex;
+      color: var(--primary);
+      align-items: flex-end;
+      justify-content: center;
+      transition: filter 0.2s ease;
+      z-index: 2;
+      max-width: 200px;
+      max-height: 200px;
+      width: 100%;
+      height: 200px;
+      left: 0;
+      top: 0;
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      filter: drop-shadow(0 0 2px black);
+    }
 </style>
