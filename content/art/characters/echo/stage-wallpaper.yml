@@ -1,6 +1,6 @@
 slug: stage-wallpaper
 created_at: '2022-01-07T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.284Z'
+modified_at: '2025-09-28T23:16:02.972Z'
 title: Stage Wallpaper
 pinned: false
 sketch: false
@@ -16,3 +16,17 @@ images:
   - image_url: /art/characters/echo/stageWallpaper.png
     thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
     alt: Stage Wallpaper
+    id: stageWallpaper
+    variants:
+      - image_url: /art/characters/echo/stageWallpaper__outlined.png
+        thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__outlined.webp
+        label: Outlined
+        alt: Outlined version
+      - image_url: /art/characters/echo/stageWallpaper__notebook.png
+        thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__notebook.webp
+        label: Notebook
+        alt: Version with outlined characters with no faces, notebook paper in the background
+      - image_url: /art/characters/echo/stageWallpaper__cloudy.png
+        thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__cloudy.webp
+        label: Cloudy
+        alt: Version with two colored clouds in BG
