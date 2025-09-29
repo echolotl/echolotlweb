@@ -1,6 +1,6 @@
 slug: at-the-forge
 created_at: '2024-01-10T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.358Z'
+modified_at: '2025-09-28T23:22:39.029Z'
 title: At the Forge
 pinned: false
 sketch: false
@@ -12,3 +12,8 @@ images:
   - image_url: /art/characters/nautilus/nautilusForge.png
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge.webp
     alt: At the Forge
+    id: nautilusForge
+    variants:
+      - image_url: /art/characters/nautilus/nautilusForge__no-background.png
+        thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge__no-background.webp
+        label: No Background

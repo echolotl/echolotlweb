@@ -1,0 +1,15 @@
+slug: echo-paint
+created_at: '2023-03-20'
+modified_at: '2025-09-28T23:31:44.692Z'
+title: Echo Paint
+pinned: false
+sketch: true
+images:
+  - id: image-1
+    image_url: /art/characters/echo/image-1.png
+    thumbnail_url: /art/characters/echo/thumbnails/image-1.webp
+  - id: image-2
+    image_url: /art/characters/echo/image-2.png
+    thumbnail_url: /art/characters/echo/thumbnails/image-2.webp
+description: Doodles of Echo made in MSPaint
+character: echo
