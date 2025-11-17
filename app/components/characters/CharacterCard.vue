@@ -52,7 +52,6 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     width: 200px;
     height: 200px;
     margin-bottom: 10px;
-    transition: filter 0.3s ease;
   }
 
   &__image-frame {
