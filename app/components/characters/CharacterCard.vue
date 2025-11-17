@@ -52,7 +52,6 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     width: 200px;
     height: 200px;
     margin-bottom: 10px;
-    filter: drop-shadow(0 1px 0 var(--distant)) drop-shadow(1px 0 0 var(--distant)) drop-shadow(-1px 0 0 var(--distant)) drop-shadow(0 -1px 0 var(--distant)) drop-shadow(1px 1px 0 var(--distant)) drop-shadow(-1px -1px 0 var(--distant)) drop-shadow(1px -1px 0 var(--distant)) drop-shadow(-1px 1px 0 var(--distant));
     transition: filter 0.3s ease;
   }
 
