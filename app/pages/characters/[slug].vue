@@ -4,71 +4,184 @@
         <div class="character-content">
             <div class="character-main-content">
                 <div class="character-infobox">
-                    <span class="character-infobox__label" :style="{ color: character.theme_color }">... CHARACTER INFO</span>
-                    <div class="character-infobox__details" :style="{ borderTop: `2px solid ${character.theme_color}` }">
-                        <span class="font-display character-infobox__title" :style="{ color: character.theme_color }"><SketchText size="1.75em" style="margin: .25rem 0">{{ character.name }}</SketchText></span>
-                        <hr>
+                    <span
+                        class="character-infobox__label"
+                        :style="{ color: character.theme_color }"
+                        >... CHARACTER INFO</span
+                    >
+                    <div
+                        class="character-infobox__details"
+                        :style="{
+                            borderTop: `2px solid ${character.theme_color}`,
+                        }"
+                    >
+                        <span
+                            class="font-display character-infobox__title"
+                            :style="{ color: character.theme_color }"
+                            ><SketchText
+                                size="1.75em"
+                                style="margin: 0.25rem 0"
+                                >{{ character.name }}</SketchText
+                            ></span
+                        >
+                        <hr />
                         <div class="character-infobox__header">
-                            <figure style="text-align: center; margin: 0;">
+                            <figure style="text-align: center; margin: 0">
                                 <nuxt-img
-                                    :src="character.image || '/images/no_image.png'"
+                                    :src="
+                                        character.image ||
+                                        '/images/no_image.png'
+                                    "
                                     alt="Character Image"
                                 />
-                                <figcaption style="color: var(--text-secondary)">
-                                    <i>{{ character.image_description || "no description available" }}</i>
+                                <figcaption
+                                    style="color: var(--text-secondary)"
+                                >
+                                    <i>{{
+                                        character.image_description ||
+                                        "no description available"
+                                    }}</i>
                                 </figcaption>
                             </figure>
                         </div>
-                        <hr>
+                        <hr />
                         <table class="character-infobox__table">
                             <tbody>
                                 <tr>
-                                    <td class="character-infobox__item-label">Age</td>
+                                    <td class="character-infobox__item-label">
+                                        Age
+                                    </td>
                                     <td>{{ character.age || "Unknown" }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="character-infobox__item-label">Pronouns</td>
-                                    <td>{{ character.pronouns || "Unknown" }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="character-infobox__item-label">Species</td>
-                                    <td>{{ character.species || "Unknown" }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="character-infobox__item-label">Creation Date</td>
-                                    <td>{{ utils.formatDate(new Date(character.created_date)) || "Unknown" }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="character-infobox__item-label">Height</td>
-                                    <td>{{ `${character.height} (${utils.feetStringToCm(character.height)}cm)` || "Unknown" }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="character-infobox__item-label">Friends</td>
+                                    <td class="character-infobox__item-label">
+                                        Pronouns
+                                    </td>
                                     <td>
-                                        <span v-if="character.friends && character.friends.length > 0">
-                                            <template v-for="(friend, index) in character.friends" :key="friend.slug">
-                                                <CharacterLink :slug="friend.slug" sketch-text></CharacterLink>
-                                                <span v-if="index < character.friends.length - 1" style="display: block; margin-bottom: 0.25rem;"></span>
+                                        {{ character.pronouns || "Unknown" }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">
+                                        Species
+                                    </td>
+                                    <td>
+                                        {{ character.species || "Unknown" }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">
+                                        Creation Date
+                                    </td>
+                                    <td>
+                                        {{
+                                            utils.formatDate(
+                                                new Date(
+                                                    character.created_date,
+                                                ),
+                                            ) || "Unknown"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">
+                                        Height
+                                    </td>
+                                    <td>
+                                        {{
+                                            `${character.height} (${utils.feetStringToCm(character.height)}cm)` ||
+                                            "Unknown"
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="character-infobox__item-label">
+                                        Friends
+                                    </td>
+                                    <td>
+                                        <span
+                                            v-if="
+                                                character.friends &&
+                                                character.friends.length > 0
+                                            "
+                                        >
+                                            <template
+                                                v-for="(
+                                                    friend, index
+                                                ) in character.friends"
+                                                :key="friend.slug"
+                                            >
+                                                <CharacterLink
+                                                    :slug="friend.slug"
+                                                    sketch-text
+                                                ></CharacterLink>
+                                                <span
+                                                    v-if="
+                                                        index <
+                                                        character.friends
+                                                            .length -
+                                                            1
+                                                    "
+                                                    style="
+                                                        display: block;
+                                                        margin-bottom: 0.25rem;
+                                                    "
+                                                ></span>
                                             </template>
                                         </span>
                                         <span v-else>None</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="character-infobox__item-label">Enemies</td>
+                                    <td class="character-infobox__item-label">
+                                        Enemies
+                                    </td>
                                     <td>
-                                        <span v-if="character.enemies && character.enemies.length > 0">
-                                            <template v-for="(enemy, index) in character.enemies" :key="enemy.slug">
-                                                <CharacterLink :slug="enemy.slug" sketch-text></CharacterLink>
-                                                <span v-if="index < character.enemies.length - 1" style="display: block; margin-bottom: 0.25rem;"></span>
+                                        <span
+                                            v-if="
+                                                character.enemies &&
+                                                character.enemies.length > 0
+                                            "
+                                        >
+                                            <template
+                                                v-for="(
+                                                    enemy, index
+                                                ) in character.enemies"
+                                                :key="enemy.slug"
+                                            >
+                                                <CharacterLink
+                                                    :slug="enemy.slug"
+                                                    sketch-text
+                                                ></CharacterLink>
+                                                <span
+                                                    v-if="
+                                                        index <
+                                                        character.enemies
+                                                            .length -
+                                                            1
+                                                    "
+                                                    style="
+                                                        display: block;
+                                                        margin-bottom: 0.25rem;
+                                                    "
+                                                ></span>
                                             </template>
                                         </span>
                                         <span v-else>None</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="character-infobox__item-label">Type</td>
-                                    <td>{{ character.clan || "Unknown" }} <Icon :icon="character.clan" height="24" class="character-infobox__clan-icon" /></td>
+                                    <td class="character-infobox__item-label">
+                                        Type
+                                    </td>
+                                    <td>
+                                        {{ character.clan || "Unknown" }}
+                                        <Icon
+                                            :icon="character.clan"
+                                            height="24"
+                                            class="character-infobox__clan-icon"
+                                        />
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -81,59 +194,83 @@
                 />
             </div>
         </div>
-                    <div class="character-images">
-                <h2 class="section-title"><Icon icon="art" /> Character Images</h2>
-                <hr>
-                <div v-if="characterArtworks && characterArtworks.length > 0" class="character-images__grid">
-                    <ArtItem v-for="artwork in characterArtworks" :key="artwork.slug" :artwork="artwork" show-metadata />
-                </div>
-                <div v-else-if="!artworkLoading" class="no-artwork">
-                    <p>No artwork found for this character yet.</p>
-                </div>
-                <div v-if="artworkLoading" class="loading">
-                    <Icon icon="loading" />
-                    Loading more artwork...
-                </div>
-                <div v-if="hasReachedEnd && characterArtworks && characterArtworks.length > 0" class="end-message">
-                    That's all the artwork for {{ character.name }}!
-                </div>
+        <div class="character-images">
+            <h2 class="section-title"><Icon icon="art" /> Character Images</h2>
+            <hr />
+            <div
+                v-if="characterArtworks && characterArtworks.length > 0"
+                class="character-images__grid"
+            >
+                <ArtItem
+                    v-for="artwork in characterArtworks"
+                    :key="artwork.slug"
+                    :artwork="artwork"
+                    show-metadata
+                />
             </div>
-            
-            <div v-if="characterBlogPosts && characterBlogPosts.length > 0" class="character-blog-posts">
-                <h2 class="section-title"><Icon icon="blog" />Tagged Posts</h2>
-                <hr>
-                <div class="character-blog-posts__grid">
-                    <BlogCard v-for="post in characterBlogPosts" :key="post.slug" :post="post" />
-                </div>
+            <div v-else-if="!artworkLoading" class="no-artwork">
+                <p>No artwork found for this character yet.</p>
             </div>
+            <div v-if="artworkLoading" class="loading">
+                <Icon icon="loading" />
+                Loading more artwork...
+            </div>
+            <SplashText
+                v-if="
+                    hasReachedEnd &&
+                    characterArtworks &&
+                    characterArtworks.length > 0
+                "
+            />
+        </div>
+
+        <div
+            v-if="characterBlogPosts && characterBlogPosts.length > 0"
+            class="character-blog-posts"
+        >
+            <h2 class="section-title"><Icon icon="blog" />Tagged Posts</h2>
+            <hr />
+            <div class="character-blog-posts__grid">
+                <BlogCard
+                    v-for="post in characterBlogPosts"
+                    :key="post.slug"
+                    :post="post"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import CharacterBanner from '~/components/characters/CharacterBanner.vue';
-import CharacterLink from '~/components/common/CharacterLink.vue';
-import SketchText from '~/components/common/SketchText.vue';
-import ArtItem from '~/components/art/ArtItem.vue';
-import BlogCard from '~/components/blog/BlogCard.vue';
-import Icon from '~/components/common/Icon.vue';
-import { getArtworksByCharacter } from '~/utils/art';
-import { getBlogPostsByCharacter } from '~/utils/blog';
-import utils from '~/utils';
+import CharacterBanner from "~/components/characters/CharacterBanner.vue";
+import CharacterLink from "~/components/common/CharacterLink.vue";
+import SketchText from "~/components/common/SketchText.vue";
+import ArtItem from "~/components/art/ArtItem.vue";
+import BlogCard from "~/components/blog/BlogCard.vue";
+import Icon from "~/components/common/Icon.vue";
+import { getArtworksByCharacter } from "~/utils/art";
+import { getBlogPostsByCharacter } from "~/utils/blog";
+import utils from "~/utils";
+import SplashText from "~/components/common/SplashText.vue";
 
 const route = useRoute();
 
-const { data: character } = await useAsyncData(`character-${route.params.slug}`, () => {
-    const slug = route.params.slug;
-    return queryCollection("characters").where("slug", "=", slug).first();
-}, {
-    watch: [() => route.params.slug]
-});
+const { data: character } = await useAsyncData(
+    `character-${route.params.slug}`,
+    () => {
+        const slug = route.params.slug;
+        return queryCollection("characters").where("slug", "=", slug).first();
+    },
+    {
+        watch: [() => route.params.slug],
+    },
+);
 
 // Redirect to 404 if character is not found
 if (!character.value) {
     throw createError({
         statusCode: 404,
-        statusMessage: 'Character not found'
+        statusMessage: "Character not found",
     });
 } else {
     console.log("Character data loaded:", character.value);
@@ -145,118 +282,158 @@ const artworkPage = ref(1);
 const artworkLoading = ref(false);
 const hasReachedEnd = ref(false);
 
-const { data: initialCharacterArtworks } = await useAsyncData(`character-artworks-${route.params.slug}`, async () => {
-    if (!character.value) return [];
-    const artworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, 1);
-    
-    // Remove any potential duplicates from the initial load
-    const uniqueArtworks = artworks.filter((artwork, index, arr) => 
-        arr.findIndex(a => a.slug === artwork.slug) === index
-    );
-    
-    return uniqueArtworks;
-}, {
-    watch: [() => route.params.slug]
-});
+const { data: initialCharacterArtworks } = await useAsyncData(
+    `character-artworks-${route.params.slug}`,
+    async () => {
+        if (!character.value) return [];
+        const artworks = await getArtworksByCharacter(
+            character.value.slug,
+            ITEMS_PER_PAGE,
+            1,
+        );
+
+        // Remove any potential duplicates from the initial load
+        const uniqueArtworks = artworks.filter(
+            (artwork, index, arr) =>
+                arr.findIndex((a) => a.slug === artwork.slug) === index,
+        );
+
+        return uniqueArtworks;
+    },
+    {
+        watch: [() => route.params.slug],
+    },
+);
 
 const characterArtworks = ref(initialCharacterArtworks.value || []);
 
 // Character blog posts loading
-const { data: characterBlogPosts } = await useAsyncData(`character-blog-posts-${route.params.slug}`, async () => {
-    if (!character.value) return [];
-    return await getBlogPostsByCharacter(character.value.slug);
-}, {
-    watch: [() => route.params.slug]
-});
+const { data: characterBlogPosts } = await useAsyncData(
+    `character-blog-posts-${route.params.slug}`,
+    async () => {
+        if (!character.value) return [];
+        return await getBlogPostsByCharacter(character.value.slug);
+    },
+    {
+        watch: [() => route.params.slug],
+    },
+);
 
 const loadMoreArtwork = async () => {
-  if (artworkLoading.value || hasReachedEnd.value || !character.value) return;
-  
-  artworkLoading.value = true;
-  artworkPage.value++;
-  
-  try {
-    const newArtworks = await getArtworksByCharacter(character.value.slug, ITEMS_PER_PAGE, artworkPage.value);
-    
-    console.log('Loaded character artworks for page', artworkPage.value, ':', newArtworks.length, 'items');
-    
-    if (newArtworks.length === 0) {
-      hasReachedEnd.value = true;
-    } else {
-      // Filter out duplicates by checking if artwork slug already exists
-      const existingArtworkSlugs = new Set(characterArtworks.value.map(artwork => artwork.slug));
-      const uniqueNewArtworks = newArtworks.filter(artwork => !existingArtworkSlugs.has(artwork.slug));
-      
-      console.log('Unique new character artworks:', uniqueNewArtworks.length, 'out of', newArtworks.length);
-      
-      if (uniqueNewArtworks.length > 0) {
-        characterArtworks.value = [...characterArtworks.value, ...uniqueNewArtworks];
-      }
-      
-      if (newArtworks.length < ITEMS_PER_PAGE) {
-        hasReachedEnd.value = true;
-      }
+    if (artworkLoading.value || hasReachedEnd.value || !character.value) return;
+
+    artworkLoading.value = true;
+    artworkPage.value++;
+
+    try {
+        const newArtworks = await getArtworksByCharacter(
+            character.value.slug,
+            ITEMS_PER_PAGE,
+            artworkPage.value,
+        );
+
+        console.log(
+            "Loaded character artworks for page",
+            artworkPage.value,
+            ":",
+            newArtworks.length,
+            "items",
+        );
+
+        if (newArtworks.length === 0) {
+            hasReachedEnd.value = true;
+        } else {
+            // Filter out duplicates by checking if artwork slug already exists
+            const existingArtworkSlugs = new Set(
+                characterArtworks.value.map((artwork) => artwork.slug),
+            );
+            const uniqueNewArtworks = newArtworks.filter(
+                (artwork) => !existingArtworkSlugs.has(artwork.slug),
+            );
+
+            console.log(
+                "Unique new character artworks:",
+                uniqueNewArtworks.length,
+                "out of",
+                newArtworks.length,
+            );
+
+            if (uniqueNewArtworks.length > 0) {
+                characterArtworks.value = [
+                    ...characterArtworks.value,
+                    ...uniqueNewArtworks,
+                ];
+            }
+
+            if (newArtworks.length < ITEMS_PER_PAGE) {
+                hasReachedEnd.value = true;
+            }
+        }
+    } catch (error) {
+        console.error("Error loading more character artworks:", error);
+        // Revert page increment on error
+        artworkPage.value--;
+    } finally {
+        artworkLoading.value = false;
     }
-  } catch (error) {
-    console.error('Error loading more character artworks:', error);
-    // Revert page increment on error
-    artworkPage.value--;
-  } finally {
-    artworkLoading.value = false;
-  }
 };
 
 const checkScrollPosition = () => {
-  const scrollPosition = window.innerHeight + window.scrollY;
-  const threshold = document.body.offsetHeight - 1000; // Load when 1000px from bottom
-  
-  if (scrollPosition >= threshold) {
-    loadMoreArtwork();
-  }
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 1000; // Load when 1000px from bottom
+
+    if (scrollPosition >= threshold) {
+        loadMoreArtwork();
+    }
 };
 
 // Throttle scroll events for better performance
 let scrollTimeout: NodeJS.Timeout | null = null;
 const throttledScrollCheck = () => {
-  if (scrollTimeout) return;
-  
-  scrollTimeout = setTimeout(() => {
-    checkScrollPosition();
-    scrollTimeout = null;
-  }, 100);
+    if (scrollTimeout) return;
+
+    scrollTimeout = setTimeout(() => {
+        checkScrollPosition();
+        scrollTimeout = null;
+    }, 100);
 };
 
 // Set up infinite scrolling
 onMounted(() => {
-  window.addEventListener('scroll', throttledScrollCheck);
-  // Manually change the --scrollbar-bar-- CSS variable to character theme color
-  document.documentElement.style.setProperty('--scrollbar-bar', character.value?.theme_color || '#000000');
+    window.addEventListener("scroll", throttledScrollCheck);
+    // Manually change the --scrollbar-bar-- CSS variable to character theme color
+    document.documentElement.style.setProperty(
+        "--scrollbar-bar",
+        character.value?.theme_color || "#000000",
+    );
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', throttledScrollCheck);
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout);
-  }
+    window.removeEventListener("scroll", throttledScrollCheck);
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
 });
 
 onBeforeUnmount(() => {
-  // Reset scrollbar color on unmount
-  document.documentElement.style.setProperty('--scrollbar-bar', 'var(--primary)');
+    // Reset scrollbar color on unmount
+    document.documentElement.style.setProperty(
+        "--scrollbar-bar",
+        "var(--primary)",
+    );
 });
 
 useSeoMeta({
-  title: character.value.name,
-  description: character.value.short_description,
-  ogTitle: character.value.name,
-  ogDescription: character.value.short_description,
-  ogImage: character.value.image || '/images/no_image.png',
-  ogImageAlt: character.value.image_description || '',
-  twitterCard: 'summary_large_image',
-  twitterImage: character.value.image || '/images/no_image.png',
-  themeColor: character.value.theme_color || '#000000',
+    title: character.value.name,
+    description: character.value.short_description,
+    ogTitle: character.value.name,
+    ogDescription: character.value.short_description,
+    ogImage: character.value.image || "/images/no_image.png",
+    ogImageAlt: character.value.image_description || "",
+    twitterCard: "summary_large_image",
+    twitterImage: character.value.image || "/images/no_image.png",
+    themeColor: character.value.theme_color || "#000000",
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -264,17 +441,18 @@ useSeoMeta({
     min-height: 100vh;
 }
 
-.character-content, .character-images {
+.character-content,
+.character-images {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    
+
     @media (max-width: 768px) {
         /* On mobile, stack vertically */
         display: flex;
         flex-direction: column;
     }
-    
+
     /* Clear floats after content */
     &::after {
         content: "";
@@ -285,7 +463,7 @@ useSeoMeta({
 .character-text {
     /* Text will naturally wrap around the floated infobox */
     text-align: justify;
-    
+
     @media (max-width: 768px) {
         order: 1;
     }
@@ -295,7 +473,7 @@ useSeoMeta({
     width: 300px;
     margin-left: 20px;
     margin-bottom: 20px;
-    
+
     @media (max-width: 768px) {
         float: none;
         width: 100%;
@@ -337,9 +515,9 @@ useSeoMeta({
     text-align: center;
 }
 .section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 .character-infobox__header {
     display: flex;
@@ -361,7 +539,11 @@ useSeoMeta({
     --theme-color: v-bind(character.theme_color);
     tr {
         &:nth-child(even) {
-            background-color: color-mix(in srgb, var(--theme-color) 5%, transparent);
+            background-color: color-mix(
+                in srgb,
+                var(--theme-color) 5%,
+                transparent
+            );
         }
         td {
             padding: 8px 4px;
@@ -384,7 +566,7 @@ useSeoMeta({
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1rem;
-        
+
         @media (max-width: 600px) {
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         }
@@ -395,7 +577,7 @@ useSeoMeta({
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    
+
     &__grid {
         display: flex;
         flex-wrap: wrap;
@@ -409,7 +591,6 @@ useSeoMeta({
     color: var(--text-secondary);
     font-style: italic;
 }
-
 
 .no-artwork {
     text-align: center;
@@ -431,7 +612,4 @@ useSeoMeta({
     color: var(--text-secondary);
     font-style: italic;
 }
-
-
 </style>
-
