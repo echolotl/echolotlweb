@@ -1,0 +1,18 @@
+export const SPLASH_TEXTS = [
+  "Also try Minecraft!",
+  "Kid named finger:",
+  "Penny's Big Breakway has a really good soundtrack",
+  "spongr",
+  "Now with more cowbell!",
+  "-160 -304 (nether) Hoglin Farm",
+  "Do you even know?",
+  "Who are the cookies and why are they running",
+  "Oh so that's why the mobile port was taking so long",
+  "This update is significant",
+  "Me, the king of unfinished projects",
+  "save me phighting ost",
+  "it’s time to drink water",
+  "Sorry...echolotl...",
+  "Homer ⚠️⚠️⚠️",
+  "I am game of the year",
+];
