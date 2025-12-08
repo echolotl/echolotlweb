@@ -1,15 +1,20 @@
 <template>
-  <div class="characters-page">
-    <h1 class="large-title"><SketchText size="4rem">Characters</SketchText></h1>
-    <p class="subtitle">Want to know more about my characters? Click on any of their cards to go to their page!</p>
-    <div class="characters-list">
-      <CharacterCard
-        v-for="(character, index) in characters"
-        :key="index"
-        :character="character"
-      />
+    <div class="characters-page">
+        <h1 class="large-title">
+            <SketchText size="4rem">Characters</SketchText>
+        </h1>
+        <p class="subtitle">
+            Want to know more about my characters? Click on any of their cards
+            to go to their page!
+        </p>
+        <div class="characters-list">
+            <CharacterCard
+                v-for="(character, index) in characters"
+                :key="index"
+                :character="character"
+            />
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,36 +23,37 @@ import CharacterCard from "~/components/characters/CharacterCard.vue";
 import SketchText from "~/components/common/SketchText.vue";
 
 const { data: characters } = await useAsyncData(() => {
-  return queryCollection("characters").all();
+    return queryCollection("characters").all();
 });
 
 useSeoMeta({
-  title: 'Characters',
-  description: 'Check out all of echolotl\'s characters!',
-  ogTitle: 'echolotl\'s Characters',
-  ogDescription: 'Check out all of echolotl\'s characters!',
+    title: "Characters",
+    description: "Check out all of echolotl's characters!",
+    ogTitle: "echolotl's Characters",
+    ogDescription: "Check out all of echolotl's characters!",
 });
 </script>
 
 <style scoped lang="scss">
 .characters-page {
-  margin: 0 auto;
-  padding: 2rem;
-  max-width: 1600px;
-  h1 {
-    text-align: center;
-  }
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 1600px;
+    min-height: 80vh;
+    h1 {
+        text-align: center;
+    }
 }
 
 .characters-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  flex-direction: row;
-  margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 2rem;
 }
 
 .subtitle {
-  text-align: center;
+    text-align: center;
 }
 </style>

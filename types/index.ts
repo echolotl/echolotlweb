@@ -21,21 +21,6 @@ export interface Character {
   banner_image?: string;
 }
 
-export interface BlogPost {
-  slug: string;
-  type: 'blog' | 'lore' | 'site_update';
-  title: string;
-  author: string;
-  created_date: string;
-  last_modified?: string;
-  abstract?: string;
-  thumbnail_image?: string;
-  thumbnail_image_description?: string;
-  tags?: string[];
-  related_characters?: { slug: string; name: string }[];
-  pinned?: boolean;
-}
-
 export interface Art {
   slug: string;
   created_at: string;
@@ -52,16 +37,15 @@ export interface Art {
   sketch?: boolean;
 }
 
-
 export interface ArtImageVariant {
   image_url: string;
   thumbnail_url?: string;
-  label?: string;   
-  alt?: string;     
+  label?: string;
+  alt?: string;
 }
 
 export interface ArtImage {
-  id?: string;      
+  id?: string;
   title?: string;
   image_url: string;
   thumbnail_url?: string;
