@@ -317,13 +317,10 @@ useSeoMeta({
 
 .art-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, 200px);
     gap: 1rem;
     margin-bottom: 1rem;
-
-    @media (max-width: 600px) {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
+    justify-content: center;
 }
 
 .loading {

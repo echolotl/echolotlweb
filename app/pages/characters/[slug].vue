@@ -223,21 +223,6 @@
                 "
             />
         </div>
-
-        <div
-            v-if="characterBlogPosts && characterBlogPosts.length > 0"
-            class="character-blog-posts"
-        >
-            <h2 class="section-title"><Icon icon="blog" />Tagged Posts</h2>
-            <hr />
-            <div class="character-blog-posts__grid">
-                <BlogCard
-                    v-for="post in characterBlogPosts"
-                    :key="post.slug"
-                    :post="post"
-                />
-            </div>
-        </div>
     </div>
 </template>
 
@@ -246,10 +231,10 @@ import CharacterBanner from "~/components/characters/CharacterBanner.vue";
 import CharacterLink from "~/components/common/CharacterLink.vue";
 import SketchText from "~/components/common/SketchText.vue";
 import ArtItem from "~/components/art/ArtItem.vue";
-import BlogCard from "~/components/blog/BlogCard.vue";
+
 import Icon from "~/components/common/Icon.vue";
 import { getArtworksByCharacter } from "~/utils/art";
-import { getBlogPostsByCharacter } from "~/utils/blog";
+
 import utils from "~/utils";
 import SplashText from "~/components/common/SplashText.vue";
 
@@ -306,18 +291,6 @@ const { data: initialCharacterArtworks } = await useAsyncData(
 );
 
 const characterArtworks = ref(initialCharacterArtworks.value || []);
-
-// Character blog posts loading
-const { data: characterBlogPosts } = await useAsyncData(
-    `character-blog-posts-${route.params.slug}`,
-    async () => {
-        if (!character.value) return [];
-        return await getBlogPostsByCharacter(character.value.slug);
-    },
-    {
-        watch: [() => route.params.slug],
-    },
-);
 
 const loadMoreArtwork = async () => {
     if (artworkLoading.value || hasReachedEnd.value || !character.value) return;
@@ -564,24 +537,10 @@ useSeoMeta({
 .character-images {
     &__grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-
-        @media (max-width: 600px) {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        }
-    }
-}
-
-.character-blog-posts {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-
-    &__grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
+        row-gap: 0.5rem;
+        column-gap: 1rem;
+        grid-template-columns: repeat(auto-fill, 200px);
+        justify-content: center;
     }
 }
 
