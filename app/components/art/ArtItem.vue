@@ -4,25 +4,26 @@
             <div
                 class="art-item__image"
                 :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`"
-            ></div>
+            >
+                <div v-if="showMetadata" class="art-item__metadata">
+                    <div v-if="artwork.character && showCharacterBadge">
+                        <Icon icon="character" />
+                    </div>
+                    <div v-if="artwork.pinned">
+                        <Icon icon="pin" />
+                    </div>
+                    <div v-if="artwork.sketch">
+                        <Icon icon="sketch" />
+                    </div>
+                    <div v-if="hasVariants">
+                        <Icon icon="layers" />
+                    </div>
+                    <div v-if="hasMultipleImages">
+                        <Icon icon="images" />
+                    </div>
+                </div>
+            </div>
         </nuxt-link>
-        <div v-if="showMetadata" class="art-item__metadata">
-            <div v-if="artwork.character && showCharacterBadge">
-                <Icon icon="character" />
-            </div>
-            <div v-if="artwork.pinned">
-                <Icon icon="pin" />
-            </div>
-            <div v-if="artwork.sketch">
-                <Icon icon="sketch" />
-            </div>
-            <div v-if="hasVariants">
-                <Icon icon="layers" />
-            </div>
-            <div v-if="hasMultipleImages">
-                <Icon icon="images" />
-            </div>
-        </div>
     </div>
 </template>
 
@@ -98,14 +99,14 @@ const hasMultipleImages = computed(() => {
     justify-content: center;
     transition: filter 0.2s ease;
     z-index: 2;
-    max-width: 200px;
-    max-height: 200px;
-    width: 100%;
-    height: 200px;
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.5rem);
+    padding: 0.25rem;
     left: 0;
     top: 0;
     aspect-ratio: 1 / 1;
     pointer-events: none;
-    filter: drop-shadow(0 0 2px black);
+    filter: drop-shadow(0 0 4px black);
+    background-blend-mode: darken;
 }
 </style>
