@@ -8,7 +8,7 @@
         >
             <Icon icon="socials/tumblr" :height="iconSize" :width="iconSize" />
         </a>
-        <div class="twitter twitter-link">
+        <div class="twitter">
             <a
                 href="https://x.com/echolotl"
                 target="_blank"
@@ -26,7 +26,7 @@
                 href="https://twitter.com/echolotl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="link"
+                class="link twitter-link"
             >
                 <Icon
                     v-show="isShiftPressed"
@@ -49,7 +49,7 @@
             />
         </a>
         <a
-            href="https://bsky.app/profile/echolotl.loll"
+            href="https://bsky.app/profile/echolotl.lol"
             target="_blank"
             rel="noopener noreferrer"
             class="link bluesky-link"
