@@ -1,36 +1,45 @@
 <template>
-  <CharacterLink :slug="slug" class="character-tag">
-    <Tag 
-      variant="character" 
-      :clickable="true" 
-      :custom-color="character?.theme_color"
-    >
-      <SketchText v-if="sketchText && character?.name" :text="character.name" class="sketch-text-stroke" />
-      <span v-else-if="character?.name">{{ character.name }}</span>
-      <slot v-else></slot>
-    </Tag>
-  </CharacterLink>
+    <CharacterLink :slug="slug" class="character-tag">
+        <Tag
+            variant="character"
+            :clickable="true"
+            :custom-color="character?.theme_color"
+        >
+            <SketchText
+                v-if="sketchText && character?.name"
+                :text="character.name"
+                class="sketch-text-stroke"
+            />
+            <span v-else-if="character?.name">{{ character.name }}</span>
+            <slot v-else></slot>
+        </Tag>
+    </CharacterLink>
 </template>
 
 <script setup lang="ts">
-import Tag from './Tag.vue';
-import CharacterLink from './CharacterLink.vue';
-import SketchText from './SketchText.vue';
+import Tag from "./Tag.vue";
+import CharacterLink from "./CharacterLink.vue";
+import SketchText from "./SketchText.vue";
 
 interface Props {
-  slug: string;
-  sketchText?: boolean;
+    slug: string;
+    sketchText?: boolean;
 }
 
 const props = defineProps<Props>();
 
-const { data: character } = await useAsyncData(`character-tag-${props.slug}`, async () => {
-  const character = await queryCollection("characters").where("slug", "=", props.slug).first();
-  return character;
-});
+const { data: character } = await useAsyncData(
+    `character-tag-${props.slug}`,
+    async () => {
+        const character = await queryCollection("characters")
+            .where("slug", "=", props.slug)
+            .first();
+        return character;
+    },
+);
 
 const darkerColor = computed(() => {
-    if (!character.value?.theme_color) return '';
+    if (!character.value?.theme_color) return "";
     return `color-mix(in oklab, ${character.value.theme_color} 50%, black 50%)`;
 });
 const textStroke = computed(() => {
@@ -40,18 +49,20 @@ const textStroke = computed(() => {
 
 <style scoped lang="scss">
 .character-tag {
-  text-decoration: none;
-  
-  :deep(.tag--character) {
-    transition: all 0.2s ease;
-    
-    &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+
+    :deep(.tag--character) {
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+        &:active {
+            transform: translateY(-1px);
+        }
     }
-  }
 }
 .sketch-text-stroke {
-  filter: v-bind(textStroke);
+    filter: v-bind(textStroke);
 }
 </style>
