@@ -25,7 +25,7 @@ const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 const allNavIcons = {
     art: { icon: "art_brush", alt: "Art", to: "/art" },
     characters: {
-        icon: "characters-icon",
+        icon: "character",
         alt: "Characters",
         to: "/characters",
     },

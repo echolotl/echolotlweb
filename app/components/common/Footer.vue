@@ -13,18 +13,35 @@
             <div class="footer-image left-image" />
             <div class="footer-image right-image" />
         </div>
+        <div
+            v-if="rtc.public.underConstruction"
+            class="under-construction-banner"
+        >
+            <nuxt-img
+                class="under-construction-text"
+                src="/images/underconstructiontxt.png"
+                alt="Under Construction"
+            />
+        </div>
     </footer>
 </template>
 
 <script setup lang="ts">
 import SocialIcons from "~/components/common/SocialIcons.vue";
+
+const rtc = useRuntimeConfig();
+console.log(rtc.public);
 </script>
 
 <style scoped lang="scss">
 footer {
     position: relative;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
     width: 100%;
     height: 500px;
+    overflow: hidden;
 }
 .footer-images {
     position: absolute;
@@ -65,7 +82,7 @@ footer {
         }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 1177px) {
         .footer-image {
             &.left-image,
             &.right-image,
@@ -78,7 +95,7 @@ footer {
 }
 
 .footer-content {
-    position: absolute;
+    position: relative;
     bottom: 0;
     background: linear-gradient(to top, var(--surface), transparent 100%);
     height: 50%;
@@ -113,5 +130,24 @@ footer {
             transform: translateX(3px);
         }
     }
+}
+
+.under-construction-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("/images/underconstruction.png");
+    background-position: bottom;
+    background-size: contain;
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 24px;
+    z-index: 10;
+}
+.under-construction-text {
+    height: 16px;
+    filter: drop-shadow(2px 0 0 black) drop-shadow(-2px 0 0 black)
+        drop-shadow(0 -2px 0 black) drop-shadow(0 2px 0 black);
 }
 </style>

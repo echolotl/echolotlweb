@@ -277,6 +277,7 @@ onMounted(() => {
 
 .navbar-top__mobile-menu-content {
     padding: 1rem;
+    padding-top: calc(1rem + 60px);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
