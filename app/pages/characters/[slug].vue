@@ -197,17 +197,11 @@
         <div class="character-images">
             <h2 class="section-title"><Icon icon="art" /> Character Images</h2>
             <hr />
-            <div
+            <ArtGrid
                 v-if="characterArtworks && characterArtworks.length > 0"
-                class="character-images__grid"
-            >
-                <ArtItem
-                    v-for="artwork in characterArtworks"
-                    :key="artwork.slug"
-                    :artwork="artwork"
-                    show-metadata
-                />
-            </div>
+                :artworks="characterArtworks"
+                show-metadata
+            />
             <div v-else-if="!artworkLoading" class="no-artwork">
                 <p>No artwork found for this character yet.</p>
             </div>
@@ -230,7 +224,7 @@
 import CharacterBanner from "~/components/characters/CharacterBanner.vue";
 import CharacterLink from "~/components/common/CharacterLink.vue";
 import SketchText from "~/components/common/SketchText.vue";
-import ArtItem from "~/components/art/ArtItem.vue";
+import ArtGrid from "~/components/art/ArtGrid.vue";
 
 import Icon from "~/components/common/Icon.vue";
 import { getArtworksByCharacter } from "~/utils/art";
@@ -532,16 +526,6 @@ useSeoMeta({
 .character-infobox__clan-icon {
     width: 24px;
     height: 24px;
-}
-
-.character-images {
-    &__grid {
-        display: grid;
-        row-gap: 0.5rem;
-        column-gap: 1rem;
-        grid-template-columns: repeat(auto-fill, 200px);
-        justify-content: center;
-    }
 }
 
 .no-posts {

@@ -11,13 +11,7 @@
             </h2>
         </div>
         <hr v-if="allPinnedArtworks.length > 0" />
-        <div class="art-grid">
-            <ArtItem
-                v-for="artwork in allPinnedArtworks"
-                :key="artwork.slug"
-                :artwork="artwork"
-            />
-        </div>
+        <ArtGrid :artworks="allPinnedArtworks" />
         <div class="section-header section-header-with-filter">
             <div class="section-title-group">
                 <h2 class="section-title" style="transform: translateY(2px)">
@@ -55,15 +49,11 @@
             </div>
         </div>
         <hr />
-        <div class="art-grid">
-            <ArtItem
-                v-for="artwork in filteredArtworks"
-                :key="artwork.slug"
-                :artwork="artwork"
-                show-metadata
-                show-character-badge
-            />
-        </div>
+        <ArtGrid
+            :artworks="filteredArtworks"
+            show-metadata
+            show-character-badge
+        />
         <div v-if="loading" class="loading">
             <Icon icon="loading" />
             Loading more artwork...
@@ -77,6 +67,7 @@ import { getArtworks, getPinnedArtworks } from "#imports";
 import Icon from "~/components/common/Icon.vue";
 import SketchText from "~/components/common/SketchText.vue";
 import SplashText from "~/components/common/SplashText.vue";
+import ArtGrid from "~/components/art/ArtGrid.vue";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -312,17 +303,6 @@ useSeoMeta({
     }
     span {
         pointer-events: none;
-    }
-}
-
-.art-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
-    justify-content: center;
-    @media (max-width: 600px) {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
 }
 
