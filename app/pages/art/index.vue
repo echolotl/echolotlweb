@@ -54,11 +54,7 @@
             show-metadata
             show-character-badge
         />
-        <div v-if="loading" class="loading">
-            <Icon icon="loading" />
-            Loading more artwork...
-        </div>
-        <SplashText v-if="hasReachedEnd" />
+        <SplashText />
     </div>
 </template>
 
@@ -69,11 +65,6 @@ import SketchText from "~/components/common/SketchText.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 
-const ITEMS_PER_PAGE = 20;
-
-const page = ref(1);
-const loading = ref(false);
-const hasReachedEnd = ref(false);
 const filters = ref({
     sketches: false,
     characterArt: false,
@@ -83,12 +74,14 @@ const filters = ref({
 const { data: pinnedArtworks } = await useAsyncData("pinned-art", () =>
     getPinnedArtworks(),
 );
-const { data: initialRegularArtworks } = await useAsyncData("regular-art", () =>
-    getArtworks(ITEMS_PER_PAGE, 1),
+const { data: allArtworks } = await useAsyncData("all-art", () =>
+    getArtworks(),
 );
 
 const allPinnedArtworks = ref(pinnedArtworks.value || []);
-const allRegularArtworks = ref(initialRegularArtworks.value || []);
+const allRegularArtworks = ref(
+    (allArtworks.value || []).filter((artwork) => !artwork.pinned),
+);
 
 const filteredArtworks = computed(() => {
     const nonPinnedArtworks = allRegularArtworks.value;
@@ -139,90 +132,6 @@ const toggleFilter = (
 ) => {
     filters.value[filterName] = !filters.value[filterName];
 };
-
-const loadMore = async () => {
-    if (loading.value || hasReachedEnd.value) return;
-
-    loading.value = true;
-    page.value++;
-
-    try {
-        const newArtworks = await getArtworks(ITEMS_PER_PAGE, page.value);
-
-        console.log(
-            "Loaded artworks for page",
-            page.value,
-            ":",
-            newArtworks.length,
-            "items",
-        );
-
-        if (newArtworks.length === 0) {
-            hasReachedEnd.value = true;
-        } else {
-            const existingSlugs = new Set(
-                [...allPinnedArtworks.value, ...allRegularArtworks.value].map(
-                    (artwork) => artwork.slug,
-                ),
-            );
-            const uniqueNewArtworks = newArtworks.filter(
-                (artwork) => !existingSlugs.has(artwork.slug),
-            );
-
-            if (uniqueNewArtworks.length > 0) {
-                // Add only non-pinned artworks to the regular artworks list
-                const nonPinnedNewArtworks = uniqueNewArtworks.filter(
-                    (artwork) => !artwork.pinned,
-                );
-                allRegularArtworks.value = [
-                    ...allRegularArtworks.value,
-                    ...nonPinnedNewArtworks,
-                ];
-            }
-
-            if (newArtworks.length < ITEMS_PER_PAGE) {
-                hasReachedEnd.value = true;
-            }
-        }
-    } catch (error) {
-        console.error("Error loading more artworks:", error);
-        // Revert page increment on error
-        page.value--;
-    } finally {
-        loading.value = false;
-    }
-};
-
-const checkScrollPosition = () => {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.body.offsetHeight - 1000; // Load when 1000px from bottom
-
-    if (scrollPosition >= threshold) {
-        loadMore();
-    }
-};
-
-let scrollTimeout: NodeJS.Timeout | null = null;
-const throttledScrollCheck = () => {
-    if (scrollTimeout) return;
-
-    scrollTimeout = setTimeout(() => {
-        checkScrollPosition();
-        scrollTimeout = null;
-    }, 100);
-};
-
-// Set up infinite scrolling
-onMounted(() => {
-    window.addEventListener("scroll", throttledScrollCheck);
-});
-
-onUnmounted(() => {
-    window.removeEventListener("scroll", throttledScrollCheck);
-    if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-    }
-});
 
 useSeoMeta({
     title: "Art Archive",
