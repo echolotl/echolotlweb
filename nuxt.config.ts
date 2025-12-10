@@ -107,6 +107,9 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/mdc",
   ],
+  image: {
+    provider: "none",
+  },
   components: {
     global: true,
     dirs: ["~/components", "~/components/content"],

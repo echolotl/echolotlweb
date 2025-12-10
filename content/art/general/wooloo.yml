@@ -1,7 +1,7 @@
-slug: ''
-created_at: '2022-03-05T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.392Z'
-title: ''
+slug: "wooloo"
+created_at: "2022-03-05T00:00:00.000Z"
+modified_at: "2025-09-28T20:15:02.392Z"
+title: "Wooloo"
 pinned: false
 sketch: false
 image_url: /art/general/wooloo.png
@@ -14,4 +14,4 @@ thumbnail_url: /art/general/thumbnails/wooloo.webp
 images:
   - image_url: /art/general/wooloo.png
     thumbnail_url: /art/general/thumbnails/wooloo.webp
-    alt: ''
+    alt: ""

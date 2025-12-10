@@ -202,19 +202,11 @@
                 :artworks="characterArtworks"
                 show-metadata
             />
-            <div v-else-if="!artworkLoading" class="no-artwork">
+            <div v-else class="no-artwork">
                 <p>No artwork found for this character yet.</p>
             </div>
-            <div v-if="artworkLoading" class="loading">
-                <Icon icon="loading" />
-                Loading more artwork...
-            </div>
             <SplashText
-                v-if="
-                    hasReachedEnd &&
-                    characterArtworks &&
-                    characterArtworks.length > 0
-                "
+                v-if="characterArtworks && characterArtworks.length > 0"
             />
         </div>
     </div>
@@ -256,130 +248,23 @@ if (!character.value) {
 }
 
 // Character artwork loading
-const ITEMS_PER_PAGE = 12;
-const artworkPage = ref(1);
-const artworkLoading = ref(false);
-const hasReachedEnd = ref(false);
-
-const { data: initialCharacterArtworks } = await useAsyncData(
+const { data: characterArtworks } = await useAsyncData(
     `character-artworks-${route.params.slug}`,
     async () => {
         if (!character.value) return [];
-        const artworks = await getArtworksByCharacter(
-            character.value.slug,
-            ITEMS_PER_PAGE,
-            1,
-        );
-
-        // Remove any potential duplicates from the initial load
-        const uniqueArtworks = artworks.filter(
-            (artwork, index, arr) =>
-                arr.findIndex((a) => a.slug === artwork.slug) === index,
-        );
-
-        return uniqueArtworks;
+        return await getArtworksByCharacter(character.value.slug);
     },
     {
         watch: [() => route.params.slug],
     },
 );
 
-const characterArtworks = ref(initialCharacterArtworks.value || []);
-
-const loadMoreArtwork = async () => {
-    if (artworkLoading.value || hasReachedEnd.value || !character.value) return;
-
-    artworkLoading.value = true;
-    artworkPage.value++;
-
-    try {
-        const newArtworks = await getArtworksByCharacter(
-            character.value.slug,
-            ITEMS_PER_PAGE,
-            artworkPage.value,
-        );
-
-        console.log(
-            "Loaded character artworks for page",
-            artworkPage.value,
-            ":",
-            newArtworks.length,
-            "items",
-        );
-
-        if (newArtworks.length === 0) {
-            hasReachedEnd.value = true;
-        } else {
-            // Filter out duplicates by checking if artwork slug already exists
-            const existingArtworkSlugs = new Set(
-                characterArtworks.value.map((artwork) => artwork.slug),
-            );
-            const uniqueNewArtworks = newArtworks.filter(
-                (artwork) => !existingArtworkSlugs.has(artwork.slug),
-            );
-
-            console.log(
-                "Unique new character artworks:",
-                uniqueNewArtworks.length,
-                "out of",
-                newArtworks.length,
-            );
-
-            if (uniqueNewArtworks.length > 0) {
-                characterArtworks.value = [
-                    ...characterArtworks.value,
-                    ...uniqueNewArtworks,
-                ];
-            }
-
-            if (newArtworks.length < ITEMS_PER_PAGE) {
-                hasReachedEnd.value = true;
-            }
-        }
-    } catch (error) {
-        console.error("Error loading more character artworks:", error);
-        // Revert page increment on error
-        artworkPage.value--;
-    } finally {
-        artworkLoading.value = false;
-    }
-};
-
-const checkScrollPosition = () => {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.body.offsetHeight - 1000; // Load when 1000px from bottom
-
-    if (scrollPosition >= threshold) {
-        loadMoreArtwork();
-    }
-};
-
-// Throttle scroll events for better performance
-let scrollTimeout: NodeJS.Timeout | null = null;
-const throttledScrollCheck = () => {
-    if (scrollTimeout) return;
-
-    scrollTimeout = setTimeout(() => {
-        checkScrollPosition();
-        scrollTimeout = null;
-    }, 100);
-};
-
-// Set up infinite scrolling
+// Set scrollbar color to character theme
 onMounted(() => {
-    window.addEventListener("scroll", throttledScrollCheck);
-    // Manually change the --scrollbar-bar-- CSS variable to character theme color
     document.documentElement.style.setProperty(
         "--scrollbar-bar",
         character.value?.theme_color || "#000000",
     );
-});
-
-onUnmounted(() => {
-    window.removeEventListener("scroll", throttledScrollCheck);
-    if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-    }
 });
 
 onBeforeUnmount(() => {
