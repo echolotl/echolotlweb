@@ -6,6 +6,11 @@ import { load } from "js-yaml";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
+  routeRules: {
+    "/": { prerender: true },
+    "/art/**": { prerender: true },
+    "/characters/**": { prerender: true },
+  },
   content: {
     build: {
       markdown: {
