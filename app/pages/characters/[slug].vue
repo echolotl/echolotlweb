@@ -280,7 +280,7 @@ useSeoMeta({
     description: character.value.short_description,
     ogTitle: character.value.name,
     ogDescription: character.value.short_description,
-    ogImage: character.value.image || "/images/no_image.png",
+    ogImage: character.value.image || null,
     ogImageAlt: character.value.image_description || "",
     twitterCard: "summary_large_image",
     twitterImage: character.value.image || "/images/no_image.png",
