@@ -1,0 +1,17 @@
+slug: creeptaur
+created_at: '2025-12-28T01:49:19.637Z'
+modified_at: '2025-12-28T01:59:09.975Z'
+title: Creeptaur
+pinned: false
+sketch: false
+images:
+  - id: creeptaur
+    image_url: /art/general/creeptaur.png
+    variants:
+      - image_url: /art/general/creeptaur__minimal-shading.png
+        label: Minimal Shading
+        thumbnail_url: /art/general/thumbnails/creeptaur__minimal-shading.webp
+    thumbnail_url: /art/general/thumbnails/creeptaur.webp
+description: made because of [this tweet](https://x.com/TweeterTweers/status/2004587723500486969)
+tags:
+  - video game
