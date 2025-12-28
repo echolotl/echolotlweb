@@ -9,7 +9,7 @@ last_modified: 2025-05-18
 pronouns: he/they
 clan: Unaffiliated
 short_description: A purple cat
-theme_color: "#b157db"
+theme_color: "#d257db"
 
 image: /images/characters/king/figure.webp
 image_description: "King's current design, wearing his sweater and scarf."
