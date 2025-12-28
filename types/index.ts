@@ -14,11 +14,6 @@ export interface Character {
   theme_color: string;
   image?: string;
   image_description?: string;
-  title_image?: string;
-  background_texture?: string;
-  icon_image?: string;
-  icon_image_hover?: string;
-  banner_image?: string;
 }
 
 export interface Art {
