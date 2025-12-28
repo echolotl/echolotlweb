@@ -10,9 +10,6 @@ pronouns: she/her
 clan: Changed
 short_description: a shark-dog-girl hybrid with many, many eyes
 theme_color: "#5195ef"
-icon_image: /images/no_image.png
-title_image: /images/characters/glory/title.png
-background_texture: /images/characters/glory/texture.png
 friends:
   - name: Kitral
     slug: kitral

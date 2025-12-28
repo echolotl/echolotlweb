@@ -1,32 +1,49 @@
 <template>
-            <div class="character-banner">
-            <div class="character-banner__content">
-            <div class="character-banner__texture" :style="{ maskImage: `url(${character.background_texture || '/images/no_image.png'})` }" />
-            <div class="character-banner__underlay" :style="{ '--character-theme-color': character.theme_color }" />
+    <div class="character-banner">
+        <div class="character-banner__content">
+            <div
+                class="character-banner__texture"
+                :style="{
+                    maskImage: `url(/images/characters/${character.slug}/texture.png)`,
+                }"
+            />
+            <div
+                class="character-banner__underlay"
+                :style="{ '--character-theme-color': character.theme_color }"
+            />
             <div class="character-banner__images">
-                <div class="character-banner__image" :style="{ maskImage: `url(${character.banner_image || '/images/no_image.png'})`}" />
-                <div class="character-banner__image left" :style="{ maskImage: `url(${character.banner_image || '/images/no_image.png'})`}" />
-            </div>
-            <div class="character-banner__title">
-                <nuxt-img
-                    :src="character.title_image || '/images/no_image.png'"
-                    :alt="character.name"
+                <div
+                    class="character-banner__image"
+                    :style="{
+                        maskImage: `url(/images/characters/${character.slug}/banner.png)`,
+                    }"
+                />
+                <div
+                    class="character-banner__image left"
+                    :style="{
+                        maskImage: `url(/images/characters/${character.slug}/banner.png)`,
+                    }"
                 />
             </div>
+            <div class="character-banner__title">
+                <div class="character-banner__title-image"></div>
+            </div>
         </div>
-        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import type { CharactersCollectionItem } from '@nuxt/content';
+import type { CharactersCollectionItem } from "@nuxt/content";
 
-defineProps<{
+const props = defineProps<{
     character: CharactersCollectionItem;
 }>();
+
+const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
 </script>
 
 <style scoped lang="scss">
-@use '~/assets/styles/partials/_mixins' as *;
+@use "~/assets/styles/partials/_mixins" as *;
 .character-banner {
     top: 64px;
     height: 600px;
@@ -82,9 +99,9 @@ defineProps<{
         left: 0;
         right: auto;
         transform: scaleX(-1);
-     @media (max-width: 768px) {
-        display: none;
-    }
+        @media (max-width: 768px) {
+            display: none;
+        }
     }
 }
 .character-banner__underlay {
@@ -94,11 +111,15 @@ defineProps<{
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: linear-gradient(to bottom, var(--character-theme-color), transparent);
+    background: linear-gradient(
+        to bottom,
+        var(--character-theme-color),
+        transparent
+    );
     @include theme-transition;
 }
 .character-banner__underlay::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -119,14 +140,28 @@ defineProps<{
     backdrop-filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
 .character-banner__title {
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5)) invert(var(--filter-invert));
-    @include smooth-transition(filter, 0.2s);
-        @media (max-width: 768px) {
-        min-width: 50%;
-        img {
-            width: 100%;
-            height: auto;
+    &-image {
+        background-color: var(--inverted-solid);
+        mask-image: v-bind(titleImage);
+        width: 600px;
+        height: 200px;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        image-rendering: crisp-edges;
+    }
+    filter: drop-shadow(0 2px 0 var(--background))
+        drop-shadow(2px 0 0 var(--background))
+        drop-shadow(-2px 0 0 var(--background))
+        drop-shadow(0 -2px 0 var(--background));
+
+    @include smooth-transition(background-color filter, 0.2s);
+    @media (max-width: 768px) {
+        &-image {
+            width: 2/3 * 100vw;
+            mask-size: contain;
+            mask-position: left;
         }
+        margin-left: 1rem;
     }
 }
 </style>
