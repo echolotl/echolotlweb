@@ -283,7 +283,7 @@ useSeoMeta({
     ogImage: character.value.image || null,
     ogImageAlt: character.value.image_description || "",
     twitterCard: "summary_large_image",
-    twitterImage: character.value.image || "/images/no_image.png",
+    twitterImage: character.value.image || null,
     themeColor: character.value.theme_color || "#000000",
 });
 </script>
