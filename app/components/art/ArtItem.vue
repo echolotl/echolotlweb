@@ -69,7 +69,7 @@ const hasMultipleImages = computed(() => {
         mask-image: url("/images/art_mask.png");
         mask-size: cover;
         mask-repeat: no-repeat;
-        background-color: var(--background);
+        background-color: var(--surface);
     }
 
     img {
