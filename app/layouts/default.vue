@@ -54,14 +54,6 @@ const navIcons = computed(() => {
 
 onMounted(() => {
     initializeTheme();
-
-    // Set up SEO meta with client-side theme color
-    const primaryColor = getComputedStyle(document.documentElement)
-        .getPropertyValue("--primary")
-        .trim();
-    if (primaryColor) {
-        themeColor.value = primaryColor;
-    }
 });
 
 onUnmounted(() => {
@@ -78,6 +70,7 @@ useSeoMeta({
     ogType: "website",
     ogLocale: "en_US",
     ogTitle: "echolotl",
-    themeColor: themeColor,
+    themeColor: "#DA39A4",
+    ogUrl: "https://www.echolotl.lol" + route.fullPath,
 });
 </script>
