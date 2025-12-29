@@ -61,7 +61,7 @@ export default defineNuxtConfig({
                     for (const img of (data as any).images as ArtImage[]) {
                       if (img?.image_url) {
                         imgs.push({
-                          loc: `https://echolotl.lol${img.image_url}`,
+                          loc: `https://www.echolotl.lol${img.image_url}`,
                           caption: (data as any).description,
                           title: img.title || (data as any).title,
                         });
@@ -70,7 +70,7 @@ export default defineNuxtConfig({
                         for (const v of img.variants) {
                           if (v?.image_url) {
                             imgs.push({
-                              loc: `https://echolotl.lol${v.image_url}`,
+                              loc: `https://www.echolotl.lol${v.image_url}`,
                               caption: (data as any).description,
                               title:
                                 v.label || img.title || (data as any).title,
