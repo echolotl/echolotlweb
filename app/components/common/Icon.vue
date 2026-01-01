@@ -11,31 +11,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-const maskStyle = computed(() => {
-    const style: Record<string, string> = {
-        width: props.width,
-        height: props.height,
-        display: "inline-block",
-    };
-    if (props.disableMask) {
-        style.backgroundImage = `url(/images/icons/${props.icon}.webp)`;
-        style.backgroundSize = "contain";
-        style.backgroundRepeat = "no-repeat";
-        style.backgroundPosition = "center";
-    } else {
-        style.maskImage = `url(/images/icons/${props.icon}.webp)`;
-        style.WebkitMaskImage = `url(/images/icons/${props.icon}.webp)`;
-        style.maskSize = "contain";
-        style.WebkitMaskSize = "contain";
-        style.maskRepeat = "no-repeat";
-        style.WebkitMaskRepeat = "no-repeat";
-        style.maskPosition = "center";
-        style.WebkitMaskPosition = "center";
-        style.backgroundColor = props.color;
-    }
-    return style;
-});
-
 const props = defineProps({
     icon: {
         type: String,
@@ -65,5 +40,30 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+});
+
+const maskStyle = computed(() => {
+    const style: Record<string, string> = {
+        width: props.width,
+        height: props.height,
+        display: "inline-block",
+    };
+    if (props.disableMask) {
+        style.backgroundImage = `url(/images/icons/${props.icon}.webp)`;
+        style.backgroundSize = "contain";
+        style.backgroundRepeat = "no-repeat";
+        style.backgroundPosition = "center";
+    } else {
+        style.maskImage = `url(/images/icons/${props.icon}.webp)`;
+        style.WebkitMaskImage = `url(/images/icons/${props.icon}.webp)`;
+        style.maskSize = "contain";
+        style.WebkitMaskSize = "contain";
+        style.maskRepeat = "no-repeat";
+        style.WebkitMaskRepeat = "no-repeat";
+        style.maskPosition = "center";
+        style.WebkitMaskPosition = "center";
+        style.backgroundColor = props.color;
+    }
+    return style;
 });
 </script>
