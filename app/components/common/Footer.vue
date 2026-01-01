@@ -6,7 +6,12 @@
                 <SocialIcons style="image-rendering: pixelated" />
                 <div>© 2026 echolotl</div>
                 <div class="license">
-                    <div class="license-image"></div>
+                    <div class="license-image">
+                        <Icon icon="creative-commons" />
+                        <Icon icon="profile" color="var(--text-secondary)" />
+                        <Icon icon="no-monetization" />
+                        <Icon icon="share-alike" />
+                    </div>
                     <div class="license-text">
                         Unless otherwise noted, all content on this site is
                         licensed under the
@@ -51,6 +56,7 @@
 
 <script setup lang="ts">
 import SocialIcons from "~/components/common/SocialIcons.vue";
+import Icon from "~/components/common/Icon.vue";
 
 const rtc = useRuntimeConfig();
 console.log(rtc.public);
@@ -156,12 +162,12 @@ footer {
         }
         .license-image {
             width: 75px;
-            height: 20px;
-            mask-image: url("/images/cc-by-nc-sa.png");
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            mask-position: center;
-            background-color: var(--text-secondary);
+            height: 30px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-right: 0.5rem;
         }
         .license-text {
             font-size: 0.75rem;
