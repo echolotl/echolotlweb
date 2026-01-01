@@ -11,7 +11,7 @@
                         Unless otherwise noted, all content on this site is
                         licensed under the
                         <a
-                            href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
+                            href="https://creativecommons.org/licenses/by-sa/4.0/"
                             target="_blank"
                             class="link"
                             rel="noopener noreferrer"
