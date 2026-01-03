@@ -8,7 +8,7 @@
         <Analytics />
         <SpeedInsights />
         <slot />
-        <Footer />
+        <Footer></Footer>
     </div>
 </template>
 

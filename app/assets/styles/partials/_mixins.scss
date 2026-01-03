@@ -1,29 +1,168 @@
-@use './_variables' as *;
-@use 'sass:list';
+@use "./_variables" as *;
+@use "sass:list";
 // Mixins for reusable styles
 @mixin smooth-transition($properties, $duration: 0.3s, $easing: ease) {
-  $transition-list: ();
-  @each $property in $properties {
-    $transition-list: list.append($transition-list, $property $duration $easing, comma);
-  }
-  transition: $transition-list;
+    $transition-list: ();
+    @each $property in $properties {
+        $transition-list: list.append(
+            $transition-list,
+            $property $duration $easing,
+            comma
+        );
+    }
+    transition: $transition-list;
 }
 
 @mixin theme-transition {
-  @include smooth-transition((background-color, color, border-color), 0.2s, ease-out);
+    @include smooth-transition(
+        (background-color, color, border-color),
+        0.2s,
+        ease-out
+    );
 }
 
 @mixin full-transition {
-  @include smooth-transition((background-color, color, border-color));
+    @include smooth-transition((background-color, color, border-color));
 }
 
 @mixin link-style($color: $primary, $hover-color: #000000) {
-  color: $color;
-  text-decoration: none;
-  @include smooth-transition(color);
-  
-  &:hover {
-    color: $hover-color;
-    text-decoration: underline;
-  }
+    color: $color;
+    text-decoration: none;
+    @include smooth-transition(color);
+
+    &:hover {
+        color: $hover-color;
+        text-decoration: underline;
+    }
+}
+
+// Drop Shadow Effects
+@mixin text-stroke($color, $size: 1px) {
+    text-shadow:
+        $size 0 0 $color,
+        (-$size) 0 0 $color,
+        0 $size 0 $color,
+        0 (-$size) 0 $color,
+        $size $size 0 $color,
+        (-$size) (-$size) 0 $color,
+        (-$size) $size 0 $color,
+        $size (-$size) 0 $color;
+}
+
+@mixin drop-shadow-outline($color, $size: 1px, $blur: 0) {
+    filter: drop-shadow(0 $size $blur $color) drop-shadow($size 0 $blur $color)
+        drop-shadow((-$size) 0 $blur $color)
+        drop-shadow(0 (-$size) $blur $color)
+        drop-shadow($size $size $blur $color)
+        drop-shadow((-$size) (-$size) $blur $color)
+        drop-shadow($size (-$size) $blur $color)
+        drop-shadow((-$size) $size $blur $color);
+}
+
+@mixin drop-shadow-simple($color, $size: 1px, $blur: 0) {
+    filter: drop-shadow(0 $size $blur $color) drop-shadow($size 0 $blur $color)
+        drop-shadow((-$size) 0 $blur $color)
+        drop-shadow(0 (-$size) $blur $color);
+}
+
+// Mask Image Patterns
+@mixin mask-image(
+    $path,
+    $size: contain,
+    $repeat: no-repeat,
+    $position: center
+) {
+    mask-image: url($path);
+    -webkit-mask-image: url($path);
+    mask-size: $size;
+    -webkit-mask-size: $size;
+    mask-repeat: $repeat;
+    -webkit-mask-repeat: $repeat;
+    mask-position: $position;
+    -webkit-mask-position: $position;
+}
+
+@mixin mask-cover($path) {
+    @include mask-image($path, cover, no-repeat, center);
+}
+
+@mixin mask-repeat-x($path, $size: contain) {
+    @include mask-image($path, $size, repeat-x, center);
+}
+
+// Hover Effects
+@mixin hover-scale($scale: 1.1, $duration: 0.2s) {
+    transition: transform $duration ease;
+
+    &:hover {
+        transform: scale($scale);
+    }
+}
+
+@mixin hover-lift($translateY: -2px, $duration: 0.2s) {
+    transition: transform $duration ease;
+
+    &:hover {
+        transform: translateY($translateY);
+    }
+}
+
+@mixin hover-glow($color, $duration: 0.3s) {
+    @include drop-shadow-outline(transparent);
+    transition:
+        transform $duration ease,
+        filter $duration ease;
+
+    &:hover {
+        @include drop-shadow-outline($color);
+    }
+}
+
+@mixin hover-bg-fade($bg-color: var(--distant), $duration: 0.2s) {
+    transition: background-color $duration ease;
+
+    &:hover {
+        background-color: $bg-color !important;
+    }
+}
+
+// Gradient Patterns
+@mixin gradient-fade-top($color, $stop: 100%) {
+    background: linear-gradient(to top, $color, transparent $stop);
+}
+
+@mixin gradient-fade-bottom($color, $stop: 100%) {
+    background: linear-gradient(to bottom, $color, transparent $stop);
+}
+
+@mixin mask-gradient(
+    $direction,
+    $start-color,
+    $start-stop,
+    $end-color,
+    $end-stop
+) {
+    mask-image: linear-gradient(
+        $direction,
+        $start-color $start-stop,
+        $end-color $end-stop
+    );
+    -webkit-mask-image: linear-gradient(
+        $direction,
+        $start-color $start-stop,
+        $end-color $end-stop
+    );
+}
+
+// Color Mixing Helpers
+@mixin tint-background($color, $amount: 10%, $base: var(--surface)) {
+    background: color-mix(in srgb, $color $amount, $base);
+}
+
+@mixin mix-border($color, $amount: 20%, $base: var(--distant)) {
+    border-color: color-mix(in oklab, $color $amount, $base (100% - $amount));
+}
+
+@mixin darken-color($color, $amount: 50%) {
+    color: color-mix(in oklab, $color $amount, black (100% - $amount));
 }

@@ -64,7 +64,7 @@
         >
             <Icon icon="socials/github" :height="iconSize" :width="iconSize" />
         </a>
-        <div class="discord-container discord-link">
+        <div class="discord-container discord-link" tabindex="0">
             <div
                 class="discord-icon"
                 @click="copyDiscordToClipboard"
@@ -157,7 +157,9 @@ onUnmounted(() => {
 });
 </script>
 
-<style>
+<style lang="scss">
+@use "~/assets/styles/partials/_mixins" as *;
+
 .social-icons {
     --tumblr-hover: #eebb00;
     --twitter-hover: #1da1f2;
@@ -181,35 +183,39 @@ onUnmounted(() => {
 .social-icons .twitter {
     text-decoration: none;
     color: inherit;
+    @include hover-scale(1.1);
     transition:
-        transform 0.2s ease,
         filter 0.2s ease,
         color 0s;
-}
-.social-icons a:hover,
-.social-icons .twitter:hover {
-    transform: scale(1.1);
+    outline: none;
 }
 
-.tumblr-link:hover {
+.tumblr-link:hover,
+.tumblr-link:focus-visible {
     color: var(--tumblr-hover);
 }
-.twitter-link:hover {
+.twitter-link:hover,
+.twitter-link:focus-visible {
     color: var(--twitter-hover);
 }
-.newgrounds-link:hover {
+.newgrounds-link:hover,
+.newgrounds-link:focus-visible {
     color: var(--newgrounds-hover);
 }
-.bluesky-link:hover {
+.bluesky-link:hover,
+.bluesky-link:focus-visible {
     color: var(--bluesky-hover);
 }
-.discord-link:hover {
+.discord-link:hover,
+.discord-link:focus-visible {
     color: var(--discord-hover);
 }
-.youtube-link:hover {
+.youtube-link:hover,
+.youtube-link:focus-visible {
     color: var(--youtube-hover);
 }
-.instagram-link:hover {
+.instagram-link:hover,
+.instagram-link:focus-visible {
     color: var(--instagram-hover);
 }
 
@@ -219,16 +225,13 @@ onUnmounted(() => {
     transition:
         filter 0.2s ease,
         color 0s;
+    outline: none;
 }
 .discord-icon {
     cursor: pointer;
-    transition:
-        transform 0.2s ease,
-        color 0s;
+    @include hover-scale(1.1);
+    transition: color 0s;
     display: inline-block;
-}
-.discord-icon:hover {
-    transform: scale(1.1);
 }
 .copied-text {
     position: absolute;
@@ -243,16 +246,6 @@ onUnmounted(() => {
     filter: drop-shadow(0 0 1px var(--distant));
 }
 .float-up {
-    animation: floatUp 2s ease-out forwards;
-}
-@keyframes floatUp {
-    0% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-30px);
-    }
+    animation: float-up-centered 2s ease-out forwards;
 }
 </style>

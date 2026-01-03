@@ -1,5 +1,5 @@
 <template>
-    <div class="art-grid">
+    <div class="art-grid grid-auto-fill">
         <ArtItem
             v-for="artwork in artworks"
             :key="artwork.slug"
@@ -22,14 +22,8 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
+/* Grid layout now uses .grid-auto-fill utility class from _reusables.scss */
 .art-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
     margin-bottom: 1rem;
-    justify-content: center;
-    @media (max-width: 600px) {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
 }
 </style>

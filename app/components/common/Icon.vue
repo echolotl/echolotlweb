@@ -3,6 +3,7 @@
         v-if="props.icon"
         :style="maskStyle"
         :class="{ invert: props.invert }"
+        class="icon"
         role="img"
         :aria-label="props.alt"
     />

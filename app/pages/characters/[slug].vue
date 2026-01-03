@@ -290,6 +290,8 @@ useSeoMeta({
 
 <style lang="scss" scoped>
 .character-page {
+    position: relative;
+    --theme-color: v-bind(character.theme_color);
     min-height: 100vh;
 }
 
@@ -338,7 +340,6 @@ useSeoMeta({
     font-size: 0.9em;
     margin-bottom: 5px;
     letter-spacing: 0.05em;
-    color: var(--distant);
     text-transform: uppercase;
     width: 100%;
     display: inline-block;
@@ -357,7 +358,10 @@ useSeoMeta({
     line-height: 1.5;
     color: var(--text);
     border: 1px solid var(--distant);
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgb(
+        from var(--background) calc(r * 0.9) calc(g * 0.9) calc(b * 0.9)
+    );
+    box-shadow: 0 -10px 8px -8px rgb(from var(--theme-color) r g b / 0.75);
 }
 .character-infobox__title {
     font-size: 1.75em;
@@ -388,7 +392,7 @@ useSeoMeta({
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    --theme-color: v-bind(character.theme_color);
+
     tr {
         &:nth-child(even) {
             background-color: color-mix(

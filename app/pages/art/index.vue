@@ -20,7 +20,7 @@
             </div>
             <div class="filter-chips" aria-label="Artwork filters">
                 <button
-                    class="filter-chip"
+                    class="button--chip"
                     :class="{ active: filters.sketches }"
                     @click="toggleFilter('sketches')"
                     :aria-pressed="filters.sketches"
@@ -29,7 +29,7 @@
                     <span>Sketches</span>
                 </button>
                 <button
-                    class="filter-chip"
+                    class="button--chip"
                     :class="{ active: filters.characterArt }"
                     @click="toggleFilter('characterArt')"
                     :aria-pressed="filters.characterArt"
@@ -38,7 +38,7 @@
                     <span>Character Art</span>
                 </button>
                 <button
-                    class="filter-chip"
+                    class="button--chip"
                     :class="{ active: filters.generalArt }"
                     @click="toggleFilter('generalArt')"
                     :aria-pressed="filters.generalArt"
@@ -181,39 +181,7 @@ useSeoMeta({
     }
 }
 
-.filter-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--distant);
-    padding: 0.35rem 0.75rem;
-    font-size: 0.75rem;
-    border-radius: 999px;
-    cursor: pointer;
-    line-height: 1;
-    color: var(--text);
-    transition:
-        background 0.18s ease,
-        border-color 0.18s ease,
-        color 0.18s ease;
-    font-family: var(--body-font, "IBM Plex Sans", sans-serif);
-    &:hover {
-        background: var(--bg-secondary);
-    }
-    &:focus-visible {
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-    }
-    &.active {
-        background: var(--primary);
-        border-color: var(--primary);
-        color: var(--background);
-    }
-    span {
-        pointer-events: none;
-    }
-}
+/* Filter chips now use .button--chip class from main.scss */
 
 .loading {
     text-align: center;

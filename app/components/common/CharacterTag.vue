@@ -37,32 +37,15 @@ const { data: character } = await useAsyncData(
         return character;
     },
 );
-
-const darkerColor = computed(() => {
-    if (!character.value?.theme_color) return "";
-    return `color-mix(in oklab, ${character.value.theme_color} 50%, black 50%)`;
-});
-const textStroke = computed(() => {
-    return `drop-shadow(1px 0 0 ${darkerColor.value}) drop-shadow(-1px 0 0 ${darkerColor.value}) drop-shadow(0 1px 0 ${darkerColor.value}) drop-shadow(0 -1px 0 ${darkerColor.value})`;
-});
 </script>
 
 <style scoped lang="scss">
+@use "~/assets/styles/partials/_mixins" as *;
+
 .character-tag {
     text-decoration: none;
-
-    :deep(.tag--character) {
-        transition: transform 0.2s ease;
-
-        &:hover {
-            transform: translateY(-1px);
-        }
-        &:active {
-            transform: translateY(-1px);
-        }
-    }
 }
 .sketch-text-stroke {
-    filter: v-bind(textStroke);
+    @include drop-shadow-simple(var(--distant));
 }
 </style>

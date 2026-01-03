@@ -9,7 +9,7 @@
         <div class="viewer">
             <button
                 v-if="hasMultiple"
-                class="nav prev"
+                class="button--nav prev"
                 @click="prevImage"
                 aria-label="Previous image"
             >
@@ -31,7 +31,7 @@
 
             <button
                 v-if="hasMultiple"
-                class="nav next"
+                class="button--nav next"
                 @click="nextImage"
                 aria-label="Next image"
             >
@@ -71,7 +71,7 @@
             <div class="variants__label"><Icon icon="layers" /> Alts</div>
             <div class="variants__list">
                 <button
-                    class="variant-chip"
+                    class="button--chip"
                     :class="{ active: currentVariantIndex === null }"
                     @click="currentVariantIndex = null"
                 >
@@ -80,7 +80,7 @@
                 <button
                     v-for="(variant, vIndex) in currentImage.variants"
                     :key="vIndex"
-                    class="variant-chip"
+                    class="button--chip"
                     :class="{ active: currentVariantIndex === vIndex }"
                     @click="selectVariant(vIndex)"
                 >
@@ -198,18 +198,7 @@ onMounted(() => {
     gap: 0.75rem;
 }
 
-.nav {
-    padding: 0.5rem;
-    cursor: pointer;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    &:hover {
-        background: var(--bg-secondary);
-    }
-}
+/* Navigation buttons now use .button--nav class from main.scss */
 
 .image-wrapper {
     position: relative;
@@ -314,22 +303,7 @@ onMounted(() => {
         gap: 0.4rem;
         flex-wrap: wrap;
     }
-    .variant-chip {
-        background: var(--bg-tertiary);
-        border: 1px solid var(--distant);
-        padding: 0.25rem 0.6rem;
-        font-size: 0.75rem;
-        border-radius: 999px;
-        cursor: pointer;
-        &:hover {
-            background: var(--bg-secondary);
-        }
-        &.active {
-            background: var(--primary);
-            color: var(--background);
-            border-color: var(--primary);
-        }
-    }
+    /* Variant chips now use .button--chip class from main.scss */
 }
 
 .gallery-empty {
