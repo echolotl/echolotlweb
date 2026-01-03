@@ -111,11 +111,7 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: linear-gradient(
-        to bottom,
-        var(--character-theme-color),
-        transparent
-    );
+    @include gradient-fade-bottom(var(--character-theme-color));
     @include theme-transition;
 }
 .character-banner__underlay::after {
@@ -131,7 +127,7 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
     @include theme-transition;
 }
 .character-banner__images {
-    mask-image: linear-gradient(to top, transparent, black 70%);
+    @include mask-gradient(to top, transparent, 0%, black, 70%);
     position: absolute;
     top: 0;
     left: 0;
@@ -149,15 +145,12 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
         mask-position: center;
         image-rendering: crisp-edges;
     }
-    filter: drop-shadow(0 2px 0 var(--background))
-        drop-shadow(2px 0 0 var(--background))
-        drop-shadow(-2px 0 0 var(--background))
-        drop-shadow(0 -2px 0 var(--background));
+    @include drop-shadow-simple(var(--background), 2px);
 
     @include smooth-transition(background-color filter, 0.2s);
     @media (max-width: 768px) {
         &-image {
-            width: 2/3 * 100vw;
+            width: calc(2 / 3) * 100vw;
             mask-size: contain;
             mask-position: left;
         }

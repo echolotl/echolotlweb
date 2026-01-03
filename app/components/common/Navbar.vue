@@ -6,12 +6,13 @@
                 <div
                     class="navbar-top__themeicon navbar-top__themeicon--desktop"
                     @click="toggleTheme"
+                    tabindex="0"
                 >
                     <Icon
                         :icon="currentThemeIcon"
                         width="48px"
                         height="48px"
-                        class="icon"
+                        class="icon icon--hoverable"
                     />
                 </div>
 
@@ -21,7 +22,7 @@
                         :icon="mobileMenuOpen ? 'close' : 'hamburger-open'"
                         width="48px"
                         height="48px"
-                        class="icon"
+                        class="icon icon--hoverable"
                     />
                 </div>
 
@@ -58,7 +59,7 @@
                             :alt="navIcon.alt"
                             width="48px"
                             height="48px"
-                            class="icon"
+                            class="icon icon--hoverable"
                         />
                     </nuxt-link>
                 </div>
@@ -76,7 +77,7 @@
                             :icon="currentThemeIcon"
                             width="32px"
                             height="32px"
-                            class="icon"
+                            class="icon icon--hoverable"
                         />
                         <span>{{
                             props.light ? "Dark Mode" : "Light Mode"
@@ -96,7 +97,7 @@
                             :alt="navIcon.alt"
                             width="32px"
                             height="32px"
-                            class="icon"
+                            class="icon icon--hoverable"
                         />
                         <span>{{ navIcon.alt }}</span>
                     </nuxt-link>
@@ -164,6 +165,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @use "@/assets/styles/partials/_variables.scss" as vars;
+@use "@/assets/styles/partials/_mixins" as *;
 
 .navbar {
     position: fixed;
@@ -201,6 +203,7 @@ onMounted(() => {
 .navbar-top__themeicon--desktop {
     position: absolute;
     left: 1rem;
+    outline: none;
 
     @media (max-width: 768px) {
         display: none;
@@ -219,7 +222,8 @@ onMounted(() => {
     }
 }
 
-.navbar-top__logo:hover * .navbar-top__logo-icon {
+.navbar-top__logo:hover * .navbar-top__logo-icon,
+.navbar-top__logo:focus-visible * .navbar-top__logo-icon {
     animation: jumpAndFlip 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -227,6 +231,7 @@ onMounted(() => {
     display: flex;
     flex-direction: row;
     min-width: auto;
+    outline: none;
 
     @media (max-width: 768px) {
         order: 1;
@@ -318,11 +323,10 @@ onMounted(() => {
 
 .icon {
     cursor: pointer;
-    transition: transform 0.2s ease;
     color: var(--inverted-solid);
 
-    &:hover {
-        transform: scale(1.1);
+    &--hoverable {
+        @include hover-scale(1.1);
     }
 }
 

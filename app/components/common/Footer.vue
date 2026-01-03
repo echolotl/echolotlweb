@@ -63,6 +63,8 @@ console.log(rtc.public);
 </script>
 
 <style scoped lang="scss">
+@use "~/assets/styles/partials/_mixins" as *;
+
 footer {
     position: relative;
     display: flex;
@@ -126,7 +128,7 @@ footer {
 .footer-content {
     position: relative;
     bottom: 0;
-    background: linear-gradient(to top, var(--surface), transparent 100%);
+    @include gradient-fade-top(var(--surface));
     height: 50%;
     width: 100%;
     padding-bottom: 1.5rem;
@@ -141,14 +143,7 @@ footer {
         justify-content: flex-end;
         flex-direction: column;
         gap: 0.25rem;
-        filter: drop-shadow(0 1px 0 var(--background))
-            drop-shadow(1px 0 0 var(--background))
-            drop-shadow(-1px 0 0 var(--background))
-            drop-shadow(0 -1px 0 var(--background))
-            drop-shadow(1px 1px 0 var(--background))
-            drop-shadow(-1px -1px 0 var(--background))
-            drop-shadow(1px -1px 0 var(--background))
-            drop-shadow(-1px 1px 0 var(--background));
+        @include drop-shadow-outline(var(--background));
 
         .small-username {
             width: 100%;

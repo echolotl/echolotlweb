@@ -74,8 +74,10 @@
     color: var(--primary);
     text-decoration: none;
     transition: color 0.2s ease-in-out;
+    outline: none;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
         color: color-mix(in srgb, var(--primary), blue 20%);
         text-decoration: underline;
     }

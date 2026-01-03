@@ -4,21 +4,42 @@
             <div
                 class="art-item__image"
                 :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`"
+                :title="artwork.title"
             >
                 <div v-if="showMetadata" class="art-item__metadata">
-                    <div v-if="artwork.character && showCharacterBadge">
+                    <div
+                        v-if="artwork.character && showCharacterBadge"
+                        class="art-item__metadata-icon"
+                        title="Character"
+                    >
                         <Icon icon="character" />
                     </div>
-                    <div v-if="artwork.pinned">
+                    <div
+                        v-if="artwork.pinned"
+                        class="art-item__metadata-icon"
+                        title="Pinned"
+                    >
                         <Icon icon="pin" />
                     </div>
-                    <div v-if="artwork.sketch">
+                    <div
+                        v-if="artwork.sketch"
+                        class="art-item__metadata-icon"
+                        title="Sketch"
+                    >
                         <Icon icon="sketch" />
                     </div>
-                    <div v-if="hasVariants">
+                    <div
+                        v-if="hasVariants"
+                        class="art-item__metadata-icon"
+                        title="Has Variants"
+                    >
                         <Icon icon="layers" />
                     </div>
-                    <div v-if="hasMultipleImages">
+                    <div
+                        v-if="hasMultipleImages"
+                        class="art-item__metadata-icon"
+                        title="Multiple Images"
+                    >
                         <Icon icon="images" />
                     </div>
                 </div>
@@ -44,9 +65,31 @@ const hasVariants = computed(() => {
 const hasMultipleImages = computed(() => {
     return (props.artwork.images?.length || 0) > 1;
 });
+
+const metadataTitle = computed(() => {
+    const titles = [];
+    if (props.artwork.character && props.showCharacterBadge) {
+        titles.push("Character");
+    }
+    if (props.artwork.pinned) {
+        titles.push("Pinned");
+    }
+    if (props.artwork.sketch) {
+        titles.push("Sketch");
+    }
+    if (hasVariants.value) {
+        titles.push("Has Variants");
+    }
+    if (hasMultipleImages.value) {
+        titles.push("Multiple Images");
+    }
+    return titles.join(", ");
+});
 </script>
 
 <style scoped lang="scss">
+@use "~/assets/styles/partials/_mixins" as *;
+
 .art-item {
     display: flex;
     position: relative;
@@ -59,6 +102,7 @@ const hasMultipleImages = computed(() => {
     max-width: 200px;
     transition: transform 0.3s ease;
     will-change: transform;
+    outline: none;
 
     &__image {
         width: 100%;
@@ -70,6 +114,7 @@ const hasMultipleImages = computed(() => {
         mask-size: cover;
         mask-repeat: no-repeat;
         background-color: var(--surface);
+        z-index: -1;
     }
 
     img {
@@ -80,33 +125,49 @@ const hasMultipleImages = computed(() => {
     }
 
     &:hover {
-        filter: drop-shadow(0 1px 0 var(--primary))
-            drop-shadow(1px 0 0 var(--primary))
-            drop-shadow(-1px 0 0 var(--primary))
-            drop-shadow(0 -1px 0 var(--primary))
-            drop-shadow(1px 1px 0 var(--primary))
-            drop-shadow(-1px -1px 0 var(--primary))
-            drop-shadow(1px -1px 0 var(--primary))
-            drop-shadow(-1px 1px 0 var(--primary));
         transform: scale(1.01);
+        @include drop-shadow-outline(var(--primary));
+        .art-item__metadata {
+            color: var(--background);
+            &::before {
+                background: var(--primary);
+            }
+        }
     }
 }
 .art-item__metadata {
     position: absolute;
     display: flex;
     color: var(--primary);
-    align-items: flex-end;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: left;
     transition: filter 0.2s ease;
     z-index: 2;
-    width: calc(100% - 0.5rem);
-    height: calc(100% - 0.5rem);
-    padding: 0.25rem;
-    left: 0;
-    top: 0;
-    aspect-ratio: 1 / 1;
+    width: auto;
+    height: auto;
+    padding-left: 0.25rem;
+    padding-top: 0.25rem;
+    padding-right: 0.25rem;
+    right: 0;
+    bottom: -2%;
     pointer-events: none;
-    filter: drop-shadow(0 0 4px black);
     background-blend-mode: darken;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--background);
+        z-index: -3;
+        border-radius: 0.5rem 0 0 0;
+        corner-shape: superellipse(1.2);
+        border: none;
+    }
+
+    &-icon {
+        pointer-events: auto;
+    }
 }
 </style>
