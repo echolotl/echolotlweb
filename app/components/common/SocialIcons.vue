@@ -239,7 +239,7 @@ onUnmounted(() => {
     left: 50%;
     transform: translateX(-50%);
     pointer-events: none;
-    font-size: 0.8rem;
+    font-size: var(--small-text);
     white-space: nowrap;
     z-index: 10;
     color: var(--discord-hover);

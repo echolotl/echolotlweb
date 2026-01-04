@@ -186,15 +186,15 @@ useSeoMeta({
 .loading {
     text-align: center;
     padding: 2rem;
-    font-size: 1.1rem;
+    font-size: var(--base-text);
     color: var(--text-secondary);
 }
 
 .end-message {
     text-align: center;
     padding: 2rem;
-    font-size: 1.1rem;
-    color: var(--text-secondaty);
+    font-size: var(--base-text);
+    color: var(--text-secondary);
     font-style: italic;
 }
 
@@ -212,6 +212,7 @@ useSeoMeta({
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    margin: 0.5rem 0;
 }
 
 .section-title-group {

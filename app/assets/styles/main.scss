@@ -19,7 +19,7 @@ button {
     border-bottom-width: 2px;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: var(--base-text);
     cursor: pointer;
     transition:
         background-color 0.2s ease,
@@ -54,12 +54,12 @@ button {
 
     &.button--chip {
         padding: 0.35rem 0.75rem;
-        font-size: 0.75rem;
+        font-size: var(--small-text);
         border-radius: 999px;
 
         .icon {
             margin-right: 0.25rem;
-            font-size: 0.75rem;
+            font-size: var(--small-text);
         }
 
         &.active {

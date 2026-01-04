@@ -6,7 +6,7 @@
 
 <style>
 .splash-text {
-    font-size: 0.8rem;
+    font-size: var(--small-text);
     color: var(--text-secondary);
     text-align: center;
     padding: 2rem 1rem;

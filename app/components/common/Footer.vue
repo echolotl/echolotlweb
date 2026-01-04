@@ -165,7 +165,7 @@ footer {
             margin-right: 0.5rem;
         }
         .license-text {
-            font-size: 0.75rem;
+            font-size: var(--small-text);
             color: var(--text-secondary);
         }
         .license {
@@ -173,6 +173,17 @@ footer {
             display: flex;
             align-items: center;
             flex-direction: row;
+        }
+        @media (max-width: 768px) {
+            padding: 0 1rem;
+            .license {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                .license-image {
+                    display: none;
+                }
+            }
         }
     }
 }

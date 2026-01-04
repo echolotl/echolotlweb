@@ -47,7 +47,7 @@ const customStyles = computed(() => {
     color: var(--text-secondary);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    font-size: 0.8rem;
+    font-size: var(--small-text);
     font-family: $body-font;
     font-weight: 400;
     display: inline-flex;

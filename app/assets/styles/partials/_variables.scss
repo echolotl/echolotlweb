@@ -1,42 +1,47 @@
-@use 'sass:color';
+@use "sass:color";
 
-    $foreground: #3f3f3f;
-    $background: #282828;
-    $surface: #1f1f1f;
-    $distant: #121212;
-    $solid: #000000;
+$foreground: #3f3f3f;
+$background: #282828;
+$surface: #1f1f1f;
+$distant: #121212;
+$solid: #000000;
 
-    $foreground-light: #ededed;
-    $background-light: #e0e0e0;
-    $surface-light: #d6d6d6;
-    $distant-light: #c0c0c0;
-    $solid-light: #ffffff;
+$foreground-light: #ededed;
+$background-light: #e0e0e0;
+$surface-light: #d6d6d6;
+$distant-light: #c0c0c0;
+$solid-light: #ffffff;
 
-    $primary: #DA39A4;
-    $primary-light: color.mix($primary, black, 90%);
+$primary: #da39a4;
+$primary-light: color.mix($primary, black, 90%);
 
-    $red: #da3939;
-    $red-light: color.mix($red, black, 90%);
+$red: #da3939;
+$red-light: color.mix($red, black, 90%);
 
-    $green: #39da39;
-    $green-light: color.mix($green, black, 90%);
+$green: #39da39;
+$green-light: color.mix($green, black, 90%);
 
-    $blue: #3939da;
-    $blue-light: color.mix($blue, black, 90%);
+$blue: #3939da;
+$blue-light: color.mix($blue, black, 90%);
 
-    $yellow: #dada39;
-    $yellow-light: color.mix($yellow, black, 90%);
+$yellow: #dada39;
+$yellow-light: color.mix($yellow, black, 90%);
 
-    $purple: #9b39da;
-    $purple-light: color.mix($purple, black, 90%);
+$purple: #9b39da;
+$purple-light: color.mix($purple, black, 90%);
 
-    $orange: #da9b39;
-    $orange-light: color.mix($orange, black, 90%);
+$orange: #da9b39;
+$orange-light: color.mix($orange, black, 90%);
 
-    $invert-filter: invert(1);
+$invert-filter: invert(1);
 
-    // Font
-    $display-font: 'Red Hat Display', sans-serif;
-    $body-font: 'IBM Plex Sans', sans-serif;
+// Font
+$display-font: "Red Hat Display", sans-serif;
+$body-font: "IBM Plex Sans", sans-serif;
 
-
+$very-small-text: clamp(0.7rem, 0.6vw + 0.55rem, 0.75rem);
+$small-text: clamp(0.85rem, 0.7vw + 0.75rem, 0.875rem);
+$base-text: clamp(1rem, 0.8vw + 0.9rem, 1rem);
+$medium-text: clamp(1.25rem, 1vw + 1.1rem, 1.25rem);
+$large-text: clamp(1.5rem, 1.2vw + 1.3rem, 1.5rem);
+$xl-text: clamp(2rem, 1.5vw + 1.7rem, 2rem);

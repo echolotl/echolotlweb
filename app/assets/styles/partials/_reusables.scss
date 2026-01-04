@@ -1,26 +1,26 @@
 // Typography
 .large-title {
-    font-size: 2.5rem;
+    font-size: var(--xl-text);
     font-weight: 900;
     margin-bottom: 1rem;
 }
 .small-title {
-    font-size: 1.5rem;
+    font-size: var(--large-text);
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
 .large-text {
-    font-size: 1.25rem;
+    font-size: var(--medium-text);
     line-height: 1.6;
 }
 .small-text {
-    font-size: 1rem;
+    font-size: var(--base-text);
     line-height: 1.4;
 }
 
 .subtitle {
-    font-size: 1.125rem;
+    font-size: var(--small-text);
     font-weight: 400;
     margin-bottom: 0.5rem;
     color: var(--text-secondary);
@@ -28,7 +28,7 @@
 
 .text-secondary {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: var(--small-text);
 }
 
 .text-muted {
@@ -40,7 +40,7 @@
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 0.05em;
-    font-size: 0.9em;
+    font-size: var(--small-text);
 }
 
 // Layout Utilities
@@ -82,7 +82,7 @@
     border: 1px solid var(--distant);
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
-    font-size: 0.75rem;
+    font-size: var(--very-small-text);
     cursor: pointer;
     transition:
         background 0.18s ease,

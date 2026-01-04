@@ -6,37 +6,61 @@
         tabindex="0"
         ref="galleryRoot"
     >
-        <div class="viewer">
-            <button
-                v-if="hasMultiple"
-                class="button--nav prev"
-                @click="prevImage"
-                aria-label="Previous image"
-            >
-                <Icon icon="small-arrow" style="transform: rotate(180deg)" />
-            </button>
+        <div class="viewer-container">
+            <div class="viewer">
+                <button
+                    v-if="hasMultiple"
+                    class="button--nav prev"
+                    @click="prevImage"
+                    aria-label="Previous image"
+                >
+                    <Icon
+                        icon="small-arrow"
+                        style="transform: rotate(180deg)"
+                    />
+                </button>
 
-            <div class="image-wrapper">
-                <nuxt-img
-                    v-if="activeSource"
-                    :src="activeSource.image_url"
-                    :alt="activeSource.alt"
-                    class="hero"
-                    :data-index="currentImageIndex"
-                    :data-variant="currentVariantIndex ?? 'base'"
-                    loading="lazy"
-                />
-                <div v-else class="placeholder">No image</div>
+                <div class="image-wrapper">
+                    <img
+                        v-if="activeSource && activeImageDimensions"
+                        :src="activeSource.image_url"
+                        :alt="activeSource.alt"
+                        :width="activeImageDimensions.width"
+                        :height="activeImageDimensions.height"
+                        class="hero"
+                        :data-index="currentImageIndex"
+                        :data-variant="currentVariantIndex ?? 'base'"
+                    />
+                    <div v-else class="placeholder">
+                        <Icon
+                            icon="loading"
+                            width="3rem"
+                            height="3rem"
+                        />Loading...
+                    </div>
+                    <div class="view-original">
+                        <a
+                            v-if="activeSource"
+                            :href="activeSource.image_url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="link"
+                        >
+                            <Icon icon="open-in-new" />
+                            View Original
+                        </a>
+                    </div>
+                </div>
+
+                <button
+                    v-if="hasMultiple"
+                    class="button--nav next"
+                    @click="nextImage"
+                    aria-label="Next image"
+                >
+                    <Icon icon="small-arrow" />
+                </button>
             </div>
-
-            <button
-                v-if="hasMultiple"
-                class="button--nav next"
-                @click="nextImage"
-                aria-label="Next image"
-            >
-                <Icon icon="small-arrow" />
-            </button>
         </div>
 
         <!-- Thumbnails (base images) -->
@@ -49,10 +73,12 @@
                 @click="selectImage(i)"
                 :aria-label="`Select image ${i + 1} of ${art.images.length}`"
             >
-                <nuxt-img
+                <img
                     :src="img.thumbnail_url || img.image_url"
                     :alt="img.alt || art.title"
                     loading="lazy"
+                    width="60"
+                    height="60"
                 />
                 <span
                     v-if="img.variants?.length"
@@ -101,6 +127,9 @@ const props = defineProps<{ art: Art }>();
 const currentImageIndex = ref(0);
 const currentVariantIndex = ref<number | null>(null);
 const galleryRoot = ref<HTMLElement | null>(null);
+const imageDimensionsCache = ref<
+    Map<string, { width: number; height: number }>
+>(new Map());
 
 const hasMultiple = computed(() => (props.art.images?.length || 0) > 1);
 const currentImage = computed<ArtImage | undefined>(
@@ -126,6 +155,56 @@ const activeSource = computed(() => {
         alt: base.alt || props.art.title,
     };
 });
+
+const activeImageDimensions = computed(() => {
+    if (!activeSource.value) return null;
+    return imageDimensionsCache.value.get(activeSource.value.image_url) || null;
+});
+
+function loadImage(url: string): Promise<{ width: number; height: number }> {
+    return new Promise((resolve) => {
+        // Check cache first
+        const cached = imageDimensionsCache.value.get(url);
+        if (cached) {
+            resolve(cached);
+            return;
+        }
+
+        const img = new Image();
+        img.onload = () => {
+            const dimensions = {
+                width: img.naturalWidth,
+                height: img.naturalHeight,
+            };
+            imageDimensionsCache.value.set(url, dimensions);
+            resolve(dimensions);
+        };
+        img.onerror = () => {
+            const fallback = { width: 800, height: 600 };
+            imageDimensionsCache.value.set(url, fallback);
+            resolve(fallback);
+        };
+        img.src = url;
+    });
+}
+
+async function preloadAllImages() {
+    // Only run on client-side
+    if (typeof window === "undefined") return;
+
+    const urlsToLoad: string[] = [];
+
+    // Collect all image URLs
+    props.art.images?.forEach((img) => {
+        urlsToLoad.push(img.image_url);
+        img.variants?.forEach((variant) => {
+            urlsToLoad.push(variant.image_url);
+        });
+    });
+
+    // Load all images in parallel
+    await Promise.all(urlsToLoad.map((url) => loadImage(url)));
+}
 
 function selectImage(index: number) {
     if (index < 0 || !props.art.images || index >= props.art.images.length)
@@ -180,10 +259,12 @@ function onKey(e: KeyboardEvent) {
 
 onMounted(() => {
     galleryRoot.value?.focus();
+    preloadAllImages();
 });
 </script>
 
 <style scoped lang="scss">
+@use "~/assets/styles/partials/_mixins.scss" as *;
 .gallery {
     display: flex;
     flex-direction: column;
@@ -196,6 +277,12 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+}
+.viewer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 /* Navigation buttons now use .button--nav class from main.scss */
@@ -213,6 +300,8 @@ onMounted(() => {
     .hero {
         max-height: 70vh;
         max-width: 100%;
+        width: auto;
+        height: auto;
         object-fit: contain;
     }
     .variant-badge {
@@ -221,26 +310,37 @@ onMounted(() => {
         right: 0.5rem;
         background: var(--bg-secondary);
         color: var(--primary);
-        font-size: 0.75rem;
+        font-size: var(--small-text);
         padding: 0.25rem 0.5rem;
         border-radius: 4px;
         border: 1px solid var(--primary);
     }
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 75%;
-        height: 75%;
-        mask-image: url("/images/art/sketchbg.png");
-        mask-size: contain;
-        mask-position: center;
-        mask-repeat: no-repeat;
-        background: var(--distant);
-        image-rendering: crisp-edges;
-        z-index: -5;
-        transform: scale(1.4) rotate(-30deg);
+    .placeholder {
+        display: flex;
+        padding: 1rem;
+        aspect-ratio: 1 / 1;
+        flex-direction: row;
+        gap: 0.25rem;
+        font-size: var(--small-text);
+        align-items: center;
+        justify-content: center;
+    }
+    &:hover .view-original {
+        opacity: 1;
+    }
+}
+
+.view-original {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    opacity: 0;
+    @include drop-shadow-outline(var(--background));
+    .link {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.25rem;
     }
 }
 
@@ -275,7 +375,7 @@ onMounted(() => {
             right: 2px;
             background: var(--primary);
             color: var(--background);
-            font-size: 0.65rem;
+            font-size: var(--very-small-text);
             line-height: 1;
             padding: 2px 4px;
             border-radius: 3px;
@@ -292,7 +392,7 @@ onMounted(() => {
     width: 100%;
     margin: 0 auto;
     .variants__label {
-        font-size: 1rem;
+        font-size: var(--base-text);
         color: var(--text-secondary);
         display: flex;
         gap: 0.35rem;

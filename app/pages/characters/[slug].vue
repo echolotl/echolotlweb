@@ -49,13 +49,13 @@
                             <tbody>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Age
+                                        <span>Age</span>
                                     </td>
                                     <td>{{ character.age || "Unknown" }}</td>
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Pronouns
+                                        <span>Pronouns</span>
                                     </td>
                                     <td>
                                         {{ character.pronouns || "Unknown" }}
@@ -63,7 +63,7 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Species
+                                        <span>Species</span>
                                     </td>
                                     <td>
                                         {{ character.species || "Unknown" }}
@@ -71,7 +71,7 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Creation Date
+                                        <span>Creation Date</span>
                                     </td>
                                     <td>
                                         {{
@@ -85,7 +85,7 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Height
+                                        <span>Height</span>
                                     </td>
                                     <td>
                                         {{
@@ -96,7 +96,7 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Friends
+                                        <span>Friends</span>
                                     </td>
                                     <td>
                                         <span
@@ -134,7 +134,7 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Enemies
+                                        <span>Enemies</span>
                                     </td>
                                     <td>
                                         <span
@@ -172,12 +172,12 @@
                                 </tr>
                                 <tr>
                                     <td class="character-infobox__item-label">
-                                        Type
+                                        <span> Type </span>
                                     </td>
                                     <td>
                                         {{ character.clan || "Unknown" }}
                                         <Icon
-                                            :icon="character.clan"
+                                            :icon="character.clan.toLowerCase()"
                                             height="24"
                                             class="character-infobox__clan-icon"
                                         />
@@ -337,9 +337,8 @@ useSeoMeta({
 }
 .character-infobox__label {
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: var(--base-text);
     margin-bottom: 5px;
-    letter-spacing: 0.05em;
     text-transform: uppercase;
     width: 100%;
     display: inline-block;
@@ -347,14 +346,20 @@ useSeoMeta({
 }
 .character-infobox__item-label {
     font-weight: bold;
-    font-size: 1em;
-    letter-spacing: 0.05em;
-    color: var(--text);
+    font-size: var(--small-text);
+    box-sizing: border-box;
     text-transform: uppercase;
+    span {
+        background: var(--theme-color);
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: var(--background);
+        corner-shape: superellipse(1.3);
+    }
 }
 .character-infobox__details {
     padding: 10px;
-    font-size: 0.8em;
+    font-size: var(--small-text);
     line-height: 1.5;
     color: var(--text);
     border: 1px solid var(--distant);
@@ -364,7 +369,7 @@ useSeoMeta({
     box-shadow: 0 -10px 8px -8px rgb(from var(--theme-color) r g b / 0.75);
 }
 .character-infobox__title {
-    font-size: 1.75em;
+    font-size: var(--large-text);
     margin-bottom: 10px;
     display: block;
     font-weight: 900;
@@ -402,7 +407,7 @@ useSeoMeta({
             );
         }
         td {
-            padding: 8px 4px;
+            padding: 6px 4px;
             vertical-align: middle;
             &:last-child {
                 display: flex;
@@ -434,13 +439,12 @@ useSeoMeta({
 .loading {
     text-align: center;
     padding: 2rem;
-    font-size: 1.1rem;
 }
 
 .end-message {
     text-align: center;
     padding: 2rem;
-    font-size: 1.1rem;
+    font-size: var(--base-text);
     color: var(--text-secondary);
     font-style: italic;
 }

@@ -46,6 +46,13 @@
     @media print {
         --distant: black;
     }
+
+    --very-small-text: #{$very-small-text};
+    --small-text: #{$small-text};
+    --base-text: #{$base-text};
+    --medium-text: #{$medium-text};
+    --large-text: #{$large-text};
+    --xl-text: #{$xl-text};
 }
 
 :root[data-theme="light"] {

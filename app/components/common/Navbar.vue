@@ -304,7 +304,7 @@ onMounted(() => {
     }
 
     span {
-        font-size: 1rem;
+        font-size: var(--base-text);
         font-weight: 500;
     }
 

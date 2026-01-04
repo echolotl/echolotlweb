@@ -145,11 +145,11 @@ const metadataTitle = computed(() => {
     z-index: 2;
     width: auto;
     height: auto;
-    padding-left: 0.25rem;
-    padding-top: 0.25rem;
-    padding-right: 0.25rem;
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-right: 2%;
     right: 0;
-    bottom: -2%;
+    bottom: 0;
     pointer-events: none;
     background-blend-mode: darken;
     &::before {
