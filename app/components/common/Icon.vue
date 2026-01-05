@@ -48,6 +48,7 @@ const maskStyle = computed(() => {
         width: props.width,
         height: props.height,
         display: "inline-block",
+        flexShrink: "0",
     };
     if (props.disableMask) {
         style.backgroundImage = `url(/images/icons/${props.icon}.webp)`;

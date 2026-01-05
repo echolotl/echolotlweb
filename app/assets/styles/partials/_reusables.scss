@@ -49,6 +49,9 @@
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
     justify-content: center;
+    @media (max-width: 581px) {
+        grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    }
 }
 
 .flex-center {

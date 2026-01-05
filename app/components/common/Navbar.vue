@@ -235,6 +235,10 @@ onMounted(() => {
 
     @media (max-width: 768px) {
         order: 1;
+        img {
+            width: 200px;
+            height: auto;
+        }
     }
 }
 

@@ -28,5 +28,10 @@ const shouldShow = computed(() => {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    .icon {
+        flex-shrink: 0;
+        align-self: flex-start;
+    }
 }
 </style>

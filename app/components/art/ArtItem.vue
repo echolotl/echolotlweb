@@ -1,5 +1,5 @@
 <template>
-    <div style="position: relative">
+    <div style="position: relative; display: flex; justify-content: center">
         <nuxt-link :to="`/art/${artwork.slug}`" class="art-item">
             <div
                 class="art-item__image"
