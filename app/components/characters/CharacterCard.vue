@@ -40,7 +40,7 @@ const characterHoverImage = `url(/images/characters/${props.character.slug}/hove
 const randomFrameNumber = Math.floor(Math.random() * 3);
 const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
 
-// Generate random rotation (-20 to 20 degrees)
+//-20 to 20 degrees
 const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
 </script>
 

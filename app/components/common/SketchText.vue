@@ -25,7 +25,6 @@ const props = withDefaults(defineProps<Props>(), {
     textStyle: "regular",
 });
 
-// Create font
 const font = new SpritesheetFont(sketchFontData as FontData, props.textStyle);
 
 const slots = useSlots();

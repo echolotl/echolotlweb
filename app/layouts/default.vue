@@ -21,7 +21,6 @@ import { SpeedInsights } from "@vercel/speed-insights/nuxt";
 
 const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 
-// Define all possible navigation icons
 const allNavIcons = {
     art: { icon: "art_brush", alt: "Art", to: "/art" },
     characters: {
@@ -59,9 +58,6 @@ onMounted(() => {
 onUnmounted(() => {
     cleanupTheme();
 });
-
-// Set up SEO meta with client-side theme color
-const themeColor = ref("#000000"); // Default fallback color
 
 useSeoMeta({
     ogSiteName: "echolotl.lol",

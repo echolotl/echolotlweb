@@ -1,4 +1,3 @@
-// Typography
 .large-title {
     font-size: var(--xl-text);
     font-weight: 900;
@@ -43,7 +42,6 @@
     font-size: var(--small-text);
 }
 
-// Layout Utilities
 .grid-auto-fill {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -72,7 +70,6 @@
     gap: 0.5rem;
 }
 
-// Card/Container Styles
 .card {
     border: 1px solid var(--distant);
     background: rgba(0, 0, 0, 0.05);
@@ -105,7 +102,6 @@
     padding: 16px;
 }
 
-// Positioning Utilities
 .absolute-center {
     position: absolute;
     top: 50%;
@@ -145,7 +141,6 @@
     left: 2px;
 }
 
-// Accessibility
 .sr-only {
     position: absolute;
     width: 1px;
@@ -158,7 +153,6 @@
     border: 0;
 }
 
-// Image Rendering
 .pixel-art {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;

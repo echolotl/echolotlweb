@@ -132,10 +132,8 @@ const copyDiscordToClipboard = async () => {
     const discordUsername = "echolotl";
     try {
         await navigator.clipboard.writeText(discordUsername);
-        // Show the floating text
         showCopiedText.value = true;
 
-        // Hide the text after animation completes
         setTimeout(() => {
             showCopiedText.value = false;
         }, 2000);

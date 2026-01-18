@@ -36,7 +36,6 @@
     }
 }
 
-// Drop Shadow Effects
 @mixin text-stroke($color, $size: 1px) {
     text-shadow:
         $size 0 0 $color,
@@ -65,7 +64,6 @@
         drop-shadow(0 (-$size) $blur $color);
 }
 
-// Mask Image Patterns
 @mixin mask-image(
     $path,
     $size: contain,
@@ -90,7 +88,6 @@
     @include mask-image($path, $size, repeat-x, center);
 }
 
-// Hover Effects
 @mixin hover-scale($scale: 1.1, $duration: 0.2s) {
     transition: transform $duration ease;
 
@@ -126,7 +123,6 @@
     }
 }
 
-// Gradient Patterns
 @mixin gradient-fade-top($color, $stop: 100%) {
     background: linear-gradient(to top, $color, transparent $stop);
 }
@@ -154,7 +150,6 @@
     );
 }
 
-// Color Mixing Helpers
 @mixin tint-background($color, $amount: 10%, $base: var(--surface)) {
     background: color-mix(in srgb, $color $amount, $base);
 }

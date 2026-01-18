@@ -194,7 +194,6 @@ async function preloadAllImages() {
 
     const urlsToLoad: string[] = [];
 
-    // Collect all image URLs
     props.art.images?.forEach((img) => {
         urlsToLoad.push(img.image_url);
         img.variants?.forEach((variant) => {
