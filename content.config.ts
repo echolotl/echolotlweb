@@ -1,5 +1,6 @@
 import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 import { asSitemapCollection } from "@nuxtjs/sitemap/content";
+import { color } from "bun";
 
 const imageVariant = z.object({
   image_url: z.string().url(),
@@ -51,6 +52,9 @@ export default defineContentConfig({
           clan: z.string(),
           short_description: z.string().optional(),
           theme_color: z.string().startsWith("#").length(7),
+          color_palette: z
+            .array(z.string().startsWith("#").length(7))
+            .optional(),
           image: z.string().optional(),
           image_description: z.string().optional(),
           title_image: z.string().optional(),

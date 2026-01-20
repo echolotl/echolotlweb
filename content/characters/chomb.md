@@ -10,7 +10,16 @@ pronouns: he/him
 clan: Natural
 short_description: an anhropromorphic spider with golden rings
 theme_color: "#e23c3c"
-
+color_palette: 
+  - "#6E3E47"
+  - "#894E52"
+  - "#47282E"
+  - "#C8C8B4"
+  - "#D49095"
+  - "#FFD08F"
+  - "#D32F39"
+  - "#4E0049"
+  
 friends:
   - name: "Nautilus"
     slug: nautilus

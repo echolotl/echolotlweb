@@ -45,6 +45,35 @@
                             </figure>
                         </div>
                         <hr />
+                        <div
+                            v-if="character.color_palette"
+                            class="character-color-palette-container"
+                        >
+                            <Icon
+                                :icon="paletteIcon"
+                                width="24px"
+                                height="24px"
+                                @mouseenter="isPaletteIconHovered = true"
+                                @mouseleave="isPaletteIconHovered = false"
+                                @click="openPaletteImage"
+                                style="cursor: pointer"
+                            />
+                            <div class="character-color-palette">
+                                <div
+                                    v-for="color in character.color_palette"
+                                    :key="color"
+                                    class="swatch"
+                                    :style="{
+                                        backgroundColor: color,
+                                        '--swatch-border-color':
+                                            getContrastColor(color),
+                                    }"
+                                    @click="copyColorToClipboard(color)"
+                                    @mouseenter="hoveredColor = color"
+                                    @mouseleave="hoveredColor = null"
+                                ></div>
+                            </div>
+                        </div>
                         <table class="character-infobox__table">
                             <tbody>
                                 <tr>
@@ -224,6 +253,67 @@ import { getArtworksByCharacter } from "~/utils/art";
 import utils from "~/utils";
 import SplashText from "~/components/common/SplashText.vue";
 
+// Helper function to calculate relative luminance
+function getLuminance(color: string): number {
+    const hex = color.replace("#", "");
+    const r = parseInt(hex.substring(0, 2), 16) / 255;
+    const g = parseInt(hex.substring(2, 4), 16) / 255;
+    const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+    // Apply gamma correction
+    const sr = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+    const sg = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+    const sb = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+
+    return 0.2126 * sr + 0.7152 * sg + 0.0722 * sb;
+}
+
+// Helper function to calculate contrast ratio
+function getContrastRatio(color1: string, color2: string): number {
+    const lum1 = getLuminance(color1);
+    const lum2 = getLuminance(color2);
+    const lighter = Math.max(lum1, lum2);
+    const darker = Math.min(lum1, lum2);
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+// Helper function to get contrasting color based on WCAG threshold
+function getContrastColor(baseColor: string, threshold: number = 4.5): string {
+    const whiteRatio = getContrastRatio(baseColor, "#ffffff");
+    return whiteRatio >= threshold ? "#ffffff" : "#000000";
+}
+
+const hoveredColor = ref<string | null>(null);
+const copiedColor = ref<string | null>(null);
+const isPaletteIconHovered = ref(false);
+
+const paletteIcon = computed(() => {
+    if (copiedColor.value) {
+        return "check";
+    }
+    if (isPaletteIconHovered.value) {
+        return "open-in-new";
+    }
+    if (hoveredColor.value) {
+        return "copy";
+    }
+    return "palette";
+});
+
+function openPaletteImage(): void {
+    if (character.value?.slug) {
+        window.open(`/images/palettes/${character.value.slug}.png`, "_blank");
+    }
+}
+
+function copyColorToClipboard(color: string): void {
+    navigator.clipboard.writeText(color);
+    copiedColor.value = color;
+    setTimeout(() => {
+        copiedColor.value = null;
+    }, 2000);
+}
+
 const route = useRoute();
 
 const { data: character } = await useAsyncData(
@@ -289,6 +379,7 @@ useSeoMeta({
 </script>
 
 <style lang="scss" scoped>
+@use "~/assets/styles/partials/mixins" as *;
 .character-page {
     position: relative;
     --theme-color: v-bind(character.theme_color);
@@ -391,6 +482,40 @@ useSeoMeta({
         max-width: 200px;
         border-radius: 8px;
         margin-bottom: 5px;
+    }
+}
+.character-color-palette-container {
+    width: 100%;
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    margin: 0.25rem;
+}
+.character-color-palette {
+    width: 100%;
+    height: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border: 2px solid var(--distant);
+    .swatch {
+        position: relative;
+        flex: 1;
+        height: 100%;
+        &:hover {
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: calc(100% - 2px);
+                height: calc(100% - 2px);
+                border: 1px solid var(--swatch-border-color);
+                pointer-events: none;
+            }
+        }
     }
 }
 .character-infobox__table {

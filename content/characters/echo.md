@@ -10,6 +10,13 @@ pronouns: it/its
 clan: Unaffiliated
 short_description: echolotl's mimikyu pokesona
 theme_color: "#e2c68a"
+color_palette:
+  - "#E2A870"
+  - "#E2CDA0"
+  - "#CDBC97"
+  - "#7B7956"
+  - "#0D0D21"
+  - "#000000"
 sitemap:
     changefreq: monthly
     priority: 0.5

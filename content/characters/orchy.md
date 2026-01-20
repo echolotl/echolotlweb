@@ -10,6 +10,18 @@ pronouns: it/they/them
 clan: Changed
 short_description: a massive dragon-bunny hybrid, with a potion stuck on his tail
 theme_color: "#e93068"
+color_palette:
+  - "#5C6382"
+  - "#666E96"
+  - "#4E5786"
+  - "#858CAE"
+  - "#B5C0F8"
+  - "#353661"
+  - "#1A1B4B"
+  - "#91C7EC"
+  - "#C4B7AC"
+  - "#5C1A74"
+  - "#FA52DF"
 icon_image: /images/no_image.png
 title_image: /images/characters/orchy/title.png
 background_texture: /images/characters/orchy/texture.png
