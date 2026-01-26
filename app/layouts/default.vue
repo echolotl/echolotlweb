@@ -1,7 +1,6 @@
 <template>
     <div :class="{ 'light-theme': theme }">
         <Navbar
-            :nav-icons="navIcons"
             :light="theme"
             @toggle-theme="toggleTheme"
         />
@@ -21,35 +20,8 @@ import { SpeedInsights } from "@vercel/speed-insights/nuxt";
 
 const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 
-const allNavIcons = {
-    art: { icon: "art_brush", alt: "Art", to: "/art" },
-    characters: {
-        icon: "character",
-        alt: "Characters",
-        to: "/characters",
-    },
-    home: { icon: "house-icon", alt: "Home", to: "/" },
-};
 const route = useRoute();
-// Compute nav icons based on current route
-const navIcons = computed(() => {
-    const currentPath = route.path;
-    const icons = [];
 
-    if (currentPath !== "/") {
-        icons.push(allNavIcons.home);
-    }
-
-    if (currentPath !== "/art") {
-        icons.push(allNavIcons.art);
-    }
-
-    if (currentPath !== "/characters") {
-        icons.push(allNavIcons.characters);
-    }
-
-    return icons;
-});
 
 onMounted(() => {
     initializeTheme();

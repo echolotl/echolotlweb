@@ -34,13 +34,11 @@
                             height="48px"
                             class="navbar-top__logo-icon navbar-top__logo-icon--desktop"
                             color="var(--inverted-solid)"
+                            :style="{background: route.path === '/' ? 'var(--primary)' : 'var(--text)'}"
                         />
-                        <img
-                            src="~/assets/images/logo.png"
-                            alt="echolotl"
-                            height="48"
-                            :class="props.light ? 'invert' : ''"
-                            style="transition: filter 0.3s ease"
+                        <div
+                            class="navbar-top__logo-image"
+                            :style="{background: route.path === '/' ? 'var(--primary)' : 'var(--text)'}"
                         />
                     </nuxt-link>
                 </div>
@@ -50,7 +48,7 @@
                     class="navbar-top__nav-icons navbar-top__nav-icons--desktop"
                 >
                     <nuxt-link
-                        v-for="(navIcon, index) in props.navIcons"
+                        v-for="(navIcon, index) in navIcons"
                         :key="index"
                         :to="navIcon.to"
                     >
@@ -60,6 +58,7 @@
                             width="48px"
                             height="48px"
                             class="icon icon--hoverable"
+                            :style="route.path === navIcon.to ? `background: var(--primary);` : 'background: var(--text)'"
                         />
                     </nuxt-link>
                 </div>
@@ -86,7 +85,7 @@
 
                     <!-- Mobile navigation items -->
                     <nuxt-link
-                        v-for="(navIcon, index) in props.navIcons"
+                        v-for="(navIcon, index) in navIcons"
                         :key="index"
                         :to="navIcon.to"
                         class="navbar-top__mobile-item"
@@ -98,6 +97,7 @@
                             width="32px"
                             height="32px"
                             class="icon icon--hoverable"
+                            :style="{background: route.path === navIcon.to ? 'linear-gradient(to bottom in oklab, var(--primary), var(--text))' : 'var(--text)'}"
                         />
                         <span>{{ navIcon.alt }}</span>
                     </nuxt-link>
@@ -118,11 +118,12 @@ interface NavIcon {
     to: string;
 }
 
+const navIcons: NavIcon[] = [
+    { icon: "art_brush", alt: "Art", to: "/art" },
+    { icon: "character", alt: "Characters", to: "/characters" },
+];
+
 const props = defineProps({
-    navIcons: {
-        type: Array as () => NavIcon[],
-        required: true,
-    },
     light: {
         type: Boolean,
         default: false,
@@ -133,6 +134,7 @@ const emit = defineEmits(["toggle-theme"]);
 
 const mobileMenuOpen = ref(false);
 const currentThemeIcon = computed(() => (props.light ? "moon" : "sun"));
+const route = useRoute();
 
 function toggleTheme() {
     emit("toggle-theme");
@@ -227,11 +229,20 @@ onMounted(() => {
     animation: jumpAndFlip 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.navbar-top__logo {
+.navbar-top__logo a{
     display: flex;
     flex-direction: row;
     min-width: auto;
     outline: none;
+    &:hover {
+        .navbar-top__logo-icon,
+    .navbar-top__logo-image {
+        background: var(--primary) !important;
+
+    }
+    }
+
+    
 
     @media (max-width: 768px) {
         order: 1;
@@ -249,6 +260,23 @@ onMounted(() => {
 .navbar-top__logo-icon--desktop {
     @media (max-width: 768px) {
         display: none !important;
+    }
+}
+
+.navbar-top__logo-image {
+    width: 300px;
+    height: 48px;
+    mask-image: url("~/assets/images/logo.png");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+
+    
+
+    @media (max-width: 768px) {
+        width: 200px;
+        height: auto;
+        aspect-ratio: 4.17;
     }
 }
 
@@ -331,6 +359,9 @@ onMounted(() => {
 
     &--hoverable {
         @include hover-scale(1.1);
+        &:hover {
+            background: var(--primary) !important;
+        }
     }
 }
 
