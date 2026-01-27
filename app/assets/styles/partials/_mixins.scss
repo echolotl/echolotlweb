@@ -11,21 +11,9 @@
     $blue: color.blue($color) / 255;
 
     // Apply gamma correction
-    $red: if(
-        $red <= 0.03928,
-        $red / 12.92,
-        math.pow(($red + 0.055) / 1.055, 2.4)
-    );
-    $green: if(
-        $green <= 0.03928,
-        $green / 12.92,
-        math.pow(($green + 0.055) / 1.055, 2.4)
-    );
-    $blue: if(
-        $blue <= 0.03928,
-        $blue / 12.92,
-        math.pow(($blue + 0.055) / 1.055, 2.4)
-    );
+    $red: if(sass($red <= 0.03928): $red / 12.92; else: math.pow(($red + 0.055) / 1.055, 2.4));
+    $green: if(sass($green <= 0.03928): $green / 12.92; else: math.pow(($green + 0.055) / 1.055, 2.4));
+    $blue: if(sass($blue <= 0.03928): $blue / 12.92; else: math.pow(($blue + 0.055) / 1.055, 2.4));
 
     @return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
 }

@@ -45,7 +45,7 @@
             v-if="rtc.public.underConstruction"
             class="under-construction-banner"
         >
-            <nuxt-img
+            <img
                 class="under-construction-text"
                 src="/images/underconstructiontxt.png"
                 alt="Under Construction"

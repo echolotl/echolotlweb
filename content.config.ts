@@ -72,8 +72,8 @@ export default defineContentConfig({
         type: "data",
         schema: z.object({
           slug: z.string(),
-          created_at: z.string().datetime(),
-          modified_at: z.string().datetime(),
+          created_at: z.string().date(),
+          modified_at: z.string().date(),
           character: z.string().optional(),
           related_characters: z.array(z.string()).optional(),
           title: z.string(),

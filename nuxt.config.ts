@@ -5,8 +5,6 @@ import { load } from "js-yaml";
 import sharp from "sharp";
 
 async function generatePaletteImages() {
-  console.log("🎨 Generating color palette images...");
-
   const CONTENT_CHARACTERS_DIR = resolve(__dirname, "content", "characters");
   const PUBLIC_PALETTES_DIR = resolve(
     __dirname,
@@ -66,7 +64,7 @@ async function generatePaletteImages() {
       processed++;
     }
 
-    console.log(`✓ Generated ${processed} palette image(s)`);
+    console.log(`◆  Generated ${processed} palette image(s)`);
   } catch (error) {
     console.error("Error generating palette images:", error);
   }
@@ -166,6 +164,7 @@ export default defineNuxtConfig({
         return [];
       }
     },
+    zeroRuntime: true
   },
   devtools: { enabled: true },
   modules: [
@@ -173,12 +172,8 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "@nuxt/content",
     "@nuxt/eslint",
-    "@nuxt/image",
     "@nuxtjs/mdc",
   ],
-  image: {
-    provider: "none",
-  },
   components: {
     global: true,
     dirs: ["~/components", "~/components/content"],
@@ -199,15 +194,15 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: "page", mode: "out-in" },
   },
+  future: {
+    compatibilityVersion: 5,
+  },
   runtimeConfig: {
     public: {
       underConstruction: true,
     },
   },
   hooks: {
-    "build:before": async () => {
-      await generatePaletteImages();
-    },
     "nitro:build:before": async () => {
       await generatePaletteImages();
     },

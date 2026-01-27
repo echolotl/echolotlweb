@@ -27,7 +27,7 @@
                         <hr />
                         <div class="character-infobox__header">
                             <figure style="text-align: center; margin: 0">
-                                <nuxt-img
+                                <img
                                     :src="
                                         character.image ||
                                         '/images/no_image.png'

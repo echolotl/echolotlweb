@@ -22,7 +22,7 @@ import { useAsyncData } from "nuxt/app";
 import CharacterCard from "~/components/characters/CharacterCard.vue";
 import SketchText from "~/components/common/SketchText.vue";
 
-const { data: characters } = await useAsyncData(() => {
+const { data: characters } = await useAsyncData('characters', () => {
     return queryCollection("characters").all();
 });
 
