@@ -2,10 +2,10 @@
 slug: king
 name: King
 species: Cat
-age: 17
+age: 18
 height: 6' 0"
 created_date: 2021-12-14
-last_modified: 2025-05-18
+last_modified: 2026-01-29
 pronouns: he/they
 clan: Unaffiliated
 short_description: A purple cat
@@ -21,11 +21,11 @@ color_palette:
 image: /images/characters/king/figure.webp
 image_description: "King's current design, wearing his sweater and scarf."
 friends: 
-- slug: kitral
-  name: Kitral
+- slug: echo
+  name: Echo
 sitemap:
     changefreq: monthly
     priority: 0.5
-    lastmod: 2025-09-07
+    lastmod: 2026-01-29
 ---
 **King** is echolotl's main fursona. He is a purple, anthropomorphic cat with white spots dotted around his body. He isn't and won't be used in any stories.

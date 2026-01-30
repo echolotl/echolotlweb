@@ -2,10 +2,10 @@
 slug: orchy
 name: Orchy
 species: Dragon/Bunny
-age: 23
-height: 13' 9"
+age: 29
+height: 18' 9"
 created_date: 2022-03-09
-last_modified: 2025-07-03
+last_modified: 2026-01-29
 pronouns: it/they/them
 clan: Changed
 short_description: a massive dragon-bunny hybrid, with a potion stuck on his tail
@@ -29,9 +29,11 @@ banner_image: /images/characters/orchy/banner.png
 friends:
   - name: Phosphor
     slug: phosphor
+  - name: Nautilus
+    slug: nautilus
 sitemap:
     changefreq: monthly
     priority: 0.5
-    lastmod: 2025-09-07
+    lastmod: 2026-01-29
 ---
 **Orchy** is a dark-furred, dragon-bunny hybrid with a potion bottle stuck to its tail. He lives in **Mount Salto**.

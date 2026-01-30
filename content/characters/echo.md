@@ -2,10 +2,10 @@
 slug: echo
 name: Echo
 species: Mimikyu
-age: 17
+age: 18
 height: 5' 1"
 created_date: 2021-12-10
-last_modified: 2025-07-03
+last_modified: 2026-01-29
 pronouns: it/its
 clan: Unaffiliated
 short_description: echolotl's mimikyu pokesona
@@ -20,7 +20,7 @@ color_palette:
 sitemap:
     changefreq: monthly
     priority: 0.5
-    lastmod: 2025-07-03
+    lastmod: 2026-01-29
 ---
 
 **Echo** is echolotl's pokesona, an anthropomorphic Mimikyu. It is not used in any stories.
