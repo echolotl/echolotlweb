@@ -19,7 +19,7 @@ color_palette:
   - "#D8C7E0"
   - "#BCA9C9"
 image: /images/characters/king/figure.webp
-image_description: "King's current design, wearing his sweater and scarf."
+image_description: "King, wearing his sweater and scarf."
 friends: 
 - slug: echo
   name: Echo
@@ -28,4 +28,4 @@ sitemap:
     priority: 0.5
     lastmod: 2026-01-29
 ---
-**King** is echolotl's main fursona. He is a purple, anthropomorphic cat with white spots dotted around his body. He isn't and won't be used in any stories.
+**King** is echolotl's main fursona, a purple furred anthropomorphic cat.

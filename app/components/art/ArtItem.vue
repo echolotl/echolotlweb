@@ -126,11 +126,11 @@ const metadataTitle = computed(() => {
 
     &:hover {
         transform: scale(1.01);
-        @include drop-shadow-outline(var(--primary));
+        @include drop-shadow-outline(var(--theme-color, var(--primary)));
         .art-item__metadata {
             color: var(--background);
             &::before {
-                background: var(--primary);
+                background: var(--theme-color, var(--primary));
             }
         }
     }
@@ -138,7 +138,7 @@ const metadataTitle = computed(() => {
 .art-item__metadata {
     position: absolute;
     display: flex;
-    color: var(--primary);
+    color: var(--theme-color, var(--primary));
     align-items: flex-start;
     justify-content: left;
     transition: filter 0.2s ease;

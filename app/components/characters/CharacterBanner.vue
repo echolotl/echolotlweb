@@ -9,7 +9,6 @@
             />
             <div
                 class="character-banner__underlay"
-                :style="{ '--character-theme-color': character.theme_color }"
             />
             <div class="character-banner__images">
                 <div
@@ -111,7 +110,7 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
     width: 100%;
     height: 100%;
     z-index: -1;
-    @include gradient-fade-bottom(var(--character-theme-color));
+    @include gradient-fade-bottom(var(--theme-color));
     @include theme-transition;
 }
 .character-banner__underlay::after {

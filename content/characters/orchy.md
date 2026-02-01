@@ -36,4 +36,4 @@ sitemap:
     priority: 0.5
     lastmod: 2026-01-29
 ---
-**Orchy** is a dark-furred, dragon-bunny hybrid with a potion bottle stuck to its tail. He lives in **Mount Salto**.
+**Orchy** is a very large, dark-furred, dragon-bunny hybrid, who has their tail stuck inside a potion bottle with a strange liquid.

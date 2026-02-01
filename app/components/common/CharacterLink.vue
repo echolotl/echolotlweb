@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import SketchText from "./SketchText.vue";
+import { useTheme } from "~~/composables/useTheme";
 
 const props = defineProps<{
     slug: string;
@@ -35,9 +36,22 @@ const { data: character } = await useAsyncData(
     },
 );
 
+const { theme } = useTheme();
+
+const themeColor = computed(() => {
+    if (!character.value) return "";
+    
+    // If theme is light (true), use light color if available
+    if (theme.value && character.value.theme_color_light) {
+        return character.value.theme_color_light;
+    }
+    // Otherwise use the default theme color
+    return character.value.theme_color || "";
+});
+
 const darkerColor = computed(() => {
-    if (!character.value?.theme_color) return "";
-    return `color-mix(in oklab, ${character.value.theme_color} 50%, black 50%)`;
+    if (!themeColor.value) return "";
+    return `color-mix(in oklab, ${themeColor.value} 50%, black 50%)`;
 });
 </script>
 
@@ -45,7 +59,7 @@ const darkerColor = computed(() => {
 @use "~/assets/styles/partials/_mixins" as *;
 
 .character-link {
-    color: v-bind("character?.theme_color");
+    color: v-bind(themeColor);
 
     &:not(.character-link--sketch) {
         @include text-stroke(v-bind(darkerColor));

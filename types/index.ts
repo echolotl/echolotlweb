@@ -12,6 +12,7 @@ export interface Character {
   clan: string;
   short_description?: string;
   theme_color: string;
+  theme_color_light?: string;
   color_palette?: string[];
   image?: string;
   image_description?: string;

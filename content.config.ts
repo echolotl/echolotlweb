@@ -52,6 +52,7 @@ export default defineContentConfig({
           clan: z.string(),
           short_description: z.string().optional(),
           theme_color: z.string().startsWith("#").length(7),
+          theme_color_light: z.string().startsWith("#").length(7).optional(),
           color_palette: z
             .array(z.string().startsWith("#").length(7))
             .optional(),

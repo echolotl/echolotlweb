@@ -1,6 +1,8 @@
-import { ref, watch, readonly } from "vue";
+import { ref, watch } from "vue";
 
-export const useTheme = () => {
+let themeInstance: ReturnType<typeof createTheme> | null = null; // Weird singleton instance pattern
+
+function createTheme() {
   const theme = ref(false); // true = light, false = dark
   const userHasManualOverride = ref(false);
   let mediaQueryCleanup: (() => void) | null = null;
@@ -94,9 +96,16 @@ export const useTheme = () => {
   });
 
   return {
-    theme: readonly(theme),
+    theme,
     toggleTheme,
     initializeTheme,
     cleanupTheme,
   };
+}
+
+export const useTheme = () => {
+  if (!themeInstance) {
+    themeInstance = createTheme();
+  }
+  return themeInstance;
 };

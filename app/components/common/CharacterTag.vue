@@ -3,7 +3,7 @@
         <Tag
             variant="character"
             :clickable="true"
-            :custom-color="character?.theme_color"
+            :custom-color="themeColor"
         >
             <SketchText
                 v-if="sketchText && character?.name"
@@ -20,6 +20,7 @@
 import Tag from "./Tag.vue";
 import CharacterLink from "./CharacterLink.vue";
 import SketchText from "./SketchText.vue";
+import { useTheme } from "~~/composables/useTheme";
 
 interface Props {
     slug: string;
@@ -37,6 +38,17 @@ const { data: character } = await useAsyncData(
         return character;
     },
 );
+
+const { theme } = useTheme();
+
+const themeColor = computed(() => {
+    if (!character.value) return "";
+    
+    if (theme.value && character.value.theme_color_light) {
+        return character.value.theme_color_light;
+    }
+    return character.value.theme_color || "";
+});
 </script>
 
 <style scoped lang="scss">
@@ -44,8 +56,5 @@ const { data: character } = await useAsyncData(
 
 .character-tag {
     text-decoration: none;
-}
-.sketch-text-stroke {
-    @include drop-shadow-simple(var(--distant));
 }
 </style>

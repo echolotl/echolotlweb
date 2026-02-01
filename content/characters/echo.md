@@ -10,6 +10,7 @@ pronouns: it/its
 clan: Unaffiliated
 short_description: echolotl's mimikyu pokesona
 theme_color: "#e2c68a"
+theme_color_light: "#bda267"
 color_palette:
   - "#E2A870"
   - "#E2CDA0"
@@ -23,4 +24,4 @@ sitemap:
     lastmod: 2026-01-29
 ---
 
-**Echo** is echolotl's pokesona, an anthropomorphic Mimikyu. It is not used in any stories.
+**Echo** is echolotl's pokesona, an anthropomorphic Mimikyu.

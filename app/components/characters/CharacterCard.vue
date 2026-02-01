@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import type { Character } from "~~/types";
 import SketchText from "../common/SketchText.vue";
+import { useTheme } from "~~/composables/useTheme";
 
 const props = defineProps({
     character: {
@@ -32,7 +33,17 @@ const props = defineProps({
     },
 });
 
-const characterColor = props.character?.theme_color || "#000000";
+const { theme } = useTheme();
+
+const characterColor = computed(() => {
+    if (!props.character) return "#000000";
+    
+    if (theme.value && props.character.theme_color_light) {
+        return props.character.theme_color_light;
+    }
+    return props.character.theme_color || "#000000";
+});
+
 const characterImage = `url(/images/characters/${props.character.slug}/icon.webp)`;
 const characterHoverImage = `url(/images/characters/${props.character.slug}/hover.webp)`;
 

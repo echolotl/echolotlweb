@@ -10,6 +10,7 @@ pronouns: they/them
 clan: Natural
 short_description: now you sea bunny, now you don't
 theme_color: "#8bde10"
+theme_color_light: "#67b600"
 friends:
     - name: Chomb
       slug: chomb
@@ -18,3 +19,5 @@ sitemap:
     priority: 0.5
     lastmod: 2026-01-29
 ---
+
+**Mino**
