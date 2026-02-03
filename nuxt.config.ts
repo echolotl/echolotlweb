@@ -1,74 +1,8 @@
 import type { Art, ArtImage } from "./types";
-import { readdir, readFile, writeFile, mkdir } from "fs/promises";
-import { resolve, join } from "node:path";
+import { readdir, readFile } from "fs/promises";
+import { resolve } from "node:path";
 import { load } from "js-yaml";
-import sharp from "sharp";
 
-async function generatePaletteImages() {
-  const CONTENT_CHARACTERS_DIR = resolve(__dirname, "content", "characters");
-  const PUBLIC_PALETTES_DIR = resolve(
-    __dirname,
-    "public",
-    "images",
-    "palettes",
-  );
-  const SWATCH_WIDTH = 100;
-  const SWATCH_HEIGHT = 100;
-
-  try {
-    // Ensure the palettes directory exists
-    await mkdir(PUBLIC_PALETTES_DIR, { recursive: true });
-
-    const characterFiles = await readdir(CONTENT_CHARACTERS_DIR);
-    let processed = 0;
-
-    for (const file of characterFiles) {
-      if (!file.endsWith(".md")) continue;
-
-      const filePath = join(CONTENT_CHARACTERS_DIR, file);
-      const fileContent = await readFile(filePath, "utf8");
-
-      // Extract frontmatter
-      const frontmatterMatch = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-      if (!frontmatterMatch || !frontmatterMatch[1]) continue;
-
-      const data = load(frontmatterMatch[1]) as any;
-
-      if (
-        !data.slug ||
-        !data.color_palette ||
-        data.color_palette.length === 0
-      ) {
-        continue;
-      }
-
-      // Create SVG with color swatches
-      const totalWidth = data.color_palette.length * SWATCH_WIDTH;
-      const swatches = data.color_palette
-        .map((color: string, index: number) => {
-          const x = index * SWATCH_WIDTH;
-          return `<rect x="${x}" y="0" width="${SWATCH_WIDTH}" height="${SWATCH_HEIGHT}" fill="${color}"/>`;
-        })
-        .join("\n");
-
-      const svg = `
-        <svg width="${totalWidth}" height="${SWATCH_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
-          ${swatches}
-        </svg>
-      `;
-
-      // Convert SVG to PNG using sharp
-      const outputPath = join(PUBLIC_PALETTES_DIR, `${data.slug}.png`);
-      await sharp(Buffer.from(svg)).png().toFile(outputPath);
-
-      processed++;
-    }
-
-    console.log(`◆  Generated ${processed} palette image(s)`);
-  } catch (error) {
-    console.error("Error generating palette images:", error);
-  }
-}
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -203,8 +137,9 @@ export default defineNuxtConfig({
     },
   },
   hooks: {
-    "nitro:build:before": async () => {
-      await generatePaletteImages();
+    "build:before": () => {
+      import("./scripts/generate-palettes");
+      import("./scripts/thumbnails");
     },
   },
 });

@@ -10,6 +10,7 @@ pronouns: she/her
 clan: Changed
 short_description: a shark-dog-girl hybrid with many, many eyes
 theme_color: "#5195ef"
+theme_color_light: "#287DEB"
 color_palette:
   - "#AFB6CD"
   - "#DBDDE5"

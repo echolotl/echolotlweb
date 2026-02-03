@@ -87,6 +87,21 @@ const themeColor = computed(() => {
     return character.value.theme_color || "#000000";
 });
 
+const updateScrollbarColor = () => {
+    document.documentElement.style.setProperty(
+        "--scrollbar-bar",
+        themeColor.value,
+    );
+};
+
+watch(themeColor, () => {
+    updateScrollbarColor();
+});
+
+onMounted(() => {
+    updateScrollbarColor();
+});
+
 onBeforeUnmount(() => {
     // Reset scrollbar color on unmount
     document.documentElement.style.setProperty(

@@ -1,39 +1,39 @@
+// Convert RGB to ANSI 256 color code
+export function rgbToAnsi256(r: number, g: number, b: number): string {
+  return `\x1b[38;2;${r};${g};${b}m`;
+}
+
+// Stylized logger
 export class Logger {
-  private context: string;
-  private color: string = "\x1b[36m";
+    static statement(message: string) {
+        console.log(`\x1b[0;95m▌ ${message}\x1b[0m`);
+    }
+    static success(message: string) {
+        console.log(`\x1b[1;92m▌ \x1b[0m${message}\x1b[0m`);
+    }
+    static error(message: string) {
+        console.error(`\x1b[1;91m▌ \x1b[0m${message}\x1b[0m`);
+    }
+    static info(message: string) {
+        console.log(`\x1b[0;36m▌\x1b[0m ${message}\x1b[0m`);
+    }
+    static warning(message: string) {
+        console.warn(`\x1b[1;93m▌ \x1b[0m${message}\x1b[0m`);
+    }
+    static log(message: string) {
+        console.log(message);
+    }
+    static dim(message: string) {
+        console.log(`\x1b[0;30m▌ ${message}\x1b[0m`);
+    }
+    static rgb(r: number, g: number, b: number, message: string) {
+        console.log(`\x1b[38;2;${r};${g};${b}m${message}\x1b[0m`);
+    }
+    static hex(color: string, message: string) {
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        this.rgb(r, g, b, message);
+    }
 
-  private errorColor: string = "\x1b[31m";
-  private warnColor: string = "\x1b[33m";
-  private infoColor: string = "\x1b[34m";
-
-  constructor(context: string, color?: string) {
-    this.context = context;
-    this.color = color
-      ? Bun.color(color, "ansi-16m") || this.color
-      : this.color;
-  }
-  log(message: string, ...optionalParams: any[]) {
-    console.log(
-      `${this.color}[${this.context}] \x1b[0m${message}`,
-      ...optionalParams,
-    );
-  }
-  error(message: string, ...optionalParams: any[]) {
-    console.error(
-      `${this.errorColor}[${this.context} ERROR] \x1b[0m ${message}`,
-      ...optionalParams,
-    );
-  }
-  warn(message: string, ...optionalParams: any[]) {
-    console.warn(
-      `${this.warnColor}[${this.context} WARN] \x1b[0m ${message}`,
-      ...optionalParams,
-    );
-  }
-  info(message: string, ...optionalParams: any[]) {
-    console.info(
-      `${this.infoColor}[${this.context} INFO] \x1b[0m ${message}`,
-      ...optionalParams,
-    );
-  }
 }

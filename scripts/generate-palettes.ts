@@ -19,6 +19,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import sharp from "sharp";
 import * as yaml from "js-yaml";
+import { Logger, rgbToAnsi256 } from "./logger";
 
 const CONTENT_CHARACTERS_DIR = "content/characters";
 const PUBLIC_PALETTES_DIR = "public/images/palettes";
@@ -36,6 +37,7 @@ async function createPaletteImage(
   colors: string[],
   outputPath: string,
   characterName: string,
+  miniLog = false,
 ): Promise<void> {
   try {
     const totalWidth = colors.length * SWATCH_WIDTH;
@@ -58,20 +60,39 @@ async function createPaletteImage(
     // Convert SVG to PNG using sharp
     await sharp(Buffer.from(svg)).png().toFile(outputPath);
 
-    console.log(`✓ Created palette for ${characterName}: ${outputPath}`);
+    if (!miniLog) {
+      Logger.success(`\x1b[1m\x1b[4m${characterName}`);
+      let colorMessage = "";
+      // log message with ansi256 codes
+      for (const color of colors) {
+        const [r, g, b] = color
+          .replace("#", "")
+          .match(/.{2}/g)!
+          .map((hex) => parseInt(hex, 16));
+        const ansiCode = rgbToAnsi256(r!, g!, b!);
+        colorMessage = (colorMessage || "") + `${ansiCode}██\x1b[0m`;
+      }
+      Logger.success(colorMessage);
+    }
   } catch (error) {
-    console.error(`✗ Failed to create palette for ${characterName}:`, error);
+    if (!miniLog) {
+      Logger.error(`Failed to create palette for ${characterName}: ${error}`);
+    }
     throw error;
   }
 }
 
-async function generatePalettes(): Promise<void> {
-  console.log("🎨 Generating color palette images...\n");
+export async function generatePalettes(miniLog = false): Promise<void> {
+  if (!miniLog) {
+    Logger.statement("Generating color palette images...");
+  }
 
   // Ensure the palettes directory exists
   if (!existsSync(PUBLIC_PALETTES_DIR)) {
     mkdirSync(PUBLIC_PALETTES_DIR, { recursive: true });
-    console.log(`📁 Created directory: ${PUBLIC_PALETTES_DIR}\n`);
+    if (!miniLog) {
+      Logger.statement(`Created directory: ${PUBLIC_PALETTES_DIR}`);
+    }
   }
 
   let processed = 0;
@@ -91,23 +112,21 @@ async function generatePalettes(): Promise<void> {
       // Extract frontmatter
       const frontmatterMatch = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
       if (!frontmatterMatch) {
-        console.log(`⏭ Skipping ${file}: No frontmatter found`);
+        if (!miniLog) logSkip(file, "No frontmatter found");
         skipped++;
         continue;
       }
 
-      const data = yaml.load(frontmatterMatch[1]) as CharacterData;
+      const data = yaml.load(frontmatterMatch[1]!) as CharacterData;
 
       if (!data.slug) {
-        console.log(`⏭ Skipping ${file}: No slug found`);
+        if (!miniLog) logSkip(file, "No slug found");
         skipped++;
         continue;
       }
 
       if (!data.color_palette || data.color_palette.length === 0) {
-        console.log(
-          `⏭ Skipping ${data.name || data.slug}: No color palette found`,
-        );
+        if (!miniLog) logSkip(data.name || data.slug, "No color palette found");
         skipped++;
         continue;
       }
@@ -118,34 +137,47 @@ async function generatePalettes(): Promise<void> {
         data.color_palette,
         outputPath,
         data.name || data.slug,
+        miniLog,
       );
       processed++;
     } catch (error) {
       errors++;
-      console.error(`Error processing ${file}:`, error);
+      if (!miniLog) {
+        Logger.error(`Error processing ${file}: ${error}`);
+      }
     }
   }
 
-  console.log(`\n📊 Summary:`);
-  console.log(`✓ Processed: ${processed}`);
-  console.log(`⏭ Skipped: ${skipped}`);
-  console.log(`✗ Errors: ${errors}`);
-
-  if (errors === 0) {
-    console.log("\n🎉 All palette images generated successfully!");
+  if (miniLog) {
+    Logger.statement(`Generated ${processed} character palette images`);
   } else {
-    console.log(`\n⚠️ Completed with ${errors} errors.`);
+    if (errors === 0) {
+      Logger.success("All palette images generated successfully!");
+    } else {
+      Logger.warning(`Completed with ${errors} errors.`);
+    }
+    if (skipped > 0) {
+      Logger.info(`Skipped ${skipped} characters without palettes.`);
+    }
   }
 }
 
-async function main() {
+function logSkip(char: string, message: string): void {
+  Logger.dim(`${char}: ${message}`);
+}
+
+async function main(args: string[]) {
   try {
-    await generatePalettes();
+    if (args.includes("--log")) {
+      await generatePalettes(false);
+    } else {
+    await generatePalettes(true);
+    }
   } catch (error) {
-    console.error("Fatal error:", error);
+    Logger.error(`Fatal error: ${error}`);
     process.exit(1);
   }
 }
 
 // Run if this file is executed directly
-main();
+main(process.argv.slice(2));

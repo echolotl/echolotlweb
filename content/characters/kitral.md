@@ -10,6 +10,7 @@ pronouns: she/they
 clan: Natural
 short_description: an orange girl-fox
 theme_color: "#e7984e"
+theme_color_light: "#BC681A"
 friends:
   - slug: glory
     name: Glory
