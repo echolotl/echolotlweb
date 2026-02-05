@@ -1,6 +1,6 @@
 <template>
     <div class="splash-text">
-        {{ getSplashText() }}
+        {{ splashText }}
     </div>
 </template>
 
@@ -18,6 +18,12 @@ import { SPLASH_TEXTS } from "~~/types/constants";
 
 const getSplashText = () => {
     const index = Math.floor(Math.random() * SPLASH_TEXTS.length);
-    return SPLASH_TEXTS[index];
+    return SPLASH_TEXTS[index] || "b";
 };
+
+const splashText = ref("");
+
+onMounted(() => {
+    splashText.value = getSplashText();
+});
 </script>

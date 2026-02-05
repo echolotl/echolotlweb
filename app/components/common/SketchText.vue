@@ -177,9 +177,10 @@ const accessibilityAttrs = computed(() => {
 });
 
 // Generate a unique ID for associating with screen reader text
-const textId = computed(
-    () => `sketch-text-${Math.random().toString(36).substr(2, 9)}`,
-);
+const textId = ref<string>("");
+onMounted(() => {
+    textId.value = `sketch-text-${Math.random().toString(36).substring(2, 9)}`;
+});
 </script>
 
 <template>
