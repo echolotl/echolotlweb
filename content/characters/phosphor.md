@@ -14,6 +14,7 @@ theme_color_light: "#826CE4"
 icon_image: /images/no_image.png
 title_image: /images/characters/phosphor/title.png
 background_texture: /images/characters/phosphor/texture.png
+category: "Talrien"
 friends:
   - name: Orchy
     slug: orchy

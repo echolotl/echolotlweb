@@ -24,6 +24,7 @@ image_description: "King, wearing his sweater and scarf."
 friends: 
 - slug: echo
   name: Echo
+category: "Sonas"
 sitemap:
     changefreq: monthly
     priority: 0.5

@@ -16,6 +16,7 @@ export interface Character {
   color_palette?: string[];
   image?: string;
   image_description?: string;
+  category?: string;
 }
 
 export interface Art {

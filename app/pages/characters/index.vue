@@ -7,12 +7,27 @@
             Want to know more about my characters? Click on any of their cards
             to go to their page!
         </p>
-        <div class="characters-list">
-            <CharacterCard
-                v-for="(character, index) in sortedCharacters"
-                :key="index"
-                :character="character"
-            />
+        <div class="characters-content">
+            <div
+                v-for="(characters, category) in  charactersCategories"
+                :key="category"
+                class="category"
+                >
+                <h2 class="section-title" style="transform: translateY(2px)">
+                <SketchText size="1.5rem">{{ category }}</SketchText>
+                </h2>
+                <hr />
+                <div class="characters-grid">
+                    <CharacterCard
+                        v-for="character in characters"
+                        :key="character.slug"
+                        :character="character"
+                        class="character-card"
+                    />
+                </div>
+            
+            </div>
+
         </div>
     </div>
 </template>
@@ -21,8 +36,9 @@
 import { useAsyncData } from "nuxt/app";
 import CharacterCard from "~/components/characters/CharacterCard.vue";
 import SketchText from "~/components/common/SketchText.vue";
+import { type Character } from "~~/types";
 
-const { data: characters } = await useAsyncData('characters', () => {
+const { data: characters } = await useAsyncData<Character[]>('characters', () => {
     return queryCollection("characters").all();
 });
 
@@ -74,6 +90,21 @@ const sortedCharacters = computed(() => {
     });
 });
 
+const charactersCategories = computed(() => {
+    const categories: Record<string, Character[]> = {};
+    sortedCharacters.value.forEach((char) => {
+        const category = char.category || "Other";
+        if (!categories[category]) {
+            categories[category] = [];
+        }
+        categories[category].push(char);
+    })
+    return categories;
+})
+
+
+console.log(charactersCategories.value);
+
 useSeoMeta({
     title: "Characters",
     description: "Check out all of echolotl's characters!",
@@ -86,22 +117,36 @@ useSeoMeta({
 .characters-page {
     margin: 0 auto;
     padding: 2rem;
-    max-width: 1600px;
+    max-width: 1200px;
     min-height: 80vh;
+    justify-content: center;
     h1 {
         text-align: center;
     }
 }
 
-.characters-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: row;
-    margin-top: 2rem;
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 150px);
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        justify-content: center;
+    }
+}
+.character-card {
+    justify-self: center;
 }
 
 .subtitle {
     text-align: center;
+}
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    h2 {
+        margin: 0;
+    }
 }
 </style>

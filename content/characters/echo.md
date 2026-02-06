@@ -11,6 +11,7 @@ clan: Unaffiliated
 short_description: echolotl's mimikyu pokesona
 theme_color: "#e2c68a"
 theme_color_light: "#9F7928"
+category: "Sonas"
 color_palette:
   - "#E2A870"
   - "#E2CDA0"

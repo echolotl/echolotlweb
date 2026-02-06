@@ -21,6 +21,7 @@ color_palette:
   - "#411644"
   - "#EC91BD"
   - "#FCFCFD"
+category: "Talrien"
 friends:
   - name: Kitral
     slug: kitral

@@ -19,7 +19,7 @@ color_palette:
   - "#FFD08F"
   - "#D32F39"
   - "#4E0049"
-  
+category: "Talrien"
 friends:
   - name: "Nautilus"
     slug: nautilus

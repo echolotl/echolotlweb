@@ -11,6 +11,7 @@ clan: Natural
 short_description: an orange girl-fox
 theme_color: "#e7984e"
 theme_color_light: "#BC681A"
+category: "Talrien"
 friends:
   - slug: glory
     name: Glory
