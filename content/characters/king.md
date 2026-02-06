@@ -19,7 +19,9 @@ color_palette:
   - "#EB73B0"
   - "#D8C7E0"
   - "#BCA9C9"
-image: /images/characters/king/figure.webp
+image: 
+  type: url
+  url: /images/characters/king/figure.webp
 image_description: "King, wearing his sweater and scarf."
 friends: 
 - slug: echo

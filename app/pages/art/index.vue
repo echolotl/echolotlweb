@@ -1,8 +1,9 @@
 <template>
     <div class="art-page">
-        <div style="width: 100%; display: flex; justify-content: center">
-            <SketchText size="4rem">ART ARCHIVE</SketchText>
-        </div>
+        <div class="art-title"></div>
+        <p class="subtitle">
+            echolotl's archive of art! Currently contains <b>{{ allArtworks?.length }}</b> artworks. Click on any piece to view details.
+        </p>
 
         <div v-if="allPinnedArtworks.length > 0" class="section-header">
             <Icon icon="pin" />
@@ -154,12 +155,11 @@ useSeoMeta({
 }
 
 .art-title {
-    mask-image: url("/images/art/art_archive_title.webp");
+    mask-image: url("/images/art/title.webp");
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
     width: 100%;
-    max-width: 500px;
     height: 100px;
     image-rendering: crisp-edges;
     background-color: var(--text);

@@ -26,6 +26,11 @@ export async function getArtworks(
   return await query.all();
 }
 
+export async function getArtworkBySlug(slug: string): Promise<Art | null> {
+  const artworks = await queryCollection("art").where("slug", "=", slug).all();
+  return artworks[0] ?? null;
+}
+
 /**
  * Get pinned artworks only
  */

@@ -14,7 +14,11 @@ export interface Character {
   theme_color: string;
   theme_color_light?: string;
   color_palette?: string[];
-  image?: string;
+  image?: {
+    type: "artwork" | "url";
+    url?: string;
+    slug?: string;
+  };
   image_description?: string;
   category?: string;
 }

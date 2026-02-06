@@ -1,7 +1,7 @@
 <template>
     <div class="characters-page">
-        <h1 class="large-title">
-            <SketchText size="4rem">Characters</SketchText>
+        <h1 class="large-title characters-title">
+            
         </h1>
         <p class="subtitle">
             Want to know more about my characters? Click on any of their cards
@@ -144,6 +144,16 @@ useSeoMeta({
 }
 .character-card {
     justify-self: center;
+}
+
+.characters-title {
+    mask-image: url("/images/characters/title.webp");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--text);
+    height: 100px;
+    width: 100%;
 }
 
 .subtitle {

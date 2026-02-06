@@ -11,10 +11,11 @@
     >
       <hr />
       <div class="character-infobox__header">
-        <figure style="text-align: center; margin: 0">
+        <figure style="text-align: center; margin: 0" v-if="characterImage[0] == false">
           <img
-            :src="character.image || '/images/no_image.png'"
-            alt="Character Image"
+            :src="characterImage[1]"
+            :alt="character.image_description || character.name"
+            @click="character.image?.type == 'artwork' ? navigateTo(`/art/${character.image?.slug}`) : null"
           />
           <figcaption style="color: var(--text-secondary)">
             <i>{{
@@ -22,6 +23,13 @@
             }}</i>
           </figcaption>
         </figure>
+        <div v-else>
+          <Icon
+          icon="loading"
+          width="48px"
+          height="48px"
+          />
+        </div>
       </div>
       <hr />
       <div
@@ -99,7 +107,7 @@
             <td>
               <ul class="character-list">
                 <li
-                  v-for="(friend, index) in character.friends"
+                  v-for="(friend) in character.friends"
                   :key="friend.slug"
                 >
                   <NuxtLink
@@ -119,7 +127,7 @@
             <td>
               <ul class="character-list">
                 <li
-                  v-for="(enemy, index) in character.enemies"
+                  v-for="(enemy) in character.enemies"
                   :key="enemy.slug"
                 >
                   <NuxtLink
@@ -190,6 +198,27 @@ const paletteIcon = computed(() => {
     return "copy";
   }
   return "palette";
+});
+
+const characterImage = ref<[boolean, string]>([true, ""]); // [loading, url]
+
+onMounted(async () => {
+  if (props.character.image) {
+    if (props.character.image.type === "artwork" && props.character.image.slug) {
+      // If it's an artwork, we need to query the collection to get the image URL
+      const artwork = await getArtworkBySlug(props.character.image.slug);
+      if (artwork) {
+        characterImage.value = [false, artwork.images[0]?.image_url || `/images/no_image.png`];
+        return;
+      }
+    }
+    if (props.character.image.type === "url" && props.character.image.url) {
+      characterImage.value = [false, props.character.image.url];
+      return;
+    }
+  } else {
+    characterImage.value = [false, ``];
+  }
 });
 
 function openPaletteImage(): void {
@@ -293,11 +322,9 @@ function copyColorToClipboard(color: string): void {
   align-items: center;
   margin-bottom: 10px;
   img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
-    max-width: 200px;
-    border-radius: 8px;
-    margin-bottom: 5px;
+    max-height: 300px;
   }
 }
 

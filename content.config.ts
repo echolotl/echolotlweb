@@ -56,7 +56,11 @@ export default defineContentConfig({
           color_palette: z
             .array(z.string().startsWith("#").length(7))
             .optional(),
-          image: z.string().optional(),
+          image: z.object({
+            type: z.enum(["artwork", "url"]),
+            url: z.string().optional(),
+            slug: z.string().optional(),
+          }),
           image_description: z.string().optional(),
           title_image: z.string().optional(),
           background_texture: z.string().optional(),

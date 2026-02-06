@@ -109,7 +109,6 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--background);
     z-index: 0;
     mask-image: url("/images/art_mask.png");
     mask-size: 160px 160px;
