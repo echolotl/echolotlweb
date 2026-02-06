@@ -16,6 +16,9 @@
                 <h2 class="section-title" style="transform: translateY(2px)">
                 <SketchText size="1.5rem">{{ category }}</SketchText>
                 </h2>
+                        <p class="category-description">
+                            {{ hardcodedCategoryDescriptions[category] || "No description for this category yet." }}
+        </p>
                 <hr />
                 <div class="characters-grid">
                     <CharacterCard
@@ -105,6 +108,12 @@ const charactersCategories = computed(() => {
 
 console.log(charactersCategories.value);
 
+const hardcodedCategoryDescriptions: Record<string, string> = {
+    "Talrien": "Something something lore",
+    "Sonas": "Characters created for (and by) echolotl as representations of themselves",
+    "Other": "The other ones",
+}
+
 useSeoMeta({
     title: "Characters",
     description: "Check out all of echolotl's characters!",
@@ -144,9 +153,16 @@ useSeoMeta({
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin: 1rem 0;
+    margin: 0;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
     h2 {
         margin: 0;
     }
+}
+.category-description {
+    font-size: var(--small-text);
+    color: var(--text-secondary);
+    margin: 0;
 }
 </style>
