@@ -116,9 +116,9 @@ const hardcodedCategoryDescriptions: Record<string, string> = {
 
 useSeoMeta({
     title: "Characters",
-    description: "Check out all of echolotl's characters!",
+    description: "A collection of all of echolotl's characters, mostly anthropomorphic animals of some kind, and of various species, personalities, and designs. All of these characters are original characters.",
     ogTitle: "echolotl's Characters",
-    ogDescription: "Check out all of echolotl's characters!",
+    ogDescription: "A collection of all of echolotl's characters.",
 });
 </script>
 

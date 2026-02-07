@@ -114,11 +114,7 @@ useSeoMeta({
     title: character.value.name,
     description: character.value.short_description,
     ogTitle: character.value.name,
-    ogDescription: character.value.short_description,
-    ogImage: character.value.image || null,
-    ogImageAlt: character.value.image_description || "",
-    twitterCard: "summary_large_image",
-    twitterImage: character.value.image || null,
+    ogDescription: `${character.value.species} ◆ ${character.value.pronouns} ◆ ${character.value.short_description}`,
     themeColor: themeColor.value || "#000000",
 });
 </script>
