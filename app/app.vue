@@ -17,7 +17,7 @@
 :root {
     --foreground: #{$foreground};
     --text: #{$foreground-light};
-    --text-secondary: #{color.scale($foreground-light, $alpha: -60%)};
+    --text-secondary: #{color.scale($foreground-light, $alpha: -40%)};
     --background: #{$background};
     --distant: #{$distant};
     --primary: #{$primary};

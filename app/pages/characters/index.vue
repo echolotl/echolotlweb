@@ -1,7 +1,7 @@
 <template>
     <div class="characters-page">
         <h1 class="large-title characters-title">
-            
+            Characters
         </h1>
         <p class="subtitle">
             Want to know more about my characters? Click on any of their cards

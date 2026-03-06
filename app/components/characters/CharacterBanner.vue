@@ -25,7 +25,9 @@
                 />
             </div>
             <div class="character-banner__title">
-                <div class="character-banner__title-image"></div>
+                <h1 class="character-banner__title-image">
+                    {{ character.name }}
+                </h1>
             </div>
         </div>
     </div>

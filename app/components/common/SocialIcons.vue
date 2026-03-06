@@ -5,6 +5,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link tumblr-link"
+            aria-label="Go to echolotl's Tumblr"
         >
             <Icon icon="socials/tumblr" :height="iconSize" :width="iconSize" />
         </a>
@@ -14,6 +15,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="link"
+                aria-label="Go to echolotl's X (formerly Twitter)"
             >
                 <Icon
                     v-show="!isShiftPressed"
@@ -27,6 +29,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="link twitter-link"
+                aria-label="Go to echolotl's Twitter"
             >
                 <Icon
                     v-show="isShiftPressed"
@@ -41,6 +44,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link newgrounds-link"
+            aria-label="Go to echolotl's Newgrounds"
         >
             <Icon
                 icon="socials/newgrounds"
@@ -53,6 +57,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link bluesky-link"
+            aria-label="Go to echolotl's Bluesky"
         >
             <Icon icon="socials/bluesky" :height="iconSize" :width="iconSize" />
         </a>
@@ -61,6 +66,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link github-link"
+            aria-label="Go to echolotl's GitHub"
         >
             <Icon icon="socials/github" :height="iconSize" :width="iconSize" />
         </a>
@@ -69,6 +75,7 @@
                 class="discord-icon"
                 @click="copyDiscordToClipboard"
                 title="Click to copy Discord username"
+                aria-label="Copy echolotl's Discord username"
             >
                 <Icon
                     icon="socials/discord"
@@ -89,6 +96,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link youtube-link"
+            aria-label="Go to echolotl's YouTube channel"
         >
             <Icon icon="socials/youtube" :height="iconSize" :width="iconSize" />
         </a>
@@ -97,6 +105,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link instagram-link"
+            aria-label="Go to echolotl's Instagram"
         >
             <Icon
                 icon="socials/instagram"

@@ -1,6 +1,6 @@
 <template>
     <div style="position: relative; display: flex; justify-content: center">
-        <nuxt-link :to="`/art/${artwork.slug}`" class="art-item">
+        <nuxt-link :to="`/art/${artwork.slug}`" class="art-item" :aria-label="`View Artwork: ${artwork.title}`">
             <div
                 class="art-item__image"
                 :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`"

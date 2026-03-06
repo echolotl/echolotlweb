@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="navbar-top__logo">
-                    <nuxt-link to="/">
+                    <nuxt-link to="/" aria-label="Go to homepage">
                         <Icon
                             icon="echolotl"
                             width="48px"
