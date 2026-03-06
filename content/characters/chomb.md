@@ -8,7 +8,7 @@ created_date: 2021-12-20
 last_modified: 2026-01-29
 pronouns: he/him
 clan: Natural
-short_description: an anhropromorphic spider with golden rings
+short_description: an anthropomorphic spider with golden rings
 theme_color: "#e23c3c"
 color_palette: 
   - "#6E3E47"
