@@ -21,8 +21,17 @@ color_palette:
   - "#4E0049"
 category: "Talrien"
 friends:
-  - name: "Nautilus"
+  - name: Mino
+    slug: mino
+enemies:
+  - name: "\"That machine\""
     slug: nautilus
+likes:
+  - "Gold"
+  - "Bugs"
+dislikes:
+  - "Computers"
+  - "Fire"
 sitemap:
     changefreq: monthly
     priority: 0.5

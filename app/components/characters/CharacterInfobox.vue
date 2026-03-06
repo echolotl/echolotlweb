@@ -100,6 +100,32 @@
             </td>
           </tr>
 
+          <tr v-if="character.likes && character.likes.length > 0">
+            <td class="character-infobox__item-label">
+              <span>Likes</span>
+            </td>
+            <td>
+              <ul class="character-list">
+                <li v-for="(like) in character.likes" :key="like">
+                  {{ like }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr v-if="character.dislikes && character.dislikes.length > 0">
+            <td class="character-infobox__item-label">
+              <span>Dislikes</span>
+            </td>
+            <td>
+              <ul class="character-list">
+                <li v-for="(dislike) in character.dislikes" :key="dislike">
+                  {{ dislike }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+
           <tr v-if="character.friends && character.friends.length > 0">
             <td class="character-infobox__item-label">
               <span>Friends</span>
@@ -271,6 +297,8 @@ function copyColorToClipboard(color: string): void {
   font-size: var(--small-text);
   box-sizing: border-box;
   text-transform: uppercase;
+  white-space: nowrap;
+  align-self: baseline;
   span {
     background: var(--theme-color);
     padding: 2px 4px;
@@ -367,16 +395,17 @@ function copyColorToClipboard(color: string): void {
 
 .character-infobox__table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin-top: 10px;
-
   tr {
+    border-radius: 2px;
     &:nth-child(even) {
       background-color: color-mix(in srgb, var(--theme-color) 5%, transparent);
     }
     td {
       padding: 6px 4px;
-      vertical-align: middle;
+      vertical-align: baseline;
       &:last-child {
         display: flex;
         align-items: center;
@@ -391,11 +420,12 @@ function copyColorToClipboard(color: string): void {
   height: 24px;
 }
 .character-list {
+  list-style: "-   ";
   padding: 0;
   margin: 0;
   .character-link {
     display: inline-block;
-    color: var(--text);
+    color: var(--theme-color);
     text-decoration: none;
     &:hover {
       text-decoration: underline;

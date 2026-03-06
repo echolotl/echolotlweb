@@ -22,6 +22,13 @@ color_palette:
   - "#EC91BD"
   - "#FCFCFD"
 category: "Talrien"
+likes:
+  - "Water"
+  - "Fluff"
+  - "Laying around"
+dislikes:
+  - "Crowds"
+  - "Bright lights"
 friends:
   - name: Kitral
     slug: kitral

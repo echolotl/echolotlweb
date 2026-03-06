@@ -147,11 +147,46 @@ useSeoMeta({
 }
 .character-text {
     /* Text will naturally wrap around the floated infobox */
-    text-align: justify;
+    text-align: left;
 
     @media (max-width: 768px) {
         order: 1;
     }
+
+    :deep(p) {
+        font-size: var(--base-text);
+    }
+
+    :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
+        font-weight: 800;
+        line-height: 1.25;
+        margin-bottom: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    :deep(h2) {
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid var(--distant);
+        font-size: var(--large-text);
+    }
+
+    :deep(h3) {
+        font-size: var(--medium-text);
+    }
+
+    :deep(h4) {
+        font-size: var(--base-text);
+    }
+
+    :deep(h5) {
+        font-size: var(--small-text);
+    }
+
+    :deep(h6) {
+        font-size: var(--small-text);
+        color: var(--text-secondary);
+    }
+
 }
 .section-title {
     display: flex;

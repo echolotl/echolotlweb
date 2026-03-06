@@ -2,7 +2,7 @@
 slug: mino
 name: Mino
 species: Sheep/Bunny
-age: 33
+age: 31
 height: 9' 10"
 created_date: 2025-12-23
 last_modified: 2026-01-29
@@ -12,9 +12,18 @@ short_description: now you sea bunny, now you don't
 theme_color: "#8bde10"
 theme_color_light: "#578A0A"
 category: "Talrien"
+likes:
+    - "Mint"
+    - "Weapons"
+    - "Townsfolk"
+dislikes:
+    - "Water"
 friends:
     - name: Chomb
       slug: chomb
+enemies:
+    - name: Orchy
+      slug: orchy
 sitemap:
     changefreq: monthly
     priority: 0.5

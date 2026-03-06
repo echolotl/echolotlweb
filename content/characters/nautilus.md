@@ -25,11 +25,19 @@ color_palette:
   - "#D2876E"
   - "#FFB776"
   - "#FFEEAE"
+dislikes:
+    - "Water"
+    - "Lightning"
+likes:
+    - "Warmth"
+    - "Isolation"
 friends:
   - name: Chomb
     slug: chomb
   - name: Orchy
     slug: orchy
+  - name: Mino
+    slug: mino
 sitemap:
     changefreq: monthly
     priority: 0.5

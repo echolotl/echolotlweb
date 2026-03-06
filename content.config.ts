@@ -40,6 +40,8 @@ export default defineContentConfig({
               }),
             )
             .optional(),
+          likes: z.array(z.string()).optional(),
+          dislikes: z.array(z.string()).optional(),
           enemies: z
             .array(
               z.object({

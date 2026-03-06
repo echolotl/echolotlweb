@@ -27,6 +27,13 @@ title_image: /images/characters/orchy/title.png
 background_texture: /images/characters/orchy/texture.png
 banner_image: /images/characters/orchy/banner.png
 category: "Talrien"
+likes:
+  - "Berries"
+  - "Rocks"
+  - "Wandering"
+dislikes:
+  - "Towns"
+  - "Attention"
 friends:
   - name: Phosphor
     slug: phosphor

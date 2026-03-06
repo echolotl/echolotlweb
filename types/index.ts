@@ -8,6 +8,8 @@ export interface Character {
   last_modified: string;
   pronouns: string;
   friends?: { slug: string; name: string }[];
+  likes?: string[];
+  dislikes?: string[];
   enemies?: { slug: string; name: string }[];
   clan: string;
   short_description?: string;

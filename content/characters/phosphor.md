@@ -15,6 +15,13 @@ icon_image: /images/no_image.png
 title_image: /images/characters/phosphor/title.png
 background_texture: /images/characters/phosphor/texture.png
 category: "Talrien"
+likes:
+  - "Lights"
+  - "Blood"
+  - "Change"
+dislikes:
+  - "Sour flavors"
+  - "Copying"
 friends:
   - name: Orchy
     slug: orchy

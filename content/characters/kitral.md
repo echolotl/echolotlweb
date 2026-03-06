@@ -22,6 +22,13 @@ enemies:
     name: Nautilus
   - slug: mino
     name: Mino
+likes:
+  - "Fighting"
+  - "Lemons"
+  - "Townsfolk"
+dislikes:
+  - "Chocolate"
+  - "Grains"
 sitemap:
     changefreq: monthly
     priority: 0.5
