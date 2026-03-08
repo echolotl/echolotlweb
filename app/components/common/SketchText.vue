@@ -52,7 +52,8 @@ const getSpaceStyle = () => {
 // Extract text from slots or props
 const displayText = computed(() => {
     if (props.text) {
-        return props.text.trim();
+        // Preserve exact spacing for callers composing multiple SketchText nodes.
+        return props.text;
     }
 
     // Extract text from default slot, and replace br vnodes with newlines
