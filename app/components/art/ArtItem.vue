@@ -100,8 +100,9 @@ const metadataTitle = computed(() => {
     width: 100%;
     aspect-ratio: 1;
     max-width: 200px;
+    transform-origin: center;
     transition: transform 0.3s ease;
-    will-change: transform;
+    will-change: transform filter;
     outline: none;
 
     &__image {
@@ -109,12 +110,16 @@ const metadataTitle = computed(() => {
         height: 100%;
         position: relative;
         overflow: hidden;
-        background-size: cover;
+        background-size: 110%;
+        background-position: center;
+        background-repeat: no-repeat;
         mask-image: url("/images/art_mask.png");
         mask-size: cover;
         mask-repeat: no-repeat;
         background-color: var(--surface);
         z-index: -1;
+        will-change: background-size;
+        transition: background-size 0.3s ease;
     }
 
     img {
@@ -125,8 +130,11 @@ const metadataTitle = computed(() => {
     }
 
     &:hover {
-        transform: scale(1.01);
+        transform: scale(1.1);
         @include drop-shadow-outline(var(--theme-color, var(--primary)));
+        .art-item__image {
+            background-size: 100%;
+        }
         .art-item__metadata {
             color: var(--background);
             &::before {

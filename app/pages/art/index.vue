@@ -8,17 +8,16 @@
         </p>
 
         <div v-if="allPinnedArtworks.length > 0" class="section-header">
-            <Icon icon="pin" />
-            <h2 class="section-title" style="transform: translateY(2px)">
-                <SketchText size="1.5rem">PINNED</SketchText>
+            <h2 class="section-title">
+                <Icon icon="pin" />
+                <SketchText size="1.2em">Pinned</SketchText>
             </h2>
         </div>
-        <hr v-if="allPinnedArtworks.length > 0" />
         <ArtGrid :artworks="allPinnedArtworks" />
         <div class="section-header section-header-with-filter">
             <div class="section-title-group">
-                <h2 class="section-title" style="transform: translateY(2px)">
-                    <SketchText size="1.5rem">All</SketchText>
+                <h2 class="section-title">
+                    <SketchText size="1.2em">All</SketchText>
                 </h2>
             </div>
             <div class="filter-chips" aria-label="Artwork filters">
@@ -51,7 +50,6 @@
                 </button>
             </div>
         </div>
-        <hr />
         <ArtGrid
             :artworks="filteredArtworks"
             show-metadata
@@ -145,6 +143,7 @@ useSeoMeta({
 </script>
 
 <style scoped lang="scss">
+@use "~/assets/styles/partials/mixins" as *;
 .art-page {
     margin: 0 auto;
     padding: 2rem;
@@ -221,5 +220,14 @@ useSeoMeta({
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.section-title {
+    @include drop-shadow-outline(var(--text), 1px);
+    color: var(--background);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 </style>

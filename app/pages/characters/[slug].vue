@@ -4,6 +4,7 @@
         <div class="character-content">
             <div class="character-main-content">
                 <CharacterInfobox :character="character" />
+                <h2 class="section-title"><SketchText size="1.2em">Description</SketchText></h2>
                 <content-renderer
                     :value="character"
                     class="character-text"
@@ -12,8 +13,7 @@
             </div>
         </div>
         <div class="character-images">
-            <h2 class="section-title"><Icon icon="art" /> Character Images</h2>
-            <hr />
+            <h2 class="section-title"><Icon icon="art_brush" width="28px" height="28px" /> <SketchText size="1.2em">Artwork</SketchText></h2>
             <ArtGrid
                 v-if="characterArtworks && characterArtworks.length > 0"
                 :artworks="characterArtworks"
@@ -38,6 +38,7 @@ import { getArtworksByCharacter } from "~/utils/art";
 
 import { useTheme } from "~~/composables/useTheme";
 import SplashText from "~/components/common/SplashText.vue";
+import SketchText from "~/components/common/SketchText.vue";
 
 const route = useRoute();
 
@@ -189,9 +190,12 @@ useSeoMeta({
 
 }
 .section-title {
+    @include drop-shadow-outline(var(--theme-color), 1px);
+    color: var(--background);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .no-posts {

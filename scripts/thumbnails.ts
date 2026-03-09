@@ -447,5 +447,7 @@ async function main() {
   }
 }
 
-// Run if this file is executed directly
-main();
+// Run only when executed directly, not when imported by add-art.ts.
+if (import.meta.main) {
+  void main();
+}
