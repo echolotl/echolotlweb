@@ -16,7 +16,7 @@
           v-if="
             spotifyStatus != 'loading' &&
             spotifyStatus != 'error' &&
-            spotifyStatus?.is_playing
+            spotifyStatus?.is_playing && spotifyStatus.item?.type === 'track'
           "
         >
           <Icon icon="music-note" />
@@ -27,9 +27,10 @@
               :href="spotifyStatus.item?.external_urls.spotify ?? undefined"
               target="_blank"
               rel="noopener noreferrer"
-              ><b>{{ spotifyStatus.item?.name }}</b> by
-              <b>{{ spotifyStatus.item?.type === 'track' ? spotifyStatus.item.artists.map(artist => artist.name).join(", ") : 'N/A' }}</b></a
-            >
+              ><b>{{ spotifyStatus.item?.name }}</b></a> by
+              <a class="link" :href="spotifyStatus.item?.artists[0]?.external_urls.spotify ?? undefined" target="_blank" rel="noopener noreferrer"
+                ><b>{{ spotifyStatus.item?.artists[0]?.name }}</b></a>
+                <template v-if="spotifyStatus.item?.artists.length > 1"> (+{{ spotifyStatus.item?.artists.length - 1 }})</template>
           </div>
         </template>
       </div>
