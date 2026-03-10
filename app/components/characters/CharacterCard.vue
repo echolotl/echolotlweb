@@ -1,6 +1,6 @@
 <template>
-  <nuxt-link :to="`/characters/${props.character.slug}`" class="character-card">
-    <div class="character-card__image">
+  <div :to="`/characters/${props.character.slug}`" class="character-card">
+    <NuxtLink :to="`/characters/${props.character.slug}`" class="character-card__image">
       <div class="character-card__image-bg"></div>
 
       <div
@@ -11,11 +11,11 @@
         class="character-card__image-icon-hover"
         :style="{ backgroundImage: characterHoverImage }"
       ></div>
-    </div>
+    </NuxtLink>
     <SketchText class="character-card__name" size="1.5rem">{{
       props.character.name
     }}</SketchText>
-  </nuxt-link>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +70,9 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     width: 200px;
     height: 200px;
     margin-bottom: 10px;
+    &:focus-within {
+      outline: none;
+    }
   }
 
   &__image-frame {
@@ -143,7 +146,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     z-index: 4;
   }
 
-  &:hover {
+  &:hover, &:focus-within {
     z-index: 10;
     .character-card__image-bg {
       background: v-bind(characterColor);

@@ -1,5 +1,5 @@
 <template>
-    <div style="position: relative; display: flex; justify-content: center">
+    <div style="position: relative; display: flex; justify-content: center" class="art-item-container">
         <nuxt-link :to="`/art/${artwork.slug}`" class="art-item" :aria-label="`View Artwork: ${artwork.title}`">
             <div
                 class="art-item__image"
@@ -129,9 +129,9 @@ const metadataTitle = computed(() => {
         display: block;
     }
 
-    &:hover {
+    &:hover, &:focus-within {
         transform: scale(1.1);
-        @include drop-shadow-outline(var(--theme-color, var(--primary)));
+        
         .art-item__image {
             background-size: 100%;
         }
@@ -142,6 +142,12 @@ const metadataTitle = computed(() => {
             }
         }
     }
+}
+.art-item-container {
+    &:hover, &:focus-within {
+        @include drop-shadow-outline(var(--theme-color, var(--primary)));
+    }
+
 }
 .art-item__metadata {
     position: absolute;
