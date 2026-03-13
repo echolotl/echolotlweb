@@ -1,5 +1,30 @@
 <template>
-    <div style="position: relative; display: flex; justify-content: center" class="art-item-container">
+    <div style="position: relative; display: flex; justify-content: center" class="art-item-container" :style="{ '--filter-url': `url(#${filterId})` }">
+            <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0; overflow: hidden">
+  <defs>
+    <filter
+      :id="filterId"
+      color-interpolation-filters="sRGB"
+      x="-50%"
+      y="-50%"
+      width="200%"
+      height="200%"
+    >
+    <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="5" result="noise" :seed="seed" />
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blurred" />
+      <feComponentTransfer in="blurred" result="expanded">
+        <feFuncA type="linear" slope="500" intercept="-5" />
+      </feComponentTransfer>
+      <feFlood flood-color="var(--theme-color, var(--primary))" result="color" />
+      <feComposite in="color" in2="expanded" operator="in" result="border" />
+      <feDisplacementMap in="border" in2="noise" scale="6" xChannelSelector="A" yChannelSelector="A" result="sketchBorder" />
+      <feMerge>
+        <feMergeNode in="sketchBorder" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
         <nuxt-link :to="`/art/${artwork.slug}`" class="art-item" :aria-label="`View Artwork: ${artwork.title}`">
             <div
                 class="art-item__image"
@@ -52,6 +77,9 @@
 import type { Art } from "~~/types";
 import Icon from "~/components/common/Icon.vue";
 
+const filterId = `outline-${Math.random().toString(36).slice(2)}`;
+const seed = Math.floor(Math.random() * 20000);
+
 const props = defineProps<{
     artwork: Art;
     showMetadata?: boolean;
@@ -64,26 +92,6 @@ const hasVariants = computed(() => {
 
 const hasMultipleImages = computed(() => {
     return (props.artwork.images?.length || 0) > 1;
-});
-
-const metadataTitle = computed(() => {
-    const titles = [];
-    if (props.artwork.character && props.showCharacterBadge) {
-        titles.push("Character");
-    }
-    if (props.artwork.pinned) {
-        titles.push("Pinned");
-    }
-    if (props.artwork.sketch) {
-        titles.push("Sketch");
-    }
-    if (hasVariants.value) {
-        titles.push("Has Variants");
-    }
-    if (hasMultipleImages.value) {
-        titles.push("Multiple Images");
-    }
-    return titles.join(", ");
 });
 </script>
 
@@ -101,7 +109,7 @@ const metadataTitle = computed(() => {
     aspect-ratio: 1;
     max-width: 200px;
     transform-origin: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-out;
     will-change: transform filter;
     outline: none;
 
@@ -119,7 +127,7 @@ const metadataTitle = computed(() => {
         background-color: var(--surface);
         z-index: -1;
         will-change: background-size;
-        transition: background-size 0.3s ease;
+        transition: background-size 0.3s ease-out;
     }
 
     img {
@@ -142,10 +150,17 @@ const metadataTitle = computed(() => {
             }
         }
     }
+
+    &:not(:hover):not(:focus-within) {
+        animation: bounceInScale 0.3s;
+        .art-item__image {
+            animation: bounceInBackground 0.3s;
+        }
+    }
 }
 .art-item-container {
     &:hover, &:focus-within {
-        @include drop-shadow-outline(var(--theme-color, var(--primary)));
+        filter: var(--filter-url);
     }
 
 }
@@ -183,5 +198,26 @@ const metadataTitle = computed(() => {
     &-icon {
         pointer-events: auto;
     }
+}
+
+@keyframes bounceInScale {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(0.975);
+    }
+}
+
+@keyframes bounceInBackground {
+    0%,
+    100% {
+        background-size: 110%;
+    }
+   50% {
+        background-size: 111.26%;
+    }
+    
 }
 </style>

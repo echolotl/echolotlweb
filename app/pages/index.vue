@@ -51,7 +51,7 @@
           </div>
         </template>
       </div>
-      <p>Holy WIP bro</p>
+      <p>I like to play and draw</p>
     </div>
   </div>
 </template>
