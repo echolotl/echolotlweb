@@ -1,5 +1,30 @@
 <template>
-  <div :to="`/characters/${props.character.slug}`" class="character-card">
+  <div :to="`/characters/${props.character.slug}`" class="character-card" :style="{ '--filter-url': `url(#${filterId})` }">
+ <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0; overflow: hidden">
+  <defs>
+    <filter
+      :id="filterId"
+      color-interpolation-filters="sRGB"
+      x="-50%"
+      y="-50%"
+      width="200%"
+      height="200%"
+    >
+    <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="5" result="noise" :seed="seed" />
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blurred" />
+      <feComponentTransfer in="blurred" result="expanded">
+        <feFuncA type="linear" slope="500" intercept="-5" />
+      </feComponentTransfer>
+      <feFlood flood-color="var(--theme-color, var(--primary))" result="color" />
+      <feComposite in="color" in2="expanded" operator="in" result="border" />
+      <feDisplacementMap in="border" in2="noise" scale="6" xChannelSelector="A" yChannelSelector="A" result="sketchBorder" />
+      <feMerge>
+        <feMergeNode in="sketchBorder" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
     <NuxtLink :to="`/characters/${props.character.slug}`" class="character-card__image">
       <div class="character-card__image-bg"></div>
 
@@ -22,6 +47,9 @@
 import type { Character } from "~~/types";
 import SketchText from "../common/SketchText.vue";
 import { useTheme } from "~~/composables/useTheme";
+
+const filterId = `outline-${Math.random().toString(36).slice(2)}`;
+const seed = Math.floor(Math.random() * 20000);
 
 const props = defineProps({
   character: {
@@ -56,6 +84,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
 @use "~/assets/styles/partials/mixins" as *;
 
 .character-card {
+  --theme-color: v-bind(characterColor);
   position: relative;
   max-width: 300px;
   width: fit-content;
@@ -148,8 +177,11 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
 
   &:hover, &:focus-within {
     z-index: 10;
+    .character-card__image {
+      filter: var(--filter-url);
+    }
     .character-card__image-bg {
-      background: v-bind(characterColor);
+      background: var(--theme-color);
       transform: rotate(v-bind(randomRotation));
       transition: transform 0.3s;
     }
@@ -157,7 +189,6 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     .character-card__image-icon-hover {
       opacity: 1;
       animation: bounceScale 0.3s ease;
-      @include drop-shadow-outline(v-bind(characterColor));
     }
     .character-card__image-icon {
       opacity: 0;
@@ -166,7 +197,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
     .character-card__name {
         @include drop-shadow-outline(var(--background));
       opacity: 1;
-      color: v-bind(characterColor);
+      color: var(--theme-color);
     }
     .character-card__image-frame {
       animation: frameShrinkShake 0.3s ease forwards;
