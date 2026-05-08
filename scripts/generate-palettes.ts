@@ -27,156 +27,161 @@ const SWATCH_WIDTH = 100;
 const SWATCH_HEIGHT = 100;
 
 interface CharacterData {
-  slug: string;
-  name: string;
-  color_palette?: string[];
-  [key: string]: any;
+    slug: string;
+    name: string;
+    color_palette?: string[];
+    [key: string]: any;
 }
 
 async function createPaletteImage(
-  colors: string[],
-  outputPath: string,
-  characterName: string,
-  miniLog = false,
+    colors: string[],
+    outputPath: string,
+    characterName: string,
+    miniLog = false,
 ): Promise<void> {
-  try {
-    const totalWidth = colors.length * SWATCH_WIDTH;
-    const height = SWATCH_HEIGHT;
+    try {
+        const totalWidth = colors.length * SWATCH_WIDTH;
+        const height = SWATCH_HEIGHT;
 
-    // Create SVG with color swatches
-    const swatches = colors
-      .map((color, index) => {
-        const x = index * SWATCH_WIDTH;
-        return `<rect x="${x}" y="0" width="${SWATCH_WIDTH}" height="${height}" fill="${color}"/>`;
-      })
-      .join("\n");
+        // Create SVG with color swatches
+        const swatches = colors
+            .map((color, index) => {
+                const x = index * SWATCH_WIDTH;
+                return `<rect x="${x}" y="0" width="${SWATCH_WIDTH}" height="${height}" fill="${color}"/>`;
+            })
+            .join("\n");
 
-    const svg = `
+        const svg = `
       <svg width="${totalWidth}" height="${height}" xmlns="http://www.w3.org/2000/svg">
         ${swatches}
       </svg>
     `;
 
-    // Convert SVG to PNG using sharp
-    await sharp(Buffer.from(svg)).png().toFile(outputPath);
+        // Convert SVG to PNG using sharp
+        await sharp(Buffer.from(svg)).png().toFile(outputPath);
 
-    if (!miniLog) {
-      Logger.success(`\x1b[1m\x1b[4m${characterName}`);
-      let colorMessage = "";
-      // log message with ansi256 codes
-      for (const color of colors) {
-        const [r, g, b] = color
-          .replace("#", "")
-          .match(/.{2}/g)!
-          .map((hex) => parseInt(hex, 16));
-        const ansiCode = rgbToAnsi256(r!, g!, b!);
-        colorMessage = (colorMessage || "") + `${ansiCode}██\x1b[0m`;
-      }
-      Logger.success(colorMessage);
+        if (!miniLog) {
+            Logger.success(`\x1b[1m\x1b[4m${characterName}`);
+            let colorMessage = "";
+            // log message with ansi256 codes
+            for (const color of colors) {
+                const [r, g, b] = color
+                    .replace("#", "")
+                    .match(/.{2}/g)!
+                    .map((hex) => parseInt(hex, 16));
+                const ansiCode = rgbToAnsi256(r!, g!, b!);
+                colorMessage = (colorMessage || "") + `${ansiCode}██\x1b[0m`;
+            }
+            Logger.success(colorMessage);
+        }
+    } catch (error) {
+        if (!miniLog) {
+            Logger.error(
+                `Failed to create palette for ${characterName}: ${error}`,
+            );
+        }
+        throw error;
     }
-  } catch (error) {
-    if (!miniLog) {
-      Logger.error(`Failed to create palette for ${characterName}: ${error}`);
-    }
-    throw error;
-  }
 }
 
 export async function generatePalettes(miniLog = false): Promise<void> {
-  if (!miniLog) {
-    Logger.statement("Generating color palette images...");
-  }
-
-  // Ensure the palettes directory exists
-  if (!existsSync(PUBLIC_PALETTES_DIR)) {
-    mkdirSync(PUBLIC_PALETTES_DIR, { recursive: true });
     if (!miniLog) {
-      Logger.statement(`Created directory: ${PUBLIC_PALETTES_DIR}`);
+        Logger.statement("Generating color palette images...");
     }
-  }
 
-  let processed = 0;
-  let skipped = 0;
-  let errors = 0;
-
-  // Read all character files
-  const characterFiles = readdirSync(CONTENT_CHARACTERS_DIR).filter((file) =>
-    file.endsWith(".md"),
-  );
-
-  for (const file of characterFiles) {
-    try {
-      const filePath = join(CONTENT_CHARACTERS_DIR, file);
-      const fileContent = readFileSync(filePath, "utf8");
-
-      // Extract frontmatter
-      const frontmatterMatch = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-      if (!frontmatterMatch) {
-        if (!miniLog) logSkip(file, "No frontmatter found");
-        skipped++;
-        continue;
-      }
-
-      const data = yaml.load(frontmatterMatch[1]!) as CharacterData;
-
-      if (!data.slug) {
-        if (!miniLog) logSkip(file, "No slug found");
-        skipped++;
-        continue;
-      }
-
-      if (!data.color_palette || data.color_palette.length === 0) {
-        if (!miniLog) logSkip(data.name || data.slug, "No color palette found");
-        skipped++;
-        continue;
-      }
-
-      // Generate palette image
-      const outputPath = join(PUBLIC_PALETTES_DIR, `${data.slug}.png`);
-      await createPaletteImage(
-        data.color_palette,
-        outputPath,
-        data.name || data.slug,
-        miniLog,
-      );
-      processed++;
-    } catch (error) {
-      errors++;
-      if (!miniLog) {
-        Logger.error(`Error processing ${file}: ${error}`);
-      }
+    // Ensure the palettes directory exists
+    if (!existsSync(PUBLIC_PALETTES_DIR)) {
+        mkdirSync(PUBLIC_PALETTES_DIR, { recursive: true });
+        if (!miniLog) {
+            Logger.statement(`Created directory: ${PUBLIC_PALETTES_DIR}`);
+        }
     }
-  }
 
-  if (miniLog) {
-    Logger.statement(`Generated ${processed} character palette images`);
-  } else {
-    if (errors === 0) {
-      Logger.success("All palette images generated successfully!");
+    let processed = 0;
+    let skipped = 0;
+    let errors = 0;
+
+    // Read all character files
+    const characterFiles = readdirSync(CONTENT_CHARACTERS_DIR).filter((file) =>
+        file.endsWith(".md"),
+    );
+
+    for (const file of characterFiles) {
+        try {
+            const filePath = join(CONTENT_CHARACTERS_DIR, file);
+            const fileContent = readFileSync(filePath, "utf8");
+
+            // Extract frontmatter
+            const frontmatterMatch = fileContent.match(
+                /^---\r?\n([\s\S]*?)\r?\n---/,
+            );
+            if (!frontmatterMatch) {
+                if (!miniLog) logSkip(file, "No frontmatter found");
+                skipped++;
+                continue;
+            }
+
+            const data = yaml.load(frontmatterMatch[1]!) as CharacterData;
+
+            if (!data.slug) {
+                if (!miniLog) logSkip(file, "No slug found");
+                skipped++;
+                continue;
+            }
+
+            if (!data.color_palette || data.color_palette.length === 0) {
+                if (!miniLog)
+                    logSkip(data.name || data.slug, "No color palette found");
+                skipped++;
+                continue;
+            }
+
+            // Generate palette image
+            const outputPath = join(PUBLIC_PALETTES_DIR, `${data.slug}.png`);
+            await createPaletteImage(
+                data.color_palette,
+                outputPath,
+                data.name || data.slug,
+                miniLog,
+            );
+            processed++;
+        } catch (error) {
+            errors++;
+            if (!miniLog) {
+                Logger.error(`Error processing ${file}: ${error}`);
+            }
+        }
+    }
+
+    if (miniLog) {
+        Logger.statement(`Generated ${processed} character palette images`);
     } else {
-      Logger.warning(`Completed with ${errors} errors.`);
+        if (errors === 0) {
+            Logger.success("All palette images generated successfully!");
+        } else {
+            Logger.warning(`Completed with ${errors} errors.`);
+        }
+        if (skipped > 0) {
+            Logger.info(`Skipped ${skipped} characters without palettes.`);
+        }
     }
-    if (skipped > 0) {
-      Logger.info(`Skipped ${skipped} characters without palettes.`);
-    }
-  }
 }
 
 function logSkip(char: string, message: string): void {
-  Logger.dim(`${char}: ${message}`);
+    Logger.dim(`${char}: ${message}`);
 }
 
 async function main(args: string[]) {
-  try {
-    if (args.includes("--log")) {
-      await generatePalettes(false);
-    } else {
-    await generatePalettes(true);
+    try {
+        if (args.includes("--log")) {
+            await generatePalettes(false);
+        } else {
+            await generatePalettes(true);
+        }
+    } catch (error) {
+        Logger.error(`Fatal error: ${error}`);
+        process.exit(1);
     }
-  } catch (error) {
-    Logger.error(`Fatal error: ${error}`);
-    process.exit(1);
-  }
 }
 
 // Run if this file is executed directly

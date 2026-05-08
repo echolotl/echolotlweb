@@ -1,10 +1,10 @@
 <template>
     <div class="art-page">
-        <h1 class="art-title">
-            Artchive
-        </h1>
+        <h1 class="art-title">Artchive</h1>
         <p class="subtitle">
-            echolotl's archive of art! Currently contains <b>{{ allArtworks?.length }}</b> artworks. Click on any piece to view details.
+            echolotl's archive of art! Currently contains
+            <b>{{ allArtworks?.length }}</b> artworks. Click on any piece to
+            view details.
         </p>
 
         <div v-if="allPinnedArtworks.length > 0" class="section-header">

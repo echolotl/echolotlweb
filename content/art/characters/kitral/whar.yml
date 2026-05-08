@@ -1,6 +1,6 @@
 slug: whar
-created_at: '2024-02-12T21:36:32.511Z'
-modified_at: '2025-09-28T20:15:02.356Z'
+created_at: "2024-02-12T21:36:32.511Z"
+modified_at: "2025-09-28T20:15:02.356Z"
 title: Sketchy Pose
 pinned: false
 sketch: false
@@ -9,6 +9,6 @@ character: kitral
 description: Khaby Lame pose
 thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
 images:
-  - image_url: /art/characters/kitral/kitralKhabyLame.png
-    thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
-    alt: Whar
+    - image_url: /art/characters/kitral/kitralKhabyLame.png
+      thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
+      alt: Whar

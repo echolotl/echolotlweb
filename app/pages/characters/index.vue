@@ -1,24 +1,25 @@
 <template>
     <div class="characters-page">
-        <h1 class="large-title characters-title">
-            Characters
-        </h1>
+        <h1 class="large-title characters-title">Characters</h1>
         <p class="subtitle">
             Want to know more about my characters? Click on any of their cards
             to go to their page!
         </p>
         <div class="characters-content">
             <div
-                v-for="(characters, category) in  charactersCategories"
+                v-for="(characters, category) in charactersCategories"
                 :key="category"
                 class="category"
-                >
+            >
                 <h2 class="section-title" style="transform: translateY(2px)">
-                <SketchText size="1.5rem">{{ category }}</SketchText>
+                    <SketchText size="1.5rem">{{ category }}</SketchText>
                 </h2>
-                        <p class="category-description">
-                            {{ hardcodedCategoryDescriptions[category] || "No description for this category yet." }}
-        </p>
+                <p class="category-description">
+                    {{
+                        hardcodedCategoryDescriptions[category] ||
+                        "No description for this category yet."
+                    }}
+                </p>
                 <hr />
                 <div class="characters-grid">
                     <CharacterCard
@@ -28,9 +29,7 @@
                         class="character-card"
                     />
                 </div>
-            
             </div>
-
         </div>
     </div>
 </template>
@@ -41,10 +40,12 @@ import CharacterCard from "~/components/characters/CharacterCard.vue";
 import SketchText from "~/components/common/SketchText.vue";
 import { type Character } from "~~/types";
 
-const { data: characters } = await useAsyncData<Character[]>('characters', () => {
-    return queryCollection("characters").all();
-});
-
+const { data: characters } = await useAsyncData<Character[]>(
+    "characters",
+    () => {
+        return queryCollection("characters").all();
+    },
+);
 
 function hexToHsl(hex: string): { h: number; s: number; l: number } {
     hex = hex.replace(/^#/, "");
@@ -101,22 +102,22 @@ const charactersCategories = computed(() => {
             categories[category] = [];
         }
         categories[category].push(char);
-    })
+    });
     return categories;
-})
-
+});
 
 console.log(charactersCategories.value);
 
 const hardcodedCategoryDescriptions: Record<string, string> = {
-    "Talrien": "Something something lore",
-    "Sonas": "Characters created for (and by) echolotl as representations of themselves",
-    "Other": "The other ones",
-}
+    Talrien: "Something something lore",
+    Sonas: "Characters created for (and by) echolotl as representations of themselves",
+    Other: "The other ones",
+};
 
 useSeoMeta({
     title: "Characters",
-    description: "A collection of all of echolotl's characters, mostly anthropomorphic animals of some kind, and of various species, personalities, and designs. All of these characters are original characters.",
+    description:
+        "A collection of all of echolotl's characters, mostly anthropomorphic animals of some kind, and of various species, personalities, and designs. All of these characters are original characters.",
     ogTitle: "echolotl's Characters",
     ogDescription: "A collection of all of echolotl's characters.",
 });

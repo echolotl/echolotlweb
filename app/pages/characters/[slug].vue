@@ -1,10 +1,16 @@
 <template>
-    <div v-if="character" class="character-page" :style="{ '--theme-color': themeColor }">
+    <div
+        v-if="character"
+        class="character-page"
+        :style="{ '--theme-color': themeColor }"
+    >
         <CharacterBanner :character="character" />
         <div class="character-content">
             <div class="character-main-content">
                 <CharacterInfobox :character="character" />
-                <h2 class="section-title"><SketchText size="1.2em">Description</SketchText></h2>
+                <h2 class="section-title">
+                    <SketchText size="1.2em">Description</SketchText>
+                </h2>
                 <content-renderer
                     :value="character"
                     class="character-text"
@@ -13,7 +19,10 @@
             </div>
         </div>
         <div class="character-images">
-            <h2 class="section-title"><Icon icon="art_brush" width="28px" height="28px" /> <SketchText size="1.2em">Artwork</SketchText></h2>
+            <h2 class="section-title">
+                <Icon icon="art_brush" width="28px" height="28px" />
+                <SketchText size="1.2em">Artwork</SketchText>
+            </h2>
             <ArtGrid
                 v-if="characterArtworks && characterArtworks.length > 0"
                 :artworks="characterArtworks"
@@ -77,7 +86,7 @@ const { theme } = useTheme();
 
 const themeColor = computed(() => {
     if (!character.value) return "#000000";
-    
+
     // If theme is light (true), use light color if available
     if (theme.value && character.value.theme_color_light) {
         return character.value.theme_color_light;
@@ -156,7 +165,12 @@ useSeoMeta({
         font-size: var(--base-text);
     }
 
-    :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
+    :deep(h1),
+    :deep(h2),
+    :deep(h3),
+    :deep(h4),
+    :deep(h5),
+    :deep(h6) {
         font-weight: 800;
         line-height: 1.25;
         margin-bottom: 1rem;
@@ -185,7 +199,6 @@ useSeoMeta({
         font-size: var(--small-text);
         color: var(--text-secondary);
     }
-
 }
 .section-title {
     @include drop-shadow-outline(var(--theme-color), 1px);

@@ -1,6 +1,6 @@
 slug: he-runs-the-farm
-created_at: '2024-12-26T04:34:41.266Z'
-modified_at: '2026-01-20T03:20:33.575Z'
+created_at: "2024-12-26T04:34:41.266Z"
+modified_at: "2026-01-20T03:20:33.575Z"
 title: He Runs the Farm
 pinned: false
 sketch: false
@@ -9,6 +9,6 @@ character: echo
 description: Animated gif made for my profile on [Pokéfarm Q](https://pokefarm.com/user/echolotl)
 thumbnail_url: /art/characters/echo/thumbnails/mmiiskeapy.webp
 images:
-  - image_url: /art/characters/echo/mmiiskeapy.gif
-    thumbnail_url: /art/characters/echo/thumbnails/mmiiskeapy.webp
-    alt: He Runs the Farm
+    - image_url: /art/characters/echo/mmiiskeapy.gif
+      thumbnail_url: /art/characters/echo/thumbnails/mmiiskeapy.webp
+      alt: He Runs the Farm

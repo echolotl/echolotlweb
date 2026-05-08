@@ -12,28 +12,28 @@ short_description: a shark-dog-girl hybrid with many, many eyes
 theme_color: "#5195ef"
 theme_color_light: "#287DEB"
 color_palette:
-  - "#AFB6CD"
-  - "#DBDDE5"
-  - "#737290"
-  - "#5A5977"
-  - "#8B96B7"
-  - "#40152C"
-  - "#411644"
-  - "#EC91BD"
-  - "#FCFCFD"
+    - "#AFB6CD"
+    - "#DBDDE5"
+    - "#737290"
+    - "#5A5977"
+    - "#8B96B7"
+    - "#40152C"
+    - "#411644"
+    - "#EC91BD"
+    - "#FCFCFD"
 category: "Talrien"
 likes:
-  - "Water"
-  - "Fluff"
-  - "Laying around"
+    - "Water"
+    - "Fluff"
+    - "Laying around"
 dislikes:
-  - "Crowds"
-  - "Bright lights"
+    - "Crowds"
+    - "Bright lights"
 friends:
-  - name: Kitral
-    slug: kitral
-  - name: Phosphor
-    slug: phosphor
+    - name: Kitral
+      slug: kitral
+    - name: Phosphor
+      slug: phosphor
 sitemap:
     changefreq: monthly
     priority: 0.5

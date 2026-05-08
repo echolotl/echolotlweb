@@ -1,9 +1,6 @@
 <template>
     <div :class="{ 'light-theme': theme }">
-        <Navbar
-            :light="theme"
-            @toggle-theme="toggleTheme"
-        />
+        <Navbar :light="theme" @toggle-theme="toggleTheme" />
         <Analytics />
         <SpeedInsights />
         <slot />
@@ -21,7 +18,6 @@ import { SpeedInsights } from "@vercel/speed-insights/nuxt";
 const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 
 const route = useRoute();
-
 
 onMounted(() => {
     initializeTheme();

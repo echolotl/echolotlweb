@@ -1,16 +1,16 @@
 slug: the-tall-lamb
-created_at: '2024-02-16T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.470Z'
+created_at: "2024-02-16T00:00:00.000Z"
+modified_at: "2025-09-28T20:15:02.470Z"
 title: The (Tall) Lamb
 pinned: false
 sketch: false
 image_url: /art/general/cotl.png
 description: Fanart of The Lamb from [Cult of the Lamb](https://store.steampowered.com/app/1313140/Cult_of_the_Lamb/)
 tags:
-  - fanart
-  - video game
+    - fanart
+    - video game
 thumbnail_url: /art/general/thumbnails/cotl.webp
 images:
-  - image_url: /art/general/cotl.png
-    thumbnail_url: /art/general/thumbnails/cotl.webp
-    alt: The (Tall) Lamb
+    - image_url: /art/general/cotl.png
+      thumbnail_url: /art/general/thumbnails/cotl.webp
+      alt: The (Tall) Lamb

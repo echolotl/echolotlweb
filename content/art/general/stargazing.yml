@@ -8,8 +8,8 @@ image_url: /art/general/stargazing.png
 thumbnail_url: /art/general/thumbnails/stargazing.webp
 description: Attack on [Cheezy](https://artfight.net/~Cheezy) on Art Fight
 tags:
-  - art fight
+    - art fight
 images:
-  - image_url: /art/general/stargazing.png
-    thumbnail_url: /art/general/thumbnails/stargazing.webp
-    alt: Stargazing
+    - image_url: /art/general/stargazing.png
+      thumbnail_url: /art/general/thumbnails/stargazing.webp
+      alt: Stargazing

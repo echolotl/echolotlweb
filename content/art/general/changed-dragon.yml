@@ -1,16 +1,16 @@
 slug: changed-dragon
-created_at: '2023-02-27T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.412Z'
-title: 'Changed: Dragon'
+created_at: "2023-02-27T00:00:00.000Z"
+modified_at: "2025-09-28T20:15:02.412Z"
+title: "Changed: Dragon"
 pinned: false
 sketch: false
 image_url: /art/general/changed_dragon.png
 description: Fanart of a dragon guy from Changed
 tags:
-  - fanart
-  - video game
+    - fanart
+    - video game
 thumbnail_url: /art/general/thumbnails/changed_dragon.webp
 images:
-  - image_url: /art/general/changed_dragon.png
-    thumbnail_url: /art/general/thumbnails/changed_dragon.webp
-    alt: 'Changed: Dragon'
+    - image_url: /art/general/changed_dragon.png
+      thumbnail_url: /art/general/thumbnails/changed_dragon.webp
+      alt: "Changed: Dragon"

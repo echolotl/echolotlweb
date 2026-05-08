@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtRouteAnnouncer />
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+    <div>
+        <NuxtLayout>
+            <NuxtRouteAnnouncer />
+            <NuxtPage />
+        </NuxtLayout>
+    </div>
 </template>
 
 <style lang="scss">
@@ -15,93 +15,93 @@
 @use "~/assets/styles/main.scss" as *;
 
 :root {
-  --foreground: #{$foreground};
-  --text: #{$foreground-light};
-  --text-secondary: #{color.scale($foreground-light, $alpha: -40%)};
-  --background: #{$background};
-  --distant: #{$distant};
-  --primary: #{$primary};
-  --solid: #{$solid};
-  --inverted-solid: #{$solid-light};
-  --filter-invert: 0;
+    --foreground: #{$foreground};
+    --text: #{$foreground-light};
+    --text-secondary: #{color.scale($foreground-light, $alpha: -40%)};
+    --background: #{$background};
+    --distant: #{$distant};
+    --primary: #{$primary};
+    --solid: #{$solid};
+    --inverted-solid: #{$solid-light};
+    --filter-invert: 0;
 
-  --red: #{$red};
-  --green: #{$green};
-  --blue: #{$blue};
-  --yellow: #{$yellow};
-  --purple: #{$purple};
-  --orange: #{$orange};
+    --red: #{$red};
+    --green: #{$green};
+    --blue: #{$blue};
+    --yellow: #{$yellow};
+    --purple: #{$purple};
+    --orange: #{$orange};
 
-  --surface: #{$surface};
+    --surface: #{$surface};
 
-  background-color: var(--background);
-  color: var(--text);
-  --scrollbar-bar: var(--primary);
-  scrollbar-color: var(--scrollbar-bar) var(--distant);
-  transition:
-    background-color 0.2s ease-out,
-    color 0.2s ease-out,
-    border-color 0.2s ease-out,
-    scrollbar-color 0.3s ease;
-  @media print {
-    --distant: black;
-  }
+    background-color: var(--background);
+    color: var(--text);
+    --scrollbar-bar: var(--primary);
+    scrollbar-color: var(--scrollbar-bar) var(--distant);
+    transition:
+        background-color 0.2s ease-out,
+        color 0.2s ease-out,
+        border-color 0.2s ease-out,
+        scrollbar-color 0.3s ease;
+    @media print {
+        --distant: black;
+    }
 
-  --very-small-text: #{$very-small-text};
-  --small-text: #{$small-text};
-  --base-text: #{$base-text};
-  --medium-text: #{$medium-text};
-  --large-text: #{$large-text};
-  --xl-text: #{$xl-text};
+    --very-small-text: #{$very-small-text};
+    --small-text: #{$small-text};
+    --base-text: #{$base-text};
+    --medium-text: #{$medium-text};
+    --large-text: #{$large-text};
+    --xl-text: #{$xl-text};
 }
 
 :root[data-theme="light"] {
-  --foreground: #{$foreground-light};
-  --text: #{$foreground};
-  --text-secondary: #{color.scale($foreground, $alpha: -25%)};
-  --background: #{$background-light};
-  --distant: #{$distant-light};
-  --primary: #{$primary-light};
-  --surface: #{$surface-light};
-  --solid: #{$solid-light};
-  --inverted-solid: #{$solid};
-  --filter-invert: 1;
+    --foreground: #{$foreground-light};
+    --text: #{$foreground};
+    --text-secondary: #{color.scale($foreground, $alpha: -25%)};
+    --background: #{$background-light};
+    --distant: #{$distant-light};
+    --primary: #{$primary-light};
+    --surface: #{$surface-light};
+    --solid: #{$solid-light};
+    --inverted-solid: #{$solid};
+    --filter-invert: 1;
 
-  --red: #{$red-light};
-  --green: #{$green-light};
-  --blue: #{$blue-light};
-  --yellow: #{$yellow-light};
-  --purple: #{$purple-light};
-  --orange: #{$orange-light};
+    --red: #{$red-light};
+    --green: #{$green-light};
+    --blue: #{$blue-light};
+    --yellow: #{$yellow-light};
+    --purple: #{$purple-light};
+    --orange: #{$orange-light};
 
-  color: var(--text);
+    color: var(--text);
 }
 
 .link {
-  color: var(--primary);
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-  outline: none;
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    outline: none;
 
-  &:hover,
-  &:focus-visible {
-    color: color-mix(in srgb, var(--primary), blue 20%);
-    text-decoration: underline;
-  }
+    &:hover,
+    &:focus-visible {
+        color: color-mix(in srgb, var(--primary), blue 20%);
+        text-decoration: underline;
+    }
 }
 
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.4s;
+    transition: all 0.4s;
 }
 
 .page-enter-from {
-  opacity: 0;
+    opacity: 0;
 
-  transform: translateY(-1rem);
+    transform: translateY(-1rem);
 }
 .page-leave-to {
-  opacity: 0;
-  transform: translateY(1rem);
+    opacity: 0;
+    transform: translateY(1rem);
 }
 </style>

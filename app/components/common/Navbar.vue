@@ -34,11 +34,21 @@
                             height="48px"
                             class="navbar-top__logo-icon navbar-top__logo-icon--desktop"
                             color="var(--inverted-solid)"
-                            :style="{background: route.path === '/' ? 'var(--primary)' : 'var(--text)'}"
+                            :style="{
+                                background:
+                                    route.path === '/'
+                                        ? 'var(--primary)'
+                                        : 'var(--text)',
+                            }"
                         />
                         <div
                             class="navbar-top__logo-image"
-                            :style="{background: route.path === '/' ? 'var(--primary)' : 'var(--text)'}"
+                            :style="{
+                                background:
+                                    route.path === '/'
+                                        ? 'var(--primary)'
+                                        : 'var(--text)',
+                            }"
                         />
                     </nuxt-link>
                 </div>
@@ -58,7 +68,11 @@
                             width="48px"
                             height="48px"
                             class="icon icon--hoverable"
-                            :style="route.path === navIcon.to ? `background: var(--primary);` : 'background: var(--text)'"
+                            :style="
+                                route.path === navIcon.to
+                                    ? `background: var(--primary);`
+                                    : 'background: var(--text)'
+                            "
                         />
                     </nuxt-link>
                 </div>
@@ -97,7 +111,12 @@
                             width="32px"
                             height="32px"
                             class="icon icon--hoverable"
-                            :style="{background: route.path === navIcon.to ? 'linear-gradient(to bottom in oklab, var(--primary), var(--text))' : 'var(--text)'}"
+                            :style="{
+                                background:
+                                    route.path === navIcon.to
+                                        ? 'linear-gradient(to bottom in oklab, var(--primary), var(--text))'
+                                        : 'var(--text)',
+                            }"
                         />
                         <span>{{ navIcon.alt }}</span>
                     </nuxt-link>
@@ -229,20 +248,17 @@ onMounted(() => {
     animation: jumpAndFlip 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.navbar-top__logo a{
+.navbar-top__logo a {
     display: flex;
     flex-direction: row;
     min-width: auto;
     outline: none;
     &:hover {
         .navbar-top__logo-icon,
-    .navbar-top__logo-image {
-        background: var(--primary) !important;
-
+        .navbar-top__logo-image {
+            background: var(--primary) !important;
+        }
     }
-    }
-
-    
 
     @media (max-width: 768px) {
         order: 1;
@@ -270,8 +286,6 @@ onMounted(() => {
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-
-    
 
     @media (max-width: 768px) {
         width: 200px;

@@ -1,15 +1,15 @@
 slug: bug
-created_at: '2022-03-19T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.402Z'
+created_at: "2022-03-19T00:00:00.000Z"
+modified_at: "2025-09-28T20:15:02.402Z"
 title: Bug
 pinned: false
 sketch: false
 image_url: /art/general/bug.png
 description: Fanart of a large artist from Twitter in 2022
 tags:
-  - fanart
+    - fanart
 thumbnail_url: /art/general/thumbnails/bug.webp
 images:
-  - image_url: /art/general/bug.png
-    thumbnail_url: /art/general/thumbnails/bug.webp
-    alt: Bug
+    - image_url: /art/general/bug.png
+      thumbnail_url: /art/general/thumbnails/bug.webp
+      alt: Bug

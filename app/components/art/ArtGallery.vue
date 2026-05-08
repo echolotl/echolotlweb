@@ -30,12 +30,11 @@
             </div>
         </div>
 
-                <!-- Variant selector for current base image -->
+        <!-- Variant selector for current base image -->
         <div
             v-if="currentImage?.variants && currentImage.variants.length"
             class="variants"
         >
-            
             <div class="variants__list">
                 <Icon icon="layers" />
                 <button
@@ -66,34 +65,46 @@
                     class="selector-dot"
                     :class="{ active: currentImageIndex === index }"
                     @click="selectImage(index)"
-                >
-                </button>
+                ></button>
             </div>
             <div class="selector__label">
                 <button
                     class="button--nav prev"
                     @click="prevImage"
                     aria-label="Previous image"
-                    style="border-radius: 100%;"
+                    style="border-radius: 100%"
                 >
                     <Icon
                         icon="small-arrow"
                         style="transform: rotate(180deg)"
                     />
                 </button>
-                <Icon icon="images" /> {{ currentImageIndex + 1 }} / {{ art.images.length }}
+                <Icon icon="images" /> {{ currentImageIndex + 1 }} /
+                {{ art.images.length }}
                 <button
                     class="button--nav next"
                     @click="nextImage"
                     aria-label="Next image"
-                    style="border-radius: 100%;"
+                    style="border-radius: 100%"
                 >
                     <Icon icon="small-arrow" />
                 </button>
             </div>
         </div>
-        <a class="selector__label link" style="justify-content: center; cursor: pointer; width: fit-content; margin: 0 auto;" :href="activeSource?.image_url" target="_blank" rel="noopener noreferrer">
-                {{ activeSource?.image_url.split("/").pop() || "Untitled Image" }} <Icon icon="open-in-new" />
+        <a
+            class="selector__label link"
+            style="
+                justify-content: center;
+                cursor: pointer;
+                width: fit-content;
+                margin: 0 auto;
+            "
+            :href="activeSource?.image_url"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            {{ activeSource?.image_url.split("/").pop() || "Untitled Image" }}
+            <Icon icon="open-in-new" />
         </a>
     </div>
     <div v-else class="gallery-empty">No images available.</div>
@@ -225,8 +236,7 @@ function onKey(e: KeyboardEvent) {
             if (currentImage.value?.variants?.length) {
                 const n = parseInt(e.key, 10);
                 if (!isNaN(n) && n >= 1) {
-                    if (n === 1)
-                        currentVariantIndex.value = null;
+                    if (n === 1) currentVariantIndex.value = null;
                     else if (n - 2 < currentImage.value.variants.length)
                         currentVariantIndex.value = n - 2;
                 }
@@ -330,7 +340,10 @@ onMounted(() => {
             background: var(--distant);
             border: 1px solid var(--surface);
             cursor: pointer;
-            transition: background-color 0.2s ease, width 0.2s ease, border-radius 0.2s ease;
+            transition:
+                background-color 0.2s ease,
+                width 0.2s ease,
+                border-radius 0.2s ease;
             &.active {
                 background: var(--primary);
                 width: 2rem;

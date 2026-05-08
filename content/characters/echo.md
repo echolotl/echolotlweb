@@ -13,12 +13,12 @@ theme_color: "#e2c68a"
 theme_color_light: "#9F7928"
 category: "Sonas"
 color_palette:
-  - "#E2A870"
-  - "#E2CDA0"
-  - "#CDBC97"
-  - "#7B7956"
-  - "#0D0D21"
-  - "#000000"
+    - "#E2A870"
+    - "#E2CDA0"
+    - "#CDBC97"
+    - "#7B7956"
+    - "#0D0D21"
+    - "#000000"
 sitemap:
     changefreq: monthly
     priority: 0.5

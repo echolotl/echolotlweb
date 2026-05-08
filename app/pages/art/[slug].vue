@@ -1,69 +1,87 @@
 <template>
     <div v-if="art" class="art-page">
         <div class="art-header">
-            <h1 class="large-title" style="margin-bottom: 0rem; line-height: 1.2;">
+            <h1
+                class="large-title"
+                style="margin-bottom: 0rem; line-height: 1.2"
+            >
                 <SketchText size="3rem">{{ art.title }}</SketchText>
             </h1>
-            
+
             <div class="art-description">
                 <p v-if="art.description" v-html="parsedDescription"></p>
                 <p v-else>No description available.</p>
             </div>
             <div class="art-meta">
-            <div class="left">    <TagList
-                    v-if="art.tags && art.tags.length > 0"
-                    icon="tag"
-                    :items="art.tags"
-                    class="art-meta__tag-list"
-                >
-                    <Tag v-for="tag in art.tags" :key="tag">
-                        {{ tag }}
-                    </Tag>
-                </TagList>
+                <div class="left">
+                    <TagList
+                        v-if="art.tags && art.tags.length > 0"
+                        icon="tag"
+                        :items="art.tags"
+                        class="art-meta__tag-list"
+                    >
+                        <Tag v-for="tag in art.tags" :key="tag">
+                            {{ tag }}
+                        </Tag>
+                    </TagList>
 
-                <TagList
-                    v-if="
-                        (art.related_characters &&
-                            art.related_characters.length > 0) ||
-                        art.character
-                    "
-                    icon="character"
-                    :items="
-                        art.related_characters ||
-                        [art.character].filter(Boolean)
-                    "
-                >
-                    <CharacterTag
-                        v-if="art.character"
-                        :slug="art.character"
-                        sketch-text
-                    />
-                    <CharacterTag
-                        v-for="character in art.related_characters"
-                        :key="character"
-                        :slug="character"
-                        sketch-text
-                    />
-                </TagList>
-                <div v-if="art.created_at" class="art-meta__section">
-                    <Icon icon="date" color="var(--text-secondary)" />
-                    <span class="art-meta__date">{{
-                        new Date(art.created_at).toLocaleDateString()
-                    }}</span>
-                </div>
-                <div v-if="art.artist_name" class="art-meta__section">
-                    <Icon icon="pencil" color="var(--text-secondary)" />
-                    <span class="art-meta__date">{{ art.artist_name }}</span>
-                </div>
+                    <TagList
+                        v-if="
+                            (art.related_characters &&
+                                art.related_characters.length > 0) ||
+                            art.character
+                        "
+                        icon="character"
+                        :items="
+                            art.related_characters ||
+                            [art.character].filter(Boolean)
+                        "
+                    >
+                        <CharacterTag
+                            v-if="art.character"
+                            :slug="art.character"
+                            sketch-text
+                        />
+                        <CharacterTag
+                            v-for="character in art.related_characters"
+                            :key="character"
+                            :slug="character"
+                            sketch-text
+                        />
+                    </TagList>
+                    <div v-if="art.created_at" class="art-meta__section">
+                        <Icon icon="date" color="var(--text-secondary)" />
+                        <span class="art-meta__date">{{
+                            new Date(art.created_at).toLocaleDateString()
+                        }}</span>
+                    </div>
+                    <div v-if="art.artist_name" class="art-meta__section">
+                        <Icon icon="pencil" color="var(--text-secondary)" />
+                        <span class="art-meta__date">{{
+                            art.artist_name
+                        }}</span>
+                    </div>
                 </div>
                 <div class="right">
-                    <Icon v-if="art.character" icon="character" color="var(--primary)" />
-                    <Icon v-if="art.pinned" icon="pin" color="var(--primary)"  />
-                    <Icon v-if="art.sketch" icon="sketch" color="var(--primary)"  />
-                    <Icon v-if="art.images.length > 1" icon="images" color="var(--primary)"  />
+                    <Icon
+                        v-if="art.character"
+                        icon="character"
+                        color="var(--primary)"
+                    />
+                    <Icon v-if="art.pinned" icon="pin" color="var(--primary)" />
+                    <Icon
+                        v-if="art.sketch"
+                        icon="sketch"
+                        color="var(--primary)"
+                    />
+                    <Icon
+                        v-if="art.images.length > 1"
+                        icon="images"
+                        color="var(--primary)"
+                    />
+                </div>
             </div>
-            </div>
-            <hr style="margin-top: 0.5rem;" />
+            <hr style="margin-top: 0.5rem" />
         </div>
 
         <!-- Main Art Section -->

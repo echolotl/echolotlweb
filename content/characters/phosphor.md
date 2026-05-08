@@ -16,20 +16,21 @@ title_image: /images/characters/phosphor/title.png
 background_texture: /images/characters/phosphor/texture.png
 category: "Talrien"
 likes:
-  - "Lights"
-  - "Blood"
-  - "Change"
+    - "Lights"
+    - "Blood"
+    - "Change"
 dislikes:
-  - "Sour flavors"
-  - "Copying"
+    - "Sour flavors"
+    - "Copying"
 friends:
-  - name: Orchy
-    slug: orchy
-  - name: Kitral
-    slug: kitral
+    - name: Orchy
+      slug: orchy
+    - name: Kitral
+      slug: kitral
 sitemap:
     changefreq: monthly
     priority: 0.5
     lastmod: 2025-07-03
 ---
+
 **Phosphor**

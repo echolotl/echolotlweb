@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-again.webp
 description: He eats a the rock
 character: nautilus
 images:
-  - image_url: /art/characters/nautilus/nautilus-again.png
-    thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-again.webp
-    alt: Nautilus Again
+    - image_url: /art/characters/nautilus/nautilus-again.png
+      thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-again.webp
+      alt: Nautilus Again

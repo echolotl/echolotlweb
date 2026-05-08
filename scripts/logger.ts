@@ -1,6 +1,6 @@
 // Convert RGB to ANSI 256 color code
 export function rgbToAnsi256(r: number, g: number, b: number): string {
-  return `\x1b[38;2;${r};${g};${b}m`;
+    return `\x1b[38;2;${r};${g};${b}m`;
 }
 
 // Stylized logger
@@ -35,5 +35,4 @@ export class Logger {
         const b = parseInt(color.slice(5, 7), 16);
         this.rgb(r, g, b, message);
     }
-
 }

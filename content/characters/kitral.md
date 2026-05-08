@@ -13,22 +13,22 @@ theme_color: "#e7984e"
 theme_color_light: "#BC681A"
 category: "Talrien"
 friends:
-  - slug: glory
-    name: Glory
-  - slug: chomb
-    name: Chomb
+    - slug: glory
+      name: Glory
+    - slug: chomb
+      name: Chomb
 enemies:
-  - slug: nautilus
-    name: Nautilus
-  - slug: mino
-    name: Mino
+    - slug: nautilus
+      name: Nautilus
+    - slug: mino
+      name: Mino
 likes:
-  - "Fighting"
-  - "Lemons"
-  - "Townsfolk"
+    - "Fighting"
+    - "Lemons"
+    - "Townsfolk"
 dislikes:
-  - "Chocolate"
-  - "Grains"
+    - "Chocolate"
+    - "Grains"
 sitemap:
     changefreq: monthly
     priority: 0.5

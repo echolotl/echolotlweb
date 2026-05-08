@@ -1,31 +1,67 @@
 <template>
-    <div style="position: relative; display: flex; justify-content: center" class="art-item-container" :style="{ '--filter-url': `url(#${filterId})` }">
-            <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0; overflow: hidden">
-  <defs>
-    <filter
-      :id="filterId"
-      color-interpolation-filters="sRGB"
-      x="-50%"
-      y="-50%"
-      width="200%"
-      height="200%"
+    <div
+        style="position: relative; display: flex; justify-content: center"
+        class="art-item-container"
+        :style="{ '--filter-url': `url(#${filterId})` }"
     >
-    <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="5" result="noise" :seed="seed" />
-      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blurred" />
-      <feComponentTransfer in="blurred" result="expanded">
-        <feFuncA type="linear" slope="500" intercept="-5" />
-      </feComponentTransfer>
-      <feFlood flood-color="var(--theme-color, var(--primary))" result="color" />
-      <feComposite in="color" in2="expanded" operator="in" result="border" />
-      <feDisplacementMap in="border" in2="noise" scale="6" xChannelSelector="A" yChannelSelector="A" result="sketchBorder" />
-      <feMerge>
-        <feMergeNode in="sketchBorder" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-  </defs>
-</svg>
-        <nuxt-link :to="`/art/${artwork.slug}`" class="art-item" :aria-label="`View Artwork: ${artwork.title}`">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            style="position: absolute; width: 0; height: 0; overflow: hidden"
+        >
+            <defs>
+                <filter
+                    :id="filterId"
+                    color-interpolation-filters="sRGB"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                >
+                    <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.1"
+                        numOctaves="5"
+                        result="noise"
+                        :seed="seed"
+                    />
+                    <feGaussianBlur
+                        in="SourceAlpha"
+                        stdDeviation="2"
+                        result="blurred"
+                    />
+                    <feComponentTransfer in="blurred" result="expanded">
+                        <feFuncA type="linear" slope="500" intercept="-5" />
+                    </feComponentTransfer>
+                    <feFlood
+                        flood-color="var(--theme-color, var(--primary))"
+                        result="color"
+                    />
+                    <feComposite
+                        in="color"
+                        in2="expanded"
+                        operator="in"
+                        result="border"
+                    />
+                    <feDisplacementMap
+                        in="border"
+                        in2="noise"
+                        scale="6"
+                        xChannelSelector="A"
+                        yChannelSelector="A"
+                        result="sketchBorder"
+                    />
+                    <feMerge>
+                        <feMergeNode in="sketchBorder" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+        </svg>
+        <nuxt-link
+            :to="`/art/${artwork.slug}`"
+            class="art-item"
+            :aria-label="`View Artwork: ${artwork.title}`"
+        >
             <div
                 class="art-item__image"
                 :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`"
@@ -137,9 +173,10 @@ const hasMultipleImages = computed(() => {
         display: block;
     }
 
-    &:hover, &:focus-within {
+    &:hover,
+    &:focus-within {
         transform: scale(1.1);
-        
+
         .art-item__image {
             background-size: 100%;
         }
@@ -159,10 +196,10 @@ const hasMultipleImages = computed(() => {
     }
 }
 .art-item-container {
-    &:hover, &:focus-within {
+    &:hover,
+    &:focus-within {
         filter: var(--filter-url);
     }
-
 }
 .art-item__metadata {
     position: absolute;
@@ -205,7 +242,7 @@ const hasMultipleImages = computed(() => {
     100% {
         transform: scale(1);
     }
-    50%{
+    50% {
         transform: scale(0.975);
     }
 }
@@ -215,9 +252,8 @@ const hasMultipleImages = computed(() => {
     100% {
         background-size: 110%;
     }
-   50% {
+    50% {
         background-size: 111.26%;
     }
-    
 }
 </style>

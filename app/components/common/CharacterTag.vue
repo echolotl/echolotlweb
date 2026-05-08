@@ -1,10 +1,6 @@
 <template>
     <CharacterLink :slug="slug" class="character-tag">
-        <Tag
-            variant="character"
-            :clickable="true"
-            :custom-color="themeColor"
-        >
+        <Tag variant="character" :clickable="true" :custom-color="themeColor">
             <SketchText
                 v-if="sketchText && character?.name"
                 :text="character.name"
@@ -43,7 +39,7 @@ const { theme } = useTheme();
 
 const themeColor = computed(() => {
     if (!character.value) return "";
-    
+
     if (theme.value && character.value.theme_color_light) {
         return character.value.theme_color_light;
     }

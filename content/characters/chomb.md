@@ -10,32 +10,32 @@ pronouns: he/him
 clan: Natural
 short_description: an anthropomorphic spider with golden rings
 theme_color: "#e23c3c"
-color_palette: 
-  - "#6E3E47"
-  - "#894E52"
-  - "#47282E"
-  - "#C8C8B4"
-  - "#D49095"
-  - "#FFD08F"
-  - "#D32F39"
-  - "#4E0049"
+color_palette:
+    - "#6E3E47"
+    - "#894E52"
+    - "#47282E"
+    - "#C8C8B4"
+    - "#D49095"
+    - "#FFD08F"
+    - "#D32F39"
+    - "#4E0049"
 category: "Talrien"
 friends:
-  - name: Mino
-    slug: mino
+    - name: Mino
+      slug: mino
 enemies:
-  - name: "\"That machine\""
-    slug: nautilus
+    - name: '"That machine"'
+      slug: nautilus
 likes:
-  - "Gold"
-  - "Bugs"
+    - "Gold"
+    - "Bugs"
 dislikes:
-  - "Computers"
-  - "Fire"
+    - "Computers"
+    - "Fire"
 sitemap:
     changefreq: monthly
     priority: 0.5
     lastmod: 2026-01-29
 ---
 
-**Chomb** 
+**Chomb**

@@ -1,15 +1,15 @@
 slug: before
-created_at: '2025-03-31T01:13:26.803Z'
-modified_at: '2025-09-28T20:15:02.399Z'
+created_at: "2025-03-31T01:13:26.803Z"
+modified_at: "2025-09-28T20:15:02.399Z"
 title: Before
 pinned: false
 sketch: false
 image_url: /art/general/1743383604379.webp
 description: Before the storm there was probably water
 tags:
-  - painting
+    - painting
 thumbnail_url: /art/general/thumbnails/1743383604379.webp
 images:
-  - image_url: /art/general/1743383604379.webp
-    thumbnail_url: /art/general/thumbnails/1743383604379.webp
-    alt: Before
+    - image_url: /art/general/1743383604379.webp
+      thumbnail_url: /art/general/thumbnails/1743383604379.webp
+      alt: Before

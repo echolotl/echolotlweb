@@ -7,9 +7,7 @@
                     maskImage: `url(/images/characters/${character.slug}/texture.png)`,
                 }"
             />
-            <div
-                class="character-banner__underlay"
-            />
+            <div class="character-banner__underlay" />
             <div class="character-banner__images">
                 <div
                     class="character-banner__image"

@@ -40,7 +40,7 @@ const { theme } = useTheme();
 
 const themeColor = computed(() => {
     if (!character.value) return "";
-    
+
     // If theme is light (true), use light color if available
     if (theme.value && character.value.theme_color_light) {
         return character.value.theme_color_light;

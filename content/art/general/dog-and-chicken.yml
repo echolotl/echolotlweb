@@ -1,16 +1,16 @@
 slug: dog-and-chicken
-created_at: '2023-10-09T00:00:00.000Z'
-modified_at: '2025-09-28T20:15:02.422Z'
+created_at: "2023-10-09T00:00:00.000Z"
+modified_at: "2025-09-28T20:15:02.422Z"
 title: Dog and Chicken
 pinned: false
 sketch: false
 image_url: /art/general/tomdog.png
 description: Drawing of a friend's dog thing and creature
 tags:
-  - friends
-  - oc
+    - friends
+    - oc
 thumbnail_url: /art/general/thumbnails/tomdog.webp
 images:
-  - image_url: /art/general/tomdog.png
-    thumbnail_url: /art/general/thumbnails/tomdog.webp
-    alt: Dog and Chicken
+    - image_url: /art/general/tomdog.png
+      thumbnail_url: /art/general/thumbnails/tomdog.webp
+      alt: Dog and Chicken
