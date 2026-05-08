@@ -30,8 +30,7 @@ export interface Art {
   created_at: string;
   modified_at: string;
   character?: string;
-  // The character's slug
-  related_characters?: string[];
+  related_characters?: string[];   // The character's slug
   title: string;
   description?: string;
   tags?: string[];

@@ -1,18 +1,20 @@
 <template>
     <div v-if="art" class="art-page">
         <div class="art-header">
-            <h1 class="large-title">
+            <h1 class="large-title" style="margin-bottom: 0rem; line-height: 1.2;">
                 <SketchText size="3rem">{{ art.title }}</SketchText>
             </h1>
+            
             <div class="art-description">
                 <p v-if="art.description" v-html="parsedDescription"></p>
                 <p v-else>No description available.</p>
             </div>
             <div class="art-meta">
-                <TagList
+            <div class="left">    <TagList
                     v-if="art.tags && art.tags.length > 0"
                     icon="tag"
                     :items="art.tags"
+                    class="art-meta__tag-list"
                 >
                     <Tag v-for="tag in art.tags" :key="tag">
                         {{ tag }}
@@ -49,7 +51,19 @@
                         new Date(art.created_at).toLocaleDateString()
                     }}</span>
                 </div>
+                <div v-if="art.artist_name" class="art-meta__section">
+                    <Icon icon="pencil" color="var(--text-secondary)" />
+                    <span class="art-meta__date">{{ art.artist_name }}</span>
+                </div>
+                </div>
+                <div class="right">
+                    <Icon v-if="art.character" icon="character" color="var(--primary)" />
+                    <Icon v-if="art.pinned" icon="pin" color="var(--primary)"  />
+                    <Icon v-if="art.sketch" icon="sketch" color="var(--primary)"  />
+                    <Icon v-if="art.images.length > 1" icon="images" color="var(--primary)"  />
             </div>
+            </div>
+            <hr style="margin-top: 0.5rem;" />
         </div>
 
         <!-- Main Art Section -->
@@ -169,16 +183,36 @@ useSeoMeta({
 }
 
 .art-meta {
-    margin: 1rem 0;
+    margin: 0.75rem 0;
     display: flex;
-    flex-direction: column;
     gap: 0.75rem;
+    justify-content: space-between;
+    .right {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 0.25rem;
+    }
+    .left {
+        flex: 1 1 auto;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
 }
 
 .art-meta__section {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.art-meta__tag-list {
+    display: inline-flex;
+}
+
+.art-meta__date {
+    color: var(--text-secondary);
+    font-size: var(--small-text);
 }
 
 .art-title {

@@ -8,18 +8,6 @@
     >
         <div class="viewer-container">
             <div class="viewer">
-                <button
-                    v-if="hasMultiple"
-                    class="button--nav prev"
-                    @click="prevImage"
-                    aria-label="Previous image"
-                >
-                    <Icon
-                        icon="small-arrow"
-                        style="transform: rotate(180deg)"
-                    />
-                </button>
-
                 <div class="image-wrapper">
                     <img
                         v-if="activeSource && activeImageDimensions"
@@ -38,64 +26,18 @@
                             height="3rem"
                         />Loading...
                     </div>
-                    <div class="view-original">
-                        <a
-                            v-if="activeSource"
-                            :href="activeSource.image_url"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="link"
-                        >
-                            <Icon icon="open-in-new" />
-                            View Original
-                        </a>
-                    </div>
                 </div>
-
-                <button
-                    v-if="hasMultiple"
-                    class="button--nav next"
-                    @click="nextImage"
-                    aria-label="Next image"
-                >
-                    <Icon icon="small-arrow" />
-                </button>
             </div>
         </div>
 
-        <!-- Thumbnails (base images) -->
-        <div v-if="hasMultiple" class="thumb-strip">
-            <button
-                v-for="(img, i) in art.images"
-                :key="img.id || i"
-                class="thumb"
-                :class="{ active: i === currentImageIndex }"
-                @click="selectImage(i)"
-                :aria-label="`Select image ${i + 1} of ${art.images.length}`"
-            >
-                <img
-                    :src="img.thumbnail_url || img.image_url"
-                    :alt="img.alt || art.title"
-                    loading="lazy"
-                    width="60"
-                    height="60"
-                />
-                <span
-                    v-if="img.variants?.length"
-                    class="variant-count"
-                    :title="img.variants.length + ' variants'"
-                    >{{ img.variants.length }}</span
-                >
-            </button>
-        </div>
-
-        <!-- Variant selector for current base image -->
+                <!-- Variant selector for current base image -->
         <div
             v-if="currentImage?.variants && currentImage.variants.length"
             class="variants"
         >
-            <div class="variants__label"><Icon icon="layers" /> Alts</div>
+            
             <div class="variants__list">
+                <Icon icon="layers" />
                 <button
                     class="button--chip"
                     :class="{ active: currentVariantIndex === null }"
@@ -114,6 +56,45 @@
                 </button>
             </div>
         </div>
+
+        <!-- Selector for multiple images -->
+        <div v-if="hasMultiple" class="selector">
+            <div class="selector__dots">
+                <button
+                    v-for="(_, index) in art.images"
+                    :key="index"
+                    class="selector-dot"
+                    :class="{ active: currentImageIndex === index }"
+                    @click="selectImage(index)"
+                >
+                </button>
+            </div>
+            <div class="selector__label">
+                <button
+                    class="button--nav prev"
+                    @click="prevImage"
+                    aria-label="Previous image"
+                    style="border-radius: 100%;"
+                >
+                    <Icon
+                        icon="small-arrow"
+                        style="transform: rotate(180deg)"
+                    />
+                </button>
+                <Icon icon="images" /> {{ currentImageIndex + 1 }} / {{ art.images.length }}
+                <button
+                    class="button--nav next"
+                    @click="nextImage"
+                    aria-label="Next image"
+                    style="border-radius: 100%;"
+                >
+                    <Icon icon="small-arrow" />
+                </button>
+            </div>
+        </div>
+        <a class="selector__label link" style="justify-content: center; cursor: pointer; width: fit-content; margin: 0 auto;" :href="activeSource?.image_url" target="_blank" rel="noopener noreferrer">
+                {{ activeSource?.image_url.split("/").pop() || "Untitled Image" }} <Icon icon="open-in-new" />
+        </a>
     </div>
     <div v-else class="gallery-empty">No images available.</div>
 </template>
@@ -189,7 +170,6 @@ function loadImage(url: string): Promise<{ width: number; height: number }> {
 }
 
 async function preloadAllImages() {
-    // Only run on client-side
     if (typeof window === "undefined") return;
 
     const urlsToLoad: string[] = [];
@@ -201,7 +181,6 @@ async function preloadAllImages() {
         });
     });
 
-    // Load all images in parallel
     await Promise.all(urlsToLoad.map((url) => loadImage(url)));
 }
 
@@ -243,12 +222,11 @@ function onKey(e: KeyboardEvent) {
             currentVariantIndex.value = null;
             break;
         default:
-            // Number keys 1..9 to pick variants quickly
             if (currentImage.value?.variants?.length) {
                 const n = parseInt(e.key, 10);
                 if (!isNaN(n) && n >= 1) {
                     if (n === 1)
-                        currentVariantIndex.value = null; // original
+                        currentVariantIndex.value = null;
                     else if (n - 2 < currentImage.value.variants.length)
                         currentVariantIndex.value = n - 2;
                 }
@@ -284,8 +262,6 @@ onMounted(() => {
     flex-direction: column;
 }
 
-/* Navigation buttons now use .button--nav class from main.scss */
-
 .image-wrapper {
     position: relative;
     max-width: 100%;
@@ -293,26 +269,12 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--distant);
-    padding: 0.5rem;
+    border: 3px dashed var(--distant);
     .hero {
-        max-height: 70vh;
+        height: 70vh;
         max-width: 100%;
         width: auto;
-        height: auto;
-        object-fit: contain;
-    }
-    .variant-badge {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        background: var(--bg-secondary);
-        color: var(--primary);
-        font-size: var(--small-text);
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        border: 1px solid var(--primary);
+        object-fit: scale-down;
     }
     .placeholder {
         display: flex;
@@ -343,41 +305,37 @@ onMounted(() => {
     }
 }
 
-.thumb-strip {
+.selector {
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
     flex-wrap: wrap;
-    justify-content: center;
-    .thumb {
-        position: relative;
-        padding: 0;
-        border: 2px solid transparent;
-        background: transparent;
-        cursor: pointer;
-        border-radius: 4px;
-        overflow: hidden;
-        &:focus-visible {
-            outline: 2px solid var(--primary);
-        }
-        &.active {
-            border-color: var(--primary);
-        }
-        img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            display: block;
-        }
-        .variant-count {
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            background: var(--primary);
-            color: var(--background);
-            font-size: var(--very-small-text);
-            line-height: 1;
-            padding: 2px 4px;
-            border-radius: 3px;
+    align-items: center;
+    &__label {
+        font-size: var(--base-text);
+        color: var(--text-secondary);
+        display: flex;
+        gap: 0.35rem;
+        align-items: center;
+    }
+    &__dots {
+        display: flex;
+        gap: 0.2rem;
+        align-items: center;
+        .selector-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            padding: 0;
+            border-radius: 50%;
+            background: var(--distant);
+            border: 1px solid var(--surface);
+            cursor: pointer;
+            transition: background-color 0.2s ease, width 0.2s ease, border-radius 0.2s ease;
+            &.active {
+                background: var(--primary);
+                width: 2rem;
+                border-radius: 9999px;
+            }
         }
     }
 }
@@ -385,24 +343,15 @@ onMounted(() => {
 .variants {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    align-items: flex-start;
-    max-width: 1200px;
+    align-items: center;
     width: 100%;
-    margin: 0 auto;
-    .variants__label {
-        font-size: var(--base-text);
-        color: var(--text-secondary);
-        display: flex;
-        gap: 0.35rem;
-        align-items: center;
-    }
     .variants__list {
+        align-items: center;
         display: flex;
         gap: 0.4rem;
         flex-wrap: wrap;
+        color: var(--text-secondary);
     }
-    /* Variant chips now use .button--chip class from main.scss */
 }
 
 .gallery-empty {

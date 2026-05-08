@@ -59,8 +59,6 @@ if (!character.value) {
         statusCode: 404,
         statusMessage: "Character not found",
     });
-} else {
-    console.log("Character data loaded:", character.value);
 }
 
 // Character artwork loading

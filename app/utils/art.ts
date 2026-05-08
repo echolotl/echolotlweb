@@ -50,8 +50,8 @@ export async function getArtworksByCharacter(
   page?: number,
 ): Promise<Art[]> {
   let query = queryCollection("art")
-    .orWhere((query) =>
-      query
+    .orWhere((group) =>
+      group
         .where("character", "=", characterSlug)
         .where("related_characters", "LIKE", `%${characterSlug}%`),
     )
@@ -110,10 +110,7 @@ export async function getLatestArtworks(limit: number = 10) {
  */
 export async function searchArtworks(searchTerm: string) {
   return await queryCollection("art")
-    .orWhere((query) =>
-      query
-        .where("title", "LIKE", `%${searchTerm}%`)
-        .where("description", "LIKE", `%${searchTerm}%`),
-    )
+    .where("title", "LIKE", `%${searchTerm}%`)
+    .orWhere("description", "LIKE", `%${searchTerm}%`)
     .all();
 }
