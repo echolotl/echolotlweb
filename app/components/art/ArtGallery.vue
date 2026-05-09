@@ -265,15 +265,19 @@ onMounted(() => {
     position: relative;
     max-width: 100%;
     max-height: 75vh;
+    width: fit-content;
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px dashed var(--distant);
+
     .hero {
-        height: 70vh;
+        max-height: 70vh;
         max-width: 100%;
         width: auto;
-        object-fit: scale-down;
+        height: auto;
+        display: block;
+        border: 3px dashed var(--distant);
     }
     .placeholder {
         display: flex;
