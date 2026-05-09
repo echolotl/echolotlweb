@@ -195,29 +195,24 @@ onMounted(() => {
         <div
             class="sketch-text-visual"
             aria-hidden="true"
-            :aria-describedby="!props.isDecorative ? textId : undefined"
-        >
+            :aria-describedby="!props.isDecorative ? textId : undefined">
             <div
                 v-for="(line, lineIndex) in textLines"
                 :key="`line-${lineIndex}`"
                 class="sketch-text-line"
-                :style="{ justifyContent: getJustifyContent }"
-            >
+                :style="{ justifyContent: getJustifyContent }">
                 <div
                     v-for="(word, wordIndex) in line"
                     :key="`word-${lineIndex}-${wordIndex}`"
                     class="sketch-word"
-                    :class="{ 'sketch-space': word.isSpace }"
-                >
+                    :class="{ 'sketch-space': word.isSpace }">
                     <template
                         v-for="(char, charIndex) in word.content"
-                        :key="`char-${lineIndex}-${wordIndex}-${charIndex}`"
-                    >
+                        :key="`char-${lineIndex}-${wordIndex}-${charIndex}`">
                         <span
                             v-if="char === ' '"
                             :style="getSpaceStyle()"
-                            class="sketch-space-char"
-                        ></span>
+                            class="sketch-space-char"></span>
                         <span
                             v-else
                             :style="
@@ -226,8 +221,7 @@ onMounted(() => {
                                     word.content[charIndex + 1],
                                 )
                             "
-                            class="sketch-char"
-                        ></span>
+                            class="sketch-char"></span>
                     </template>
                 </div>
             </div>

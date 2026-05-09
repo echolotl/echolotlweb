@@ -6,14 +6,12 @@
                 <div
                     class="navbar-top__themeicon navbar-top__themeicon--desktop"
                     @click="toggleTheme"
-                    tabindex="0"
-                >
+                    tabindex="0">
                     <Icon
                         :icon="currentThemeIcon"
                         width="48px"
                         height="48px"
-                        class="icon icon--hoverable"
-                    />
+                        class="icon icon--hoverable" />
                 </div>
 
                 <!-- Mobile hamburger menu -->
@@ -22,8 +20,7 @@
                         :icon="mobileMenuOpen ? 'close' : 'hamburger-open'"
                         width="48px"
                         height="48px"
-                        class="icon icon--hoverable"
-                    />
+                        class="icon icon--hoverable" />
                 </div>
 
                 <div class="navbar-top__logo">
@@ -39,8 +36,7 @@
                                     route.path === '/'
                                         ? 'var(--primary)'
                                         : 'var(--text)',
-                            }"
-                        />
+                            }" />
                         <div
                             class="navbar-top__logo-image"
                             :style="{
@@ -48,20 +44,17 @@
                                     route.path === '/'
                                         ? 'var(--primary)'
                                         : 'var(--text)',
-                            }"
-                        />
+                            }" />
                     </nuxt-link>
                 </div>
 
                 <!-- Desktop navigation icons -->
                 <div
-                    class="navbar-top__nav-icons navbar-top__nav-icons--desktop"
-                >
+                    class="navbar-top__nav-icons navbar-top__nav-icons--desktop">
                     <nuxt-link
                         v-for="(navIcon, index) in navIcons"
                         :key="index"
-                        :to="navIcon.to"
-                    >
+                        :to="navIcon.to">
                         <Icon
                             :icon="navIcon.icon"
                             :alt="navIcon.alt"
@@ -72,8 +65,7 @@
                                 route.path === navIcon.to
                                     ? `background: var(--primary);`
                                     : 'background: var(--text)'
-                            "
-                        />
+                            " />
                     </nuxt-link>
                 </div>
             </div>
@@ -81,8 +73,7 @@
             <!-- Mobile menu dropdown -->
             <div
                 class="navbar-top__mobile-menu"
-                :class="{ 'navbar-top__mobile-menu--open': mobileMenuOpen }"
-            >
+                :class="{ 'navbar-top__mobile-menu--open': mobileMenuOpen }">
                 <div class="navbar-top__mobile-menu-content">
                     <!-- Mobile theme toggle -->
                     <div class="navbar-top__mobile-item" @click="toggleTheme">
@@ -90,8 +81,7 @@
                             :icon="currentThemeIcon"
                             width="32px"
                             height="32px"
-                            class="icon icon--hoverable"
-                        />
+                            class="icon icon--hoverable" />
                         <span>{{
                             props.light ? "Dark Mode" : "Light Mode"
                         }}</span>
@@ -103,8 +93,7 @@
                         :key="index"
                         :to="navIcon.to"
                         class="navbar-top__mobile-item"
-                        @click="closeMobileMenu"
-                    >
+                        @click="closeMobileMenu">
                         <Icon
                             :icon="navIcon.icon"
                             :alt="navIcon.alt"
@@ -116,8 +105,7 @@
                                     route.path === navIcon.to
                                         ? 'linear-gradient(to bottom in oklab, var(--primary), var(--text))'
                                         : 'var(--text)',
-                            }"
-                        />
+                            }" />
                         <span>{{ navIcon.alt }}</span>
                     </nuxt-link>
                 </div>

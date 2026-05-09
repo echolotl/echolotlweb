@@ -5,8 +5,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link tumblr-link"
-            aria-label="Go to echolotl's Tumblr"
-        >
+            aria-label="Go to echolotl's Tumblr">
             <Icon icon="socials/tumblr" :height="iconSize" :width="iconSize" />
         </a>
         <div class="twitter">
@@ -15,28 +14,24 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="link"
-                aria-label="Go to echolotl's X (formerly Twitter)"
-            >
+                aria-label="Go to echolotl's X (formerly Twitter)">
                 <Icon
                     v-show="!isShiftPressed"
                     icon="socials/x"
                     :height="iconSize"
-                    :width="iconSize"
-                />
+                    :width="iconSize" />
             </a>
             <a
                 href="https://twitter.com/echolotl"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="link twitter-link"
-                aria-label="Go to echolotl's Twitter"
-            >
+                aria-label="Go to echolotl's Twitter">
                 <Icon
                     v-show="isShiftPressed"
                     icon="socials/twitter"
                     :height="iconSize"
-                    :width="iconSize"
-                />
+                    :width="iconSize" />
             </a>
         </div>
         <a
@@ -44,21 +39,18 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link newgrounds-link"
-            aria-label="Go to echolotl's Newgrounds"
-        >
+            aria-label="Go to echolotl's Newgrounds">
             <Icon
                 icon="socials/newgrounds"
                 :height="iconSize"
-                :width="iconSize"
-            />
+                :width="iconSize" />
         </a>
         <a
             href="https://bsky.app/profile/echolotl.lol"
             target="_blank"
             rel="noopener noreferrer"
             class="link bluesky-link"
-            aria-label="Go to echolotl's Bluesky"
-        >
+            aria-label="Go to echolotl's Bluesky">
             <Icon icon="socials/bluesky" :height="iconSize" :width="iconSize" />
         </a>
         <a
@@ -66,8 +58,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link github-link"
-            aria-label="Go to echolotl's GitHub"
-        >
+            aria-label="Go to echolotl's GitHub">
             <Icon icon="socials/github" :height="iconSize" :width="iconSize" />
         </a>
         <div class="discord-container discord-link" tabindex="0">
@@ -75,19 +66,16 @@
                 class="discord-icon"
                 @click="copyDiscordToClipboard"
                 title="Click to copy Discord username"
-                aria-label="Copy echolotl's Discord username"
-            >
+                aria-label="Copy echolotl's Discord username">
                 <Icon
                     icon="socials/discord"
                     :height="iconSize"
-                    :width="iconSize"
-                />
+                    :width="iconSize" />
             </div>
             <SketchText
                 v-if="showCopiedText"
                 class="copied-text"
-                :class="{ 'float-up': showCopiedText }"
-            >
+                :class="{ 'float-up': showCopiedText }">
                 @echolotl
             </SketchText>
         </div>
@@ -96,8 +84,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link youtube-link"
-            aria-label="Go to echolotl's YouTube channel"
-        >
+            aria-label="Go to echolotl's YouTube channel">
             <Icon icon="socials/youtube" :height="iconSize" :width="iconSize" />
         </a>
         <a
@@ -105,13 +92,11 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link instagram-link"
-            aria-label="Go to echolotl's Instagram"
-        >
+            aria-label="Go to echolotl's Instagram">
             <Icon
                 icon="socials/instagram"
                 :height="iconSize"
-                :width="iconSize"
-            />
+                :width="iconSize" />
         </a>
     </div>
 </template>

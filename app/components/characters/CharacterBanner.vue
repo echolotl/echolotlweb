@@ -5,22 +5,19 @@
                 class="character-banner__texture"
                 :style="{
                     maskImage: `url(/images/characters/${character.slug}/texture.png)`,
-                }"
-            />
+                }" />
             <div class="character-banner__underlay" />
             <div class="character-banner__images">
                 <div
                     class="character-banner__image"
                     :style="{
                         maskImage: `url(/images/characters/${character.slug}/banner.png)`,
-                    }"
-                />
+                    }" />
                 <div
                     class="character-banner__image left"
                     :style="{
                         maskImage: `url(/images/characters/${character.slug}/banner.png)`,
-                    }"
-                />
+                    }" />
             </div>
             <div class="character-banner__title">
                 <h1 class="character-banner__title-image">

@@ -2,12 +2,10 @@
     <div
         style="position: relative; display: flex; justify-content: center"
         class="art-item-container"
-        :style="{ '--filter-url': `url(#${filterId})` }"
-    >
+        :style="{ '--filter-url': `url(#${filterId})` }">
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            style="position: absolute; width: 0; height: 0; overflow: hidden"
-        >
+            style="position: absolute; width: 0; height: 0; overflow: hidden">
             <defs>
                 <filter
                     :id="filterId"
@@ -15,41 +13,35 @@
                     x="-50%"
                     y="-50%"
                     width="200%"
-                    height="200%"
-                >
+                    height="200%">
                     <feTurbulence
                         type="fractalNoise"
                         baseFrequency="0.1"
                         numOctaves="5"
                         result="noise"
-                        :seed="seed"
-                    />
+                        :seed="seed" />
                     <feGaussianBlur
                         in="SourceAlpha"
                         stdDeviation="2"
-                        result="blurred"
-                    />
+                        result="blurred" />
                     <feComponentTransfer in="blurred" result="expanded">
                         <feFuncA type="linear" slope="500" intercept="-5" />
                     </feComponentTransfer>
                     <feFlood
                         flood-color="var(--theme-color, var(--primary))"
-                        result="color"
-                    />
+                        result="color" />
                     <feComposite
                         in="color"
                         in2="expanded"
                         operator="in"
-                        result="border"
-                    />
+                        result="border" />
                     <feDisplacementMap
                         in="border"
                         in2="noise"
                         scale="6"
                         xChannelSelector="A"
                         yChannelSelector="A"
-                        result="sketchBorder"
-                    />
+                        result="sketchBorder" />
                     <feMerge>
                         <feMergeNode in="sketchBorder" />
                         <feMergeNode in="SourceGraphic" />
@@ -60,47 +52,40 @@
         <nuxt-link
             :to="`/art/${artwork.slug}`"
             class="art-item"
-            :aria-label="`View Artwork: ${artwork.title}`"
-        >
+            :aria-label="`View Artwork: ${artwork.title}`">
             <div
                 class="art-item__image"
                 :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`"
-                :title="artwork.title"
-            >
+                :title="artwork.title">
                 <div v-if="showMetadata" class="art-item__metadata">
                     <div
                         v-if="artwork.character && showCharacterBadge"
                         class="art-item__metadata-icon"
-                        title="Character"
-                    >
+                        title="Character">
                         <Icon icon="character" />
                     </div>
                     <div
                         v-if="artwork.pinned"
                         class="art-item__metadata-icon"
-                        title="Pinned"
-                    >
+                        title="Pinned">
                         <Icon icon="pin" />
                     </div>
                     <div
                         v-if="artwork.sketch"
                         class="art-item__metadata-icon"
-                        title="Sketch"
-                    >
+                        title="Sketch">
                         <Icon icon="sketch" />
                     </div>
                     <div
                         v-if="hasVariants"
                         class="art-item__metadata-icon"
-                        title="Has Variants"
-                    >
+                        title="Has Variants">
                         <Icon icon="layers" />
                     </div>
                     <div
                         v-if="hasMultipleImages"
                         class="art-item__metadata-icon"
-                        title="Multiple Images"
-                    >
+                        title="Multiple Images">
                         <Icon icon="images" />
                     </div>
                 </div>

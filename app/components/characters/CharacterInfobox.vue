@@ -10,8 +10,7 @@
             <div class="character-infobox__header">
                 <figure
                     style="text-align: center; margin: 0"
-                    v-if="characterImage[0] == false"
-                >
+                    v-if="characterImage[0] == false">
                     <img
                         :src="characterImage[1]"
                         :alt="character.image_description || character.name"
@@ -19,8 +18,7 @@
                             character.image?.type == 'artwork'
                                 ? navigateTo(`/art/${character.image?.slug}`)
                                 : null
-                        "
-                    />
+                        " />
                     <figcaption style="color: var(--text-secondary)">
                         <i>{{
                             character.image_description ||
@@ -35,8 +33,7 @@
             <hr />
             <div
                 v-if="character.color_palette"
-                class="character-color-palette-container"
-            >
+                class="character-color-palette-container">
                 <Icon
                     :icon="paletteIcon"
                     width="24px"
@@ -44,8 +41,7 @@
                     @mouseenter="isPaletteIconHovered = true"
                     @mouseleave="isPaletteIconHovered = false"
                     @click="openPaletteImage"
-                    style="cursor: pointer"
-                />
+                    style="cursor: pointer" />
                 <div class="character-color-palette">
                     <div
                         v-for="color in character.color_palette"
@@ -62,8 +58,7 @@
                         }"
                         @click="copyColorToClipboard(color)"
                         @mouseenter="hoveredColor = color"
-                        @mouseleave="hoveredColor = null"
-                    ></div>
+                        @mouseleave="hoveredColor = null"></div>
                 </div>
             </div>
             <table class="character-infobox__table">
@@ -121,8 +116,7 @@
                     <tr
                         v-if="
                             character.dislikes && character.dislikes.length > 0
-                        "
-                    >
+                        ">
                         <td class="character-infobox__item-label">
                             <span>Dislikes</span>
                         </td>
@@ -130,8 +124,7 @@
                             <ul class="character-list">
                                 <li
                                     v-for="dislike in character.dislikes"
-                                    :key="dislike"
-                                >
+                                    :key="dislike">
                                     {{ dislike }}
                                 </li>
                             </ul>
@@ -139,8 +132,9 @@
                     </tr>
 
                     <tr
-                        v-if="character.friends && character.friends.length > 0"
-                    >
+                        v-if="
+                            character.friends && character.friends.length > 0
+                        ">
                         <td class="character-infobox__item-label">
                             <span>Friends</span>
                         </td>
@@ -148,8 +142,7 @@
                             <ul class="character-list">
                                 <li
                                     v-for="friend in character.friends"
-                                    :key="friend.slug"
-                                >
+                                    :key="friend.slug">
                                     <NuxtLink
                                         :to="`/characters/${friend.slug}`"
                                         class="character-link"
@@ -161,8 +154,9 @@
                     </tr>
 
                     <tr
-                        v-if="character.enemies && character.enemies.length > 0"
-                    >
+                        v-if="
+                            character.enemies && character.enemies.length > 0
+                        ">
                         <td class="character-infobox__item-label">
                             <span>Enemies</span>
                         </td>
@@ -170,8 +164,7 @@
                             <ul class="character-list">
                                 <li
                                     v-for="enemy in character.enemies"
-                                    :key="enemy.slug"
-                                >
+                                    :key="enemy.slug">
                                     <NuxtLink
                                         :to="`/characters/${enemy.slug}`"
                                         class="character-link"
@@ -191,8 +184,7 @@
                             <Icon
                                 :icon="character.clan.toLowerCase()"
                                 height="24"
-                                class="character-infobox__clan-icon"
-                            />
+                                class="character-infobox__clan-icon" />
                         </td>
                     </tr>
 

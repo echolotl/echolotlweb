@@ -7,8 +7,7 @@
             <h4
                 v-if="title"
                 class="callout__title"
-                :style="{ color: iconColor }"
-            >
+                :style="{ color: iconColor }">
                 {{ title }}
             </h4>
             <div class="callout__body">

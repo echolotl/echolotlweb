@@ -2,12 +2,10 @@
     <div
         :to="`/characters/${props.character.slug}`"
         class="character-card"
-        :style="{ '--filter-url': `url(#${filterId})` }"
-    >
+        :style="{ '--filter-url': `url(#${filterId})` }">
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            style="position: absolute; width: 0; height: 0; overflow: hidden"
-        >
+            style="position: absolute; width: 0; height: 0; overflow: hidden">
             <defs>
                 <filter
                     :id="filterId"
@@ -15,41 +13,35 @@
                     x="-50%"
                     y="-50%"
                     width="200%"
-                    height="200%"
-                >
+                    height="200%">
                     <feTurbulence
                         type="fractalNoise"
                         baseFrequency="0.1"
                         numOctaves="5"
                         result="noise"
-                        :seed="seed"
-                    />
+                        :seed="seed" />
                     <feGaussianBlur
                         in="SourceAlpha"
                         stdDeviation="3"
-                        result="blurred"
-                    />
+                        result="blurred" />
                     <feComponentTransfer in="blurred" result="expanded">
                         <feFuncA type="linear" slope="500" intercept="-5" />
                     </feComponentTransfer>
                     <feFlood
                         flood-color="var(--theme-color, var(--primary))"
-                        result="color"
-                    />
+                        result="color" />
                     <feComposite
                         in="color"
                         in2="expanded"
                         operator="in"
-                        result="border"
-                    />
+                        result="border" />
                     <feDisplacementMap
                         in="border"
                         in2="noise"
                         scale="6"
                         xChannelSelector="A"
                         yChannelSelector="A"
-                        result="sketchBorder"
-                    />
+                        result="sketchBorder" />
                     <feMerge>
                         <feMergeNode in="sketchBorder" />
                         <feMergeNode in="SourceGraphic" />
@@ -59,18 +51,15 @@
         </svg>
         <NuxtLink
             :to="`/characters/${props.character.slug}`"
-            class="character-card__image"
-        >
+            class="character-card__image">
             <div class="character-card__image-bg"></div>
 
             <div
                 class="character-card__image-icon"
-                :style="{ backgroundImage: characterImage }"
-            ></div>
+                :style="{ backgroundImage: characterImage }"></div>
             <div
                 class="character-card__image-icon-hover"
-                :style="{ backgroundImage: characterHoverImage }"
-            ></div>
+                :style="{ backgroundImage: characterHoverImage }"></div>
         </NuxtLink>
         <SketchText class="character-card__name" size="1.5rem">{{
             props.character.name

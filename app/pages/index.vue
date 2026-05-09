@@ -23,8 +23,7 @@
                         'is_playing' in status &&
                         status?.is_playing &&
                         status.item?.type === 'track'
-                    "
-                >
+                    ">
                     <Icon icon="music-note" />
                     <div>
                         Listening to
@@ -59,8 +58,7 @@
                         status != 'error' &&
                         status !== null &&
                         isEcholotlStatus(status)
-                    "
-                >
+                    ">
                     <span
                         v-if="status.emoji"
                         style="

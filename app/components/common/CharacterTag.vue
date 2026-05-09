@@ -4,8 +4,7 @@
             <SketchText
                 v-if="sketchText && character?.name"
                 :text="character.name"
-                class="sketch-text-stroke"
-            />
+                class="sketch-text-stroke" />
             <span v-else-if="character?.name">{{ character.name }}</span>
             <slot v-else></slot>
         </Tag>

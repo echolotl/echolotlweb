@@ -1,8 +1,7 @@
 <template>
     <span
         :class="['tag', `tag--${variant}`, { 'tag--clickable': clickable }]"
-        :style="customStyles"
-    >
+        :style="customStyles">
         <Icon v-if="icon" :icon="icon" :color="iconColor" />
         <slot></slot>
     </span>

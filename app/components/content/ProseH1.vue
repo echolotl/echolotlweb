@@ -3,14 +3,12 @@
         <a v-if="generate" :href="`#${props.id}`">
             <SketchText
                 :text="extractText(slots.default?.()[0])"
-                size="2.5rem"
-            ></SketchText>
+                size="2.5rem"></SketchText>
         </a>
         <SketchText
             v-else
             :text="extractText(slots.default?.()[0])"
-            size="2.5rem"
-        ></SketchText>
+            size="2.5rem"></SketchText>
     </h1>
 </template>
 

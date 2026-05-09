@@ -2,8 +2,7 @@
     <nuxt-link
         :to="`/characters/${slug}`"
         class="link character-link"
-        :class="{ 'character-link--sketch': sketchText }"
-    >
+        :class="{ 'character-link--sketch': sketchText }">
         <template v-if="sketchText">
             <SketchText v-if="$slots.default">
                 <slot></slot>

@@ -2,8 +2,7 @@
     <div
         v-if="character"
         class="character-page"
-        :style="{ '--theme-color': themeColor }"
-    >
+        :style="{ '--theme-color': themeColor }">
         <CharacterBanner :character="character" />
         <div class="character-content">
             <div class="character-main-content">
@@ -14,8 +13,7 @@
                 <content-renderer
                     :value="character"
                     class="character-text"
-                    prose
-                />
+                    prose />
             </div>
         </div>
         <div class="character-images">
@@ -26,14 +24,12 @@
             <ArtGrid
                 v-if="characterArtworks && characterArtworks.length > 0"
                 :artworks="characterArtworks"
-                show-metadata
-            />
+                show-metadata />
             <div v-else class="no-artwork">
                 <p>No artwork found for this character yet.</p>
             </div>
             <SplashText
-                v-if="characterArtworks && characterArtworks.length > 0"
-            />
+                v-if="characterArtworks && characterArtworks.length > 0" />
         </div>
     </div>
 </template>

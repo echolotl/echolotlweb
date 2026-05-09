@@ -5,8 +5,7 @@
             :key="artwork.slug"
             :artwork="artwork"
             :show-metadata="showMetadata"
-            :show-character-badge="showCharacterBadge"
-        />
+            :show-character-badge="showCharacterBadge" />
     </div>
 </template>
 

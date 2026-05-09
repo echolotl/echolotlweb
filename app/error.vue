@@ -34,19 +34,16 @@ const handleError = () => {
                         }"
                         :alt="`Error ${error?.statusCode}`"
                         width="300"
-                        height="200"
-                    />
+                        height="200" />
                     <SketchText
                         size="2rem"
-                        style="color: var(--primary); margin-top: 0.5rem"
-                    >
+                        style="color: var(--primary); margin-top: 0.5rem">
                         {{ error?.message || "An unexpected error occurred." }}
                     </SketchText>
                     <button @click="handleError" class="clear-error-button">
                         <Icon
                             icon="back-arrow"
-                            style="margin-right: 0.5rem"
-                        />BACK
+                            style="margin-right: 0.5rem" />BACK
                     </button>
                 </div>
             </div>
@@ -54,8 +51,7 @@ const handleError = () => {
                 class="funny-little-guys"
                 :style="{
                     maskImage: `url('/images/error/${selectedChar}.webp')`,
-                }"
-            ></div>
+                }"></div>
         </NuxtLayout>
     </div>
 </template>

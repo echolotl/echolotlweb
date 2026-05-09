@@ -5,8 +5,7 @@
         :class="{ invert: props.invert }"
         class="icon"
         role="img"
-        :aria-label="props.alt"
-    />
+        :aria-label="props.alt" />
 </template>
 
 <script setup lang="ts">

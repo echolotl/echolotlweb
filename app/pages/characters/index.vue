@@ -9,8 +9,7 @@
             <div
                 v-for="(characters, category) in charactersCategories"
                 :key="category"
-                class="category"
-            >
+                class="category">
                 <h2 class="section-title" style="transform: translateY(2px)">
                     <SketchText size="1.5rem">{{ category }}</SketchText>
                 </h2>
@@ -26,8 +25,7 @@
                         v-for="character in characters"
                         :key="character.slug"
                         :character="character"
-                        class="character-card"
-                    />
+                        class="character-card" />
                 </div>
             </div>
         </div>

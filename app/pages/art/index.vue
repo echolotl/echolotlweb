@@ -25,8 +25,7 @@
                     class="button--chip"
                     :class="{ active: filters.sketches }"
                     @click="toggleFilter('sketches')"
-                    :aria-pressed="filters.sketches"
-                >
+                    :aria-pressed="filters.sketches">
                     <Icon icon="sketch" />
                     <span>Sketches</span>
                 </button>
@@ -34,8 +33,7 @@
                     class="button--chip"
                     :class="{ active: filters.characterArt }"
                     @click="toggleFilter('characterArt')"
-                    :aria-pressed="filters.characterArt"
-                >
+                    :aria-pressed="filters.characterArt">
                     <Icon icon="character" />
                     <span>Character Art</span>
                 </button>
@@ -43,8 +41,7 @@
                     class="button--chip"
                     :class="{ active: filters.generalArt }"
                     @click="toggleFilter('generalArt')"
-                    :aria-pressed="filters.generalArt"
-                >
+                    :aria-pressed="filters.generalArt">
                     <Icon icon="art" />
                     <span>General Art</span>
                 </button>
@@ -53,8 +50,7 @@
         <ArtGrid
             :artworks="filteredArtworks"
             show-metadata
-            show-character-badge
-        />
+            show-character-badge />
         <SplashText />
     </div>
 </template>

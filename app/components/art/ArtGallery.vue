@@ -4,8 +4,7 @@
         v-if="art.images && art.images.length"
         @keydown="onKey"
         tabindex="0"
-        ref="galleryRoot"
-    >
+        ref="galleryRoot">
         <div class="viewer-container">
             <div class="viewer">
                 <div class="image-wrapper">
@@ -17,14 +16,12 @@
                         :height="activeImageDimensions.height"
                         class="hero"
                         :data-index="currentImageIndex"
-                        :data-variant="currentVariantIndex ?? 'base'"
-                    />
+                        :data-variant="currentVariantIndex ?? 'base'" />
                     <div v-else class="placeholder">
                         <Icon
                             icon="loading"
                             width="3rem"
-                            height="3rem"
-                        />Loading...
+                            height="3rem" />Loading...
                     </div>
                 </div>
             </div>
@@ -33,15 +30,13 @@
         <!-- Variant selector for current base image -->
         <div
             v-if="currentImage?.variants && currentImage.variants.length"
-            class="variants"
-        >
+            class="variants">
             <div class="variants__list">
                 <Icon icon="layers" />
                 <button
                     class="button--chip"
                     :class="{ active: currentVariantIndex === null }"
-                    @click="currentVariantIndex = null"
-                >
+                    @click="currentVariantIndex = null">
                     Original
                 </button>
                 <button
@@ -49,8 +44,7 @@
                     :key="vIndex"
                     class="button--chip"
                     :class="{ active: currentVariantIndex === vIndex }"
-                    @click="selectVariant(vIndex)"
-                >
+                    @click="selectVariant(vIndex)">
                     {{ variant.label || "Alt " + (vIndex + 1) }}
                 </button>
             </div>
@@ -64,20 +58,17 @@
                     :key="index"
                     class="selector-dot"
                     :class="{ active: currentImageIndex === index }"
-                    @click="selectImage(index)"
-                ></button>
+                    @click="selectImage(index)"></button>
             </div>
             <div class="selector__label">
                 <button
                     class="button--nav prev"
                     @click="prevImage"
                     aria-label="Previous image"
-                    style="border-radius: 100%"
-                >
+                    style="border-radius: 100%">
                     <Icon
                         icon="small-arrow"
-                        style="transform: rotate(180deg)"
-                    />
+                        style="transform: rotate(180deg)" />
                 </button>
                 <Icon icon="images" /> {{ currentImageIndex + 1 }} /
                 {{ art.images.length }}
@@ -85,8 +76,7 @@
                     class="button--nav next"
                     @click="nextImage"
                     aria-label="Next image"
-                    style="border-radius: 100%"
-                >
+                    style="border-radius: 100%">
                     <Icon icon="small-arrow" />
                 </button>
             </div>
@@ -101,8 +91,7 @@
             "
             :href="activeSource?.image_url"
             target="_blank"
-            rel="noopener noreferrer"
-        >
+            rel="noopener noreferrer">
             {{ activeSource?.image_url.split("/").pop() || "Untitled Image" }}
             <Icon icon="open-in-new" />
         </a>

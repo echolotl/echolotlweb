@@ -3,8 +3,7 @@
         <div class="art-header">
             <h1
                 class="large-title"
-                style="margin-bottom: 0rem; line-height: 1.2"
-            >
+                style="margin-bottom: 0rem; line-height: 1.2">
                 <SketchText size="3rem">{{ art.title }}</SketchText>
             </h1>
 
@@ -18,8 +17,7 @@
                         v-if="art.tags && art.tags.length > 0"
                         icon="tag"
                         :items="art.tags"
-                        class="art-meta__tag-list"
-                    >
+                        class="art-meta__tag-list">
                         <Tag v-for="tag in art.tags" :key="tag">
                             {{ tag }}
                         </Tag>
@@ -35,19 +33,16 @@
                         :items="
                             art.related_characters ||
                             [art.character].filter(Boolean)
-                        "
-                    >
+                        ">
                         <CharacterTag
                             v-if="art.character"
                             :slug="art.character"
-                            sketch-text
-                        />
+                            sketch-text />
                         <CharacterTag
                             v-for="character in art.related_characters"
                             :key="character"
                             :slug="character"
-                            sketch-text
-                        />
+                            sketch-text />
                     </TagList>
                     <div v-if="art.created_at" class="art-meta__section">
                         <Icon icon="date" color="var(--text-secondary)" />
@@ -66,19 +61,16 @@
                     <Icon
                         v-if="art.character"
                         icon="character"
-                        color="var(--primary)"
-                    />
+                        color="var(--primary)" />
                     <Icon v-if="art.pinned" icon="pin" color="var(--primary)" />
                     <Icon
                         v-if="art.sketch"
                         icon="sketch"
-                        color="var(--primary)"
-                    />
+                        color="var(--primary)" />
                     <Icon
                         v-if="art.images.length > 1"
                         icon="images"
-                        color="var(--primary)"
-                    />
+                        color="var(--primary)" />
                 </div>
             </div>
             <hr style="margin-top: 0.5rem" />
