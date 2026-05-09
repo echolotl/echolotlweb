@@ -18,7 +18,11 @@
                         icon="tag"
                         :items="art.tags"
                         class="art-meta__tag-list">
-                        <Tag v-for="tag in art.tags" :key="tag">
+                        <Tag
+                            v-for="tag in art.tags"
+                            :key="tag"
+                            clickable
+                            @click="goToArtWithTag(tag)">
                             {{ tag }}
                         </Tag>
                     </TagList>
@@ -91,6 +95,11 @@ import SketchText from "~/components/common/SketchText.vue";
 import { micromark } from "micromark";
 
 const route = useRoute();
+const router = useRouter();
+
+function goToArtWithTag(tag: string) {
+    router.push({ path: "/art", query: { tags: tag } });
+}
 
 const parsedDescription = computed(() => {
     return art.value?.description ? micromark(art.value.description) : "";

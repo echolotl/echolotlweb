@@ -143,15 +143,66 @@ interface Filters {
     tags: string[];
 }
 
+const route = useRoute();
+const router = useRouter();
+
+// Boolean filters are encoded into the query parameters using a bitmask as follows:
+// sketches, characterArt, generalArt, gallery, variants
+const FILTER_BITS: Array<keyof Omit<Filters, "title" | "tags">> = [
+    "sketches",
+    "characterArt",
+    "generalArt",
+    "gallery",
+    "variants",
+];
+
+function parseQueryTags(raw: string | string[] | undefined): string[] {
+    if (!raw) return [];
+    const str = (Array.isArray(raw) ? raw[0] : raw) ?? "";
+    return str
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+}
+
+function decodeBitmask(raw: string | string[] | undefined): Partial<Filters> {
+    const num = parseInt((Array.isArray(raw) ? raw[0] : raw) ?? "0", 10);
+    if (isNaN(num) || num === 0) return {};
+    return Object.fromEntries(
+        FILTER_BITS.map((key, i) => [key, Boolean(num & (1 << i))]),
+    );
+}
+
+function encodeBitmask(val: Filters): number {
+    return FILTER_BITS.reduce(
+        (acc, key, i) => acc | (val[key] ? 1 << i : 0),
+        0,
+    );
+}
+
 const filters = ref<Filters>({
-    title: "",
+    title: typeof route.query.title === "string" ? route.query.title : "",
     sketches: false,
     characterArt: false,
     generalArt: false,
     gallery: false,
     variants: false,
-    tags: [] as string[],
+    tags: parseQueryTags(route.query.tags as string | undefined),
+    ...decodeBitmask(route.query.f as string | undefined),
 });
+
+watch(
+    filters,
+    (val) => {
+        const query: Record<string, string> = {};
+        if (val.title) query.title = val.title;
+        if (val.tags.length > 0) query.tags = val.tags.join(",");
+        const bitmask = encodeBitmask(val);
+        if (bitmask !== 0) query.f = String(bitmask);
+        router.replace({ query });
+    },
+    { deep: true },
+);
 
 const tagInput = ref("");
 const tagDropdownOpen = ref(false);
