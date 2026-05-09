@@ -20,33 +20,91 @@
                     <SketchText size="1.2em">All</SketchText>
                 </h2>
             </div>
-            <div class="filter-chips" aria-label="Artwork filters">
-                <button
-                    class="button--chip"
-                    :class="{ active: filters.sketches }"
-                    @click="toggleFilter('sketches')"
-                    :aria-pressed="filters.sketches">
-                    <Icon icon="sketch" />
-                    <span>Sketches</span>
-                </button>
-                <button
-                    class="button--chip"
-                    :class="{ active: filters.characterArt }"
-                    @click="toggleFilter('characterArt')"
-                    :aria-pressed="filters.characterArt">
-                    <Icon icon="character" />
-                    <span>Character Art</span>
-                </button>
-                <button
-                    class="button--chip"
-                    :class="{ active: filters.generalArt }"
-                    @click="toggleFilter('generalArt')"
-                    :aria-pressed="filters.generalArt">
-                    <Icon icon="art" />
-                    <span>General Art</span>
-                </button>
+            <button id="filter-button" popovertarget="filter-popover">
+                <Icon icon="filter" />
+            </button>
+            <div id="filter-popover" popover="auto" anchor="filter-button">
+                <div>
+                    <fieldset>
+                        <label>
+                            <input
+                                type="checkbox"
+                                v-model="filters.generalArt" />
+                            General
+                            <Icon icon="art" />
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                v-model="filters.characterArt" />
+                            Character
+                            <Icon icon="character" />
+                        </label>
+                    </fieldset>
+                    <hr />
+                    <fieldset>
+                        <legend>METADATA</legend>
+                        <label>
+                            <input type="checkbox" v-model="filters.sketches" />
+                            Sketches
+                            <Icon icon="sketch" />
+                        </label>
+                        <label>
+                            <input type="checkbox" v-model="filters.gallery" />
+                            Gallery
+                            <Icon icon="images" />
+                        </label>
+                        <label>
+                            <input type="checkbox" v-model="filters.variants" />
+                            Variants
+                            <Icon icon="layers" />
+                        </label>
+                        <div class="tag-filter-input">
+                            <div class="tag-search-wrapper">
+                                <input
+                                    type="text"
+                                    v-model="tagInput"
+                                    placeholder="Search tags..."
+                                    @focus="tagDropdownOpen = true"
+                                    @blur="onTagInputBlur"
+                                    autocomplete="off" />
+                                <Icon icon="tag" style="margin-right: 0.5rem" />
+                            </div>
+                            <div
+                                v-if="filters.tags.length > 0"
+                                class="tag-filter-chips">
+                                <span
+                                    v-for="tag in filters.tags"
+                                    :key="tag"
+                                    class="tag-chip"
+                                    @click="removeTag(tag)"
+                                    >{{ tag }} &times;</span
+                                >
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div v-if="tagDropdownOpen" class="tag-suggestions-scroll">
+                    <ul
+                        v-if="tagSuggestions.length > 0"
+                        class="tag-suggestions">
+                        <li
+                            v-for="tag in tagSuggestions"
+                            :key="tag"
+                            @mousedown.prevent="addTag(tag)">
+                            {{ tag }}
+                        </li>
+                    </ul>
+                    <div
+                        v-else
+                        v-if="tagInput.trim() !== ''"
+                        style="color: var(--text-secondary)">
+                        No matching tags found.
+                    </div>
+                </div>
             </div>
         </div>
+
         <ArtGrid
             :artworks="filteredArtworks"
             show-metadata
@@ -62,11 +120,60 @@ import SketchText from "~/components/common/SketchText.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 
-const filters = ref({
+interface Filters {
+    sketches: boolean;
+    characterArt: boolean;
+    generalArt: boolean;
+    gallery: boolean;
+    variants: boolean;
+    tags: string[];
+}
+
+const filters = ref<Filters>({
     sketches: false,
     characterArt: false,
     generalArt: false,
+    gallery: false,
+    variants: false,
+    tags: [] as string[],
 });
+
+const tagInput = ref("");
+const tagDropdownOpen = ref(false);
+
+const allKnownTags = computed(() => {
+    const tagSet = new Set<string>();
+    for (const artwork of allArtworks.value || []) {
+        for (const tag of artwork.tags || []) {
+            tagSet.add(tag);
+        }
+    }
+    return [...tagSet].sort();
+});
+
+const tagSuggestions = computed(() => {
+    const search = tagInput.value.trim().toLowerCase();
+    return allKnownTags.value.filter(
+        (tag) =>
+            !filters.value.tags.includes(tag) &&
+            (search === "" || tag.toLowerCase().includes(search)),
+    );
+});
+
+function addTag(tag: string) {
+    if (!filters.value.tags.includes(tag)) {
+        filters.value.tags.push(tag);
+    }
+    tagInput.value = "";
+}
+
+function removeTag(tag: string) {
+    filters.value.tags = filters.value.tags.filter((t) => t !== tag);
+}
+
+function onTagInputBlur() {
+    tagDropdownOpen.value = false;
+}
 
 const { data: pinnedArtworks } = await useAsyncData("pinned-art", () =>
     getPinnedArtworks(),
@@ -81,54 +188,52 @@ const allRegularArtworks = ref(
 );
 
 const filteredArtworks = computed(() => {
-    const nonPinnedArtworks = allRegularArtworks.value;
-
-    return nonPinnedArtworks.filter((artwork) => {
-        // If no filters are active, show all non-pinned
+    return allRegularArtworks.value.filter((artwork) => {
         if (
             !filters.value.sketches &&
             !filters.value.characterArt &&
-            !filters.value.generalArt
+            !filters.value.generalArt &&
+            !filters.value.gallery &&
+            !filters.value.variants &&
+            filters.value.tags.length === 0
         ) {
             return true;
         }
 
-        let showArtwork = false;
-
-        // Sketch/WIP filter
         if (filters.value.sketches && artwork.sketch) {
-            showArtwork = true;
-        }
-
-        // Character art filter
-        if (
+            return true;
+        } else if (
             filters.value.characterArt &&
             (artwork.character ||
                 (artwork.related_characters &&
                     artwork.related_characters.length > 0))
         ) {
-            showArtwork = true;
-        }
-
-        // General art filter
-        if (
+            return true;
+        } else if (
             filters.value.generalArt &&
             !artwork.character &&
-            (!artwork.related_characters ||
-                artwork.related_characters.length === 0)
+            !artwork.related_characters?.length
         ) {
-            showArtwork = true;
+            return true;
+        } else if (filters.value.gallery && artwork.images.length > 1) {
+            return true;
+        } else if (
+            filters.value.variants &&
+            artwork.images.some(
+                (img) => img.variants && img.variants.length > 0,
+            )
+        ) {
+            return true;
+        } else if (
+            filters.value.tags.length > 0 &&
+            filters.value.tags.some((tag) => artwork.tags?.includes(tag))
+        ) {
+            return true;
         }
 
-        return showArtwork;
+        return false;
     });
 });
-
-const toggleFilter = (
-    filterName: "sketches" | "characterArt" | "generalArt",
-) => {
-    filters.value[filterName] = !filters.value[filterName];
-};
 
 useSeoMeta({
     title: "Art Archive",
@@ -162,23 +267,176 @@ useSeoMeta({
     background-color: var(--text);
 }
 
-.filter-container {
-    position: relative;
-}
-
-.filter-chips {
+#filter-button {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    max-width: 100%;
-    @media (max-width: 700px) {
-        justify-content: center;
-        margin-top: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    padding: 0.1rem 0.5rem;
+    cursor: pointer;
+    font-size: var(--base-text);
+    color: var(--text-secondary);
+    &:hover {
+        background-color: var(--foreground);
     }
 }
 
-/* Filter chips now use .button--chip class from main.scss */
+#filter-popover:popover-open {
+    position: absolute;
+    display: flex;
+    position-area: bottom span-x-start;
+    margin: 0.25rem 0;
+    border: none;
+    padding: 0;
+    background: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    > div {
+        border: 1px solid var(--distant);
+        background: var(--surface);
+        padding: 0.5rem;
+        width: 200px;
+        inset: auto;
+        border-radius: 6px;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    fieldset {
+        border: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        align-items: flex-start;
+
+        legend {
+            margin-bottom: 0.25rem;
+            font-size: var(--small-text);
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+        label {
+            display: flex;
+            width: calc(100% - 1rem);
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text);
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            &:has(input[type="checkbox"]) {
+                cursor: pointer;
+            }
+
+            &:hover {
+                transition: background-color 0s;
+                background-color: var(--foreground);
+            }
+
+            &:has(input[type="checkbox"]:checked) {
+                background-color: var(--primary);
+                color: var(--background);
+            }
+        }
+
+        .tag-filter-input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.25rem 0;
+        }
+
+        .tag-search-wrapper {
+            position: relative;
+            width: 100%;
+            color: var(--text);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+
+            input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                background: var(--background);
+                border: 1px solid var(--distant);
+                border-radius: 4px;
+                padding: 0.25rem 0.5rem;
+                font-size: var(--small-text);
+                font-family: inherit;
+                color: var(--text);
+                outline: none;
+
+                &:focus {
+                    border-color: var(--primary);
+                }
+
+                &::placeholder {
+                    color: var(--text-secondary);
+                }
+            }
+        }
+
+        .tag-filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            background: var(--primary);
+            color: var(--background);
+            border-radius: 4px;
+            padding: 0.1rem 0.4rem;
+            font-size: var(--small-text);
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.tag-suggestions-scroll {
+    max-height: 100px;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-padding: 0.3rem;
+}
+
+.tag-suggestions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+        padding: 0.25rem 0.5rem;
+        font-size: var(--small-text);
+        color: var(--text);
+        cursor: pointer;
+        text-align: left;
+        border-radius: 4px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+
+        &:hover {
+            background: var(--foreground);
+        }
+    }
+}
 
 .loading {
     text-align: center;
