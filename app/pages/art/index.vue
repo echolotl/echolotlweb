@@ -127,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { getArtworks, getPinnedArtworks } from "#imports";
+import { getArtworks } from "#imports";
 import Icon from "~/components/common/Icon.vue";
 import SketchText from "~/components/common/SketchText.vue";
 import SplashText from "~/components/common/SplashText.vue";
@@ -190,14 +190,13 @@ function onTagInputBlur() {
     tagDropdownOpen.value = false;
 }
 
-const { data: pinnedArtworks } = await useAsyncData("pinned-art", () =>
-    getPinnedArtworks(),
-);
 const { data: allArtworks } = await useAsyncData("all-art", () =>
     getArtworks(),
 );
 
-const allPinnedArtworks = ref(pinnedArtworks.value || []);
+const allPinnedArtworks = ref(
+    (allArtworks.value || []).filter((artwork) => artwork.pinned),
+);
 const allRegularArtworks = ref(
     (allArtworks.value || []).filter((artwork) => !artwork.pinned),
 );
