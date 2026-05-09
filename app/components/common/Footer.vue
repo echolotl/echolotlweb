@@ -57,7 +57,6 @@ import SocialIcons from "~/components/common/SocialIcons.vue";
 import Icon from "~/components/common/Icon.vue";
 
 const rtc = useRuntimeConfig();
-console.log(rtc.public);
 </script>
 
 <style scoped lang="scss">

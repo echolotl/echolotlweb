@@ -104,8 +104,6 @@ const charactersCategories = computed(() => {
     return categories;
 });
 
-console.log(charactersCategories.value);
-
 const hardcodedCategoryDescriptions: Record<string, string> = {
     Talrien: "Something something lore",
     Sonas: "Characters created for (and by) echolotl as representations of themselves",

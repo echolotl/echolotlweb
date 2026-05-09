@@ -131,8 +131,6 @@ const copyDiscordToClipboard = async () => {
         setTimeout(() => {
             showCopiedText.value = false;
         }, 2000);
-
-        console.log("Discord username copied to clipboard!");
     } catch (err) {
         console.error("Failed to copy to clipboard:", err);
     }

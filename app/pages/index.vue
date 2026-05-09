@@ -204,7 +204,6 @@ const fetchEcholotlStatus: () => Promise<EcholotlStatus | null> = async () => {
     try {
         const data = await fetch(`${BACKEND_URL}/status`);
         if (data.status === 204) {
-            console.warn("No Echolotl status available.");
             return null;
         } else if (!data.ok) {
             throw new Error(`HTTP error! status: ${data.status}`);

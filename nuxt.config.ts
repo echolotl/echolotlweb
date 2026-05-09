@@ -157,4 +157,9 @@ export default defineNuxtConfig({
             import("./scripts/thumbnails");
         },
     },
+    vite: {
+        optimizeDeps: {
+            include: ["@vercel/analytics/nuxt", "@vercel/speed-insights/nuxt"],
+        },
+    },
 });
