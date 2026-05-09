@@ -26,6 +26,7 @@
             <div id="filter-popover" popover="auto" anchor="filter-button">
                 <div>
                     <fieldset>
+                        <legend>FILTERS</legend>
                         <label>
                             <input
                                 type="checkbox"
@@ -51,20 +52,32 @@
                         </label>
                         <label>
                             <input type="checkbox" v-model="filters.gallery" />
-                            Gallery
+                            Has Gallery
                             <Icon icon="images" />
                         </label>
                         <label>
                             <input type="checkbox" v-model="filters.variants" />
-                            Variants
+                            Has Variants
                             <Icon icon="layers" />
                         </label>
-                        <div class="tag-filter-input">
-                            <div class="tag-search-wrapper">
+
+                        <div class="search-section">
+                            <hr />
+                            <div class="search-wrapper">
+                                <input
+                                    type="text"
+                                    v-model="filters.title"
+                                    placeholder="Search by name..."
+                                    autocomplete="off" />
+                                <Icon
+                                    icon="search"
+                                    style="margin-right: 0.5rem" />
+                            </div>
+                            <div class="search-wrapper">
                                 <input
                                     type="text"
                                     v-model="tagInput"
-                                    placeholder="Search tags..."
+                                    placeholder="Search by tag..."
                                     @focus="tagDropdownOpen = true"
                                     @blur="onTagInputBlur"
                                     autocomplete="off" />
@@ -121,6 +134,7 @@ import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 
 interface Filters {
+    title: string;
     sketches: boolean;
     characterArt: boolean;
     generalArt: boolean;
@@ -130,6 +144,7 @@ interface Filters {
 }
 
 const filters = ref<Filters>({
+    title: "",
     sketches: false,
     characterArt: false,
     generalArt: false,
@@ -189,49 +204,51 @@ const allRegularArtworks = ref(
 
 const filteredArtworks = computed(() => {
     return allRegularArtworks.value.filter((artwork) => {
-        if (
-            !filters.value.sketches &&
-            !filters.value.characterArt &&
-            !filters.value.generalArt &&
-            !filters.value.gallery &&
-            !filters.value.variants &&
-            filters.value.tags.length === 0
-        ) {
-            return true;
+        const titleSearch = filters.value.title.trim().toLowerCase();
+        if (titleSearch && !artwork.title.toLowerCase().includes(titleSearch)) {
+            return false;
         }
 
-        if (filters.value.sketches && artwork.sketch) {
-            return true;
-        } else if (
+        if (filters.value.sketches && !artwork.sketch) {
+            return false;
+        }
+
+        if (
             filters.value.characterArt &&
-            (artwork.character ||
-                (artwork.related_characters &&
-                    artwork.related_characters.length > 0))
-        ) {
-            return true;
-        } else if (
-            filters.value.generalArt &&
             !artwork.character &&
             !artwork.related_characters?.length
         ) {
-            return true;
-        } else if (filters.value.gallery && artwork.images.length > 1) {
-            return true;
-        } else if (
+            return false;
+        }
+
+        if (
+            filters.value.generalArt &&
+            (artwork.character || artwork.related_characters?.length)
+        ) {
+            return false;
+        }
+
+        if (filters.value.gallery && artwork.images.length <= 1) {
+            return false;
+        }
+
+        if (
             filters.value.variants &&
-            artwork.images.some(
+            !artwork.images.some(
                 (img) => img.variants && img.variants.length > 0,
             )
         ) {
-            return true;
-        } else if (
-            filters.value.tags.length > 0 &&
-            filters.value.tags.some((tag) => artwork.tags?.includes(tag))
-        ) {
-            return true;
+            return false;
         }
 
-        return false;
+        if (
+            filters.value.tags.length > 0 &&
+            !filters.value.tags.every((tag) => artwork.tags?.includes(tag))
+        ) {
+            return false;
+        }
+
+        return true;
     });
 });
 
@@ -300,7 +317,7 @@ useSeoMeta({
         width: 200px;
         inset: auto;
         border-radius: 6px;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
 
     fieldset {
@@ -347,22 +364,23 @@ useSeoMeta({
             }
         }
 
-        .tag-filter-input {
-            width: 100%;
+        .search-section {
+            hr {
+                margin: 0.25rem 0;
+            }
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
-            padding: 0.25rem 0;
         }
 
-        .tag-search-wrapper {
+        .search-wrapper {
             position: relative;
             width: 100%;
             color: var(--text);
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
 
             input[type="text"] {
                 width: 100%;
