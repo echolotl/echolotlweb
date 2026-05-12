@@ -9,9 +9,10 @@
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
         "format": "prettier --write .",
-        "thumbnails": "bun scripts/thumbnails.ts --log",
-        "art": "bun scripts/add-art.ts",
-        "palettes": "bun scripts/generate-palettes.ts --log"
+        "thumbnails": "tsx scripts/thumbnails.ts --log",
+        "art": "tsx scripts/artcli.ts",
+        "art-old": "tsx scripts/add-art.old.ts",
+        "palettes": "tsx scripts/generate-palettes.ts --log"
     },
     "dependencies": {
         "@nuxt/content": "^3.13.0",

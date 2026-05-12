@@ -28,7 +28,7 @@ export async function generateThumbnail(
         .webp({ quality: 100 })
         .toFile(thumbnailPath);
 
-    Logger.log(`Generated thumbnail: ${thumbnailPath}`);
+    Logger.info(`Generated thumbnail: ${Logger.inlineBold(thumbnailPath)}`);
 }
 
 const PUBLIC_ART_DIR = "public/art";
@@ -105,7 +105,7 @@ async function updateYamlThumbnailUrl(
 
         if (!yamlPath) {
             if (!miniLog) {
-                Logger.warning(`No YAML file found for image: ${imagePath}`);
+                Logger.warning(`No YAML file found for image: ${Logger.inlineBold(imagePath)}`);
             }
             return false;
         }
@@ -115,7 +115,7 @@ async function updateYamlThumbnailUrl(
 
         if (!data || !data.thumbnail_url) {
             if (!miniLog) {
-                Logger.warning(`No thumbnail_url field in: ${yamlPath}`);
+                Logger.warning(`No thumbnail_url field in: ${Logger.inlineBold(yamlPath)}`);
             }
             return false;
         }
@@ -198,12 +198,12 @@ async function updateYamlThumbnailUrl(
 
         writeFileSync(yamlPath, updatedYaml, "utf8");
         if (!miniLog) {
-            Logger.success(`Updated YAML: ${yamlPath} -> ${newThumbnailUrl}`);
+            Logger.success(`Updated YAML: ${Logger.inlineBold(yamlPath)} -> ${Logger.inlineBold(newThumbnailUrl)}`);
         }
         return true;
     } catch (error) {
         if (!miniLog) {
-            Logger.error(`Failed to update YAML for ${imagePath}: ${error}`);
+            Logger.error(`Failed to update YAML for ${Logger.inlineBold(imagePath)}: ${error}`);
         }
         return false;
     }
@@ -217,12 +217,12 @@ async function createThumbnail(
     try {
         await generateThumbnail(inputPath, outputPath);
         if (!miniLog) {
-            Logger.success(`Created thumbnail: ${outputPath}`);
+            Logger.success(`Created thumbnail: ${Logger.inlineBold(outputPath)}`);
         }
     } catch (error) {
         if (!miniLog) {
             Logger.error(
-                `Failed to create thumbnail for ${inputPath}: ${error}`,
+                `Failed to create thumbnail for ${Logger.inlineBold(inputPath)}: ${error}`,
             );
         }
         throw error;
@@ -323,7 +323,7 @@ async function regenerateAllThumbnails(
             // Check if file exists and is accessible
             if (!existsSync(imagePath)) {
                 if (!miniLog) {
-                    Logger.error(`File not found: ${imagePath}`);
+                    Logger.error(`File not found: ${Logger.inlineBold(imagePath)}`);
                 }
                 errors++;
                 continue;
@@ -332,7 +332,7 @@ async function regenerateAllThumbnails(
             const stat = statSync(imagePath);
             if (!stat.isFile()) {
                 if (!miniLog) {
-                    Logger.error(`Not a file: ${imagePath}`);
+                    Logger.error(`Not a file: ${Logger.inlineBold(imagePath)}`);
                 }
                 errors++;
                 continue;
@@ -343,7 +343,7 @@ async function regenerateAllThumbnails(
             // Double-check supported format
             if (!SUPPORTED_EXTENSIONS.includes(ext)) {
                 if (!miniLog) {
-                    Logger.error(`Unsupported format: ${imagePath}`);
+                    Logger.error(`Unsupported format: ${Logger.inlineBold(imagePath)}`);
                 }
                 errors++;
                 continue;
@@ -353,7 +353,7 @@ async function regenerateAllThumbnails(
             const fileName = basename(imagePath);
             if (fileName.startsWith("thumb_")) {
                 if (!miniLog) {
-                    Logger.dim(`Skipping thumbnail file: ${imagePath}`);
+                    Logger.dim(`Skipping thumbnail file: ${Logger.inlineBold(imagePath)}`);
                 }
                 skipped++;
                 continue;
@@ -366,7 +366,7 @@ async function regenerateAllThumbnails(
                 mkdirSync(thumbnailDir, { recursive: true });
                 if (!miniLog) {
                     Logger.success(
-                        `Created thumbnails directory: ${thumbnailDir}`,
+                        `Created thumbnails directory: ${Logger.inlineBold(thumbnailDir)}`,
                     );
                 }
             }
@@ -382,7 +382,7 @@ async function regenerateAllThumbnails(
 
                 if (thumbnailStat.mtime >= originalStat.mtime) {
                     if (!miniLog) {
-                        Logger.dim(`Thumbnail is up-to-date: ${thumbnailPath}`);
+                        Logger.dim(`Thumbnail is up-to-date: ${Logger.inlineBold(thumbnailPath)}`);
                     }
                     skipped++;
                     continue;
@@ -404,7 +404,7 @@ async function regenerateAllThumbnails(
         } catch (error) {
             errors++;
             if (!miniLog) {
-                Logger.error(`Error processing ${imagePath}: ${error}`);
+                Logger.error(`Error processing ${Logger.inlineBold(imagePath)}: ${error}`);
             }
         }
     }

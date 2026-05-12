@@ -35,4 +35,19 @@ export class Logger {
         const b = parseInt(color.slice(5, 7), 16);
         this.rgb(r, g, b, message);
     }
+    static inlineBold(message: string) {
+        return `\x1b[1m${message}\x1b[0m`;
+    }
+    static inlineDim(message: string) {
+        return `\x1b[2m${message}\x1b[0m`;
+    }
+    static inlineUnderline(message: string) {
+        return `\x1b[4m${message}\x1b[0m`;
+    }
+    static inlineColor(color: string, message: string) {
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        return `\x1b[38;2;${r};${g};${b}m${message}\x1b[0m`;
+    }
 }
