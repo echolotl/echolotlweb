@@ -22,10 +22,10 @@
                         :seed="seed" />
                     <feGaussianBlur
                         in="SourceAlpha"
-                        stdDeviation="3"
+                        stdDeviation="1.5"
                         result="blurred" />
                     <feComponentTransfer in="blurred" result="expanded">
-                        <feFuncA type="linear" slope="500" intercept="-5" />
+                        <feFuncA type="linear" slope="500" intercept="-6" />
                     </feComponentTransfer>
                     <feFlood
                         flood-color="var(--theme-color, var(--primary))"

@@ -157,6 +157,11 @@ export default defineNuxtConfig({
             import("./scripts/thumbnails");
         },
     },
+    alias: {
+        "@common": resolve(__dirname, "app/components/common"),
+        "@art": resolve(__dirname, "app/components/art"),
+        "@characters": resolve(__dirname, "app/components/characters"),
+    },
     vite: {
         optimizeDeps: {
             include: ["@vercel/analytics/nuxt", "@vercel/speed-insights/nuxt"],

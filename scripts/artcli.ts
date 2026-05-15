@@ -41,10 +41,12 @@ async function validateImage(path: string): Promise<boolean> {
 }
 
 async function copyImage(source: string, destination: string): Promise<void> {
-    if (!await validateImage(source)) return;
+    if (!(await validateImage(source))) return;
     fs.mkdirSync(path.dirname(destination), { recursive: true });
     fs.copyFileSync(source, destination);
-    Logger.info(`Copied image from ${Logger.inlineBold(source)} to ${Logger.inlineBold(destination)}`);
+    Logger.info(
+        `Copied image from ${Logger.inlineBold(source)} to ${Logger.inlineBold(destination)}`,
+    );
 }
 
 // --------------------
@@ -106,18 +108,14 @@ async function buildArtGallery(
             const alt = await rl.question("▌ ");
 
             base.variants.push({
-                image_url: path.join(
-                    "/art",
-                    slug,
-                    path.basename(imagePath),
-                ), // Placeholder path, will be replaced with actual URL after copying
+                image_url: path.join("/art", slug, path.basename(imagePath)), // Placeholder path, will be replaced with actual URL after copying
                 label: label || undefined,
                 alt: alt || undefined,
             });
         } else {
             Logger.dim("Image title (optional):");
             const title = await rl.question("▌ ");
-            
+
             Logger.dim("Enter alt text for this image (optional):");
             const alt = await rl.question("▌ ");
             const titleSlug = title ? generateSlug(title) : slug;
@@ -132,11 +130,7 @@ async function buildArtGallery(
             artImages.push({
                 id,
                 title: title || undefined,
-                image_url: path.join(
-                    "/art",
-                    slug,
-                    path.basename(imagePath),
-                ),
+                image_url: path.join("/art", slug, path.basename(imagePath)),
                 alt: alt || undefined,
             });
             baseIndex = artImages.length - 1;
@@ -151,9 +145,17 @@ async function buildArtGallery(
 // --------------------
 
 function printUsage() {
-    Logger.log(Logger.inlineUnderline(Logger.inlineBold(Logger.inlineColor("#da39a4", "\necholotl's ARTCLI usage:\n"))));
+    Logger.log(
+        Logger.inlineUnderline(
+            Logger.inlineBold(
+                Logger.inlineColor("#da39a4", "\necholotl's ARTCLI usage:\n"),
+            ),
+        ),
+    );
     Logger.statement("tsx scripts/artcli.ts add <image-paths...>");
-    Logger.dim("- Adds a new piece of art with the specified image through an interactive questionnaire.");
+    Logger.dim(
+        "- Adds a new piece of art with the specified image through an interactive questionnaire.",
+    );
     Logger.log("");
 }
 
@@ -218,8 +220,6 @@ async function addArt(args: string[]) {
             .filter((name) => name.length > 0);
     }
 
-    
-
     const modifiedTimes = args
         .map((imagePath) => {
             return fs.statSync(imagePath).mtime;
@@ -258,7 +258,7 @@ async function addArt(args: string[]) {
         : path.join(ART_DIR, "general");
 
     const thumbsDir = path.join(basePublicDir, "thumbnails");
-    
+
     const yamlPath = isCharacter
         ? path.join(CONTENT_DIR, "characters", character, `${slug}.yml`)
         : path.join(CONTENT_DIR, "general", `${slug}.yml`);
@@ -282,7 +282,9 @@ async function addArt(args: string[]) {
         const srcBasename = path.basename(img.image_url);
         const sourcePath = sourceMap.get(srcBasename);
         if (!sourcePath) {
-            Logger.error(`Could not find source file for ${Logger.inlineBold(srcBasename)}`);
+            Logger.error(
+                `Could not find source file for ${Logger.inlineBold(srcBasename)}`,
+            );
             exit(1);
         }
         const ext = path.extname(sourcePath);
