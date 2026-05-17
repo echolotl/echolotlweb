@@ -12,16 +12,19 @@ export class Logger {
         console.log(`\x1b[1;92m▌ \x1b[0m${message}\x1b[0m`);
     }
     static error(message: string) {
-        console.error(`\x1b[1;91m▌ \x1b[0m${message}\x1b[0m`);
+        console.error(`\x1b[1;91m▌ ${message}\x1b[0m`);
     }
     static info(message: string) {
-        console.log(`\x1b[0;36m▌\x1b[0m ${message}\x1b[0m`);
+        console.log(`\x1b[0;36m\x1b[1m▌ \x1b[0m${message}\x1b[0m`);
     }
     static warning(message: string) {
-        console.warn(`\x1b[1;93m▌ \x1b[0m${message}\x1b[0m`);
+        console.warn(`\x1b[1;93m▌ ${message}\x1b[0m`);
     }
     static log(message: string) {
         console.log(message);
+    }
+    static nl() {
+        console.log("");
     }
     static dim(message: string) {
         console.log(`\x1b[0;30m▌ ${message}\x1b[0m`);
@@ -36,18 +39,18 @@ export class Logger {
         this.rgb(r, g, b, message);
     }
     static inlineBold(message: string) {
-        return `\x1b[1m${message}\x1b[0m`;
+        return `\x1b[1m${message}\x1b[22m`;
     }
     static inlineDim(message: string) {
-        return `\x1b[2m${message}\x1b[0m`;
+        return `\x1b[2m${message}\x1b[22m`;
     }
     static inlineUnderline(message: string) {
-        return `\x1b[4m${message}\x1b[0m`;
+        return `\x1b[4m${message}\x1b[24m`;
     }
     static inlineColor(color: string, message: string) {
         const r = parseInt(color.slice(1, 3), 16);
         const g = parseInt(color.slice(3, 5), 16);
         const b = parseInt(color.slice(5, 7), 16);
-        return `\x1b[38;2;${r};${g};${b}m${message}\x1b[0m`;
+        return `\x1b[38;2;${r};${g};${b}m${message}\x1b[39m`;
     }
 }

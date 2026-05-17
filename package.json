@@ -10,7 +10,7 @@
         "postinstall": "nuxt prepare",
         "format": "prettier --write .",
         "thumbnails": "tsx scripts/thumbnails.ts --log",
-        "art": "tsx scripts/artcli.ts",
+        "art": "tsx scripts/artcli",
         "art-old": "tsx scripts/add-art.old.ts",
         "palettes": "tsx scripts/generate-palettes.ts --log"
     },
