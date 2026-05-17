@@ -3,52 +3,7 @@
         style="position: relative; display: flex; justify-content: center"
         class="art-item-container"
         :style="{ '--filter-url': `url(#${filterId})` }">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            style="position: absolute; width: 0; height: 0; overflow: hidden">
-            <defs>
-                <filter
-                    :id="filterId"
-                    color-interpolation-filters="sRGB"
-                    x="-50%"
-                    y="-50%"
-                    width="200%"
-                    height="200%">
-                    <feTurbulence
-                        type="fractalNoise"
-                        baseFrequency="0.1"
-                        numOctaves="5"
-                        result="noise"
-                        :seed="seed" />
-                    <feGaussianBlur
-                        in="SourceAlpha"
-                        stdDeviation="2"
-                        result="blurred" />
-                    <feComponentTransfer in="blurred" result="expanded">
-                        <feFuncA type="linear" slope="500" intercept="-5" />
-                    </feComponentTransfer>
-                    <feFlood
-                        flood-color="var(--theme-color, var(--primary))"
-                        result="color" />
-                    <feComposite
-                        in="color"
-                        in2="expanded"
-                        operator="in"
-                        result="border" />
-                    <feDisplacementMap
-                        in="border"
-                        in2="noise"
-                        scale="6"
-                        xChannelSelector="A"
-                        yChannelSelector="A"
-                        result="sketchBorder" />
-                    <feMerge>
-                        <feMergeNode in="sketchBorder" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
-            </defs>
-        </svg>
+        <SketchFilter :id="filterId" :seed="seed" />
         <nuxt-link
             :to="`/art/${artwork.slug}`"
             class="art-item"
@@ -96,10 +51,10 @@
 
 <script setup lang="ts">
 import type { Art } from "~~/types";
+import SketchFilter from "../common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
 
 const filterId = `outline-${Math.random().toString(36).slice(2)}`;
-const seed = Math.floor(Math.random() * 20000);
 
 const props = defineProps<{
     artwork: Art;

@@ -3,52 +3,7 @@
         :to="`/characters/${props.character.slug}`"
         class="character-card"
         :style="{ '--filter-url': `url(#${filterId})` }">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            style="position: absolute; width: 0; height: 0; overflow: hidden">
-            <defs>
-                <filter
-                    :id="filterId"
-                    color-interpolation-filters="sRGB"
-                    x="-50%"
-                    y="-50%"
-                    width="200%"
-                    height="200%">
-                    <feTurbulence
-                        type="fractalNoise"
-                        baseFrequency="0.1"
-                        numOctaves="5"
-                        result="noise"
-                        :seed="seed" />
-                    <feGaussianBlur
-                        in="SourceAlpha"
-                        stdDeviation="1.5"
-                        result="blurred" />
-                    <feComponentTransfer in="blurred" result="expanded">
-                        <feFuncA type="linear" slope="500" intercept="-6" />
-                    </feComponentTransfer>
-                    <feFlood
-                        flood-color="var(--theme-color, var(--primary))"
-                        result="color" />
-                    <feComposite
-                        in="color"
-                        in2="expanded"
-                        operator="in"
-                        result="border" />
-                    <feDisplacementMap
-                        in="border"
-                        in2="noise"
-                        scale="6"
-                        xChannelSelector="A"
-                        yChannelSelector="A"
-                        result="sketchBorder" />
-                    <feMerge>
-                        <feMergeNode in="sketchBorder" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
-            </defs>
-        </svg>
+        <SketchFilter :id="filterId" :std-deviation="1.5" :intercept="-6" />
         <NuxtLink
             :to="`/characters/${props.character.slug}`"
             class="character-card__image">
@@ -70,10 +25,10 @@
 <script setup lang="ts">
 import type { Character } from "~~/types";
 import SketchText from "../common/SketchText.vue";
+import SketchFilter from "../common/SketchFilter.vue";
 import { useTheme } from "~~/composables/useTheme";
 
 const filterId = `outline-${Math.random().toString(36).slice(2)}`;
-const seed = Math.floor(Math.random() * 20000);
 
 const props = defineProps({
     character: {
@@ -96,12 +51,7 @@ const characterColor = computed(() => {
 const characterImage = `url(/images/characters/${props.character.slug}/icon.webp)`;
 const characterHoverImage = `url(/images/characters/${props.character.slug}/hover.webp)`;
 
-// Generate random frame (0-2)
-const randomFrameNumber = Math.floor(Math.random() * 3);
-const frameImage = `url(/images/characters/frames/${randomFrameNumber}.webp)`;
-
-//-20 to 20 degrees
-const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
+const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`; // -20 to 20 degrees
 </script>
 
 <style scoped lang="scss">
@@ -135,7 +85,6 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`;
         width: 100%;
         height: 100%;
         background-color: var(--text);
-        mask-image: v-bind(frameImage);
         mask-size: contain;
         mask-repeat: no-repeat;
         mask-position: center;

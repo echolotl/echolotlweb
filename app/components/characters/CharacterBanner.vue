@@ -1,10 +1,16 @@
 <template>
     <div class="character-banner">
+        <SketchFilter
+            id="sketch-banner-title"
+            :seed="64"
+            flood-color="var(--background)" />
+
         <div class="character-banner__content">
             <div
                 class="character-banner__texture"
                 :style="{
                     maskImage: `url(/images/characters/${character.slug}/texture.png)`,
+                    maskPosition: `0 ${scrollY}px`,
                 }" />
             <div class="character-banner__underlay" />
             <div class="character-banner__images">
@@ -30,6 +36,23 @@
 
 <script setup lang="ts">
 import type { CharactersCollectionItem } from "@nuxt/content";
+import SketchFilter from "../common/SketchFilter.vue";
+
+const scrollY = ref(0);
+
+function onScroll() {
+    if (window.scrollY > 600) return;
+    scrollY.value = window.scrollY * 0.5;
+}
+
+onMounted(() => {
+    scrollY.value = window.scrollY;
+    window.addEventListener("scroll", onScroll, { passive: true });
+});
+
+onUnmounted(() => {
+    window.removeEventListener("scroll", onScroll);
+});
 
 const props = defineProps<{
     character: CharactersCollectionItem;
@@ -41,7 +64,7 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
 <style scoped lang="scss">
 @use "~/assets/styles/partials/_mixins" as *;
 .character-banner {
-    top: 64px;
+    position: relative;
     height: 600px;
     overflow: hidden;
     z-index: -1;
@@ -70,12 +93,13 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--inverted-solid);
-    background-attachment: fixed;
-    background-position: center;
+    background-color: var(--theme-color);
     opacity: 0.3;
     z-index: -1;
+    mask-repeat: repeat;
+    mask-size: 300px 300px;
     mask-origin: content-box;
+    @include theme-transition;
 }
 
 .character-banner__image {
@@ -133,7 +157,11 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
 }
 .character-banner__title {
     &-image {
-        background-color: var(--inverted-solid);
+        background-color: color-mix(
+            in oklch,
+            var(--theme-color) 50%,
+            var(--inverted-solid) 50%
+        );
         mask-image: v-bind(titleImage);
         width: 600px;
         height: 200px;
@@ -141,9 +169,9 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
         mask-position: center;
         image-rendering: crisp-edges;
     }
-    @include drop-shadow-simple(var(--background), 2px);
+    filter: url(#sketch-banner-title);
 
-    @include smooth-transition(background-color filter, 0.2s);
+    @include smooth-transition(background-color, 0.2s);
     @media (max-width: 768px) {
         &-image {
             width: calc(2 / 3) * 100vw;
