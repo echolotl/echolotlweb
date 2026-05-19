@@ -20,8 +20,27 @@
                     <SketchText size="1.2em">All</SketchText>
                 </h2>
             </div>
-            <button id="filter-button" popovertarget="filter-popover">
-                <Icon icon="filter" />
+            <button
+                id="filter-button"
+                popovertarget="filter-popover"
+                :class="{
+                    active:
+                        filters.sketches ||
+                        filters.characterArt ||
+                        filters.generalArt ||
+                        filters.gallery ||
+                        filters.variants ||
+                        filters.title ||
+                        tagInput.trim() !== '' ||
+                        filters.tags.length > 0,
+                }">
+                <Icon
+                    :icon="
+                        filters.title && activeFilters.length === 1
+                            ? 'search'
+                            : 'filter'
+                    " />
+                {{ filtersToText || "Filters" }}
             </button>
             <div id="filter-popover" popover="auto" anchor="filter-button">
                 <div>
@@ -111,7 +130,10 @@
                     <div
                         v-else
                         v-if="tagInput.trim() !== ''"
-                        style="color: var(--text-secondary)">
+                        style="
+                            color: var(--text-secondary);
+                            font-size: var(--small-text);
+                        ">
                         No matching tags found.
                     </div>
                 </div>
@@ -241,6 +263,44 @@ function onTagInputBlur() {
     tagDropdownOpen.value = false;
 }
 
+const FILTER_NAMES: Record<keyof Omit<Filters, "tags">, string> = {
+    title: "Title",
+    sketches: "Sketches",
+    characterArt: "Character Art",
+    generalArt: "General Art",
+    gallery: "Has Gallery",
+    variants: "Has Variants",
+};
+
+const activeFilters = computed(() =>
+    (Object.keys(FILTER_NAMES) as Array<keyof Omit<Filters, "tags">>).filter(
+        (key) => Boolean(filters.value[key]),
+    ),
+);
+
+const filtersToText = computed(() => {
+    const tagCount = filters.value.tags.length;
+    const filterCount = activeFilters.value.length;
+
+    const filterText =
+        filterCount === 1
+            ? activeFilters.value[0] === "title"
+                ? `"${filters.value.title}"`
+                : FILTER_NAMES[activeFilters.value[0]]
+            : filterCount > 1
+              ? `${filterCount} Filters`
+              : "";
+    const tagText =
+        tagCount === 1
+            ? filters.value.tags[0]
+            : tagCount > 1
+              ? `${tagCount} Tags`
+              : "";
+
+    if (filterText && tagText) return `${filterText} & ${tagText}`;
+    return filterText || tagText;
+});
+
 const { data: allArtworks } = await useAsyncData("all-art", () =>
     getArtworks(),
 );
@@ -337,16 +397,22 @@ useSeoMeta({
 #filter-button {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
     background: none;
     border: none;
-    border-radius: 4px;
-    padding: 0.1rem 0.5rem;
+    border-radius: 1000px;
+    padding: 0.25rem 0.5rem;
     cursor: pointer;
     font-size: var(--base-text);
     color: var(--text-secondary);
+    text-transform: uppercase;
     &:hover {
         background-color: var(--foreground);
+    }
+    &.active {
+        background-color: var(--primary);
+        color: var(--background);
+        font-weight: bold;
     }
 }
 
@@ -359,15 +425,14 @@ useSeoMeta({
     padding: 0;
     background: none;
     flex-direction: column;
-    gap: 0.25rem;
     > div {
         border: 1px solid var(--distant);
         background: var(--surface);
         padding: 0.5rem;
         width: 200px;
         inset: auto;
-        border-radius: 6px;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        border-top: 2px solid var(--primary);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
     fieldset {

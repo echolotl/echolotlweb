@@ -3,7 +3,7 @@
         style="position: relative; display: flex; justify-content: center"
         class="art-item-container"
         :style="{ '--filter-url': `url(#${filterId})` }">
-        <SketchFilter :id="filterId" :seed="seed" />
+        <SketchFilter :id="filterId" />
         <nuxt-link
             :to="`/art/${artwork.slug}`"
             class="art-item"
