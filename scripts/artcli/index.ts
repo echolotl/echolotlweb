@@ -5,6 +5,14 @@ import { Logger } from "../logger";
 import { context } from "./utils/context";
 import { printUsage, exit } from "./utils/cli";
 import { add } from "./commands/add";
+import { append } from "./commands/append";
+import { update } from "./commands/update";
+import { remove } from "./commands/remove";
+import { del } from "./commands/delete";
+import { list } from "./commands/list";
+import { show } from "./commands/show";
+import { regenthumb } from "./commands/regenthumb";
+import { regenpalette } from "./commands/regenpalette";
 
 async function main() {
     const argv = process.argv.slice(2).filter((arg) => {
@@ -28,6 +36,30 @@ async function main() {
     switch (command) {
         case "add":
             await add(args);
+            break;
+        case "append":
+            await append(args);
+            break;
+        case "update":
+            await update(args);
+            break;
+        case "remove":
+            await remove(args);
+            break;
+        case "delete":
+            await del(args);
+            break;
+        case "list":
+            await list(args);
+            break;
+        case "show":
+            await show(args);
+            break;
+        case "regenthumb":
+            await regenthumb(args);
+            break;
+        case "regenpalette":
+            await regenpalette(args);
             break;
         default:
             printUsage();

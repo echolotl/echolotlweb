@@ -223,7 +223,7 @@ export async function add(args: string[]) {
     generateArtYAML(art, yamlPath);
     if (context.shouldPush) {
         stagedFiles.push(yamlPath);
-        await pushToRemote(stagedFiles, `ARTCLI: upload ${title}`);
+        await pushToRemote(stagedFiles, `ARTCLI: upload "${title}"`);
     }
     exit(0);
 }
