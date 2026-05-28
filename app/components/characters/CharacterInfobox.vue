@@ -175,7 +175,10 @@
                         </td>
                     </tr>
 
-                    <tr v-if="character.clan !== 'Unaffiliated'">
+                    <tr
+                        v-if="
+                            character.clan !== 'Unaffiliated' && character.clan
+                        ">
                         <td class="character-infobox__item-label">
                             <span> Type </span>
                         </td>

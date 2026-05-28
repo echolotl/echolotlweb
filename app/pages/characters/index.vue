@@ -107,7 +107,7 @@ const charactersCategories = computed(() => {
 const hardcodedCategoryDescriptions: Record<string, string> = {
     Talrien: "Something something lore",
     Sonas: "Characters created for (and by) echolotl as representations of themselves",
-    Other: "The other ones",
+    Other: "Probably minor and/or possibly one-off characters",
 };
 
 useSeoMeta({
