@@ -4,11 +4,13 @@ modified_at: "2025-09-28T20:15:02.351Z"
 title: Shy
 pinned: false
 sketch: false
-image_url: /art/characters/kitral/shy.png
 character: kitral
-description: Kitral has arm warmers on in this drawing, which is a reference to how much I was looking at Twitter
-thumbnail_url: /art/characters/kitral/thumbnails/shy.webp
+description: Kitral has arm warmers on in this drawing, which is a reference to
+  how much I was looking at Twitter
 images:
-    - image_url: /art/characters/kitral/shy.png
-      thumbnail_url: /art/characters/kitral/thumbnails/shy.webp
+  - image:
+      src: /art/characters/kitral/shy.png
+      alt: Shy
+    thumbnail:
+      src: /art/characters/kitral/thumbnails/shy.webp
       alt: Shy

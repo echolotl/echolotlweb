@@ -4,16 +4,18 @@ modified_at: "2025-09-28T23:21:13.970Z"
 title: Phosphor
 pinned: false
 sketch: false
-image_url: /art/characters/phosphor/oldPhosphor.png
 character: phosphor
 description: Original design of Phosphor
-thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor.webp
 images:
-    - image_url: /art/characters/phosphor/oldPhosphor.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor.webp
+  - id: oldPhosphor
+    image:
+      src: /art/characters/phosphor/oldPhosphor.png
       alt: Phosphor
-      id: oldPhosphor
-      variants:
-          - image_url: /art/characters/phosphor/oldPhosphor__no-background.jpg
-            thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor__no-background.webp
-            label: No Background
+    thumbnail:
+      src: /art/characters/phosphor/thumbnails/oldPhosphor.webp
+      alt: Phosphor
+    variants:
+      - image:
+          src: /art/characters/phosphor/oldPhosphor__no-background.jpg
+          alt: Phosphor
+        label: No Background

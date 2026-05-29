@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.286Z"
 title: Bubbles
 pinned: false
 sketch: false
-image_url: /art/characters/glory/gloryBubbles.png
 character: glory
 description: No more two tails, had to make room for the one tail getting even larger
-thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
 images:
-    - image_url: /art/characters/glory/gloryBubbles.png
-      thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
+  - image:
+      src: /art/characters/glory/gloryBubbles.png
+      alt: Bubbles
+    thumbnail:
+      src: /art/characters/glory/thumbnails/gloryBubbles.webp
       alt: Bubbles

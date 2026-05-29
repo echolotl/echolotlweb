@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.428Z"
 title: EWOW Lives
 pinned: false
 sketch: false
-image_url: /art/general/Illustration91212.png
 description: Art of me and friend's lives remaining in [EWOW](https://youtu.be/jcqE0Z5Sgbw)
 tags:
-    - friends
-    - object show
-thumbnail_url: /art/general/thumbnails/Illustration91212.webp
+  - friends
+  - object show
 images:
-    - image_url: /art/general/Illustration91212.png
-      thumbnail_url: /art/general/thumbnails/Illustration91212.webp
+  - image:
+      src: /art/general/Illustration91212.png
+      alt: EWOW Lives
+    thumbnail:
+      src: /art/general/thumbnails/Illustration91212.webp
       alt: EWOW Lives

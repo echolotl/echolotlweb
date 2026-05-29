@@ -4,10 +4,11 @@ modified_at: "2025-09-28T20:15:02.304Z"
 title: bellf
 pinned: false
 sketch: false
-image_url: /art/characters/king/bellf.png
 character: king
-thumbnail_url: /art/characters/king/thumbnails/bellf.webp
 images:
-    - image_url: /art/characters/king/bellf.png
-      thumbnail_url: /art/characters/king/thumbnails/bellf.webp
+  - image:
+      src: /art/characters/king/bellf.png
+      alt: bellf
+    thumbnail:
+      src: /art/characters/king/thumbnails/bellf.webp
       alt: bellf

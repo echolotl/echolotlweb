@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.422Z"
 title: Dog and Chicken
 pinned: false
 sketch: false
-image_url: /art/general/tomdog.png
 description: Drawing of a friend's dog thing and creature
 tags:
-    - friends
-    - oc
-thumbnail_url: /art/general/thumbnails/tomdog.webp
+  - friends
+  - oc
 images:
-    - image_url: /art/general/tomdog.png
-      thumbnail_url: /art/general/thumbnails/tomdog.webp
+  - image:
+      src: /art/general/tomdog.png
+      alt: Dog and Chicken
+    thumbnail:
+      src: /art/general/thumbnails/tomdog.webp
       alt: Dog and Chicken

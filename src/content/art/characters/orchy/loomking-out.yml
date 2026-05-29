@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.369Z"
 title: Loomking Out
 pinned: false
 sketch: false
-image_url: /art/characters/orchy/orchyOldCave.png
 character: orchy
 description: Very glowy
-thumbnail_url: /art/characters/orchy/thumbnails/orchyOldCave.webp
 images:
-    - image_url: /art/characters/orchy/orchyOldCave.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchyOldCave.webp
+  - image:
+      src: /art/characters/orchy/orchyOldCave.png
+      alt: Loomking Out
+    thumbnail:
+      src: /art/characters/orchy/thumbnails/orchyOldCave.webp
       alt: Loomking Out

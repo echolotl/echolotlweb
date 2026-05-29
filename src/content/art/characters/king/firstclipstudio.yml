@@ -4,10 +4,11 @@ modified_at: "2025-09-28T20:15:02.312Z"
 title: firstClipStudio
 pinned: false
 sketch: false
-image_url: /art/characters/king/firstClipStudio.png
 character: king
-thumbnail_url: /art/characters/king/thumbnails/firstClipStudio.webp
 images:
-    - image_url: /art/characters/king/firstClipStudio.png
-      thumbnail_url: /art/characters/king/thumbnails/firstClipStudio.webp
+  - image:
+      src: /art/characters/king/firstClipStudio.png
+      alt: firstClipStudio
+    thumbnail:
+      src: /art/characters/king/thumbnails/firstClipStudio.webp
       alt: firstClipStudio

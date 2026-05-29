@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.429Z"
 title: Fuzzy Guye
 pinned: false
 sketch: false
-image_url: /art/general/fuzzyguye.png
 description: Test of a lineless artstyle
 tags:
-    - idea
-thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
+  - idea
 images:
-    - image_url: /art/general/fuzzyguye.png
-      thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
+  - image:
+      src: /art/general/fuzzyguye.png
+      alt: Fuzzy Guye
+    thumbnail:
+      src: /art/general/thumbnails/fuzzyguye.webp
       alt: Fuzzy Guye

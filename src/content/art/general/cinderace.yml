@@ -4,14 +4,15 @@ modified_at: "2025-09-28T20:15:02.415Z"
 title: Cinderace
 pinned: false
 sketch: false
-image_url: /art/general/cinderace.png
 description: Fanart of Cinderace from Pokémon
 tags:
-    - fanart
-    - video game
-    - pokemon
-thumbnail_url: /art/general/thumbnails/cinderace.webp
+  - fanart
+  - video game
+  - pokemon
 images:
-    - image_url: /art/general/cinderace.png
-      thumbnail_url: /art/general/thumbnails/cinderace.webp
+  - image:
+      src: /art/general/cinderace.png
+      alt: Cinderace
+    thumbnail:
+      src: /art/general/thumbnails/cinderace.webp
       alt: Cinderace

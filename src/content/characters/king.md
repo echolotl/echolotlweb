@@ -4,8 +4,8 @@ name: King
 species: Cat
 age: 18
 height: 6' 0"
-created_date: 2021-12-14
-last_modified: 2026-01-29
+created_date: "2021-12-14"
+last_modified: "2026-01-29"
 pronouns: he/they
 clan: Unaffiliated
 short_description: A purple cat
@@ -23,14 +23,9 @@ image:
     type: url
     url: /images/characters/king/figure.webp
 image_description: "King, wearing his sweater and scarf."
+category: sonas
 friends:
-    - slug: echo
-      name: Echo
-category: "Sonas"
-sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2026-01-29
+    - echo
 ---
 
 **King** is echolotl's main fursona, a purple furred anthropomorphic cat.

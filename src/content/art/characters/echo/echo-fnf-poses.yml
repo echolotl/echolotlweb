@@ -4,11 +4,14 @@ modified_at: "2026-01-20T03:20:26.224Z"
 title: Echo FNF Poses
 pinned: false
 sketch: true
-image_url: /art/characters/echo/image%20copy.png
 character: echo
-description: Poses for a [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod if Echo ever had one
-thumbnail_url: /art/characters/echo/thumbnails/image%20copy.webp
+description: Poses for a [Friday Night
+  Funkin'](https://www.newgrounds.com/portal/view/770371) mod if Echo ever had
+  one
 images:
-    - image_url: /art/characters/echo/image%20copy.png
-      thumbnail_url: /art/characters/echo/thumbnails/image%20copy.webp
+  - image:
+      src: /art/characters/echo/image%20copy.png
+      alt: Echo FNF Poses
+    thumbnail:
+      src: /art/characters/echo/thumbnails/image%20copy.webp
       alt: Echo FNF Poses

@@ -4,12 +4,14 @@ modified_at: "2025-09-28T20:15:02.442Z"
 title: "Lemon Tree OC Vote #2"
 pinned: false
 sketch: false
-image_url: /art/general/lemon_treeoc2.png
-description: Remade and improved design over the [OC](/art/view/art/lemon_treeoc.png) I made for Lemon Tree's OC Design contest
+description: Remade and improved design over the
+  [OC](/art/view/art/lemon_treeoc.png) I made for Lemon Tree's OC Design contest
 tags:
-    - oc
-thumbnail_url: /art/general/thumbnails/lemon_treeoc2.webp
+  - oc
 images:
-    - image_url: /art/general/lemon_treeoc2.png
-      thumbnail_url: /art/general/thumbnails/lemon_treeoc2.webp
+  - image:
+      src: /art/general/lemon_treeoc2.png
+      alt: "Lemon Tree OC Vote #2"
+    thumbnail:
+      src: /art/general/thumbnails/lemon_treeoc2.webp
       alt: "Lemon Tree OC Vote #2"

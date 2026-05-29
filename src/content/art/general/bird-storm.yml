@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.401Z"
 title: Bird Storm
 pinned: false
 sketch: false
-image_url: /art/general/l.png
 description: Painting of EVIL storm of birds
 tags:
-    - painting
-thumbnail_url: /art/general/thumbnails/l.webp
+  - painting
 images:
-    - image_url: /art/general/l.png
-      thumbnail_url: /art/general/thumbnails/l.webp
+  - image:
+      src: /art/general/l.png
+      alt: Bird Storm
+    thumbnail:
+      src: /art/general/thumbnails/l.webp
       alt: Bird Storm

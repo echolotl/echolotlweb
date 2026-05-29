@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.293Z"
 title: Quite an Eyeful
 pinned: false
 sketch: false
-image_url: /art/characters/glory/Emergance.png
 character: glory
 description: Heh. Get it
-thumbnail_url: /art/characters/glory/thumbnails/Emergance.webp
 images:
-    - image_url: /art/characters/glory/Emergance.png
-      thumbnail_url: /art/characters/glory/thumbnails/Emergance.webp
+  - image:
+      src: /art/characters/glory/Emergance.png
+      alt: Quite an Eyeful
+    thumbnail:
+      src: /art/characters/glory/thumbnails/Emergance.webp
       alt: Quite an Eyeful

@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.393Z"
 title: A mistake Ekkos...
 pinned: false
 sketch: false
-image_url: /art/general/a-mistake-ekkos.png
-thumbnail_url: /art/general/thumbnails/a-mistake-ekkos.webp
 description: Attack on [icyisanidiot](https://artfight.net/~FrostyDraconis)
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/a-mistake-ekkos.png
-      thumbnail_url: /art/general/thumbnails/a-mistake-ekkos.webp
+  - image:
+      src: /art/general/a-mistake-ekkos.png
+      alt: A mistake Ekkos...
+    thumbnail:
+      src: /art/general/a-mistake-ekkos.png
       alt: A mistake Ekkos...

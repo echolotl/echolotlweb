@@ -4,10 +4,11 @@ modified_at: "2025-09-28T20:15:02.291Z"
 title: gloryOrig
 pinned: false
 sketch: false
-image_url: /art/characters/glory/gloryOrig.png
 character: glory
-thumbnail_url: /art/characters/glory/thumbnails/gloryOrig.webp
 images:
-    - image_url: /art/characters/glory/gloryOrig.png
-      thumbnail_url: /art/characters/glory/thumbnails/gloryOrig.webp
+  - image:
+      src: /art/characters/glory/gloryOrig.png
+      alt: gloryOrig
+    thumbnail:
+      src: /art/characters/glory/thumbnails/gloryOrig.webp
       alt: gloryOrig

@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.481Z"
 title: where you even falling from
 pinned: true
 sketch: false
-image_url: /art/general/where-you-even-falling-from.png
-thumbnail_url: /art/general/thumbnails/where-you-even-falling-from.webp
 description: Attack on [Wigglytuff](https://artfight.net/~Wigglytuff) for Art Fight!
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/where-you-even-falling-from.png
-      thumbnail_url: /art/general/thumbnails/where-you-even-falling-from.webp
+  - image:
+      src: /art/general/where-you-even-falling-from.png
+      alt: where you even falling from
+    thumbnail:
+      src: /art/general/thumbnails/where-you-even-falling-from.webp
       alt: where you even falling from

@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.462Z"
 title: Stargazing
 pinned: false
 sketch: false
-image_url: /art/general/stargazing.png
-thumbnail_url: /art/general/thumbnails/stargazing.webp
 description: Attack on [Cheezy](https://artfight.net/~Cheezy) on Art Fight
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/stargazing.png
-      thumbnail_url: /art/general/thumbnails/stargazing.webp
+  - image:
+      src: /art/general/stargazing.png
+      alt: Stargazing
+    thumbnail:
+      src: /art/general/thumbnails/stargazing.webp
       alt: Stargazing

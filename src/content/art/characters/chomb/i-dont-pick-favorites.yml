@@ -4,15 +4,17 @@ modified_at: "2025-09-28T22:44:50.650Z"
 title: I don't pick favorites
 pinned: true
 sketch: false
-image_url: /art/characters/chomb/i-dont-pick-favorites.png
-thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites.webp
 character: chomb
 images:
-    - image_url: /art/characters/chomb/i-dont-pick-favorites.png
-      thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites.webp
+  - id: i-dont-pick-favorites
+    image:
+      src: /art/characters/chomb/i-dont-pick-favorites.png
       alt: I don't pick favorites
-      id: i-dont-pick-favorites
-      variants:
-          - image_url: /art/characters/chomb/i-dont-pick-favorites__minimal-shading.png
-            thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites__minimal-shading.webp
-            label: Minimal Shading
+    thumbnail:
+      src: /art/characters/chomb/thumbnails/i-dont-pick-favorites.webp
+      alt: I don't pick favorites
+    variants:
+      - image:
+          src: /art/characters/chomb/i-dont-pick-favorites__minimal-shading.png
+          alt: I don't pick favorites
+        label: Minimal Shading

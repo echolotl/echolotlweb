@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.288Z"
 title: Evil, Dark Glory
 pinned: false
 sketch: true
-image_url: /art/characters/glory/evil-dark-glory.png
-thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
 description: why so evilish
 character: glory
 images:
-    - image_url: /art/characters/glory/evil-dark-glory.png
-      thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
+  - image:
+      src: /art/characters/glory/evil-dark-glory.png
+      alt: Evil, Dark Glory
+    thumbnail:
+      src: /art/characters/glory/thumbnails/evil-dark-glory.webp
       alt: Evil, Dark Glory

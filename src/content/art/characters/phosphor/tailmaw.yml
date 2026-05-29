@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.388Z"
 title: Tailmaw
 pinned: false
 sketch: true
-image_url: /art/characters/phosphor/1743052169218.png
 character: phosphor
 description: Phosphor w/ a tailmaw
-thumbnail_url: /art/characters/phosphor/thumbnails/1743052169218.webp
 images:
-    - image_url: /art/characters/phosphor/1743052169218.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/1743052169218.webp
+  - image:
+      src: /art/characters/phosphor/1743052169218.png
+      alt: Tailmaw
+    thumbnail:
+      src: /art/characters/phosphor/thumbnails/1743052169218.webp
       alt: Tailmaw

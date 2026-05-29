@@ -4,8 +4,8 @@ name: Chomb
 species: Spider
 age: 22
 height: 5' 2"
-created_date: 2021-12-20
-last_modified: 2026-01-29
+created_date: "2021-12-20"
+last_modified: "2026-01-29"
 pronouns: he/him
 clan: Natural
 short_description: an anthropomorphic spider with golden rings
@@ -19,23 +19,17 @@ color_palette:
     - "#FFD08F"
     - "#D32F39"
     - "#4E0049"
-category: "Talrien"
+category: talrien
 friends:
-    - name: Mino
-      slug: mino
+    - mino
 enemies:
-    - name: '"That machine"'
-      slug: nautilus
+    - nautilus
 likes:
     - "Gold"
     - "Bugs"
 dislikes:
     - "Computers"
     - "Fire"
-sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2026-01-29
 ---
 
 **Chomb**

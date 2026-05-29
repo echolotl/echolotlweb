@@ -5,6 +5,10 @@ const THEME_EVENT = "theme:change"; // event name
 
 let initialized = false;
 
+function applyTheme(theme: Theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+}
+
 function getSystemTheme(): Theme {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
         return "dark";
@@ -13,7 +17,7 @@ function getSystemTheme(): Theme {
 }
 
 function setTheme(theme: Theme) {
-    document.documentElement.setAttribute("data-theme", theme);
+    applyTheme(theme);
     localStorage.setItem(THEME_KEY, theme);
     window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: theme }));
 }
@@ -33,9 +37,14 @@ export function toggleTheme() {
 }
 
 export function initTheme() {
+    // With the way we recreate the html element on each page swap, we need to re-apply the theme after each swap.
+    applyTheme(getTheme());
     if (initialized) return;
     initialized = true;
-    setTheme(getTheme());
+
+    document.addEventListener("astro:after-swap", () => {
+        applyTheme(getTheme());
+    });
 
     // Listen for system theme changes
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");

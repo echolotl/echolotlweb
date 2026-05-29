@@ -5,8 +5,12 @@ title: Nautilus origin
 pinned: false
 sketch: true
 images:
-    - id: nautilus-origin
-      image_url: /art/characters/nautilus/nautilus-origin.png
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-origin.webp
+  - id: nautilus-origin
+    image:
+      src: /art/characters/nautilus/nautilus-origin.png
+      alt: Nautilus origin
+    thumbnail:
+      src: /art/characters/nautilus/thumbnails/nautilus-origin.webp
+      alt: Nautilus origin
 description: tldr; was goop
 character: nautilus

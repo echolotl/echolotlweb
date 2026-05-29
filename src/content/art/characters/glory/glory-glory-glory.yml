@@ -5,8 +5,12 @@ title: glory glory glory
 pinned: false
 sketch: true
 images:
-    - id: glory-glory-glory
-      image_url: /art/characters/glory/glory-glory-glory.png
-      thumbnail_url: /art/characters/glory/thumbnails/glory-glory-glory.webp
+  - id: glory-glory-glory
+    image:
+      src: /art/characters/glory/glory-glory-glory.png
+      alt: glory glory glory
+    thumbnail:
+      src: /art/characters/glory/thumbnails/glory-glory-glory.webp
+      alt: glory glory glory
 description: glory glory glory glory glory glory glory
 character: glory

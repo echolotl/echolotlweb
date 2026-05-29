@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.386Z"
 title: Shapeshifting
 pinned: false
 sketch: false
-image_url: /art/characters/phosphor/newishPhosphor.png
 character: phosphor
 description: Yes! It can shapeshift, with limitations of course
-thumbnail_url: /art/characters/phosphor/thumbnails/newishPhosphor.webp
 images:
-    - image_url: /art/characters/phosphor/newishPhosphor.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/newishPhosphor.webp
+  - image:
+      src: /art/characters/phosphor/newishPhosphor.png
+      alt: Shapeshifting
+    thumbnail:
+      src: /art/characters/phosphor/thumbnails/newishPhosphor.webp
       alt: Shapeshifting

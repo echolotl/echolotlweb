@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.344Z"
 title: weirdSketch
 pinned: false
 sketch: true
-image_url: /art/characters/king/kingWeirdSketch.png
 character: king
 description: Attempt at trying something new
-thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
 images:
-    - image_url: /art/characters/king/kingWeirdSketch.png
-      thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
+  - image:
+      src: /art/characters/king/kingWeirdSketch.png
+      alt: weirdSketch
+    thumbnail:
+      src: /art/characters/king/thumbnails/kingWeirdSketch.webp
       alt: weirdSketch

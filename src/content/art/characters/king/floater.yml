@@ -4,10 +4,11 @@ modified_at: "2025-09-28T20:15:02.313Z"
 title: floater
 pinned: false
 sketch: false
-image_url: /art/characters/king/floater.png
 character: king
-thumbnail_url: /art/characters/king/thumbnails/floater.webp
 images:
-    - image_url: /art/characters/king/floater.png
-      thumbnail_url: /art/characters/king/thumbnails/floater.webp
+  - image:
+      src: /art/characters/king/floater.png
+      alt: floater
+    thumbnail:
+      src: /art/characters/king/thumbnails/floater.webp
       alt: floater

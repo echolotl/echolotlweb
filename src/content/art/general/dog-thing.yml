@@ -4,13 +4,15 @@ modified_at: "2025-09-28T20:15:02.423Z"
 title: Dog Thing
 pinned: false
 sketch: false
-image_url: /art/general/dog_thing.png
-description: This was mostly just an idea, and it eventually turned into [Phosphor](/characters/phosphor)
+description: This was mostly just an idea, and it eventually turned into
+  [Phosphor](/characters/phosphor)
 tags:
-    - idea
-    - oc
-thumbnail_url: /art/general/thumbnails/dog_thing.webp
+  - idea
+  - oc
 images:
-    - image_url: /art/general/dog_thing.png
-      thumbnail_url: /art/general/thumbnails/dog_thing.webp
+  - image:
+      src: /art/general/dog_thing.png
+      alt: Dog Thing
+    thumbnail:
+      src: /art/general/thumbnails/dog_thing.webp
       alt: Dog Thing

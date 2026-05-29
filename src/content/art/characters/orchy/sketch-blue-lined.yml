@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.376Z"
 title: Sketch - Blue Lined
 pinned: false
 sketch: true
-image_url: /art/characters/orchy/blueLinedSketch.png
 character: orchy
 description: Blue lined sketch of Orchy (no he cannot summon a nuke)
-thumbnail_url: /art/characters/orchy/thumbnails/blueLinedSketch.webp
 images:
-    - image_url: /art/characters/orchy/blueLinedSketch.png
-      thumbnail_url: /art/characters/orchy/thumbnails/blueLinedSketch.webp
+  - image:
+      src: /art/characters/orchy/blueLinedSketch.png
+      alt: Sketch - Blue Lined
+    thumbnail:
+      src: /art/characters/orchy/thumbnails/blueLinedSketch.webp
       alt: Sketch - Blue Lined

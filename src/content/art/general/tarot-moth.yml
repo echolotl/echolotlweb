@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.466Z"
 title: Tarot Moth
 pinned: false
 sketch: false
-image_url: /art/general/tarotmoth.png
 description: Drawing of a friends moth girl OC
 tags:
-    - friends
-thumbnail_url: /art/general/thumbnails/tarotmoth.webp
+  - friends
 images:
-    - image_url: /art/general/tarotmoth.png
-      thumbnail_url: /art/general/thumbnails/tarotmoth.webp
+  - image:
+      src: /art/general/tarotmoth.png
+      alt: Tarot Moth
+    thumbnail:
+      src: /art/general/thumbnails/tarotmoth.webp
       alt: Tarot Moth

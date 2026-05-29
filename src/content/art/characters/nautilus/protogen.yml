@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.363Z"
 title: Protogen
 pinned: false
 sketch: false
-image_url: /art/characters/nautilus/nautilusProtogen.png
 character: nautilus
 description: Design of Nautilus being a Protogen instead
-thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
 images:
-    - image_url: /art/characters/nautilus/nautilusProtogen.png
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
+  - image:
+      src: /art/characters/nautilus/nautilusProtogen.png
+      alt: Protogen
+    thumbnail:
+      src: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
       alt: Protogen

@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.461Z"
 title: Slimy
 pinned: false
 sketch: false
-image_url: /art/general/slimy.png
-thumbnail_url: /art/general/thumbnails/slimy.webp
 description: Attack on [S_shrimpy](https://artfight.net/~S_shrimpy)
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/slimy.png
-      thumbnail_url: /art/general/thumbnails/slimy.webp
+  - image:
+      src: /art/general/slimy.png
+      alt: Slimy
+    thumbnail:
+      src: /art/general/thumbnails/slimy.webp
       alt: Slimy

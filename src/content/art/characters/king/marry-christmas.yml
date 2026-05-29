@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.331Z"
 title: Marry Christmas
 pinned: false
 sketch: false
-image_url: /art/characters/king/marrychristmas.png
 character: king
 description: Merry Christmas from King, 2024
-thumbnail_url: /art/characters/king/thumbnails/marrychristmas.webp
 images:
-    - image_url: /art/characters/king/marrychristmas.png
-      thumbnail_url: /art/characters/king/thumbnails/marrychristmas.webp
+  - image:
+      src: /art/characters/king/marrychristmas.png
+      alt: Marry Christmas
+    thumbnail:
+      src: /art/characters/king/thumbnails/marrychristmas.webp
       alt: Marry Christmas

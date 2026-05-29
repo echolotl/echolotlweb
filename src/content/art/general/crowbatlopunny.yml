@@ -4,14 +4,16 @@ modified_at: "2025-09-28T20:15:02.419Z"
 title: Crowbat/Lopunny
 pinned: false
 sketch: false
-image_url: /art/general/crowbat_lopunny1.png
-description: Fanart of the Crowbat/Lopunny fusion found in [Pokémon Infinite Fusion](https://www.pokecommunity.com/threads/new-update-40-new-pokemon-pok%C3%A9mon-infinite-fusion.347883/)
+description: Fanart of the Crowbat/Lopunny fusion found in [Pokémon Infinite
+  Fusion](https://www.pokecommunity.com/threads/new-update-40-new-pokemon-pok%C3%A9mon-infinite-fusion.347883/)
 tags:
-    - fanart
-    - video game
-    - pokemon
-thumbnail_url: /art/general/thumbnails/crowbat_lopunny1.webp
+  - fanart
+  - video game
+  - pokemon
 images:
-    - image_url: /art/general/crowbat_lopunny1.png
-      thumbnail_url: /art/general/thumbnails/crowbat_lopunny1.webp
+  - image:
+      src: /art/general/crowbat_lopunny1.png
+      alt: Crowbat/Lopunny
+    thumbnail:
+      src: /art/general/thumbnails/crowbat_lopunny1.webp
       alt: Crowbat/Lopunny

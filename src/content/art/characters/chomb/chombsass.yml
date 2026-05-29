@@ -4,10 +4,11 @@ modified_at: "2025-09-28T20:15:02.261Z"
 title: chombSass
 pinned: false
 sketch: false
-image_url: /art/characters/chomb/chombSass.png
 character: chomb
-thumbnail_url: /art/characters/chomb/thumbnails/chombSass.webp
 images:
-    - image_url: /art/characters/chomb/chombSass.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chombSass.webp
+  - image:
+      src: /art/characters/chomb/chombSass.png
+      alt: chombSass
+    thumbnail:
+      src: /art/characters/chomb/thumbnails/chombSass.webp
       alt: chombSass

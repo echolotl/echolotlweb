@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.277Z"
 title: Echo Reference Sheet
 pinned: false
 sketch: false
-image_url: /art/characters/echo/echo-reference-sheet.png
-thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
 description: Echo's reference sheet!
 character: echo
 images:
-    - image_url: /art/characters/echo/echo-reference-sheet.png
-      thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
+  - image:
+      src: /art/characters/echo/echo-reference-sheet.png
+      alt: Echo Reference Sheet
+    thumbnail:
+      src: /art/characters/echo/thumbnails/echo-reference-sheet.webp
       alt: Echo Reference Sheet

@@ -4,13 +4,15 @@ modified_at: "2025-09-28T20:15:02.426Z"
 title: Ekold
 pinned: false
 sketch: false
-image_url: /art/general/ekold.png
-description: "Drawing of my Kubold OC from [Atlyss](https://store.steampowered.com/app/2768430/ATLYSS/): Ekold"
+description: "Drawing of my Kubold OC from
+  [Atlyss](https://store.steampowered.com/app/2768430/ATLYSS/): Ekold"
 tags:
-    - video game
-    - oc
-thumbnail_url: /art/general/thumbnails/ekold.webp
+  - video game
+  - oc
 images:
-    - image_url: /art/general/ekold.png
-      thumbnail_url: /art/general/thumbnails/ekold.webp
+  - image:
+      src: /art/general/ekold.png
+      alt: Ekold
+    thumbnail:
+      src: /art/general/thumbnails/ekold.webp
       alt: Ekold

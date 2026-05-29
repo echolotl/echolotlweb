@@ -4,14 +4,14 @@ name: Nautilus
 species: Protogen
 age: 26
 height: 5' 10"
-created_date: 2022-02-04
-last_modified: 2025-07-03
+created_date: "2022-02-04"
+last_modified: "2025-07-03"
 pronouns: they/them
 clan: Changed
 short_description: a goo thing turned protogen
 theme_color: "#30cde9"
 theme_color_light: "#13a3bd"
-category: "Talrien"
+category: talrien
 color_palette:
     - "#64D7E8"
     - "#9D69D7"
@@ -32,16 +32,9 @@ likes:
     - "Warmth"
     - "Isolation"
 friends:
-    - name: Chomb
-      slug: chomb
-    - name: Orchy
-      slug: orchy
-    - name: Mino
-      slug: mino
-sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2025-07-03
+    - chomb
+    - orchy
+    - mino
 ---
 
 **Nautilus**

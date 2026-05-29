@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.412Z"
 title: "Changed: Dragon"
 pinned: false
 sketch: false
-image_url: /art/general/changed_dragon.png
 description: Fanart of a dragon guy from Changed
 tags:
-    - fanart
-    - video game
-thumbnail_url: /art/general/thumbnails/changed_dragon.webp
+  - fanart
+  - video game
 images:
-    - image_url: /art/general/changed_dragon.png
-      thumbnail_url: /art/general/thumbnails/changed_dragon.webp
+  - image:
+      src: /art/general/changed_dragon.png
+      alt: "Changed: Dragon"
+    thumbnail:
+      src: /art/general/thumbnails/changed_dragon.webp
       alt: "Changed: Dragon"

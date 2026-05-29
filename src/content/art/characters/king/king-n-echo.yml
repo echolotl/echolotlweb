@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.324Z"
 title: King n' Echo
 pinned: false
 sketch: false
-image_url: /art/characters/king/kingeEcho.png
 character: king
 related_characters:
-    - echo
+  - echo
 description: A profile picture made for Discord featuring the two sonas
-thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
 images:
-    - image_url: /art/characters/king/kingeEcho.png
-      thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
+  - image:
+      src: /art/characters/king/kingeEcho.png
+      alt: King n' Echo
+    thumbnail:
+      src: /art/characters/king/thumbnails/kingeEcho.webp
       alt: King n' Echo

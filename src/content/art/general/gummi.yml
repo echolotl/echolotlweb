@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.432Z"
 title: Gummi
 pinned: false
 sketch: false
-image_url: /art/general/mylittleoc.png
 description: Drawing to answer an art prompt in a server, an idea for a My Little Pony OC
 tags:
-    - idea
-    - oc
-thumbnail_url: /art/general/thumbnails/mylittleoc.webp
+  - idea
+  - oc
 images:
-    - image_url: /art/general/mylittleoc.png
-      thumbnail_url: /art/general/thumbnails/mylittleoc.webp
+  - image:
+      src: /art/general/mylittleoc.png
+      alt: Gummi
+    thumbnail:
+      src: /art/general/thumbnails/mylittleoc.webp
       alt: Gummi

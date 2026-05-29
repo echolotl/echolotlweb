@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.269Z"
 title: Sketch - Hoodie
 pinned: false
 sketch: true
-image_url: /art/characters/chomb/chombSketchHoodie.png
 character: chomb
 description: Less of a hoodie and more of a letterman, naming these retroactively sucks
-thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
 images:
-    - image_url: /art/characters/chomb/chombSketchHoodie.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
+  - image:
+      src: /art/characters/chomb/chombSketchHoodie.png
+      alt: Sketch - Hoodie
+    thumbnail:
+      src: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
       alt: Sketch - Hoodie

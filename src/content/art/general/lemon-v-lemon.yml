@@ -4,12 +4,14 @@ modified_at: "2025-09-28T20:15:02.443Z"
 title: Lemon v. Lemon
 pinned: false
 sketch: false
-image_url: /art/general/lemonbot.png
-description: Small comic made of [ZestyLemonss'](https://x.com/ZestyLemonss) Discord dog OC vs. Lemon Tree's "Lemonbot"
+description: Small comic made of [ZestyLemonss'](https://x.com/ZestyLemonss)
+  Discord dog OC vs. Lemon Tree's "Lemonbot"
 tags:
-    - fanart
-thumbnail_url: /art/general/thumbnails/lemonbot.webp
+  - fanart
 images:
-    - image_url: /art/general/lemonbot.png
-      thumbnail_url: /art/general/thumbnails/lemonbot.webp
+  - image:
+      src: /art/general/lemonbot.png
+      alt: Lemon v. Lemon
+    thumbnail:
+      src: /art/general/thumbnails/lemonbot.webp
       alt: Lemon v. Lemon

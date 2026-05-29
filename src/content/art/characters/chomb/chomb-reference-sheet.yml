@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.253Z"
 title: Chomb Reference Sheet
 pinned: false
 sketch: false
-image_url: /art/characters/chomb/chomb-reference-sheet.png
-thumbnail_url: /art/characters/chomb/thumbnails/chomb-reference-sheet.webp
 description: Chomb's ref sheet!
 character: chomb
 images:
-    - image_url: /art/characters/chomb/chomb-reference-sheet.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chomb-reference-sheet.webp
+  - image:
+      src: /art/characters/chomb/chomb-reference-sheet.png
+      alt: Chomb Reference Sheet
+    thumbnail:
+      src: /art/characters/chomb/thumbnails/chomb-reference-sheet.webp
       alt: Chomb Reference Sheet

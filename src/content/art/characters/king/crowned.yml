@@ -4,17 +4,18 @@ modified_at: "2025-09-28T23:18:37.194Z"
 title: Crowned
 pinned: false
 sketch: false
-image_url: /art/characters/king/oldestKing.png
 character: king
 description: The original drawing of King
-thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
 images:
-    - image_url: /art/characters/king/oldestKing.png
-      thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
+  - id: oldestKing
+    image:
+      src: /art/characters/king/oldestKing.png
       alt: Crowned
-      id: oldestKing
-      variants:
-          - image_url: /art/characters/king/oldestKing__sketch.jpg
-            thumbnail_url: /art/characters/king/thumbnails/oldestKing__sketch.webp
-            label: Sketch
-            alt: Sketched out version of previous image
+    thumbnail:
+      src: /art/characters/king/thumbnails/oldestKing.webp
+      alt: Crowned
+    variants:
+      - image:
+          src: /art/characters/king/oldestKing__sketch.jpg
+          alt: Sketched out version of previous image
+        label: Sketch

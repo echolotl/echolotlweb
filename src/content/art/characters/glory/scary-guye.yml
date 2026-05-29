@@ -4,11 +4,13 @@ modified_at: "2025-09-28T20:15:02.295Z"
 title: Scary Guye
 pinned: false
 sketch: false
-image_url: /art/characters/glory/scary-guye-1738210569565.png
 character: glory
-description: Who is that...? And why is she wearing such a weird outfit to be walking through the forest?
-thumbnail_url: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
+description: Who is that...? And why is she wearing such a weird outfit to be
+  walking through the forest?
 images:
-    - image_url: /art/characters/glory/scary-guye-1738210569565.png
-      thumbnail_url: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
+  - image:
+      src: /art/characters/glory/scary-guye-1738210569565.png
+      alt: Scary Guye
+    thumbnail:
+      src: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
       alt: Scary Guye

@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.457Z"
 title: Rough Guy
 pinned: false
 sketch: false
-image_url: /art/general/tomguy.png
 description: Fanart of a friend's OC
 tags:
-    - friends
-    - oc
-thumbnail_url: /art/general/thumbnails/tomguy.webp
+  - friends
+  - oc
 images:
-    - image_url: /art/general/tomguy.png
-      thumbnail_url: /art/general/thumbnails/tomguy.webp
+  - image:
+      src: /art/general/tomguy.png
+      alt: Rough Guy
+    thumbnail:
+      src: /art/general/thumbnails/tomguy.webp
       alt: Rough Guy

@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.424Z"
 title: Dragon Sketch
 pinned: false
 sketch: true
-image_url: /art/general/dragon_sketch.png
 description: Sketch of a dragon to try and figure out some anatomy
 tags:
-    - idea
-thumbnail_url: /art/general/thumbnails/dragon_sketch.webp
+  - idea
 images:
-    - image_url: /art/general/dragon_sketch.png
-      thumbnail_url: /art/general/thumbnails/dragon_sketch.webp
+  - image:
+      src: /art/general/dragon_sketch.png
+      alt: Dragon Sketch
+    thumbnail:
+      src: /art/general/thumbnails/dragon_sketch.webp
       alt: Dragon Sketch

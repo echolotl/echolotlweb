@@ -4,12 +4,14 @@ modified_at: "2025-09-28T20:15:02.468Z"
 title: The Cabin Which is Cozy
 pinned: false
 sketch: false
-image_url: /art/general/cozycabin.png
-description: Art used for the starting, ending, and inbetween screens on the [cozycabineer Twitch channel](https://www.twitch.tv/cozycabineer)
+description: Art used for the starting, ending, and inbetween screens on the
+  [cozycabineer Twitch channel](https://www.twitch.tv/cozycabineer)
 tags:
-    - friends
-thumbnail_url: /art/general/thumbnails/cozycabin.webp
+  - friends
 images:
-    - image_url: /art/general/cozycabin.png
-      thumbnail_url: /art/general/thumbnails/cozycabin.webp
+  - image:
+      src: /art/general/cozycabin.png
+      alt: The Cabin Which is Cozy
+    thumbnail:
+      src: /art/general/thumbnails/cozycabin.webp
       alt: The Cabin Which is Cozy

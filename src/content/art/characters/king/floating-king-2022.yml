@@ -4,11 +4,13 @@ modified_at: "2025-09-28T20:15:02.315Z"
 title: Floating King (2022)
 pinned: false
 sketch: false
-image_url: /art/characters/king/kingFloat.png
 character: king
-description: "Fun fact: I made that sparkle thing you see into a brush and that's why its plastered everywhere. Rare crown sighting"
-thumbnail_url: /art/characters/king/thumbnails/kingFloat.webp
+description: "Fun fact: I made that sparkle thing you see into a brush and
+  that's why its plastered everywhere. Rare crown sighting"
 images:
-    - image_url: /art/characters/king/kingFloat.png
-      thumbnail_url: /art/characters/king/thumbnails/kingFloat.webp
+  - image:
+      src: /art/characters/king/kingFloat.png
+      alt: Floating King (2022)
+    thumbnail:
+      src: /art/characters/king/thumbnails/kingFloat.webp
       alt: Floating King (2022)

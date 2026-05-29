@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.464Z"
 title: Tarot Broken Moth
 pinned: false
 sketch: false
-image_url: /art/general/tombrokenmoth.png
 description: Drawing of a friends hurt moth OC
 tags:
-    - friends
-    - oc
-thumbnail_url: /art/general/thumbnails/tombrokenmoth.webp
+  - friends
+  - oc
 images:
-    - image_url: /art/general/tombrokenmoth.png
-      thumbnail_url: /art/general/thumbnails/tombrokenmoth.webp
+  - image:
+      src: /art/general/tombrokenmoth.png
+      alt: Tarot Broken Moth
+    thumbnail:
+      src: /art/general/thumbnails/tombrokenmoth.webp
       alt: Tarot Broken Moth

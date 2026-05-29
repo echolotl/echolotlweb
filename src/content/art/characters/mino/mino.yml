@@ -5,12 +5,17 @@ title: Mino
 pinned: true
 sketch: false
 images:
-    - id: mino
-      image_url: /art/characters/mino/mino.png
-      variants:
-          - image_url: /art/characters/mino/mino__old-colors.png
-            label: Old Colors
-            thumbnail_url: /art/characters/mino/thumbnails/mino__old-colors.webp
-      thumbnail_url: /art/characters/mino/thumbnails/mino.webp
+  - id: mino
+    image:
+      src: /art/characters/mino/mino.png
+      alt: Mino
+    thumbnail:
+      src: /art/characters/mino/thumbnails/mino.webp
+      alt: Mino
+    variants:
+      - image:
+          src: /art/characters/mino/mino__old-colors.png
+          alt: Mino
+        label: Old Colors
 description: initial design of Mino
 character: mino

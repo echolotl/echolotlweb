@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.410Z"
 title: "Changed: Big Guy"
 pinned: false
 sketch: false
-image_url: /art/general/changed_bigguy.png
 description: Fanart of this big guy from Changed
 tags:
-    - fanart
-    - video game
-thumbnail_url: /art/general/thumbnails/changed_bigguy.webp
+  - fanart
+  - video game
 images:
-    - image_url: /art/general/changed_bigguy.png
-      thumbnail_url: /art/general/thumbnails/changed_bigguy.webp
+  - image:
+      src: /art/general/changed_bigguy.png
+      alt: "Changed: Big Guy"
+    thumbnail:
+      src: /art/general/thumbnails/changed_bigguy.webp
       alt: "Changed: Big Guy"

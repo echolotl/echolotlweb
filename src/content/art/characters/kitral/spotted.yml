@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.355Z"
 title: Spotted
 pinned: false
 sketch: false
-image_url: /art/characters/kitral/1748320306919.webp
 character: kitral
 description: Kitral with... considerably more spots
-thumbnail_url: /art/characters/kitral/thumbnails/1748320306919.webp
 images:
-    - image_url: /art/characters/kitral/1748320306919.webp
-      thumbnail_url: /art/characters/kitral/thumbnails/1748320306919.webp
+  - image:
+      src: /art/characters/kitral/1748320306919.webp
+      alt: Spotted
+    thumbnail:
+      src: /art/characters/kitral/thumbnails/1748320306919.webp
       alt: Spotted

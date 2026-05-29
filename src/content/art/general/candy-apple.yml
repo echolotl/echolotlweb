@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.403Z"
 title: Candy Apple
 pinned: false
 sketch: false
-image_url: /art/general/discordoc.png
 description: Gift art for someone on Discord, I don't remember who
 tags:
-    - gift
-thumbnail_url: /art/general/thumbnails/discordoc.webp
+  - gift
 images:
-    - image_url: /art/general/discordoc.png
-      thumbnail_url: /art/general/thumbnails/discordoc.webp
+  - image:
+      src: /art/general/discordoc.png
+      alt: Candy Apple
+    thumbnail:
+      src: /art/general/thumbnails/discordoc.webp
       alt: Candy Apple

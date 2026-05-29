@@ -4,12 +4,13 @@ modified_at: "2025-09-28T20:15:02.473Z"
 title: Wanted
 pinned: false
 sketch: false
-image_url: /art/general/wanted.png
-thumbnail_url: /art/general/thumbnails/wanted.webp
 description: Attack on [C00kie_Sss](https://artfight.net/~C00kie_Sss) for Art Fight
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/wanted.png
-      thumbnail_url: /art/general/thumbnails/wanted.webp
+  - image:
+      src: /art/general/wanted.png
+      alt: Wanted
+    thumbnail:
+      src: /art/general/thumbnails/wanted.webp
       alt: Wanted

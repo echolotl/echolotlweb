@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.336Z"
 title: Stars in la Sky
 pinned: false
 sketch: false
-image_url: /art/characters/king/starsInlasky.png
 character: king
 description: Beautiful glowing white borders and yellow stars, big ol' tail
-thumbnail_url: /art/characters/king/thumbnails/starsInlasky.webp
 images:
-    - image_url: /art/characters/king/starsInlasky.png
-      thumbnail_url: /art/characters/king/thumbnails/starsInlasky.webp
+  - image:
+      src: /art/characters/king/starsInlasky.png
+      alt: Stars in la Sky
+    thumbnail:
+      src: /art/characters/king/thumbnails/starsInlasky.webp
       alt: Stars in la Sky

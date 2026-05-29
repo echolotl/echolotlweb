@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.327Z"
 title: King's 1 Year Birthday
 pinned: false
 sketch: false
-image_url: /art/characters/king/king1yrbirthday.png
 character: king
 description: King's 1 year birthday, with the guests being King, King, and of course, King
-thumbnail_url: /art/characters/king/thumbnails/king1yrbirthday.webp
 images:
-    - image_url: /art/characters/king/king1yrbirthday.png
-      thumbnail_url: /art/characters/king/thumbnails/king1yrbirthday.webp
+  - image:
+      src: /art/characters/king/king1yrbirthday.png
+      alt: King's 1 Year Birthday
+    thumbnail:
+      src: /art/characters/king/thumbnails/king1yrbirthday.webp
       alt: King's 1 Year Birthday

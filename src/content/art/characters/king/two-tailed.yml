@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.342Z"
 title: Two Tailed
 pinned: false
 sketch: false
-image_url: /art/characters/king/two_tailed.png
 character: king
 description: First solo image appearance of the two tails
-thumbnail_url: /art/characters/king/thumbnails/two_tailed.webp
 images:
-    - image_url: /art/characters/king/two_tailed.png
-      thumbnail_url: /art/characters/king/thumbnails/two_tailed.webp
+  - image:
+      src: /art/characters/king/two_tailed.png
+      alt: Two Tailed
+    thumbnail:
+      src: /art/characters/king/thumbnails/two_tailed.webp
       alt: Two Tailed

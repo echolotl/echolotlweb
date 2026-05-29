@@ -1,4 +1,4 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { glob, file } from "astro/loaders";
 import { z } from "astro/zod";
 
@@ -14,7 +14,6 @@ const image = z.object({
 
 const imageVariant = z.object({
     image: image,
-    thumbnail_url: z.url().optional(),
     label: z.string().optional(),
 });
 
@@ -27,7 +26,7 @@ const galleryImage = z.object({
 });
 
 const characters = defineCollection({
-    loader: glob({ base: "./src/content/characters", pattern: "**/*.yaml" }),
+    loader: glob({ base: "./src/content/characters", pattern: "**/*.md" }),
     schema: z.object({
         slug: z.string(),
         name: z.string(),
@@ -37,45 +36,33 @@ const characters = defineCollection({
         created_date: z.iso.date(),
         last_modified: z.iso.date(),
         pronouns: z.string(),
-        friends: z
-            .array(
-                z.object({
-                    slug: z.string(),
-                    name: z.string(),
-                }),
-            )
-            .optional(),
+        friends: z.array(reference("characters")).optional(),
         likes: z.array(z.string()).optional(),
         dislikes: z.array(z.string()).optional(),
-        enemies: z
-            .array(
-                z.object({
-                    slug: z.string(),
-                    name: z.string(),
-                }),
-            )
-            .optional(),
+        enemies: z.array(reference("characters")).optional(),
         clan: z.string(),
         category: z.enum(["talrien", "sonas", "other"]),
         short_description: z.string().optional(),
         theme_color: color,
         theme_color_light: color.optional(),
         color_palette: z.array(color).optional(),
-        portrait: z.object({
-            src: z.string(),
-            alt: z.string(),
-        }),
+        portrait: z
+            .object({
+                src: z.string(),
+                alt: z.string(),
+            })
+            .optional(),
     }),
 });
 
 const art = defineCollection({
-    loader: glob({ base: "./src/content/art", pattern: "**/*.yaml" }),
+    loader: glob({ base: "./src/content/art", pattern: "**/*.yml" }),
     schema: z.object({
         slug: z.string(),
-        created_at: z.iso.date(),
-        modified_at: z.iso.date(),
-        character: z.string().optional(),
-        related_characters: z.array(z.string()).optional(),
+        created_at: z.iso.datetime(),
+        modified_at: z.iso.datetime(),
+        character: reference("characters").optional(),
+        related_characters: z.array(reference("characters")).optional(),
         title: z.string(),
         description: z.string().optional(),
         tags: z.array(z.string()).optional(),

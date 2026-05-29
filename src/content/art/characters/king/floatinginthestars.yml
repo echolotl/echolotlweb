@@ -4,10 +4,11 @@ modified_at: "2025-09-28T20:15:02.317Z"
 title: floatingInthestars
 pinned: false
 sketch: false
-image_url: /art/characters/king/floatingInthestars.png
 character: king
-thumbnail_url: /art/characters/king/thumbnails/floatingInthestars.webp
 images:
-    - image_url: /art/characters/king/floatingInthestars.png
-      thumbnail_url: /art/characters/king/thumbnails/floatingInthestars.webp
+  - image:
+      src: /art/characters/king/floatingInthestars.png
+      alt: floatingInthestars
+    thumbnail:
+      src: /art/characters/king/thumbnails/floatingInthestars.webp
       alt: floatingInthestars

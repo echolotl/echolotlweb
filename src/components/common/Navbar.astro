@@ -5,13 +5,13 @@ type NavIcon = {
   href: string;
   icon: string;
 };
-const NAV_ICONS = [
+const NAV_ICONS: NavIcon[] = [
   { name: "Art", href: "/art", icon: "art_brush" },
   { name: "Characters", href: "/characters", icon: "character" },
 ];
 ---
 
-<header class="navbar">
+<header class="navbar" transition:persist>
   <nav class="navbar-top">
     <div class="navbar-content">
       <button class="theme-changer" type="button" aria-label="Toggle theme">
@@ -162,5 +162,8 @@ const NAV_ICONS = [
     justify-content: center;
     line-height: 0;
     padding: 0;
+    &.active {
+      color: var(--primary);
+    }
   }
 </style>

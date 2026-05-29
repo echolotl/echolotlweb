@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.453Z"
 title: Ralsei
 pinned: false
 sketch: true
-image_url: /art/general/ralsei.jpg
 description: Blue lined sketch of Ralsei from Deltarune
 tags:
-    - fanart
-    - video game
-thumbnail_url: /art/general/thumbnails/ralsei.webp
+  - fanart
+  - video game
 images:
-    - image_url: /art/general/ralsei.jpg
-      thumbnail_url: /art/general/thumbnails/ralsei.webp
+  - image:
+      src: /art/general/ralsei.jpg
+      alt: Ralsei
+    thumbnail:
+      src: /art/general/thumbnails/ralsei.webp
       alt: Ralsei

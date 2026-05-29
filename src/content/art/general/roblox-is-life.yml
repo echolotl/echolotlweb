@@ -4,13 +4,14 @@ modified_at: "2025-09-28T20:15:02.455Z"
 title: roblox is life
 pinned: false
 sketch: false
-image_url: /art/general/roblox-is-life.png
-thumbnail_url: /art/general/thumbnails/roblox-is-life.webp
 description: Funny lookin guy
 tags:
-    - roblox
-    - oc
+  - roblox
+  - oc
 images:
-    - image_url: /art/general/roblox-is-life.png
-      thumbnail_url: /art/general/thumbnails/roblox-is-life.webp
+  - image:
+      src: /art/general/roblox-is-life.png
+      alt: roblox is life
+    thumbnail:
+      src: /art/general/thumbnails/roblox-is-life.webp
       alt: roblox is life

@@ -4,16 +4,21 @@ modified_at: "2025-09-28T22:59:56.194Z"
 title: Sitting Fox
 pinned: false
 sketch: true
-image_url: /art/characters/kitral/sitting-fox.png
-thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
 description: She has an onlooker...
 character: kitral
 related_characters:
-    - glory
+  - glory
 images:
-    - image_url: /art/characters/kitral/sitting-fox.png
-      thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
+  - image:
+      src: /art/characters/kitral/sitting-fox.png
       alt: Sitting Fox
-    - id: image-1
-      image_url: /art/characters/kitral/image-1.png
-      thumbnail_url: /art/characters/kitral/thumbnails/image-1.webp
+    thumbnail:
+      src: /art/characters/kitral/thumbnails/sitting-fox.webp
+      alt: Sitting Fox
+  - id: image-1
+    image:
+      src: /art/characters/kitral/image-1.png
+      alt: Sitting Fox
+    thumbnail:
+      src: /art/characters/kitral/thumbnails/image-1.webp
+      alt: Sitting Fox

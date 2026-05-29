@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.356Z"
 title: Sketchy Pose
 pinned: false
 sketch: false
-image_url: /art/characters/kitral/kitralKhabyLame.png
 character: kitral
 description: Khaby Lame pose
-thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
 images:
-    - image_url: /art/characters/kitral/kitralKhabyLame.png
-      thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
+  - image:
+      src: /art/characters/kitral/kitralKhabyLame.png
+      alt: Whar
+    thumbnail:
+      src: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
       alt: Whar

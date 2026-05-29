@@ -4,11 +4,12 @@ modified_at: "2025-09-28T20:15:02.322Z"
 title: King (2022)
 pinned: false
 sketch: false
-image_url: /art/characters/king/reallyOldRef.png
 character: king
 description: Reference image of King [DO NOT USE]
-thumbnail_url: /art/characters/king/thumbnails/reallyOldRef.webp
 images:
-    - image_url: /art/characters/king/reallyOldRef.png
-      thumbnail_url: /art/characters/king/thumbnails/reallyOldRef.webp
+  - image:
+      src: /art/characters/king/reallyOldRef.png
+      alt: King (2022)
+    thumbnail:
+      src: /art/characters/king/thumbnails/reallyOldRef.webp
       alt: King (2022)

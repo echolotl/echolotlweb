@@ -4,13 +4,15 @@ modified_at: "2025-09-28T20:15:02.395Z"
 title: airbud 3
 pinned: false
 sketch: false
-image_url: /art/general/airbud-3.png
-thumbnail_url: /art/general/thumbnails/airbud-3.webp
-description: Attack on [cushionysleet90](https://artfight.net/~cushionysleet90) for Art Fight!
+description: Attack on [cushionysleet90](https://artfight.net/~cushionysleet90)
+  for Art Fight!
 tags:
-    - painting
-    - art fight
+  - painting
+  - art fight
 images:
-    - image_url: /art/general/airbud-3.png
-      thumbnail_url: /art/general/thumbnails/airbud-3.webp
+  - image:
+      src: /art/general/airbud-3.png
+      alt: airbud 3
+    thumbnail:
+      src: /art/general/thumbnails/airbud-3.webp
       alt: airbud 3
