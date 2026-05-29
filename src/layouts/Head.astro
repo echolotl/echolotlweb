@@ -1,0 +1,52 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  options?: {
+    color?: string;
+    image?: string;
+    shortDescription?: string;
+  };
+}
+const { title, description, options } = Astro.props;
+const shortDescription = options?.shortDescription ?? description;
+const ogImage = options?.image;
+const absoluteOgImage = ogImage
+  ? new URL(ogImage, Astro.url).toString()
+  : undefined;
+---
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+
+  <meta property="og:title" content={title} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url.toString()} />
+  {
+    shortDescription && (
+      <meta property="og:description" content={shortDescription} />
+    )
+  }
+  <meta property="og:locale" content="en_US" />
+  {Astro.site && <meta property="og:site_name" content={Astro.site.hostname} />}
+
+  {options?.color && <meta name="theme-color" content={options.color} />}
+  {absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
+  {absoluteOgImage && <meta name="twitter:image" content={absoluteOgImage} />}
+
+  <meta
+    name="twitter:card"
+    content={absoluteOgImage ? "summary_large_image" : "summary"}
+  />
+  <meta name="twitter:title" content={title} />
+  {
+    shortDescription && (
+      <meta name="twitter:description" content={shortDescription} />
+    )
+  }
+</head>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  icon: string;
+  mask?: boolean;
+}
+
+const { icon, mask = true } = Astro.props;
+
+const iconURL = `url(/images/icons/${icon}.webp)`;
+---
+
+{mask ? <span class="icon" /> : <img src={iconURL} alt="" />}
+
+<style define:vars={{ url: iconURL }}>
+  .icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    mask: var(--url) no-repeat center / contain;
+  }
+</style>

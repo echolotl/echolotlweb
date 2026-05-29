@@ -1,0 +1,115 @@
+:root {
+  --display-font: "Red Hat Display", sans-serif;
+  --body-font: "IBM Plex Sans", sans-serif;
+
+  --very-small-text: clamp(0.7rem, 0.6vw + 0.55rem, 0.75rem);
+  --small-text: clamp(0.85rem, 0.7vw + 0.75rem, 0.875rem);
+  --base-text: clamp(1rem, 0.8vw + 0.9rem, 1rem);
+  --medium-text: clamp(1.25rem, 1vw + 1.1rem, 1.25rem);
+  --large-text: clamp(1.5rem, 1.2vw + 1.3rem, 1.5rem);
+  --xl-text: clamp(2rem, 1.5vw + 1.7rem, 2rem);
+}
+
+* {
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+:root[data-theme="light"] {
+  --foreground: #ededed;
+  --background: #e0e0e0;
+  --surface: #d6d6d6;
+  --distant: #c0c0c0;
+  --solid: #ffffff;
+
+  --primary: #c43394;
+  --red: #c43333;
+  --orange: #c48c33;
+  --yellow: #c4c433;
+  --green: #33c433;
+  --blue: #3333c4;
+  --purple: #8c33c4;
+
+  --text: #3f3f3f;
+  --text-secondary: #5f5f5f;
+}
+
+:root[data-theme="dark"] {
+  --foreground: #3f3f3f;
+  --background: #282828;
+  --surface: #1f1f1f;
+  --distant: #121212;
+  --solid: #000000;
+
+  --primary: #da39a4;
+  --red: #da3939;
+  --orange: #da9b39;
+  --yellow: #dada39;
+  --green: #39da39;
+  --blue: #3939da;
+  --purple: #9b39da;
+
+  --text: #ededed;
+  --text-secondary: #d6d6d6;
+}
+
+body {
+  font-family: var(--body-font);
+  color: var(--text);
+  background-color: var(--background);
+  margin: 0;
+}
+
+button {
+  font-family: var(--body-font);
+  color: var(--text);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0.5em 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  color: var(--text);
+  margin: 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--distant);
+  margin: 1em 0;
+}
+
+a,
+a:visited {
+  color: var(--text);
+  text-decoration: none;
+  outline: none;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s;
+  outline: none;
+
+  &:hover,
+  &:focus {
+    color: color-mix(in srgb, var(--primary), blue 20%);
+    text-decoration: underline;
+  }
+}
+
+p {
+  font-size: var(--base-text);
+  line-height: 1.6;
+}

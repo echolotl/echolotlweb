@@ -1,0 +1,13 @@
+---
+import Navbar from "../components/common/Navbar.astro";
+import "../styles/global.css";
+---
+
+<body>
+  <Navbar />
+  <slot />
+  <script>
+    import { initTheme } from "../composables/theme";
+    initTheme();
+  </script>
+</body>
