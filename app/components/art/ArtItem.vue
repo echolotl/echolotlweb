@@ -54,13 +54,17 @@ import type { Art } from "~~/types";
 import SketchFilter from "../common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
 
-const filterId = `outline-${Math.random().toString(36).slice(2)}`;
-
 const props = defineProps<{
     artwork: Art;
     showMetadata?: boolean;
     showCharacterBadge?: boolean;
 }>();
+
+const filterId = ref(`outline-${props.artwork.slug}`);
+
+onMounted(() => {
+    filterId.value = `outline-${props.artwork.slug}-${Math.random().toString(36).slice(2)}`;
+});
 
 const hasVariants = computed(() => {
     return (props.artwork.images?.[0]?.variants?.length || 0) > 0;

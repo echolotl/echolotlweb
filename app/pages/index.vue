@@ -112,7 +112,7 @@ import type { CurrentlyPlayingResponse } from "~~/types/spotify";
 const BACKEND_URL = "https://backend.echolotl.lol";
 
 const dateFormat = new Intl.RelativeTimeFormat("en", { style: "short" });
-const seed = ref(Math.floor(Math.random() * 1000000));
+const seed = ref(0);
 const curDurationMsSpotify = ref(0);
 
 function generateSeed() {
@@ -348,6 +348,7 @@ const startSpotifyPolling = () => {
 };
 
 onMounted(async () => {
+    generateSeed();
     await refreshStatus();
     startSpotifyPolling();
     seedInterval = setInterval(() => {

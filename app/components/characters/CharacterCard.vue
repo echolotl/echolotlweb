@@ -28,13 +28,17 @@ import SketchText from "../common/SketchText.vue";
 import SketchFilter from "../common/SketchFilter.vue";
 import { useTheme } from "~~/composables/useTheme";
 
-const filterId = `outline-${Math.random().toString(36).slice(2)}`;
-
 const props = defineProps({
     character: {
         type: Object as () => Character,
         required: true,
     },
+});
+
+const filterId = ref(`outline-${props.character.slug}`);
+
+onMounted(() => {
+    filterId.value = `outline-${props.character.slug}-${Math.random().toString(36).slice(2)}`;
 });
 
 const { theme } = useTheme();

@@ -15,7 +15,7 @@
                     baseFrequency="0.1"
                     numOctaves="5"
                     result="noise"
-                    :seed="seed" />
+                    :seed="resolvedSeed" />
                 <feGaussianBlur
                     in="SourceAlpha"
                     :stdDeviation="stdDeviation"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
     defineProps<{
         id: string;
         seed?: number;
@@ -57,10 +57,17 @@ withDefaults(
         intercept?: number;
     }>(),
     {
-        seed: () => Math.floor(Math.random() * 20000),
         floodColor: "var(--theme-color, var(--primary))",
         stdDeviation: 2,
         intercept: -5,
     },
 );
+
+const resolvedSeed = ref(props.seed ?? 1);
+
+onMounted(() => {
+    if (props.seed === undefined) {
+        resolvedSeed.value = Math.floor(Math.random() * 20000);
+    }
+});
 </script>
