@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { NuxtError } from "#app";
 import Icon from "./components/common/Icon.vue";
-import SketchText from "./components/common/SketchText.vue";
 
 defineProps({
     error: {
@@ -35,11 +34,15 @@ const handleError = () => {
                         :alt="`Error ${error?.statusCode}`"
                         width="300"
                         height="200" />
-                    <SketchText
-                        size="2rem"
-                        style="color: var(--primary); margin-top: 0.5rem">
+                    <span
+                        class="lotl-font"
+                        style="
+                            font-size: 2rem;
+                            color: var(--primary);
+                            margin-top: 0.5rem;
+                        ">
                         {{ error?.message || "An unexpected error occurred." }}
-                    </SketchText>
+                    </span>
                     <button @click="handleError" class="clear-error-button">
                         <Icon
                             icon="back-arrow"

@@ -6,9 +6,10 @@
             :seed="seed" />
         <div class="main-content">
             <h1 class="heading">
-                <SketchText size="2rem" text="Hi, i'm " />
-                <SketchText class="echolotl-text" size="2rem" text="echolotl" />
-                <SketchText size="2rem" text="!" />
+                <span class="lotl-font" style="font-size: 2.1rem"
+                    >Hi, i'm
+                    <span class="lotl-font echolotl-text">echolotl</span>!</span
+                >
             </h1>
             <div class="subtitle">
                 so called "furry artist", hobby coder, cult of the lamb
@@ -104,7 +105,6 @@
 </template>
 
 <script setup lang="ts">
-import SketchText from "~/components/common/SketchText.vue";
 import SketchFilter from "~/components/common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
 import type { CurrentlyPlayingResponse } from "~~/types/spotify";

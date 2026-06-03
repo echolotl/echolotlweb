@@ -1,9 +1,9 @@
 <template>
     <div class="character-infobox">
-        <span class="character-infobox__label"
-            ><SketchText size="1.4em">{{
-                character.name.toUpperCase()
-            }}</SketchText></span
+        <span
+            class="character-infobox__label lotl-font"
+            style="font-size: 1.4em"
+            >{{ character.name.toUpperCase() }}</span
         >
         <div class="character-infobox__details">
             <hr />
@@ -211,7 +211,6 @@
 
 <script setup lang="ts">
 import CharacterLink from "~/components/common/CharacterLink.vue";
-import SketchText from "~/components/common/SketchText.vue";
 import Icon from "~/components/common/Icon.vue";
 import utils from "~/utils";
 import type { Character } from "~~/types";

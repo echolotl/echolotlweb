@@ -1,21 +1,19 @@
 <template>
     <h1 :id="props.id">
         <a v-if="generate" :href="`#${props.id}`">
-            <SketchText
-                :text="extractText(slots.default?.()[0])"
-                size="2.5rem"></SketchText>
+            <span class="lotl-font" style="font-size: 2.5rem">
+                {{ extractText(slots.default?.()[0]) }}
+            </span>
         </a>
-        <SketchText
-            v-else
-            :text="extractText(slots.default?.()[0])"
-            size="2.5rem"></SketchText>
+        <span v-else class="lotl-font" style="font-size: 2.5rem">
+            {{ extractText(slots.default?.()[0]) }}
+        </span>
     </h1>
 </template>
 
 <script setup lang="ts">
 import { computed, useRuntimeConfig } from "#imports";
 import { useSlots } from "#imports";
-import SketchText from "@/components/common/SketchText.vue";
 
 const props = defineProps<{ id?: string }>();
 const slots = useSlots();

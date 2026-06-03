@@ -11,7 +11,9 @@
                 :key="category"
                 class="category">
                 <h2 class="section-title" style="transform: translateY(2px)">
-                    <SketchText size="1.5rem">{{ category }}</SketchText>
+                    <span class="lotl-font" style="font-size: 1.5rem">{{
+                        category
+                    }}</span>
                 </h2>
                 <p class="category-description">
                     {{
@@ -35,7 +37,6 @@
 <script setup lang="ts">
 import { useAsyncData } from "nuxt/app";
 import CharacterCard from "~/components/characters/CharacterCard.vue";
-import SketchText from "~/components/common/SketchText.vue";
 import { type Character } from "~~/types";
 
 const { data: characters } = await useAsyncData<Character[]>(
@@ -105,8 +106,8 @@ const charactersCategories = computed(() => {
 });
 
 const hardcodedCategoryDescriptions: Record<string, string> = {
-    Talrien: "Something something lore",
-    Sonas: "Characters created for (and by) echolotl as representations of themselves",
+    Talrien: "All of the characters within the world of Talrien",
+    Sonas: "Characters created for echolotl as representations of themselves",
     Other: "Probably minor and/or possibly one-off characters",
 };
 

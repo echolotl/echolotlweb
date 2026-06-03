@@ -8,7 +8,9 @@
             <div class="character-main-content">
                 <CharacterInfobox :character="character" />
                 <h2 class="section-title">
-                    <SketchText size="1.2em">Description</SketchText>
+                    <span class="lotl-font" style="font-size: 1.2em"
+                        >Description</span
+                    >
                 </h2>
                 <content-renderer
                     :value="character"
@@ -19,7 +21,7 @@
         <div class="character-images">
             <h2 class="section-title">
                 <Icon icon="art_brush" width="28px" height="28px" />
-                <SketchText size="1.2em">Artwork</SketchText>
+                <span class="lotl-font" style="font-size: 1.2em">Artwork</span>
             </h2>
             <ArtGrid
                 v-if="characterArtworks && characterArtworks.length > 0"
@@ -43,7 +45,6 @@ import { getArtworksByCharacter } from "~/utils/art";
 
 import { useTheme } from "~~/composables/useTheme";
 import SplashText from "~/components/common/SplashText.vue";
-import SketchText from "~/components/common/SketchText.vue";
 
 const route = useRoute();
 

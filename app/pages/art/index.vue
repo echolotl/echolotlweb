@@ -10,14 +10,14 @@
         <div v-if="allPinnedArtworks.length > 0" class="section-header">
             <h2 class="section-title">
                 <Icon icon="pin" />
-                <SketchText size="1.2em">Pinned</SketchText>
+                <span class="lotl-font" style="font-size: 1.2em">Pinned</span>
             </h2>
         </div>
         <ArtGrid :artworks="allPinnedArtworks" />
         <div class="section-header section-header-with-filter">
             <div class="section-title-group">
                 <h2 class="section-title">
-                    <SketchText size="1.2em">All</SketchText>
+                    <span class="lotl-font" style="font-size: 1.2em">All</span>
                 </h2>
             </div>
             <button
@@ -151,7 +151,6 @@
 <script setup lang="ts">
 import { getArtworks } from "#imports";
 import Icon from "~/components/common/Icon.vue";
-import SketchText from "~/components/common/SketchText.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 

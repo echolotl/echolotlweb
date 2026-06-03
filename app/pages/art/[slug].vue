@@ -4,7 +4,9 @@
             <h1
                 class="large-title"
                 style="margin-bottom: 0rem; line-height: 1.2">
-                <SketchText size="3rem">{{ art.title }}</SketchText>
+                <span class="lotl-font" style="font-size: 3rem">{{
+                    art.title
+                }}</span>
             </h1>
 
             <div class="art-description">
@@ -40,13 +42,11 @@
                         ">
                         <CharacterTag
                             v-if="art.character"
-                            :slug="art.character"
-                            sketch-text />
+                            :slug="art.character" />
                         <CharacterTag
                             v-for="character in art.related_characters"
                             :key="character"
-                            :slug="character"
-                            sketch-text />
+                            :slug="character" />
                     </TagList>
                     <div v-if="art.created_at" class="art-meta__section">
                         <Icon icon="date" color="var(--text-secondary)" />
@@ -91,7 +91,6 @@ import CharacterTag from "~/components/common/CharacterTag.vue";
 import Icon from "~/components/common/Icon.vue";
 import Tag from "~/components/common/Tag.vue";
 import TagList from "~/components/common/TagList.vue";
-import SketchText from "~/components/common/SketchText.vue";
 import { micromark } from "micromark";
 
 const route = useRoute();

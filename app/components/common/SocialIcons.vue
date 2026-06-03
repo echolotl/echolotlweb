@@ -72,12 +72,12 @@
                     :height="iconSize"
                     :width="iconSize" />
             </div>
-            <SketchText
+            <span
                 v-if="showCopiedText"
-                class="copied-text"
+                class="copied-text lotl-font"
                 :class="{ 'float-up': showCopiedText }">
                 @echolotl
-            </SketchText>
+            </span>
         </div>
         <a
             href="https://www.youtube.com/@echolotl"
@@ -104,7 +104,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import Icon from "./Icon.vue";
-import SketchText from "./SketchText.vue";
 
 const isShiftPressed = ref(false);
 const showCopiedText = ref(false);

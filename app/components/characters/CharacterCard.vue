@@ -16,15 +16,16 @@
                 class="character-card__image-icon-hover"
                 :style="{ backgroundImage: characterHoverImage }"></div>
         </NuxtLink>
-        <SketchText class="character-card__name" size="1.5rem">{{
-            props.character.name
-        }}</SketchText>
+        <span
+            class="character-card__name lotl-font"
+            style="font-size: 1.5rem"
+            >{{ props.character.name }}</span
+        >
     </div>
 </template>
 
 <script setup lang="ts">
 import type { Character } from "~~/types";
-import SketchText from "../common/SketchText.vue";
 import SketchFilter from "../common/SketchFilter.vue";
 import { useTheme } from "~~/composables/useTheme";
 
@@ -141,13 +142,12 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`; // -20 to 20
     &__name {
         position: absolute;
         color: transparent;
-        bottom: -10px;
+        bottom: 0;
         opacity: 0;
         transition:
             opacity 0.3s,
             color 0.3s;
-        font-weight: bold;
-        text-transform: uppercase;
+        text-box-trim: trim-both;
         text-align: center;
         z-index: 4;
     }

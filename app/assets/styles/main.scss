@@ -4,6 +4,17 @@
 @use "./partials/_animations.scss" as *;
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
 
+@font-face {
+    font-family: "Lotl";
+    src: local("Lotl"), url("/fonts/Lotl.ttf") format("truetype");
+    font-display: swap;
+}
+
+.lotl-font {
+    font-family: "Lotl", $display-font, sans-serif;
+    font-weight: normal !important;
+}
+
 body {
     margin: 0;
     font-family: $body-font;

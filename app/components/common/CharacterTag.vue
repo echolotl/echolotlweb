@@ -1,11 +1,9 @@
 <template>
     <CharacterLink :slug="slug" class="character-tag">
         <Tag variant="character" :clickable="true" :custom-color="themeColor">
-            <SketchText
-                v-if="sketchText && character?.name"
-                :text="character.name"
-                class="sketch-text-stroke" />
-            <span v-else-if="character?.name">{{ character.name }}</span>
+            <span v-if="character?.name" class="lotl-font">
+                {{ character.name }}
+            </span>
             <slot v-else></slot>
         </Tag>
     </CharacterLink>
@@ -14,12 +12,10 @@
 <script setup lang="ts">
 import Tag from "./Tag.vue";
 import CharacterLink from "./CharacterLink.vue";
-import SketchText from "./SketchText.vue";
 import { useTheme } from "~~/composables/useTheme";
 
 interface Props {
     slug: string;
-    sketchText?: boolean;
 }
 
 const props = defineProps<Props>();

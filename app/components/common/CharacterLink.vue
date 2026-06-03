@@ -1,28 +1,17 @@
 <template>
     <nuxt-link
         :to="`/characters/${slug}`"
-        class="link character-link"
-        :class="{ 'character-link--sketch': sketchText }">
-        <template v-if="sketchText">
-            <SketchText v-if="$slots.default">
-                <slot></slot>
-            </SketchText>
-            <SketchText v-else :text="character?.name || ''" />
-        </template>
-        <template v-else>
-            <slot v-if="$slots.default"></slot>
-            <span v-else>{{ character?.name }}</span>
-        </template>
+        class="link character-link lotl-font">
+        <slot v-if="$slots.default"></slot>
+        <span v-else>{{ character?.name }}</span>
     </nuxt-link>
 </template>
 
 <script setup lang="ts">
-import SketchText from "./SketchText.vue";
 import { useTheme } from "~~/composables/useTheme";
 
 const props = defineProps<{
     slug: string;
-    sketchText?: boolean;
 }>();
 
 const { data: character } = await useAsyncData(
@@ -59,13 +48,6 @@ const darkerColor = computed(() => {
 
 .character-link {
     color: v-bind(themeColor);
-
-    &:not(.character-link--sketch) {
-        @include text-stroke(v-bind(darkerColor));
-    }
-
-    &--sketch {
-        @include drop-shadow-simple(v-bind(darkerColor));
-    }
+    text-box-trim: trim-both;
 }
 </style>
