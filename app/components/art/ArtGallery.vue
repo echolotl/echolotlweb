@@ -299,7 +299,7 @@ onMounted(() => {
     bottom: 1rem;
     right: 1rem;
     opacity: 0;
-    @include drop-shadow-outline(var(--background));
+    @include color-text-stroke(var(--background));
     .link {
         display: flex;
         justify-content: flex-end;

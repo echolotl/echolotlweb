@@ -13,16 +13,20 @@ theme_color: "#e2c68a"
 theme_color_light: "#9F7928"
 category: "Sonas"
 color_palette:
-    - "#E2A870"
-    - "#E2CDA0"
-    - "#CDBC97"
-    - "#7B7956"
-    - "#0D0D21"
-    - "#000000"
+  - "#E2A870"
+  - "#E2CDA0"
+  - "#CDBC97"
+  - "#7B7956"
+  - "#0D0D21"
+  - "#000000"
 sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2026-01-29
+  changefreq: monthly
+  priority: 0.5
+  lastmod: 2026-01-29
 ---
+
+<Callout type="info">
+This character's description and page is currently a WIP. There will be something here eventually.
+</Callout>
 
 **Echo** is echolotl's pokesona, an anthropomorphic Mimikyu.

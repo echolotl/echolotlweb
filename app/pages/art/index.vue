@@ -9,7 +9,11 @@
 
         <div v-if="allPinnedArtworks.length > 0" class="section-header">
             <h2 class="section-title">
-                <Icon icon="pin" />
+                <Icon
+                    icon="pin"
+                    style="color: var(--text)"
+                    width="30px"
+                    height="30px" />
                 <span class="lotl-font" style="font-size: 1.2em">Pinned</span>
             </h2>
         </div>
@@ -609,7 +613,7 @@ useSeoMeta({
 }
 
 .section-title {
-    @include drop-shadow-outline(var(--text), 1px);
+    @include color-text-stroke(var(--text), 6px);
     color: var(--background);
     display: flex;
     align-items: center;

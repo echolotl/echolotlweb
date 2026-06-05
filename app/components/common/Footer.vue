@@ -140,7 +140,7 @@ footer {
         justify-content: flex-end;
         flex-direction: column;
         gap: 0.25rem;
-        @include drop-shadow-outline(var(--background));
+        @include color-text-stroke(var(--background));
 
         .small-username {
             width: 100%;

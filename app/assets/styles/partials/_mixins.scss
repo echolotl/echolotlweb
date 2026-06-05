@@ -94,6 +94,12 @@
         $size (-$size) 0 $color;
 }
 
+@mixin color-text-stroke($color, $size: 1px) {
+    paint-order: stroke fill;
+    -webkit-text-stroke-color: $color;
+    -webkit-text-stroke-width: $size;
+}
+
 @mixin drop-shadow-outline($color, $size: 1px, $blur: 0) {
     filter: drop-shadow(0 $size $blur $color) drop-shadow($size 0 $blur $color)
         drop-shadow((-$size) 0 $blur $color)
@@ -147,17 +153,6 @@
 
     &:hover {
         transform: translateY($translateY);
-    }
-}
-
-@mixin hover-glow($color, $duration: 0.3s) {
-    @include drop-shadow-outline(transparent);
-    transition:
-        transform $duration ease,
-        filter $duration ease;
-
-    &:hover {
-        @include drop-shadow-outline($color);
     }
 }
 

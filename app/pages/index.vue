@@ -415,6 +415,10 @@ onBeforeUnmount(() => {
         mask-repeat: no-repeat;
     }
 
+    :not(.extra-info) {
+        font-family: Lotl;
+    }
+
     .emoji {
         position: absolute;
         top: -2rem;

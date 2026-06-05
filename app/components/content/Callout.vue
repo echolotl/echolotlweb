@@ -1,13 +1,24 @@
 <template>
-    <div :class="['callout', `callout--${type}`]">
-        <div class="callout__icon">
-            <Icon :icon="iconName" :style="{ color: iconColor }" />
+    <div :class="['callout']" :style="{ '--callout-color': color }">
+        <div
+            class="callout__icon"
+            :style="{ '--filter-url': `url(#callout-icon-shadow-${id})` }">
+            <SketchFilter
+                :id="`callout-icon-shadow-${id}`"
+                :std-deviation="1.5"
+                :intercept="-3"
+                flood-color="var(--background)" />
+            <Icon
+                :icon="iconName"
+                style="color: var(--callout-color)"
+                height="32px"
+                width="32px" />
         </div>
         <div class="callout__content">
             <h4
                 v-if="title"
-                class="callout__title"
-                :style="{ color: iconColor }">
+                class="callout__title lotl-font"
+                style="color: var(--callout-color)">
                 {{ title }}
             </h4>
             <div class="callout__body">
@@ -19,10 +30,13 @@
 
 <script setup lang="ts">
 import Icon from "../common/Icon.vue";
+import SketchFilter from "../common/SketchFilter.vue";
 interface Props {
-    type?: "info" | "warning" | "error" | "success";
+    type?: "info" | "warning" | "error" | "tip";
     title?: string;
 }
+
+var id = Math.random().toString(36).slice(2);
 
 const props = withDefaults(defineProps<Props>(), {
     type: "info",
@@ -34,18 +48,31 @@ const iconName = computed(() => {
         info: "info",
         warning: "warning",
         error: "md-danger",
-        success: "star",
+        tip: "tip",
         important: "feedback",
     };
     return icons[props.type];
 });
 
-const iconColor = computed(() => {
+const title = computed(() => {
+    if (props.title) return props.title;
+
+    const titles = {
+        info: "Note",
+        warning: "Warning",
+        error: "Caution",
+        tip: "Tip",
+        important: "Important",
+    };
+    return titles[props.type];
+});
+
+const color = computed(() => {
     const colors = {
-        info: "var(--blue)",
+        info: "var(--primary)",
         warning: "var(--orange)",
         error: "var(--red)",
-        success: "var(--green)",
+        tip: "var(--green)",
         important: "var(--purple)",
     };
     return colors[props.type];
@@ -56,52 +83,40 @@ const iconColor = computed(() => {
 @use "~/assets/styles/partials/_mixins" as *;
 
 .callout {
+    position: relative;
     display: flex;
     gap: 12px;
-    padding: 16px;
-    border-radius: 0 0.5rem 0.5rem 0;
-    border-left: 4px solid;
+    padding: 12px 16px;
+    border-left: 3px dotted var(--callout-color);
     margin: 16px 0;
-    background: var(--surface);
-}
-
-.callout--info {
-    border-left-color: var(--blue);
-    @include tint-background(var(--blue), 10%, var(--surface));
-}
-
-.callout--warning {
-    border-left-color: var(--orange);
-    @include tint-background(var(--orange), 10%, var(--surface));
-}
-
-.callout--error {
-    border-left-color: var(--red);
-    @include tint-background(var(--red), 10%, var(--surface));
-}
-
-.callout--success {
-    border-left-color: var(--green);
-    @include tint-background(var(--green), 10%, var(--surface));
-}
-
-.callout--important {
-    border-left-color: var(--purple);
-    @include tint-background(var(--purple), 10%, var(--surface));
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 48px;
+        height: 100%;
+        background: linear-gradient(
+            to right,
+            var(--callout-color),
+            transparent
+        );
+        opacity: 0.1;
+        z-index: -1;
+    }
 }
 
 .callout__icon {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    @include drop-shadow-simple(var(--background));
+    position: absolute;
+    left: -24px;
+    top: 8px;
+    filter: var(--filter-url);
 }
 
 .callout__title {
-    font-weight: 800;
-    margin: 0 0 8px 0;
+    margin: 0 0 8px 0 !important;
+    font-size: 1.2em !important;
     color: var(--text);
-    text-transform: uppercase;
 }
 
 .callout__content {

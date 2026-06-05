@@ -106,6 +106,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`; // -20 to 20
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        will-change: background-position, opacity;
         z-index: 1;
         mask-image: url("/images/art_mask.png");
         mask-size: 160px 160px;
@@ -136,6 +137,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`; // -20 to 20
         background-position: center;
         background-repeat: no-repeat;
         opacity: 0;
+        will-change: transform, opacity;
         z-index: 3;
     }
 
@@ -173,7 +175,7 @@ const randomRotation = `${Math.floor(Math.random() * 41) - 20}deg`; // -20 to 20
         }
 
         .character-card__name {
-            @include drop-shadow-outline(var(--background));
+            @include color-text-stroke(var(--background), 6px);
             opacity: 1;
             color: var(--theme-color);
         }

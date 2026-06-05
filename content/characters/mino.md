@@ -13,21 +13,23 @@ theme_color: "#8bde10"
 theme_color_light: "#578A0A"
 category: "Talrien"
 likes:
-    - "Mint"
-    - "Weapons"
-    - "Townsfolk"
+  - "Mint"
+  - "Weapons"
+  - "Townsfolk"
 dislikes:
-    - "Water"
+  - "Water"
 friends:
-    - name: Chomb
-      slug: chomb
+  - name: Chomb
+    slug: chomb
 enemies:
-    - name: Orchy
-      slug: orchy
+  - name: Orchy
+    slug: orchy
 sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2026-01-29
+  changefreq: monthly
+  priority: 0.5
+  lastmod: 2026-01-29
 ---
 
-**Mino**
+<Callout type="info">
+This character's description and page is currently a WIP. There will be something here eventually.
+</Callout>

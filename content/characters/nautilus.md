@@ -13,35 +13,37 @@ theme_color: "#30cde9"
 theme_color_light: "#13a3bd"
 category: "Talrien"
 color_palette:
-    - "#64D7E8"
-    - "#9D69D7"
-    - "#A699B1"
-    - "#3C3C67"
-    - "#4D4E4E"
-    - "#A2B1B7"
-    - "#CDE0E8"
-    - "#583747"
-    - "#9D6678"
-    - "#D2876E"
-    - "#FFB776"
-    - "#FFEEAE"
+  - "#64D7E8"
+  - "#9D69D7"
+  - "#A699B1"
+  - "#3C3C67"
+  - "#4D4E4E"
+  - "#A2B1B7"
+  - "#CDE0E8"
+  - "#583747"
+  - "#9D6678"
+  - "#D2876E"
+  - "#FFB776"
+  - "#FFEEAE"
 dislikes:
-    - "Water"
-    - "Lightning"
+  - "Water"
+  - "Lightning"
 likes:
-    - "Warmth"
-    - "Isolation"
+  - "Warmth"
+  - "Isolation"
 friends:
-    - name: Chomb
-      slug: chomb
-    - name: Orchy
-      slug: orchy
-    - name: Mino
-      slug: mino
+  - name: Chomb
+    slug: chomb
+  - name: Orchy
+    slug: orchy
+  - name: Mino
+    slug: mino
 sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2025-07-03
+  changefreq: monthly
+  priority: 0.5
+  lastmod: 2025-07-03
 ---
 
-**Nautilus**
+<Callout type="info">
+This character's description and page is currently a WIP. There will be something here eventually.
+</Callout>

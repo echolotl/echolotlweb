@@ -297,7 +297,7 @@ function copyColorToClipboard(color: string): void {
 }
 
 .character-infobox__label {
-    @include drop-shadow-outline(var(--background), 1px);
+    @include color-text-stroke(var(--background), 4px);
     color: var(--theme-color);
     font-weight: bold;
     font-size: var(--base-text);

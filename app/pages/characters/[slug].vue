@@ -20,7 +20,11 @@
         </div>
         <div class="character-images">
             <h2 class="section-title">
-                <Icon icon="art_brush" width="28px" height="28px" />
+                <Icon
+                    icon="art_brush"
+                    width="36px"
+                    height="36px"
+                    style="color: var(--theme-color)" />
                 <span class="lotl-font" style="font-size: 1.2em">Artwork</span>
             </h2>
             <ArtGrid
@@ -198,7 +202,7 @@ useSeoMeta({
     }
 }
 .section-title {
-    @include drop-shadow-outline(var(--theme-color), 1px);
+    @include color-text-stroke(var(--theme-color), 6px);
     color: var(--background);
     display: flex;
     align-items: center;

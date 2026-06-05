@@ -13,26 +13,28 @@ theme_color: "#e7984e"
 theme_color_light: "#BC681A"
 category: "Talrien"
 friends:
-    - slug: glory
-      name: Glory
-    - slug: chomb
-      name: Chomb
+  - slug: glory
+    name: Glory
+  - slug: chomb
+    name: Chomb
 enemies:
-    - slug: nautilus
-      name: Nautilus
-    - slug: mino
-      name: Mino
+  - slug: nautilus
+    name: Nautilus
+  - slug: mino
+    name: Mino
 likes:
-    - "Fighting"
-    - "Lemons"
-    - "Townsfolk"
+  - "Fighting"
+  - "Lemons"
+  - "Townsfolk"
 dislikes:
-    - "Chocolate"
-    - "Grains"
+  - "Chocolate"
+  - "Grains"
 sitemap:
-    changefreq: monthly
-    priority: 0.5
-    lastmod: 2026-01-29
+  changefreq: monthly
+  priority: 0.5
+  lastmod: 2026-01-29
 ---
 
-**Kitral**
+<Callout type="info">
+This character's description and page is currently a WIP. There will be something here eventually.
+</Callout>
