@@ -2,7 +2,7 @@ import * as yaml from "js-yaml";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { Logger } from "../../logger";
-import type { Art, ArtImage } from "../../../types";
+import type { Art, ArtImage, Character } from "../../../types";
 import { context } from "./context";
 import { ask } from "./cli";
 
@@ -127,5 +127,61 @@ export function getArtBySlug(slug: string): Art | null {
   } catch (e) {
     Logger.error(`Error reading art file for slug "${slug}": ${e}`);
     return null;
+  }
+}
+
+export function getAllArts(): Art[] {
+  const artDir = path.join(process.cwd(), "content/art");
+  const arts: Art[] = [];
+  const generalDir = path.join(artDir, "general");
+  if (fs.existsSync(generalDir)) {
+    const generalFiles = fs.readdirSync(generalDir);
+    for (const file of generalFiles) {
+      if (file.endsWith(".yml")) {
+        const art = getArtBySlug(path.basename(file, ".yml"));
+        if (art) {
+          arts.push(art);
+        }
+      }
+    }
+  }
+  const charactersDir = path.join(artDir, "characters");
+  if (fs.existsSync(charactersDir)) {
+    const characterFolders = fs
+      .readdirSync(charactersDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+    for (const characterFolder of characterFolders) {
+      const characterDir = path.join(charactersDir, characterFolder);
+      const characterFiles = fs.readdirSync(characterDir);
+      for (const file of characterFiles) {
+        if (file.endsWith(".yml")) {
+          const art = getArtBySlug(path.basename(file, ".yml"));
+          if (art) {
+            arts.push(art);
+          }
+        }
+      }
+    }
+  }
+  return arts;
+}
+
+export function getCharacterData(slug: string): Character {
+  const characterPath = path.join("content/characters", `${slug}.md`);
+  if (!fs.existsSync(characterPath)) {
+    throw new Error(`Character with slug "${slug}" not found.`);
+  }
+  try {
+    // Get the frontmatter content between the first two --- lines
+    const fileContent = fs.readFileSync(characterPath, "utf8");
+    const frontmatterMatch = fileContent.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
+    if (!frontmatterMatch || !frontmatterMatch[1]) {
+      throw new Error(`No frontmatter found in character file for slug "${slug}".`);
+    }
+    const character = yaml.load(frontmatterMatch[1]) as Character;
+    return character;
+  } catch (e) {
+    throw new Error(`Error reading character file for slug "${slug}": ${e}`);
   }
 }

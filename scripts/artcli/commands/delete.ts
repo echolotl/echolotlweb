@@ -36,16 +36,19 @@ export async function del(args: string[]) {
     `${Logger.fmtBold("WARNING:")} You are about to delete the following art pieces:`,
   );
   for (const art of artsToDelete) {
-    Logger.log(
-      `- ${art.title || art.slug} ${art.character ? `(Character: ${art.character})` : ""}`,
-    );
-    Logger.log(`  URL: https://www.echolotl.lol/art/${art.slug}`);
+    Logger.statement(`${Logger.fmtBold(art.title || art.slug)}`);
+    Logger.dim(`  ${art.description}`);
+    if (art.character)
+      Logger.dim(
+        `  Character${art.related_characters ? "s" : ""}: ${art.character}${art.related_characters ? `, ${art.related_characters.join(", ")}` : ""}`,
+      );
+    Logger.dim(`  ${Logger.fmtBold("URL")}: https://www.echolotl.lol/art/${art.slug}`);
   }
   Logger.rgb(
     255,
     0,
     0,
-    `This action is irreversible. Type "${Logger.fmtBold("DELETE")}" to confirm or anything else to cancel.`,
+    `This action is irreversible${context.shouldPush ? " " : " (unless restored from Git)"}. Type "${Logger.fmtBold("DELETE")}" to confirm or anything else to cancel.`,
   );
   const confirmation = await ask();
   if (confirmation === "DELETE") {
