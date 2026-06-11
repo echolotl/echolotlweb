@@ -97,7 +97,7 @@ h4,
 h5,
 h6 {
     font-family: $display-font;
-    font-weight: 900;
+    font-weight: normal !important;
     a {
         color: var(--text);
         text-decoration: none;

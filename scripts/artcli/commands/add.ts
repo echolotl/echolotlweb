@@ -13,6 +13,13 @@ type PlacementChoice = "variant" | "gallery" | "new";
 
 type ArtDraft = Omit<Art, "modified_at">;
 
+/**
+ * Gets a unique ID based on the slug provided or generated from the title.
+ * @param images Existing images in the art piece to ensure uniqueness against.
+ * @param slug The base slug to use for generating the ID.
+ * @param title Optional, will generate a slug from the title instead.
+ * @returns The unique ID.
+ */
 function getImageId(images: ArtImage[], slug: string, title?: string): string {
   const titleSlug = title ? generateSlug(title) : slug;
   let idCandidate = titleSlug;
@@ -24,6 +31,10 @@ function getImageId(images: ArtImage[], slug: string, title?: string): string {
   return idCandidate;
 }
 
+/**
+ * Handles the variant/gallery/new choice.
+ * @returns "variant", "gallery", or "new" based on input
+ */
 async function askPlacementChoice(): Promise<PlacementChoice> {
   Logger.log(
     "▌ Do you want to add this as a variant, gallery image, or create a new art piece? (variant/gallery/new)",
@@ -53,6 +64,12 @@ async function askPlacementChoice(): Promise<PlacementChoice> {
   }
 }
 
+/**
+ * Collects metadata for an art piece by prompting the user with a series of questions.
+ * @param defaultDate The default creation date to use if the user doesn't provide one.
+ * @param detectedModifiedTime The modification time detected from the image file, if available.
+ * @returns A draft of the art piece metadata.
+ */
 async function collectArtMetadata(
   defaultDate: string,
   detectedModifiedTime?: Date,
@@ -118,6 +135,12 @@ async function collectArtMetadata(
   return draft;
 }
 
+/**
+ * Adds a new art piece with one or more images.
+ * The first image will be added as the main art piece, and subsequent images
+ * can be added as variants or gallery images, or used to create new art pieces.
+ * @param args[] Paths to the image files to add
+ */
 export async function add(args: string[]) {
   if (args.length === 0) {
     Logger.error("Please provide the path to the image you want to add.");
@@ -145,7 +168,7 @@ export async function add(args: string[]) {
 
   for (let i = 0; i < args.length; i++) {
     const imagePath = args[i]!;
-    Logger.info(`Image #${i + 1} (${Logger.inlineBold(path.basename(imagePath))})`);
+    Logger.info(`Image #${i + 1} (${Logger.fmtBold(path.basename(imagePath))})`);
 
     if (!currentDraft) {
       currentDraft = await collectArtMetadata(defaultDate, modifiedTimes[0]);
@@ -263,12 +286,12 @@ export async function add(args: string[]) {
       const srcBasename = path.basename(img.image_url);
       const sourceCandidates = sourceMap.get(srcBasename);
       if (!sourceCandidates || sourceCandidates.length === 0) {
-        Logger.error(`Could not find source file for ${Logger.inlineBold(srcBasename)}`);
+        Logger.error(`Could not find source file for ${Logger.fmtBold(srcBasename)}`);
         exit(1);
       }
       if (sourceCandidates.length > 1) {
         Logger.error(
-          `Multiple source files share the same filename ${Logger.inlineBold(srcBasename)}. Please use unique filenames.`,
+          `Multiple source files share the same filename ${Logger.fmtBold(srcBasename)}. Please use unique filenames.`,
         );
         exit(1);
       }
@@ -305,13 +328,13 @@ export async function add(args: string[]) {
           const varSourceCandidates = sourceMap.get(varSrcBasename);
           if (!varSourceCandidates || varSourceCandidates.length === 0) {
             Logger.error(
-              `Could not find source file for variant ${Logger.inlineBold(varSrcBasename)}`,
+              `Could not find source file for variant ${Logger.fmtBold(varSrcBasename)}`,
             );
             exit(1);
           }
           if (varSourceCandidates.length > 1) {
             Logger.error(
-              `Multiple source files share the same filename ${Logger.inlineBold(varSrcBasename)}. Please use unique filenames.`,
+              `Multiple source files share the same filename ${Logger.fmtBold(varSrcBasename)}. Please use unique filenames.`,
             );
             exit(1);
           }

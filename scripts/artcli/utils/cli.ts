@@ -2,137 +2,208 @@ import { Logger } from "../../logger";
 import { createInterface } from "node:readline/promises";
 
 const rl = createInterface({
-    input: process.stdin,
-    output: process.stdout,
+  input: process.stdin,
+  output: process.stdout,
 });
 
+type UsageEntry = { command: string; description: string };
+
+const usages: Record<"commands" | "flags", UsageEntry[]> = {
+  commands: [
+    {
+      command: "add <image-paths...>",
+      description:
+        "Adds a new piece of art with the specified image through an interactive questionnaire.",
+    },
+    {
+      command: "append <art-slug> <image-paths...>",
+      description: "Appends images to an existing piece of art.",
+    },
+    {
+      command: "update <art-slug>",
+      description:
+        "Updates metadata for an existing piece of art through an interactive questionnaire.",
+    },
+    {
+      command: "remove <art-slug>",
+      description: "Interactively selects an image to remove from an existing piece of art.",
+    },
+    {
+      command: "delete <art-slug>",
+      description: "Deletes an existing piece of art and all associated images after confirmation.",
+    },
+    {
+      command: "list",
+      description: "Lists all existing art with their slugs and titles.",
+    },
+    {
+      command: "show <art-slug>",
+      description: "Displays all metadata for a piece of art in the console.",
+    },
+    {
+      command: "regenthumb [art-slug]",
+      description:
+        "Regenerates thumbnails for all images, or just for a specific piece of art if a slug is provided.",
+    },
+    {
+      command: "regenpalette [character-slug]",
+      description:
+        "Regenerates palette images for all characters, or just for a specific character if a slug is provided.",
+    },
+  ],
+  flags: [
+    {
+      command: "--dry-run",
+      description: "Run without writing any files or making any changes.",
+    },
+    {
+      command: "--variant",
+      description: "When appending or removing, target image variants instead of main images.",
+    },
+    {
+      command: "--push",
+      description: "Pushes the changes to the remote repository.",
+    },
+    {
+      command: "--help",
+      description: "Displays this help message.",
+    },
+  ],
+};
+
 export function printUsage() {
-    function section(title: string) {
-        Logger.log(
-            Logger.inlineBold(
-                Logger.inlineColor("#da39a4", title.toUpperCase()),
-            ),
-        );
+  function section(title: string) {
+    Logger.log(Logger.fmtBold(Logger.fmtHex("#da39a4", title.toUpperCase())));
+  }
+
+  function wrapText(text: string, maxLength: number): string[] {
+    if (text.length <= maxLength) {
+      return [text];
     }
 
-    Logger.log(`echolotl ARTCLI help\n`);
+    const words = text.split(/\s+/);
+    const lines: string[] = [];
+    let currentLine = "";
 
-    section("COMMANDS");
-    Logger.statement("add <image-paths...>");
-    Logger.dim(
-        "Adds a new piece of art with the specified image through an interactive questionnaire.",
-    );
+    for (const word of words) {
+      const nextLine = currentLine ? `${currentLine} ${word}` : word;
+      if (nextLine.length <= maxLength) {
+        currentLine = nextLine;
+      } else {
+        if (currentLine) {
+          lines.push(currentLine);
+        }
 
-    Logger.statement("append <art-slug> <image-paths...> [--variant]");
-    Logger.dim("Appends images to an existing piece of art.");
+        if (word.length > maxLength) {
+          let remaining = word;
+          while (remaining.length > maxLength) {
+            lines.push(remaining.slice(0, maxLength));
+            remaining = remaining.slice(maxLength);
+          }
+          currentLine = remaining;
+        } else {
+          currentLine = word;
+        }
+      }
+    }
 
-    Logger.statement("update <art-slug>");
-    Logger.dim(
-        "Updates metadata for an existing piece of art through an interactive questionnaire.",
-    );
+    if (currentLine) {
+      lines.push(currentLine);
+    }
 
-    Logger.statement("remove <art-slug> [--variant]");
-    Logger.dim(
-        "Interactively selects an image to remove from an existing piece of art.",
-    );
+    return lines;
+  }
 
-    Logger.statement("delete <art-slug>");
-    Logger.dim(
-        "Deletes an existing piece of art and all associated images after confirmation.",
-    );
+  function printEntries(entries: UsageEntry[], inline = false) {
+    const maxCommandLength = Math.max(...entries.map((entry) => entry.command.length));
+    const descriptionPrefix = `${" ".repeat(maxCommandLength)}  `;
 
-    Logger.statement("list");
-    Logger.dim("Lists all existing art with their slugs and titles.");
+    for (const entry of entries) {
+      if (inline) {
+        const paddedCommand = entry.command.padEnd(maxCommandLength);
+        const wrappedDescription = wrapText(
+          entry.description,
+          process.stdout.columns - maxCommandLength - 2,
+        );
+        Logger.dim(`${Logger.fmtBold(paddedCommand)}  ${wrappedDescription[0] ?? ""}`);
 
-    Logger.statement("show <art-slug>");
-    Logger.dim("Displays all metadata for a piece of art in the console.");
+        for (const line of wrappedDescription.slice(1)) {
+          Logger.dim(`${descriptionPrefix}${line}`);
+        }
+      } else {
+        Logger.statement(entry.command);
+        Logger.dim(entry.description);
+      }
+    }
+  }
 
-    Logger.statement("regenthumb [art-slug]");
-    Logger.dim(
-        "Regenerates thumbnails for all images, or just for a specific piece of art if a slug is provided.",
-    );
+  Logger.log(
+    Logger.fmtBold(
+      Logger.fmtUnderline(Logger.fmtGradient(`echolotl's art CLI HELP :3`, "#b67eff", "#da39a4")),
+    ),
+  );
+  Logger.nl();
 
-    Logger.statement("regenpalette [character-slug]");
-    Logger.dim(
-        "Regenerates palette images for all characters, or just for a specific character if a slug is provided.",
-    );
+  section("COMMANDS");
+  printEntries(usages.commands, true);
 
-    Logger.nl();
-    section("FLAGS");
-
-    Logger.dim(
-        `${Logger.inlineBold("--dry-run")}  Run without writing any files or making any changes.`,
-    );
-    Logger.dim(
-        `${Logger.inlineBold("--variant")}  When appending or removing, target image variants instead of main images.`,
-    );
-    Logger.dim(
-        `${Logger.inlineBold("--push")}     Pushes the changes to the remote repository.`,
-    );
-    Logger.dim(
-        `${Logger.inlineBold("--help")}     Displays this help message.`,
-    );
+  Logger.nl();
+  section("FLAGS");
+  printEntries(usages.flags, true);
 }
 
 export interface AskOptions {
-    prompt?: string;
-    default?: string;
-    required?: boolean;
-    validate?: (value: string) => string | true;
+  prompt?: string;
+  default?: string;
+  required?: boolean;
+  validate?: (value: string) => string | true;
 }
 
 export async function ask(options: AskOptions = {}): Promise<string> {
-    const {
-        prompt = "▌ ",
-        default: defaultValue,
-        required = false,
-        validate,
-    } = options;
-    const getAnswer = async (): Promise<string> => {
-        try {
-            return await rl.question(`\x1b[2m${prompt}`);
-        } catch (error) {
-            Logger.nl();
-            Logger.error(String(error));
-            process.exit(1);
-        }
-    };
+  const { prompt = "▌ ", default: defaultValue, required = false, validate } = options;
+  const getAnswer = async (): Promise<string> => {
+    try {
+      return await rl.question(`\x1b[2m${prompt}`);
+    } catch (error) {
+      Logger.nl();
+      Logger.error(String(error));
+      process.exit(1);
+    }
+  };
 
-    let answer = await getAnswer();
+  let answer = await getAnswer();
 
-    while (true) {
-        if (required && !answer) {
-            process.stdout.write("\x1b[0m");
-            Logger.error("This field is required!");
-            answer = await getAnswer();
-            continue;
-        }
-
-        if (!answer && defaultValue !== undefined) {
-            process.stdout.write(
-                `\x1b[1A\r\x1b[2m${prompt}${defaultValue}\x1b[0m\n`,
-            );
-            return defaultValue;
-        }
-
-        if (validate && answer) {
-            const result = validate(answer);
-            if (result !== true) {
-                process.stdout.write("\x1b[0m");
-                Logger.error(result);
-                answer = await getAnswer();
-                continue;
-            }
-        }
-
-        break;
+  while (true) {
+    if (required && !answer) {
+      process.stdout.write("\x1b[0m");
+      Logger.error("This field is required!");
+      answer = await getAnswer();
+      continue;
     }
 
-    process.stdout.write("\x1b[0m");
-    return answer;
+    if (!answer && defaultValue !== undefined) {
+      process.stdout.write(`\x1b[1A\r\x1b[2m${prompt}${defaultValue}\x1b[0m\n`);
+      return defaultValue;
+    }
+
+    if (validate && answer) {
+      const result = validate(answer);
+      if (result !== true) {
+        process.stdout.write("\x1b[0m");
+        Logger.error(result);
+        answer = await getAnswer();
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  process.stdout.write("\x1b[0m");
+  return answer;
 }
 
 export function exit(code: number = 0): never {
-    rl.close();
-    process.exit(code);
+  rl.close();
+  process.exit(code);
 }

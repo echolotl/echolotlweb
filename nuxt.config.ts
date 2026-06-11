@@ -5,166 +5,138 @@ import { load } from "js-yaml";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    compatibilityDate: "2025-05-15",
-    content: {
-        build: {
-            markdown: {
-                highlight: {
-                    theme: {
-                        default: "monokai",
-                        light: "catppuccin-latte",
-                    },
-                    langs: ["javascript", "html", "css", "bash", "json", "vue"],
-                },
-            },
+  compatibilityDate: "2025-05-15",
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: "monokai",
+            light: "catppuccin-latte",
+          },
+          langs: ["javascript", "html", "css", "bash", "json", "vue"],
         },
+      },
     },
-    site: { url: "https://www.echolotl.lol", name: "echolotl" },
-    sitemap: {
-        urls: async () => {
-            const artDir = resolve(__dirname, "content", "art");
+  },
+  site: { url: "https://www.echolotl.lol", name: "echolotl" },
+  sitemap: {
+    urls: async () => {
+      const artDir = resolve(__dirname, "content", "art");
 
-            async function getAllArtFiles(dir: string): Promise<string[]> {
-                const files = await readdir(dir, { withFileTypes: true });
-                let artFiles: string[] = [];
-                for (const file of files) {
-                    const res = resolve(dir, file.name);
-                    if (file.isDirectory()) {
-                        artFiles = artFiles.concat(await getAllArtFiles(res));
-                    } else if (file.name.endsWith(".yml")) {
-                        artFiles.push(res);
-                    }
-                }
-                return artFiles;
-            }
+      async function getAllArtFiles(dir: string): Promise<string[]> {
+        const files = await readdir(dir, { withFileTypes: true });
+        let artFiles: string[] = [];
+        for (const file of files) {
+          const res = resolve(dir, file.name);
+          if (file.isDirectory()) {
+            artFiles = artFiles.concat(await getAllArtFiles(res));
+          } else if (file.name.endsWith(".yml")) {
+            artFiles.push(res);
+          }
+        }
+        return artFiles;
+      }
 
-            try {
-                const artFiles = await getAllArtFiles(artDir);
-                const artUrls = [];
-                for (const filePath of artFiles) {
-                    try {
-                        const fileContent = await readFile(filePath, "utf8");
-                        const data = load(fileContent) as Art;
-                        if (data && data.slug) {
-                            artUrls.push({
-                                loc: `/art/${data.slug}`,
-                                priority: data.pinned
-                                    ? (0.8 as const)
-                                    : (0.6 as const),
-                                changefreq: "monthly" as const,
-                                lastmod:
-                                    data.modified_at ||
-                                    new Date().toISOString(),
-                                images: (() => {
-                                    const imgs: {
-                                        loc: string;
-                                        caption?: string;
-                                        title?: string;
-                                    }[] = [];
-                                    if (Array.isArray((data as any).images)) {
-                                        for (const img of (data as any)
-                                            .images as ArtImage[]) {
-                                            if (img?.image_url) {
-                                                imgs.push({
-                                                    loc: `https://www.echolotl.lol${img.image_url}`,
-                                                    caption: (data as any)
-                                                        .description,
-                                                    title:
-                                                        img.title ||
-                                                        (data as any).title,
-                                                });
-                                            }
-                                            if (Array.isArray(img?.variants)) {
-                                                for (const v of img.variants) {
-                                                    if (v?.image_url) {
-                                                        imgs.push({
-                                                            loc: `https://www.echolotl.lol${v.image_url}`,
-                                                            caption: (
-                                                                data as any
-                                                            ).description,
-                                                            title:
-                                                                v.label ||
-                                                                img.title ||
-                                                                (data as any)
-                                                                    .title,
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    return imgs;
-                                })(),
+      try {
+        const artFiles = await getAllArtFiles(artDir);
+        const artUrls = [];
+        for (const filePath of artFiles) {
+          try {
+            const fileContent = await readFile(filePath, "utf8");
+            const data = load(fileContent) as Art;
+            if (data && data.slug) {
+              artUrls.push({
+                loc: `/art/${data.slug}`,
+                priority: data.pinned ? (0.8 as const) : (0.6 as const),
+                changefreq: "monthly" as const,
+                lastmod: data.modified_at || new Date().toISOString(),
+                images: (() => {
+                  const imgs: {
+                    loc: string;
+                    caption?: string;
+                    title?: string;
+                  }[] = [];
+                  if (Array.isArray((data as any).images)) {
+                    for (const img of (data as any).images as ArtImage[]) {
+                      if (img?.image_url) {
+                        imgs.push({
+                          loc: `https://www.echolotl.lol${img.image_url}`,
+                          caption: (data as any).description,
+                          title: img.title || (data as any).title,
+                        });
+                      }
+                      if (Array.isArray(img?.variants)) {
+                        for (const v of img.variants) {
+                          if (v?.image_url) {
+                            imgs.push({
+                              loc: `https://www.echolotl.lol${v.image_url}`,
+                              caption: (data as any).description,
+                              title: v.label || img.title || (data as any).title,
                             });
+                          }
                         }
-                    } catch (e) {
-                        console.warn(
-                            `Could not parse YAML for ${filePath}:`,
-                            e,
-                        );
+                      }
                     }
-                }
-                console.log(
-                    `[sitemap] Added ${artUrls.length} art item(s) to sitemap at ${new Date().toISOString()}`,
-                );
-                return artUrls;
-            } catch (error) {
-                console.error("Error generating art URLs for sitemap:", error);
-                return [];
+                  }
+                  return imgs;
+                })(),
+              });
             }
+          } catch (e) {
+            console.warn(`Could not parse YAML for ${filePath}:`, e);
+          }
+        }
+        console.log(
+          `[sitemap] Added ${artUrls.length} art item(s) to sitemap at ${new Date().toISOString()}`,
+        );
+        return artUrls;
+      } catch (error) {
+        console.error("Error generating art URLs for sitemap:", error);
+        return [];
+      }
+    },
+    zeroRuntime: true,
+  },
+  devtools: { enabled: true },
+  modules: ["@nuxtjs/sitemap", "@nuxtjs/robots", "@nuxt/content", "@nuxt/eslint", "@nuxtjs/mdc"],
+  components: {
+    global: true,
+    dirs: ["~/components", "~/components/content"],
+  },
+  app: {
+    head: {
+      title: "echolotl",
+      htmlAttrs: {
+        lang: "en",
+      },
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "/images/favicon-light.ico",
         },
-        zeroRuntime: true,
+      ],
     },
-    devtools: { enabled: true },
-    modules: [
-        "@nuxtjs/sitemap",
-        "@nuxtjs/robots",
-        "@nuxt/content",
-        "@nuxt/eslint",
-        "@nuxtjs/mdc",
-    ],
-    components: {
-        global: true,
-        dirs: ["~/components", "~/components/content"],
+    pageTransition: { name: "page", mode: "out-in" },
+  },
+  future: {
+    compatibilityVersion: 5,
+  },
+  runtimeConfig: {
+    public: {
+      underConstruction: true,
     },
-    app: {
-        head: {
-            title: "echolotl",
-            htmlAttrs: {
-                lang: "en",
-            },
-            link: [
-                {
-                    rel: "icon",
-                    type: "image/x-icon",
-                    href: "/images/favicon-light.ico",
-                },
-            ],
-        },
-        pageTransition: { name: "page", mode: "out-in" },
+  },
+  hooks: {
+    "build:before": () => {
+      import("./scripts/generate-palettes");
+      import("./scripts/thumbnails");
     },
-    future: {
-        compatibilityVersion: 5,
-    },
-    runtimeConfig: {
-        public: {
-            underConstruction: true,
-        },
-    },
-    hooks: {
-        "build:before": () => {
-            import("./scripts/generate-palettes");
-            import("./scripts/thumbnails");
-        },
-    },
-    alias: {
-        "@common": resolve(__dirname, "app/components/common"),
-        "@art": resolve(__dirname, "app/components/art"),
-        "@characters": resolve(__dirname, "app/components/characters"),
-    },
-    vite: {
-        optimizeDeps: {
-            include: ["@vercel/analytics/nuxt", "@vercel/speed-insights/nuxt"],
-        },
-    },
+  },
+  alias: {
+    "@common": resolve(__dirname, "app/components/common"),
+    "@art": resolve(__dirname, "app/components/art"),
+    "@characters": resolve(__dirname, "app/components/characters"),
+  },
 });

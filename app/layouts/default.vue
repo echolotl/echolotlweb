@@ -1,8 +1,6 @@
 <template>
     <div :class="{ 'light-theme': theme }">
         <Navbar :light="theme" @toggle-theme="toggleTheme" />
-        <Analytics />
-        <SpeedInsights />
         <slot />
         <Footer></Footer>
     </div>
@@ -12,8 +10,6 @@
 import Navbar from "~/components/common/Navbar.vue";
 import Footer from "~/components/common/Footer.vue";
 import { useTheme } from "~~/composables/useTheme";
-import { Analytics } from "@vercel/analytics/nuxt";
-import { SpeedInsights } from "@vercel/speed-insights/nuxt";
 
 const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 
