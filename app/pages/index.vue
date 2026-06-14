@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import SketchFilter from "~/components/common/SketchFilter.vue";
+import StatusSection from "~/components/home/StatusSection.vue";
 const seed = ref(0);
 
 function generateSeed() {
