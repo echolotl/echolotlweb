@@ -1,5 +1,6 @@
 # Ignore scripts, they're dev-side only
-scripts
+scripts/artcli
+!scripts/artcli/commands/*
 # Ignore repo metadata
 README.md
 LICENSE

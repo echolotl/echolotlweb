@@ -60,11 +60,6 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
       description: "Run without writing any files or making any changes.",
     },
     {
-      command: "--variant",
-      description:
-        "When appending or removing, target image variants instead of main images.",
-    },
-    {
       command: "--push",
       description: "Pushes the changes to the remote repository.",
     },
