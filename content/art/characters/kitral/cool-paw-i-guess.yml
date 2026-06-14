@@ -9,6 +9,6 @@ character: kitral
 description: Interesting design but okay
 thumbnail_url: /art/characters/kitral/thumbnails/coolPawIGuess.webp
 images:
-    - image_url: /art/characters/kitral/coolPawIGuess.png
-      thumbnail_url: /art/characters/kitral/thumbnails/coolPawIGuess.webp
-      alt: Cool Paw I Guess
+  - image_url: /art/characters/kitral/coolPawIGuess.png
+    thumbnail_url: /art/characters/kitral/thumbnails/coolPawIGuess.webp
+    alt: Cool Paw I Guess

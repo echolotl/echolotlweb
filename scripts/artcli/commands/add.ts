@@ -92,7 +92,9 @@ async function collectArtMetadata(
 
   let related_characters: string[] = [];
   if (character) {
-    Logger.log("▌ Any other characters that appear? (comma-separated, optional)");
+    Logger.log(
+      "▌ Any other characters that appear? (comma-separated, optional)",
+    );
     const relatedInput = await ask();
     related_characters = parseCommaSeparated(relatedInput);
   }
@@ -139,14 +141,16 @@ async function collectArtMetadata(
  * Adds a new art piece with one or more images.
  * The first image will be added as the main art piece, and subsequent images
  * can be added as variants or gallery images, or used to create new art pieces.
- * @param args[] Paths to the image files to add
+ * @param args Paths to the image files to add
  */
 export async function add(args: string[]) {
   if (args.length === 0) {
     Logger.error("Please provide the path to the image you want to add.");
     exit(1);
   }
-  Logger.info(`Processing ${args.length} image${args.length > 1 ? "s" : ""}...`);
+  Logger.info(
+    `Processing ${args.length} image${args.length > 1 ? "s" : ""}...`,
+  );
   Logger.nl();
 
   for (const imagePath of args) {
@@ -160,7 +164,9 @@ export async function add(args: string[]) {
       return fs.statSync(imagePath).mtime;
     })
     .sort((a, b) => b.getTime() - a.getTime());
-  const defaultDate = modifiedTimes[0] ? modifiedTimes[0].toISOString() : new Date().toISOString();
+  const defaultDate = modifiedTimes[0]
+    ? modifiedTimes[0].toISOString()
+    : new Date().toISOString();
   const artDrafts: ArtDraft[] = [];
 
   let currentDraft: ArtDraft | null = null;
@@ -168,7 +174,9 @@ export async function add(args: string[]) {
 
   for (let i = 0; i < args.length; i++) {
     const imagePath = args[i]!;
-    Logger.info(`Image #${i + 1} (${Logger.fmtBold(path.basename(imagePath))})`);
+    Logger.info(
+      `Image #${i + 1} (${Logger.fmtBold(path.basename(imagePath))})`,
+    );
 
     if (!currentDraft) {
       currentDraft = await collectArtMetadata(defaultDate, modifiedTimes[0]);
@@ -254,11 +262,18 @@ export async function add(args: string[]) {
   for (const draft of artDrafts) {
     const isCharacter = !!draft.character;
     const yamlPath = isCharacter
-      ? path.join(CONTENT_DIR, "characters", draft.character!, `${draft.slug}.yml`)
+      ? path.join(
+          CONTENT_DIR,
+          "characters",
+          draft.character!,
+          `${draft.slug}.yml`,
+        )
       : path.join(CONTENT_DIR, "general", `${draft.slug}.yml`);
 
     if (yamlPaths.has(yamlPath) || fs.existsSync(yamlPath)) {
-      Logger.error(`Art with slug "${draft.slug}" already exists at ${yamlPath}`);
+      Logger.error(
+        `Art with slug "${draft.slug}" already exists at ${yamlPath}`,
+      );
       exit(1);
     }
     yamlPaths.add(yamlPath);
@@ -274,7 +289,12 @@ export async function add(args: string[]) {
       : path.join(ART_DIR, "general");
     const thumbsDir = path.join(basePublicDir, "thumbnails");
     const yamlPath = isCharacter
-      ? path.join(CONTENT_DIR, "characters", draft.character!, `${draft.slug}.yml`)
+      ? path.join(
+          CONTENT_DIR,
+          "characters",
+          draft.character!,
+          `${draft.slug}.yml`,
+        )
       : path.join(CONTENT_DIR, "general", `${draft.slug}.yml`);
 
     if (!context.dryRun) {
@@ -286,7 +306,9 @@ export async function add(args: string[]) {
       const srcBasename = path.basename(img.image_url);
       const sourceCandidates = sourceMap.get(srcBasename);
       if (!sourceCandidates || sourceCandidates.length === 0) {
-        Logger.error(`Could not find source file for ${Logger.fmtBold(srcBasename)}`);
+        Logger.error(
+          `Could not find source file for ${Logger.fmtBold(srcBasename)}`,
+        );
         exit(1);
       }
       if (sourceCandidates.length > 1) {
@@ -341,10 +363,16 @@ export async function add(args: string[]) {
           const varSourcePath = varSourceCandidates[0]!;
           const varExt = path.extname(varSourcePath);
           const varSlug = generateSlug(variant.label || `variant-${v + 1}`);
-          const varDest = path.join(basePublicDir, `${img.id}__${varSlug}${varExt}`);
+          const varDest = path.join(
+            basePublicDir,
+            `${img.id}__${varSlug}${varExt}`,
+          );
           await copyImage(varSourcePath, varDest);
 
-          const varThumbDest = path.join(thumbsDir, `${img.id}__${varSlug}.webp`);
+          const varThumbDest = path.join(
+            thumbsDir,
+            `${img.id}__${varSlug}.webp`,
+          );
           if (!context.dryRun) await generateThumbnail(varDest, varThumbDest);
           stagedFiles.push(varDest, varThumbDest);
 
@@ -380,7 +408,8 @@ export async function add(args: string[]) {
     if (draft.description) art.description = draft.description;
     if (draft.tags?.length) art.tags = draft.tags;
     if (draft.character) art.character = draft.character;
-    if (draft.related_characters?.length) art.related_characters = draft.related_characters;
+    if (draft.related_characters?.length)
+      art.related_characters = draft.related_characters;
 
     generateArtYAML(art, yamlPath);
     stagedFiles.push(yamlPath);

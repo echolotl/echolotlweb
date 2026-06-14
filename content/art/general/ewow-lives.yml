@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/Illustration91212.png
 description: Art of me and friend's lives remaining in [EWOW](https://youtu.be/jcqE0Z5Sgbw)
 tags:
-    - friends
-    - object show
+  - friends
+  - object show
 thumbnail_url: /art/general/thumbnails/Illustration91212.webp
 images:
-    - image_url: /art/general/Illustration91212.png
-      thumbnail_url: /art/general/thumbnails/Illustration91212.webp
-      alt: EWOW Lives
+  - image_url: /art/general/Illustration91212.png
+    thumbnail_url: /art/general/thumbnails/Illustration91212.webp
+    alt: EWOW Lives

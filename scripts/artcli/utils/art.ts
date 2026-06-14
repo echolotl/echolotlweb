@@ -22,7 +22,9 @@ export function generateArtYAML(art: Art, savePath: string): void {
     noRefs: true,
   });
   if (context.dryRun) {
-    Logger.warning(`[DRYRUN] Would save art metadata to ${Logger.fmtBold(savePath)}`);
+    Logger.warning(
+      `[DRYRUN] Would save art metadata to ${Logger.fmtBold(savePath)}`,
+    );
     return;
   }
   const yamlDir = path.dirname(savePath);
@@ -31,13 +33,18 @@ export function generateArtYAML(art: Art, savePath: string): void {
   Logger.success(`Saved art metadata to ${Logger.fmtBold(savePath)}`);
 }
 
-export async function buildArtGallery(paths: string[], slug: string): Promise<ArtImage[] | null> {
+export async function buildArtGallery(
+  paths: string[],
+  slug: string,
+): Promise<ArtImage[] | null> {
   const artImages: ArtImage[] = [];
   let baseIndex = 0;
 
   for (let i = 0; i < paths.length; i++) {
     const imagePath = paths[i]!;
-    Logger.info(`Processing image ${i + 1} of ${paths.length}: ${Logger.fmtBold(imagePath)}`);
+    Logger.info(
+      `Processing image ${i + 1} of ${paths.length}: ${Logger.fmtBold(imagePath)}`,
+    );
 
     let attachAsVariant = false;
     if (artImages.length > 0) {
@@ -107,7 +114,11 @@ export function getArtBySlug(slug: string): Art | null {
         .map((entry) => entry.name);
 
       for (const characterFolder of characterFolders) {
-        const candidatePath = path.join(charactersDir, characterFolder, `${slug}.yml`);
+        const candidatePath = path.join(
+          charactersDir,
+          characterFolder,
+          `${slug}.yml`,
+        );
         if (fs.existsSync(candidatePath)) {
           artPath = candidatePath;
           break;
@@ -167,7 +178,7 @@ export function getAllArts(): Art[] {
   return arts;
 }
 
-export function getCharacterData(slug: string): Character {
+export function getCharacterBySlug(slug: string): Character {
   const characterPath = path.join("content/characters", `${slug}.md`);
   if (!fs.existsSync(characterPath)) {
     throw new Error(`Character with slug "${slug}" not found.`);
@@ -175,13 +186,37 @@ export function getCharacterData(slug: string): Character {
   try {
     // Get the frontmatter content between the first two --- lines
     const fileContent = fs.readFileSync(characterPath, "utf8");
-    const frontmatterMatch = fileContent.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
+    const frontmatterMatch = fileContent.match(
+      /^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/,
+    );
     if (!frontmatterMatch || !frontmatterMatch[1]) {
-      throw new Error(`No frontmatter found in character file for slug "${slug}".`);
+      throw new Error(
+        `No frontmatter found in character file for slug "${slug}".`,
+      );
     }
     const character = yaml.load(frontmatterMatch[1]) as Character;
     return character;
   } catch (e) {
     throw new Error(`Error reading character file for slug "${slug}": ${e}`);
   }
+}
+
+export function getAllCharacters(): Character[] {
+  const charactersDir = path.join(process.cwd(), "content/characters");
+  const characters: Character[] = [];
+  if (fs.existsSync(charactersDir)) {
+    const characterFiles = fs
+      .readdirSync(charactersDir)
+      .filter((file) => file.endsWith(".md"));
+    for (const file of characterFiles) {
+      const slug = path.basename(file, ".md");
+      try {
+        const character = getCharacterBySlug(slug);
+        characters.push(character);
+      } catch (e) {
+        Logger.error(`Error loading character with slug "${slug}": ${e}`);
+      }
+    }
+  }
+  return characters;
 }

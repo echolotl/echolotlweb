@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/wrong%20fingor.png
 description: Unfinished art of [BFDI](https://bfdi.tv/), specifically the scene from BFDI 1a
 tags:
-    - fanart
-    - object show
+  - fanart
+  - object show
 thumbnail_url: /art/general/thumbnails/wrong%20fingor.webp
 images:
-    - image_url: /art/general/wrong%20fingor.png
-      thumbnail_url: /art/general/thumbnails/wrong%20fingor.webp
-      alt: Wrong Fingor
+  - image_url: /art/general/wrong%20fingor.png
+    thumbnail_url: /art/general/thumbnails/wrong%20fingor.webp
+    alt: Wrong Fingor

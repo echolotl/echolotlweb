@@ -9,6 +9,6 @@ character: king
 description: Merry Christmas from King, 2024
 thumbnail_url: /art/characters/king/thumbnails/marrychristmas.webp
 images:
-    - image_url: /art/characters/king/marrychristmas.png
-      thumbnail_url: /art/characters/king/thumbnails/marrychristmas.webp
-      alt: Marry Christmas
+  - image_url: /art/characters/king/marrychristmas.png
+    thumbnail_url: /art/characters/king/thumbnails/marrychristmas.webp
+    alt: Marry Christmas

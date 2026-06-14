@@ -8,6 +8,6 @@ image_url: /art/characters/king/floatingInthestars.png
 character: king
 thumbnail_url: /art/characters/king/thumbnails/floatingInthestars.webp
 images:
-    - image_url: /art/characters/king/floatingInthestars.png
-      thumbnail_url: /art/characters/king/thumbnails/floatingInthestars.webp
-      alt: floatingInthestars
+  - image_url: /art/characters/king/floatingInthestars.png
+    thumbnail_url: /art/characters/king/thumbnails/floatingInthestars.webp
+    alt: floatingInthestars

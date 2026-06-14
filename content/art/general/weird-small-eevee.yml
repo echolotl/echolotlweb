@@ -7,11 +7,11 @@ sketch: true
 image_url: /art/general/weirdsmalleevee.png
 description: Drawing of a weird Eevee
 tags:
-    - fanart
-    - video game
-    - pokemon
+  - fanart
+  - video game
+  - pokemon
 thumbnail_url: /art/general/thumbnails/weirdsmalleevee.webp
 images:
-    - image_url: /art/general/weirdsmalleevee.png
-      thumbnail_url: /art/general/thumbnails/weirdsmalleevee.webp
-      alt: Weird Small Eevee
+  - image_url: /art/general/weirdsmalleevee.png
+    thumbnail_url: /art/general/thumbnails/weirdsmalleevee.webp
+    alt: Weird Small Eevee

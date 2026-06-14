@@ -9,6 +9,6 @@ character: phosphor
 description: Phosphor w/ a tailmaw
 thumbnail_url: /art/characters/phosphor/thumbnails/1743052169218.webp
 images:
-    - image_url: /art/characters/phosphor/1743052169218.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/1743052169218.webp
-      alt: Tailmaw
+  - image_url: /art/characters/phosphor/1743052169218.png
+    thumbnail_url: /art/characters/phosphor/thumbnails/1743052169218.webp
+    alt: Tailmaw

@@ -7,11 +7,11 @@ sketch: false
 image_url: /art/general/porygonz_porygonz.png
 description: Fanart of the Crowbat/Lopunny fusion found in [Pokémon Infinite Fusion](https://www.pokecommunity.com/threads/new-update-40-new-pokemon-pok%C3%A9mon-infinite-fusion.347883/)
 tags:
-    - fanart
-    - video game
-    - pokemon
+  - fanart
+  - video game
+  - pokemon
 thumbnail_url: /art/general/thumbnails/porygonz_porygonz.webp
 images:
-    - image_url: /art/general/porygonz_porygonz.png
-      thumbnail_url: /art/general/thumbnails/porygonz_porygonz.webp
-      alt: PorygonZ/PorygonZ
+  - image_url: /art/general/porygonz_porygonz.png
+    thumbnail_url: /art/general/thumbnails/porygonz_porygonz.webp
+    alt: PorygonZ/PorygonZ

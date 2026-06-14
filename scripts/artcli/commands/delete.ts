@@ -7,7 +7,12 @@ import { CONTENT_DIR } from "../utils/context";
 import path from "node:path";
 import { context } from "../utils/context";
 import { pushToRemote } from "../utils/git";
+import { generateArtMetadataDisplay } from "./show";
 
+/**
+ * Deletes one or more art pieces by slug.
+ * @param args The slug(s) of the art piece(s) to delete
+ */
 export async function del(args: string[]) {
   if (args.length === 0) {
     Logger.error("Please provide the slug(s) of the art to delete.");
@@ -35,22 +40,23 @@ export async function del(args: string[]) {
     0,
     `${Logger.fmtBold("WARNING:")} You are about to delete the following art pieces:`,
   );
+  Logger.nl();
   for (const art of artsToDelete) {
-    Logger.statement(`${Logger.fmtBold(art.title || art.slug)}`);
-    Logger.dim(`  ${art.description}`);
-    if (art.character)
-      Logger.dim(
-        `  Character${art.related_characters ? "s" : ""}: ${art.character}${art.related_characters ? `, ${art.related_characters.join(", ")}` : ""}`,
-      );
-    Logger.dim(`  ${Logger.fmtBold("URL")}: https://www.echolotl.lol/art/${art.slug}`);
+    generateArtMetadataDisplay(art);
   }
+  Logger.nl();
   Logger.rgb(
     255,
     0,
     0,
-    `This action is irreversible${context.shouldPush ? " " : " (unless restored from Git)"}. Type "${Logger.fmtBold("DELETE")}" to confirm or anything else to cancel.`,
+    context.force
+      ? `This action is irreversible!!!${context.shouldPush ? " " : " (unless restored from Git)"}.`
+      : `This action is irreversible!!!${context.shouldPush ? " " : " (unless restored from Git)"}. Type "${Logger.fmtBold("DELETE")}" to confirm or anything else to cancel.`,
   );
-  const confirmation = await ask();
+  const confirmation = context.force ? "DELETE" : await ask();
+  if (context.force) {
+    Logger.warning("--force specified; skipping delete confirmation.");
+  }
   if (confirmation === "DELETE") {
     for (const art of artsToDelete) {
       try {
@@ -61,7 +67,9 @@ export async function del(args: string[]) {
           const imageFilePath = path.join("public", image.image_url);
           deletedFiles.push(imageFilePath);
           if (context.dryRun) {
-            Logger.warning(`[DRYRUN] Would delete image file: ${imageFilePath}`);
+            Logger.warning(
+              `[DRYRUN] Would delete image file: ${imageFilePath}`,
+            );
           } else {
             rmSync(imageFilePath, { force: true });
           }
@@ -70,7 +78,9 @@ export async function del(args: string[]) {
             const thumbnailFilePath = path.join("public", image.thumbnail_url);
             deletedFiles.push(thumbnailFilePath);
             if (context.dryRun) {
-              Logger.warning(`[DRYRUN] Would delete thumbnail file: ${thumbnailFilePath}`);
+              Logger.warning(
+                `[DRYRUN] Would delete thumbnail file: ${thumbnailFilePath}`,
+              );
             } else {
               rmSync(thumbnailFilePath, { force: true });
             }
@@ -80,19 +90,26 @@ export async function del(args: string[]) {
               const variantFilePath = path.join("public", variant.image_url);
               deletedFiles.push(variantFilePath);
               if (context.dryRun) {
-                Logger.warning(`[DRYRUN] Would delete variant image file: ${variantFilePath}`);
+                Logger.warning(
+                  `[DRYRUN] Would delete variant image file: ${variantFilePath}`,
+                );
               } else {
                 rmSync(variantFilePath, { force: true });
               }
               if (variant.thumbnail_url) {
-                const variantThumbnailFilePath = path.join("public", variant.thumbnail_url);
+                const variantThumbnailFilePath = path.join(
+                  "public",
+                  variant.thumbnail_url,
+                );
                 deletedFiles.push(variantThumbnailFilePath);
                 if (context.dryRun) {
                   Logger.warning(
                     `[DRYRUN] Would delete variant thumbnail file: ${variantThumbnailFilePath}`,
                   );
                 } else {
-                  rmSync(variantThumbnailFilePath, { force: true });
+                  rmSync(variantThumbnailFilePath, {
+                    force: true,
+                  });
                 }
               }
             }
@@ -100,7 +117,12 @@ export async function del(args: string[]) {
         }
 
         const yamlPath = isCharacter
-          ? path.join(CONTENT_DIR, "characters", art.character!, `${art.slug}.yml`)
+          ? path.join(
+              CONTENT_DIR,
+              "characters",
+              art.character!,
+              `${art.slug}.yml`,
+            )
           : path.join(CONTENT_DIR, "general", `${art.slug}.yml`);
         deletedFiles.push(yamlPath);
         if (context.dryRun) {
@@ -110,7 +132,9 @@ export async function del(args: string[]) {
         }
         Logger.success(`Deleted art: ${Logger.fmtBold(art.title || art.slug)}`);
       } catch (error) {
-        Logger.error(`Failed to delete art "${art.title || art.slug}": ${error}`);
+        Logger.error(
+          `Failed to delete art "${art.title || art.slug}": ${error}`,
+        );
       }
     }
     if (context.shouldPush) {
@@ -123,5 +147,5 @@ export async function del(args: string[]) {
   } else {
     Logger.error("Deletion cancelled.");
   }
-  exit();
+  exit(0);
 }

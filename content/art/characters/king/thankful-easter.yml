@@ -9,6 +9,6 @@ character: king
 description: A heartfelt thanks and a happy Easter
 thumbnail_url: /art/characters/king/thumbnails/kEaster.webp
 images:
-    - image_url: /art/characters/king/kEaster.png
-      thumbnail_url: /art/characters/king/thumbnails/kEaster.webp
-      alt: Thankful Easter
+  - image_url: /art/characters/king/kEaster.png
+    thumbnail_url: /art/characters/king/thumbnails/kEaster.webp
+    alt: Thankful Easter

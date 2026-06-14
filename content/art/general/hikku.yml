@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/nikkublindinglights.png
 description: "Hikku from [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod [Hotline 024: Blinding Lights](https://gamebanana.com/mods/488204)"
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/nikkublindinglights.webp
 images:
-    - image_url: /art/general/nikkublindinglights.png
-      thumbnail_url: /art/general/thumbnails/nikkublindinglights.webp
-      alt: Hikku
+  - image_url: /art/general/nikkublindinglights.png
+    thumbnail_url: /art/general/thumbnails/nikkublindinglights.webp
+    alt: Hikku

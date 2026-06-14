@@ -9,6 +9,6 @@ character: echo
 description: Poses for a [Friday Night Funkin'](https://www.newgrounds.com/portal/view/770371) mod if Echo ever had one
 thumbnail_url: /art/characters/echo/thumbnails/image%20copy.webp
 images:
-    - image_url: /art/characters/echo/image%20copy.png
-      thumbnail_url: /art/characters/echo/thumbnails/image%20copy.webp
-      alt: Echo FNF Poses
+  - image_url: /art/characters/echo/image%20copy.png
+    thumbnail_url: /art/characters/echo/thumbnails/image%20copy.webp
+    alt: Echo FNF Poses

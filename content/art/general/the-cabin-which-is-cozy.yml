@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/cozycabin.png
 description: Art used for the starting, ending, and inbetween screens on the [cozycabineer Twitch channel](https://www.twitch.tv/cozycabineer)
 tags:
-    - friends
+  - friends
 thumbnail_url: /art/general/thumbnails/cozycabin.webp
 images:
-    - image_url: /art/general/cozycabin.png
-      thumbnail_url: /art/general/thumbnails/cozycabin.webp
-      alt: The Cabin Which is Cozy
+  - image_url: /art/general/cozycabin.png
+    thumbnail_url: /art/general/thumbnails/cozycabin.webp
+    alt: The Cabin Which is Cozy

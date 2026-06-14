@@ -9,6 +9,6 @@ character: king
 description: A themed drawing around the event on Game Jolt at the time
 thumbnail_url: /art/characters/king/thumbnails/kingGameJolt.webp
 images:
-    - image_url: /art/characters/king/kingGameJolt.png
-      thumbnail_url: /art/characters/king/thumbnails/kingGameJolt.webp
-      alt: "#GameJoltColors23"
+  - image_url: /art/characters/king/kingGameJolt.png
+    thumbnail_url: /art/characters/king/thumbnails/kingGameJolt.webp
+    alt: "#GameJoltColors23"

@@ -9,6 +9,6 @@ character: orchy
 description: Sitting on rocks probably hurts, right?
 thumbnail_url: /art/characters/orchy/thumbnails/orchyCave.webp
 images:
-    - image_url: /art/characters/orchy/orchyCave.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchyCave.webp
-      alt: Cave Chair
+  - image_url: /art/characters/orchy/orchyCave.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchyCave.webp
+    alt: Cave Chair

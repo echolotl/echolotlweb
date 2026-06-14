@@ -9,6 +9,6 @@ character: nautilus
 description: Design of Nautilus being a Protogen instead
 thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
 images:
-    - image_url: /art/characters/nautilus/nautilusProtogen.png
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
-      alt: Protogen
+  - image_url: /art/characters/nautilus/nautilusProtogen.png
+    thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
+    alt: Protogen

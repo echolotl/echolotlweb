@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/orchy/thumbnails/orchy-reference-sheet.webp
 description: Orchy's Reference Sheet!
 character: orchy
 images:
-    - image_url: /art/characters/orchy/orchy-reference-sheet.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchy-reference-sheet.webp
-      alt: Orchy Reference Sheet
+  - image_url: /art/characters/orchy/orchy-reference-sheet.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchy-reference-sheet.webp
+    alt: Orchy Reference Sheet

@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/metal_tin3.png
 description: Card Tin on the stage for whatever reason
 tags:
-    - oc
-    - object show
+  - oc
+  - object show
 thumbnail_url: /art/general/thumbnails/metal_tin3.webp
 images:
-    - image_url: /art/general/metal_tin3.png
-      thumbnail_url: /art/general/thumbnails/metal_tin3.webp
-      alt: Card Tin on Tour
+  - image_url: /art/general/metal_tin3.png
+    thumbnail_url: /art/general/thumbnails/metal_tin3.webp
+    alt: Card Tin on Tour

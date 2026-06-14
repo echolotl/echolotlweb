@@ -5,4 +5,7 @@ export const CONTENT_DIR = "content/art";
 export const context = {
   dryRun: false,
   shouldPush: false,
+  noLog: true, // This is mostly for scripts where you import a command directly.
+  shouldExit: false, // ditto
+  force: false,
 };

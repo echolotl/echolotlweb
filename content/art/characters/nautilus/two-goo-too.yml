@@ -9,6 +9,6 @@ character: nautilus
 description: Still gooey, this time with a split design and attennae. Big shift from the [last design](/art/view/characters/nautilus/art/nautilusOG.png)
 thumbnail_url: /art/characters/nautilus/thumbnails/nautilusTwoGoo.webp
 images:
-    - image_url: /art/characters/nautilus/nautilusTwoGoo.png
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilusTwoGoo.webp
-      alt: Two Goo Too
+  - image_url: /art/characters/nautilus/nautilusTwoGoo.png
+    thumbnail_url: /art/characters/nautilus/thumbnails/nautilusTwoGoo.webp
+    alt: Two Goo Too

@@ -9,6 +9,6 @@ character: glory
 description: Heh. Get it
 thumbnail_url: /art/characters/glory/thumbnails/Emergance.webp
 images:
-    - image_url: /art/characters/glory/Emergance.png
-      thumbnail_url: /art/characters/glory/thumbnails/Emergance.webp
-      alt: Quite an Eyeful
+  - image_url: /art/characters/glory/Emergance.png
+    thumbnail_url: /art/characters/glory/thumbnails/Emergance.webp
+    alt: Quite an Eyeful

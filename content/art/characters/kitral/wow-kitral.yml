@@ -5,8 +5,8 @@ title: Wow kitral
 pinned: false
 sketch: true
 images:
-    - id: wow-kitral
-      image_url: /art/characters/kitral/wow-kitral.png
-      thumbnail_url: /art/characters/kitral/thumbnails/wow-kitral.webp
+  - id: wow-kitral
+    image_url: /art/characters/kitral/wow-kitral.png
+    thumbnail_url: /art/characters/kitral/thumbnails/wow-kitral.webp
 description: Sketch of kitral (cool gradient though)
 character: kitral

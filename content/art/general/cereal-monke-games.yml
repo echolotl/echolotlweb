@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/themonkeygamescereal.png
 description: Drawing I made for [The Monke Games](https://store.steampowered.com/app/2309070/The_Monke_Games/?beta=0) for a cereal box
 tags:
-    - video game
-    - friends
+  - video game
+  - friends
 thumbnail_url: /art/general/thumbnails/themonkeygamescereal.webp
 images:
-    - image_url: /art/general/themonkeygamescereal.png
-      thumbnail_url: /art/general/thumbnails/themonkeygamescereal.webp
-      alt: Cereal Monke Games
+  - image_url: /art/general/themonkeygamescereal.png
+    thumbnail_url: /art/general/thumbnails/themonkeygamescereal.webp
+    alt: Cereal Monke Games

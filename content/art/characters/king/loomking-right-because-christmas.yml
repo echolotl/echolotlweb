@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/characters/king/kingOldChristmas.png
 character: king
 related_characters:
-    - orchy
+  - orchy
 description: Merry Christmas! What's King looking at? I wouldn't know
 thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp
 images:
-    - image_url: /art/characters/king/kingOldChristmas.png
-      thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp
-      alt: Loomking Right because Christmas
+  - image_url: /art/characters/king/kingOldChristmas.png
+    thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp
+    alt: Loomking Right because Christmas

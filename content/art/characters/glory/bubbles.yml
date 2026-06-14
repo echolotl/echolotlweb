@@ -9,6 +9,6 @@ character: glory
 description: No more two tails, had to make room for the one tail getting even larger
 thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
 images:
-    - image_url: /art/characters/glory/gloryBubbles.png
-      thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
-      alt: Bubbles
+  - image_url: /art/characters/glory/gloryBubbles.png
+    thumbnail_url: /art/characters/glory/thumbnails/gloryBubbles.webp
+    alt: Bubbles

@@ -9,6 +9,6 @@ character: kitral
 description: The kitral drawing ever, unfortunately
 thumbnail_url: /art/characters/kitral/thumbnails/likethis.webp
 images:
-    - image_url: /art/characters/kitral/likethis.png
-      thumbnail_url: /art/characters/kitral/thumbnails/likethis.webp
-      alt: Like This?
+  - image_url: /art/characters/kitral/likethis.png
+    thumbnail_url: /art/characters/kitral/thumbnails/likethis.webp
+    alt: Like This?

@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/coil.png
 description: Fanart of Coil from Roblox game *[Phighting!](https://www.roblox.com/games/7138009149/PHIGHTING-ALPHA)*
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/coil.webp
 images:
-    - image_url: /art/general/coil.png
-      thumbnail_url: /art/general/thumbnails/coil.webp
-      alt: Coil
+  - image_url: /art/general/coil.png
+    thumbnail_url: /art/general/thumbnails/coil.webp
+    alt: Coil

@@ -7,9 +7,9 @@ sketch: true
 image_url: /art/general/dragon_sketch.png
 description: Sketch of a dragon to try and figure out some anatomy
 tags:
-    - idea
+  - idea
 thumbnail_url: /art/general/thumbnails/dragon_sketch.webp
 images:
-    - image_url: /art/general/dragon_sketch.png
-      thumbnail_url: /art/general/thumbnails/dragon_sketch.webp
-      alt: Dragon Sketch
+  - image_url: /art/general/dragon_sketch.png
+    thumbnail_url: /art/general/thumbnails/dragon_sketch.webp
+    alt: Dragon Sketch

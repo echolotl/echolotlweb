@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/tombrokenmoth.png
 description: Drawing of a friends hurt moth OC
 tags:
-    - friends
-    - oc
+  - friends
+  - oc
 thumbnail_url: /art/general/thumbnails/tombrokenmoth.webp
 images:
-    - image_url: /art/general/tombrokenmoth.png
-      thumbnail_url: /art/general/thumbnails/tombrokenmoth.webp
-      alt: Tarot Broken Moth
+  - image_url: /art/general/tombrokenmoth.png
+    thumbnail_url: /art/general/thumbnails/tombrokenmoth.webp
+    alt: Tarot Broken Moth

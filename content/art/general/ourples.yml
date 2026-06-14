@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/ourples.png
 description: "A collection of a variety of Ourples from a variety of [FNF: Ourple Guy](https://ourpleguy.neocities.org/) mods"
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/ourples.webp
 images:
-    - image_url: /art/general/ourples.png
-      thumbnail_url: /art/general/thumbnails/ourples.webp
-      alt: Ourples
+  - image_url: /art/general/ourples.png
+    thumbnail_url: /art/general/thumbnails/ourples.webp
+    alt: Ourples

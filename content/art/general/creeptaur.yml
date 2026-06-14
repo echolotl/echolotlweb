@@ -5,13 +5,13 @@ title: Creeptaur
 pinned: false
 sketch: false
 images:
-    - id: creeptaur
-      image_url: /art/general/creeptaur.png
-      variants:
-          - image_url: /art/general/creeptaur__minimal-shading.png
-            label: Minimal Shading
-            thumbnail_url: /art/general/thumbnails/creeptaur__minimal-shading.webp
-      thumbnail_url: /art/general/thumbnails/creeptaur.webp
+  - id: creeptaur
+    image_url: /art/general/creeptaur.png
+    variants:
+      - image_url: /art/general/creeptaur__minimal-shading.png
+        label: Minimal Shading
+        thumbnail_url: /art/general/thumbnails/creeptaur__minimal-shading.webp
+    thumbnail_url: /art/general/thumbnails/creeptaur.webp
 description: made because of [this tweet](https://x.com/TweeterTweers/status/2004587723500486969)
 tags:
-    - video game
+  - video game

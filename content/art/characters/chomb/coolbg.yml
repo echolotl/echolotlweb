@@ -9,6 +9,6 @@ character: chomb
 description: He has four arms it just kinda looks like he only has three I promise
 thumbnail_url: /art/characters/chomb/thumbnails/chombcoolbg.webp
 images:
-    - image_url: /art/characters/chomb/chombcoolbg.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chombcoolbg.webp
-      alt: coolBG
+  - image_url: /art/characters/chomb/chombcoolbg.png
+    thumbnail_url: /art/characters/chomb/thumbnails/chombcoolbg.webp
+    alt: coolBG

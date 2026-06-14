@@ -9,11 +9,11 @@ character: echo
 description: the first drawing of Echo and also the first OC
 thumbnail_url: /art/characters/echo/thumbnails/echo.webp
 images:
-    - image_url: /art/characters/echo/echo.png
-      thumbnail_url: /art/characters/echo/thumbnails/echo.webp
-      alt: The Echo
-      id: echo
-      variants:
-          - image_url: /art/characters/echo/echo__wip-w-notes.png
-            thumbnail_url: /art/characters/echo/thumbnails/echo__wip-w-notes.webp
-            label: WIP w/ notes
+  - image_url: /art/characters/echo/echo.png
+    thumbnail_url: /art/characters/echo/thumbnails/echo.webp
+    alt: The Echo
+    id: echo
+    variants:
+      - image_url: /art/characters/echo/echo__wip-w-notes.png
+        thumbnail_url: /art/characters/echo/thumbnails/echo__wip-w-notes.webp
+        label: WIP w/ notes

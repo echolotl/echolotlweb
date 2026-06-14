@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/hazel.png
 description: "Fanart of Hazel from [Monster Prom 3: Monster Roadtrip](https://store.steampowered.com/app/1665190/Monster_Prom_3_Monster_Roadtrip/)"
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/hazel.webp
 images:
-    - image_url: /art/general/hazel.png
-      thumbnail_url: /art/general/thumbnails/hazel.webp
-      alt: Hazel
+  - image_url: /art/general/hazel.png
+    thumbnail_url: /art/general/thumbnails/hazel.webp
+    alt: Hazel

@@ -7,10 +7,10 @@ sketch: true
 image_url: /art/general/metal_tin2.png
 description: Sketch of Card Tin
 tags:
-    - oc
-    - object show
+  - oc
+  - object show
 thumbnail_url: /art/general/thumbnails/metal_tin2.webp
 images:
-    - image_url: /art/general/metal_tin2.png
-      thumbnail_url: /art/general/thumbnails/metal_tin2.webp
-      alt: Card Tin 2
+  - image_url: /art/general/metal_tin2.png
+    thumbnail_url: /art/general/thumbnails/metal_tin2.webp
+    alt: Card Tin 2

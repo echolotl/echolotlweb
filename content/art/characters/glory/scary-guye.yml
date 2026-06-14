@@ -9,6 +9,6 @@ character: glory
 description: Who is that...? And why is she wearing such a weird outfit to be walking through the forest?
 thumbnail_url: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
 images:
-    - image_url: /art/characters/glory/scary-guye-1738210569565.png
-      thumbnail_url: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
-      alt: Scary Guye
+  - image_url: /art/characters/glory/scary-guye-1738210569565.png
+    thumbnail_url: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
+    alt: Scary Guye

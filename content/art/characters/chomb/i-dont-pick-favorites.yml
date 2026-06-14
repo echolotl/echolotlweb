@@ -8,11 +8,11 @@ image_url: /art/characters/chomb/i-dont-pick-favorites.png
 thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites.webp
 character: chomb
 images:
-    - image_url: /art/characters/chomb/i-dont-pick-favorites.png
-      thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites.webp
-      alt: I don't pick favorites
-      id: i-dont-pick-favorites
-      variants:
-          - image_url: /art/characters/chomb/i-dont-pick-favorites__minimal-shading.png
-            thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites__minimal-shading.webp
-            label: Minimal Shading
+  - image_url: /art/characters/chomb/i-dont-pick-favorites.png
+    thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites.webp
+    alt: I don't pick favorites
+    id: i-dont-pick-favorites
+    variants:
+      - image_url: /art/characters/chomb/i-dont-pick-favorites__minimal-shading.png
+        thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites__minimal-shading.webp
+        label: Minimal Shading

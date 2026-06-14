@@ -5,11 +5,11 @@ title: Echo Paint
 pinned: false
 sketch: true
 images:
-    - id: image-1
-      image_url: /art/characters/echo/image-1.png
-      thumbnail_url: /art/characters/echo/thumbnails/image-1.webp
-    - id: image-2
-      image_url: /art/characters/echo/image-2.png
-      thumbnail_url: /art/characters/echo/thumbnails/image-2.webp
+  - id: image-1
+    image_url: /art/characters/echo/image-1.png
+    thumbnail_url: /art/characters/echo/thumbnails/image-1.webp
+  - id: image-2
+    image_url: /art/characters/echo/image-2.png
+    thumbnail_url: /art/characters/echo/thumbnails/image-2.webp
 description: Doodles of Echo made in MSPaint
 character: echo

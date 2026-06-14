@@ -9,6 +9,6 @@ character: chomb
 description: the original design of Chomb
 thumbnail_url: /art/characters/chomb/thumbnails/ogChomb.webp
 images:
-    - image_url: /art/characters/chomb/ogChomb.png
-      thumbnail_url: /art/characters/chomb/thumbnails/ogChomb.webp
-      alt: Why So Mad
+  - image_url: /art/characters/chomb/ogChomb.png
+    thumbnail_url: /art/characters/chomb/thumbnails/ogChomb.webp
+    alt: Why So Mad

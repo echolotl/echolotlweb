@@ -15,8 +15,16 @@ import { show } from "./commands/show";
 import { regenthumb } from "./commands/regenthumb";
 import { regenpalette } from "./commands/regenpalette";
 
-async function main() {
-  const argv = process.argv.slice(2).filter((arg) => {
+function resetContext() {
+  context.dryRun = false;
+  context.shouldPush = false;
+  context.noLog = false;
+  context.force = false;
+}
+
+export async function runArtCLI(rawArgs: string[]) {
+  resetContext();
+  const argv = rawArgs.filter((arg) => {
     if (arg === "--dry-run") {
       context.dryRun = true;
       return false;
@@ -25,13 +33,22 @@ async function main() {
       context.shouldPush = true;
       return false;
     }
+    if (arg === "--no-log") {
+      context.noLog = true;
+      return false;
+    }
     if (arg === "--help" || arg === "-h") {
       printUsage();
       exit(0);
     }
+    if (arg === "--force") {
+      context.force = true;
+      return false;
+    }
     return true;
   });
-  if (context.dryRun) Logger.warning("Running in dry-run mode. No files will be written.");
+  if (context.dryRun)
+    Logger.warning("Running in dry-run mode. No files will be written.");
   const [command, ...args] = argv;
   switch (command) {
     case "add":
@@ -50,7 +67,7 @@ async function main() {
       await del(args);
       break;
     case "list":
-      await list(args);
+      await list();
       break;
     case "show":
       await show(args);
@@ -67,4 +84,12 @@ async function main() {
   }
 }
 
-main();
+async function main() {
+  context.shouldExit = true;
+  context.noLog = false;
+  await runArtCLI(process.argv.slice(2));
+}
+
+if (import.meta.main) {
+  void main();
+}

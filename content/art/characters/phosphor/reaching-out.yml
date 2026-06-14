@@ -5,8 +5,8 @@ title: Reaching Out
 pinned: false
 sketch: false
 images:
-    - id: reaching-out
-      image_url: /art/characters/phosphor/reaching-out.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/reaching-out.webp
+  - id: reaching-out
+    image_url: /art/characters/phosphor/reaching-out.png
+    thumbnail_url: /art/characters/phosphor/thumbnails/reaching-out.webp
 description: cool shading yo
 character: phosphor

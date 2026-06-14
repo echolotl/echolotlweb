@@ -5,10 +5,10 @@ title: Cholive
 pinned: false
 sketch: false
 images:
-    - id: cholive
-      image_url: /art/characters/chomb/cholive.png
-      thumbnail_url: /art/characters/chomb/thumbnails/cholive.webp
+  - id: cholive
+    image_url: /art/characters/chomb/cholive.png
+    thumbnail_url: /art/characters/chomb/thumbnails/cholive.webp
 description: Olive by [Fi4estorm](https://www.instagram.com/fi4estorm)
 tags:
-    - friends
+  - friends
 character: chomb

@@ -9,11 +9,11 @@ character: phosphor
 description: Original design of Phosphor
 thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor.webp
 images:
-    - image_url: /art/characters/phosphor/oldPhosphor.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor.webp
-      alt: Phosphor
-      id: oldPhosphor
-      variants:
-          - image_url: /art/characters/phosphor/oldPhosphor__no-background.jpg
-            thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor__no-background.webp
-            label: No Background
+  - image_url: /art/characters/phosphor/oldPhosphor.png
+    thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor.webp
+    alt: Phosphor
+    id: oldPhosphor
+    variants:
+      - image_url: /art/characters/phosphor/oldPhosphor__no-background.jpg
+        thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor__no-background.webp
+        label: No Background

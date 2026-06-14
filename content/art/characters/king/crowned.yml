@@ -9,12 +9,12 @@ character: king
 description: The original drawing of King
 thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
 images:
-    - image_url: /art/characters/king/oldestKing.png
-      thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
-      alt: Crowned
-      id: oldestKing
-      variants:
-          - image_url: /art/characters/king/oldestKing__sketch.jpg
-            thumbnail_url: /art/characters/king/thumbnails/oldestKing__sketch.webp
-            label: Sketch
-            alt: Sketched out version of previous image
+  - image_url: /art/characters/king/oldestKing.png
+    thumbnail_url: /art/characters/king/thumbnails/oldestKing.webp
+    alt: Crowned
+    id: oldestKing
+    variants:
+      - image_url: /art/characters/king/oldestKing__sketch.jpg
+        thumbnail_url: /art/characters/king/thumbnails/oldestKing__sketch.webp
+        label: Sketch
+        alt: Sketched out version of previous image

@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/ekold.png
 description: "Drawing of my Kubold OC from [Atlyss](https://store.steampowered.com/app/2768430/ATLYSS/): Ekold"
 tags:
-    - video game
-    - oc
+  - video game
+  - oc
 thumbnail_url: /art/general/thumbnails/ekold.webp
 images:
-    - image_url: /art/general/ekold.png
-      thumbnail_url: /art/general/thumbnails/ekold.webp
-      alt: Ekold
+  - image_url: /art/general/ekold.png
+    thumbnail_url: /art/general/thumbnails/ekold.webp
+    alt: Ekold

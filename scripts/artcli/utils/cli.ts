@@ -1,5 +1,6 @@
 import { Logger } from "../../logger";
 import { createInterface } from "node:readline/promises";
+import { context } from "./context";
 
 const rl = createInterface({
   input: process.stdin,
@@ -26,11 +27,13 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
     },
     {
       command: "remove <art-slug>",
-      description: "Interactively selects an image to remove from an existing piece of art.",
+      description:
+        "Interactively selects an image to remove from an existing piece of art.",
     },
     {
       command: "delete <art-slug>",
-      description: "Deletes an existing piece of art and all associated images after confirmation.",
+      description:
+        "Deletes an existing piece of art and all associated images after confirmation.",
     },
     {
       command: "list",
@@ -41,12 +44,12 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
       description: "Displays all metadata for a piece of art in the console.",
     },
     {
-      command: "regenthumb [art-slug]",
+      command: "regenthumb <art-slug?>",
       description:
         "Regenerates thumbnails for all images, or just for a specific piece of art if a slug is provided.",
     },
     {
-      command: "regenpalette [character-slug]",
+      command: "regenpalette <character-slug?>",
       description:
         "Regenerates palette images for all characters, or just for a specific character if a slug is provided.",
     },
@@ -58,11 +61,22 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
     },
     {
       command: "--variant",
-      description: "When appending or removing, target image variants instead of main images.",
+      description:
+        "When appending or removing, target image variants instead of main images.",
     },
     {
       command: "--push",
       description: "Pushes the changes to the remote repository.",
+    },
+    {
+      command: "--force",
+      description:
+        "Overwrite existing generated files or skip confirmation prompts where supported.",
+    },
+    {
+      command: "--no-log",
+      description:
+        "Suppresses all log output except for final success or error messages.",
     },
     {
       command: "--help",
@@ -71,7 +85,7 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
   ],
 };
 
-export function printUsage() {
+export function printUsage(error?: string): void {
   function section(title: string) {
     Logger.log(Logger.fmtBold(Logger.fmtHex("#da39a4", title.toUpperCase())));
   }
@@ -115,7 +129,9 @@ export function printUsage() {
   }
 
   function printEntries(entries: UsageEntry[], inline = false) {
-    const maxCommandLength = Math.max(...entries.map((entry) => entry.command.length));
+    const maxCommandLength = Math.max(
+      ...entries.map((entry) => entry.command.length),
+    );
     const descriptionPrefix = `${" ".repeat(maxCommandLength)}  `;
 
     for (const entry of entries) {
@@ -125,7 +141,9 @@ export function printUsage() {
           entry.description,
           process.stdout.columns - maxCommandLength - 2,
         );
-        Logger.dim(`${Logger.fmtBold(paddedCommand)}  ${wrappedDescription[0] ?? ""}`);
+        Logger.dim(
+          `${Logger.fmtBold(paddedCommand)}  ${wrappedDescription[0] ?? ""}`,
+        );
 
         for (const line of wrappedDescription.slice(1)) {
           Logger.dim(`${descriptionPrefix}${line}`);
@@ -137,12 +155,23 @@ export function printUsage() {
     }
   }
 
-  Logger.log(
-    Logger.fmtBold(
-      Logger.fmtUnderline(Logger.fmtGradient(`echolotl's art CLI HELP :3`, "#b67eff", "#da39a4")),
-    ),
-  );
-  Logger.nl();
+  if (error) {
+    Logger.error(error);
+    Logger.nl();
+  } else {
+    Logger.log(
+      Logger.fmtBold(
+        Logger.fmtUnderline(
+          Logger.fmtGradient(
+            `echolotl's art CLI HELP :3`,
+            "#b67eff",
+            "#da39a4",
+          ),
+        ),
+      ),
+    );
+    Logger.nl();
+  }
 
   section("COMMANDS");
   printEntries(usages.commands, true);
@@ -160,14 +189,20 @@ export interface AskOptions {
 }
 
 export async function ask(options: AskOptions = {}): Promise<string> {
-  const { prompt = "▌ ", default: defaultValue, required = false, validate } = options;
+  const {
+    prompt = "▌ ",
+    default: defaultValue,
+    required = false,
+    validate,
+  } = options;
   const getAnswer = async (): Promise<string> => {
     try {
       return await rl.question(`\x1b[2m${prompt}`);
     } catch (error) {
       Logger.nl();
       Logger.error(String(error));
-      process.exit(1);
+      exit(1);
+      throw error;
     }
   };
 
@@ -203,7 +238,9 @@ export async function ask(options: AskOptions = {}): Promise<string> {
   return answer;
 }
 
-export function exit(code: number = 0): never {
+export function exit(code: number = 0): void {
   rl.close();
-  process.exit(code);
+  if (context.shouldExit) {
+    process.exit(code);
+  }
 }

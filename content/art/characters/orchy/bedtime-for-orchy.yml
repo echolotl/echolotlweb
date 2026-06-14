@@ -1,13 +1,12 @@
 slug: bedtime-for-orchy
-created_at: '2026-06-05T03:37:32.038Z'
-modified_at: '2026-06-05T03:39:07.262Z'
+created_at: "2026-06-05T03:37:32.038Z"
+modified_at: "2026-06-05T03:39:07.262Z"
 title: Bedtime for Orchy
 pinned: false
 sketch: true
 images:
-    -
-        id: bedtime-for-orchy
-        image_url: /art/characters/orchy/bedtime-for-orchy.png
-        thumbnail_url: /art/characters/orchy/thumbnails/bedtime-for-orchy.webp
+  - id: bedtime-for-orchy
+    image_url: /art/characters/orchy/bedtime-for-orchy.png
+    thumbnail_url: /art/characters/orchy/thumbnails/bedtime-for-orchy.webp
 description: s;leepy
 character: orchy

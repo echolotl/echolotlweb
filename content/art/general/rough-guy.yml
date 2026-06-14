@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/tomguy.png
 description: Fanart of a friend's OC
 tags:
-    - friends
-    - oc
+  - friends
+  - oc
 thumbnail_url: /art/general/thumbnails/tomguy.webp
 images:
-    - image_url: /art/general/tomguy.png
-      thumbnail_url: /art/general/thumbnails/tomguy.webp
-      alt: Rough Guy
+  - image_url: /art/general/tomguy.png
+    thumbnail_url: /art/general/thumbnails/tomguy.webp
+    alt: Rough Guy

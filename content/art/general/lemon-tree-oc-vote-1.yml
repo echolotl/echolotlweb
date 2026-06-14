@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/lemon_treeoc.png
 description: OC I created for Lemon Tree's OC creation contest
 tags:
-    - idea
-    - oc
+  - idea
+  - oc
 thumbnail_url: /art/general/thumbnails/lemon_treeoc.webp
 images:
-    - image_url: /art/general/lemon_treeoc.png
-      thumbnail_url: /art/general/thumbnails/lemon_treeoc.webp
-      alt: "Lemon Tree OC Vote #1"
+  - image_url: /art/general/lemon_treeoc.png
+    thumbnail_url: /art/general/thumbnails/lemon_treeoc.webp
+    alt: "Lemon Tree OC Vote #1"

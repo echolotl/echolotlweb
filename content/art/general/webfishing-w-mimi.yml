@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/Illustratio2n6.png
 description: Drawing of my friends [Webfishing](https://store.steampowered.com/app/3146520/WEBFISHING/) character ...and me too
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/Illustratio2n6.webp
 images:
-    - image_url: /art/general/Illustratio2n6.png
-      thumbnail_url: /art/general/thumbnails/Illustratio2n6.webp
-      alt: Webfishing w/ Mimi
+  - image_url: /art/general/Illustratio2n6.png
+    thumbnail_url: /art/general/thumbnails/Illustratio2n6.webp
+    alt: Webfishing w/ Mimi

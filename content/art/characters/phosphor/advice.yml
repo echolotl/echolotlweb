@@ -7,10 +7,10 @@ sketch: true
 image_url: /art/characters/phosphor/phosphorAdvice.png
 character: phosphor
 related_characters:
-    - orchy
+  - orchy
 description: Poor guy... just wants to wear they shirt... he mad
 thumbnail_url: /art/characters/phosphor/thumbnails/phosphorAdvice.webp
 images:
-    - image_url: /art/characters/phosphor/phosphorAdvice.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/phosphorAdvice.webp
-      alt: Advice
+  - image_url: /art/characters/phosphor/phosphorAdvice.png
+    thumbnail_url: /art/characters/phosphor/thumbnails/phosphorAdvice.webp
+    alt: Advice

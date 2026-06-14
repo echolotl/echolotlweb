@@ -9,6 +9,6 @@ character: orchy
 description: New wing and tail design
 thumbnail_url: /art/characters/orchy/thumbnails/oldOrchy2.webp
 images:
-    - image_url: /art/characters/orchy/oldOrchy2.png
-      thumbnail_url: /art/characters/orchy/thumbnails/oldOrchy2.webp
-      alt: "Orchy 2: Electric Boogaloo"
+  - image_url: /art/characters/orchy/oldOrchy2.png
+    thumbnail_url: /art/characters/orchy/thumbnails/oldOrchy2.webp
+    alt: "Orchy 2: Electric Boogaloo"

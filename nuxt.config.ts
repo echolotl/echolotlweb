@@ -2,6 +2,8 @@ import type { Art, ArtImage } from "./types";
 import { readdir, readFile } from "fs/promises";
 import { resolve } from "node:path";
 import { load } from "js-yaml";
+import { regenpalette } from "./scripts/artcli/commands/regenpalette";
+import { regenthumb } from "./scripts/artcli/commands/regenthumb";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -72,7 +74,8 @@ export default defineNuxtConfig({
                             imgs.push({
                               loc: `https://www.echolotl.lol${v.image_url}`,
                               caption: (data as any).description,
-                              title: v.label || img.title || (data as any).title,
+                              title:
+                                v.label || img.title || (data as any).title,
                             });
                           }
                         }
@@ -99,7 +102,13 @@ export default defineNuxtConfig({
     zeroRuntime: true,
   },
   devtools: { enabled: true },
-  modules: ["@nuxtjs/sitemap", "@nuxtjs/robots", "@nuxt/content", "@nuxt/eslint", "@nuxtjs/mdc"],
+  modules: [
+    "@nuxtjs/sitemap",
+    "@nuxtjs/robots",
+    "@nuxt/content",
+    "@nuxt/eslint",
+    "@nuxtjs/mdc",
+  ],
   components: {
     global: true,
     dirs: ["~/components", "~/components/content"],
@@ -129,9 +138,9 @@ export default defineNuxtConfig({
     },
   },
   hooks: {
-    "build:before": () => {
-      import("./scripts/generate-palettes");
-      import("./scripts/thumbnails");
+    "build:before": async () => {
+      await regenpalette([]);
+      await regenthumb([]);
     },
   },
   alias: {

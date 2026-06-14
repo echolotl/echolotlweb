@@ -7,11 +7,11 @@ sketch: false
 image_url: /art/general/cinderace.png
 description: Fanart of Cinderace from Pokémon
 tags:
-    - fanart
-    - video game
-    - pokemon
+  - fanart
+  - video game
+  - pokemon
 thumbnail_url: /art/general/thumbnails/cinderace.webp
 images:
-    - image_url: /art/general/cinderace.png
-      thumbnail_url: /art/general/thumbnails/cinderace.webp
-      alt: Cinderace
+  - image_url: /art/general/cinderace.png
+    thumbnail_url: /art/general/thumbnails/cinderace.webp
+    alt: Cinderace

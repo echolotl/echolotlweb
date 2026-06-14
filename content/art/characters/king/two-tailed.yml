@@ -9,6 +9,6 @@ character: king
 description: First solo image appearance of the two tails
 thumbnail_url: /art/characters/king/thumbnails/two_tailed.webp
 images:
-    - image_url: /art/characters/king/two_tailed.png
-      thumbnail_url: /art/characters/king/thumbnails/two_tailed.webp
-      alt: Two Tailed
+  - image_url: /art/characters/king/two_tailed.png
+    thumbnail_url: /art/characters/king/thumbnails/two_tailed.webp
+    alt: Two Tailed

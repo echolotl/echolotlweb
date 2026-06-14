@@ -8,6 +8,6 @@ image_url: /art/characters/chomb/chombSass.png
 character: chomb
 thumbnail_url: /art/characters/chomb/thumbnails/chombSass.webp
 images:
-    - image_url: /art/characters/chomb/chombSass.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chombSass.webp
-      alt: chombSass
+  - image_url: /art/characters/chomb/chombSass.png
+    thumbnail_url: /art/characters/chomb/thumbnails/chombSass.webp
+    alt: chombSass

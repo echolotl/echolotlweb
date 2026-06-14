@@ -9,6 +9,6 @@ character: king
 description: Sketchy eyes forward legs, you wouldn't get it
 thumbnail_url: /art/characters/king/thumbnails/kingOldStand.webp
 images:
-    - image_url: /art/characters/king/kingOldStand.png
-      thumbnail_url: /art/characters/king/thumbnails/kingOldStand.webp
-      alt: Basic Pose
+  - image_url: /art/characters/king/kingOldStand.png
+    thumbnail_url: /art/characters/king/thumbnails/kingOldStand.webp
+    alt: Basic Pose

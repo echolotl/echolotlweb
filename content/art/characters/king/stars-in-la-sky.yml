@@ -9,6 +9,6 @@ character: king
 description: Beautiful glowing white borders and yellow stars, big ol' tail
 thumbnail_url: /art/characters/king/thumbnails/starsInlasky.webp
 images:
-    - image_url: /art/characters/king/starsInlasky.png
-      thumbnail_url: /art/characters/king/thumbnails/starsInlasky.webp
-      alt: Stars in la Sky
+  - image_url: /art/characters/king/starsInlasky.png
+    thumbnail_url: /art/characters/king/thumbnails/starsInlasky.webp
+    alt: Stars in la Sky

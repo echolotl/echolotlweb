@@ -9,6 +9,6 @@ character: chomb
 description: Full moon yet also full of silk
 thumbnail_url: /art/characters/chomb/thumbnails/chombWebbed.webp
 images:
-    - image_url: /art/characters/chomb/chombWebbed.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chombWebbed.webp
-      alt: Webbed
+  - image_url: /art/characters/chomb/chombWebbed.png
+    thumbnail_url: /art/characters/chomb/thumbnails/chombWebbed.webp
+    alt: Webbed

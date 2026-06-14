@@ -9,6 +9,6 @@ character: nautilus
 description: The original design for Nautilus
 thumbnail_url: /art/characters/nautilus/thumbnails/nautilusOG.webp
 images:
-    - image_url: /art/characters/nautilus/nautilusOG.png
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilusOG.webp
-      alt: Gooey Rainbow
+  - image_url: /art/characters/nautilus/nautilusOG.png
+    thumbnail_url: /art/characters/nautilus/thumbnails/nautilusOG.webp
+    alt: Gooey Rainbow

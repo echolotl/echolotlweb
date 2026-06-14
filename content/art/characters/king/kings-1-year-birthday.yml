@@ -9,6 +9,6 @@ character: king
 description: King's 1 year birthday, with the guests being King, King, and of course, King
 thumbnail_url: /art/characters/king/thumbnails/king1yrbirthday.webp
 images:
-    - image_url: /art/characters/king/king1yrbirthday.png
-      thumbnail_url: /art/characters/king/thumbnails/king1yrbirthday.webp
-      alt: King's 1 Year Birthday
+  - image_url: /art/characters/king/king1yrbirthday.png
+    thumbnail_url: /art/characters/king/thumbnails/king1yrbirthday.webp
+    alt: King's 1 Year Birthday

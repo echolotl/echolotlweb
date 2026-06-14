@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/king/thumbnails/sure-yeah-its-king.webp
 description: yup its a drawings that's a true
 character: king
 images:
-    - image_url: /art/characters/king/sure-yeah-its-king.png
-      thumbnail_url: /art/characters/king/thumbnails/sure-yeah-its-king.webp
-      alt: Sure yeah it's King
+  - image_url: /art/characters/king/sure-yeah-its-king.png
+    thumbnail_url: /art/characters/king/thumbnails/sure-yeah-its-king.webp
+    alt: Sure yeah it's King

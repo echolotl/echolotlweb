@@ -7,10 +7,10 @@ sketch: true
 image_url: /art/characters/orchy/image.png
 character: orchy
 related_characters:
-    - phosphor
+  - phosphor
 description: Phosphor sleeping on Orchy, with the potion-tail-lamp overhead
 thumbnail_url: /art/characters/orchy/thumbnails/image.webp
 images:
-    - image_url: /art/characters/orchy/image.png
-      thumbnail_url: /art/characters/orchy/thumbnails/image.webp
-      alt: Sleeping
+  - image_url: /art/characters/orchy/image.png
+    thumbnail_url: /art/characters/orchy/thumbnails/image.webp
+    alt: Sleeping

@@ -5,10 +5,10 @@ title: Giving Thanks
 pinned: false
 sketch: true
 images:
-    - id: giving-thanks
-      image_url: /art/characters/glory/giving-thanks.png
-      thumbnail_url: /art/characters/glory/thumbnails/giving-thanks.webp
+  - id: giving-thanks
+    image_url: /art/characters/glory/giving-thanks.png
+    thumbnail_url: /art/characters/glory/thumbnails/giving-thanks.webp
 description: or taking it maybe, we're not sure
 character: glory
 related_characters:
-    - kitral
+  - kitral

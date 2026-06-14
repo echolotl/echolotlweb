@@ -9,6 +9,6 @@ character: orchy
 description: Sitting makes you fat
 thumbnail_url: /art/characters/orchy/thumbnails/fatty.webp
 images:
-    - image_url: /art/characters/orchy/fatty.png
-      thumbnail_url: /art/characters/orchy/thumbnails/fatty.webp
-      alt: Fatty
+  - image_url: /art/characters/orchy/fatty.png
+    thumbnail_url: /art/characters/orchy/thumbnails/fatty.webp
+    alt: Fatty

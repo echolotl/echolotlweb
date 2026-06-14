@@ -7,10 +7,10 @@ sketch: true
 image_url: /art/characters/orchy/orchylarg.png
 character: orchy
 related_characters:
-    - glory
-    - kitral
+  - glory
+  - kitral
 thumbnail_url: /art/characters/orchy/thumbnails/orchylarg.webp
 images:
-    - image_url: /art/characters/orchy/orchylarg.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchylarg.webp
-      alt: orchylarg
+  - image_url: /art/characters/orchy/orchylarg.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchylarg.webp
+    alt: orchylarg

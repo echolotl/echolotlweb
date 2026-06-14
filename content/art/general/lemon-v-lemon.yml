@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/lemonbot.png
 description: Small comic made of [ZestyLemonss'](https://x.com/ZestyLemonss) Discord dog OC vs. Lemon Tree's "Lemonbot"
 tags:
-    - fanart
+  - fanart
 thumbnail_url: /art/general/thumbnails/lemonbot.webp
 images:
-    - image_url: /art/general/lemonbot.png
-      thumbnail_url: /art/general/thumbnails/lemonbot.webp
-      alt: Lemon v. Lemon
+  - image_url: /art/general/lemonbot.png
+    thumbnail_url: /art/general/thumbnails/lemonbot.webp
+    alt: Lemon v. Lemon

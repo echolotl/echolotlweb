@@ -5,8 +5,8 @@ title: Mino is tall
 pinned: false
 sketch: true
 images:
-    - id: mino-is-tall
-      image_url: /art/characters/mino/mino-is-tall.webp
-      thumbnail_url: /art/characters/mino/thumbnails/mino-is-tall.webp
+  - id: mino-is-tall
+    image_url: /art/characters/mino/mino-is-tall.webp
+    thumbnail_url: /art/characters/mino/thumbnails/mino-is-tall.webp
 description: and also has a mace I guess
 character: mino

@@ -9,11 +9,11 @@ character: echo
 description: Profile picture made of Echo before [King](/characters/king) existed
 thumbnail_url: /art/characters/echo/thumbnails/echoPFP.webp
 images:
-    - image_url: /art/characters/echo/echoPFP.png
-      thumbnail_url: /art/characters/echo/thumbnails/echoPFP.webp
-      alt: Echo - PFP
-      id: echoPFP
-      variants:
-          - image_url: /art/characters/echo/echoPFP__christmas.png
-            thumbnail_url: /art/characters/echo/thumbnails/echoPFP__christmas.webp
-            label: Christmas
+  - image_url: /art/characters/echo/echoPFP.png
+    thumbnail_url: /art/characters/echo/thumbnails/echoPFP.webp
+    alt: Echo - PFP
+    id: echoPFP
+    variants:
+      - image_url: /art/characters/echo/echoPFP__christmas.png
+        thumbnail_url: /art/characters/echo/thumbnails/echoPFP__christmas.webp
+        label: Christmas

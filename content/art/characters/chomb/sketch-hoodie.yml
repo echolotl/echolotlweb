@@ -9,6 +9,6 @@ character: chomb
 description: Less of a hoodie and more of a letterman, naming these retroactively sucks
 thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
 images:
-    - image_url: /art/characters/chomb/chombSketchHoodie.png
-      thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
-      alt: Sketch - Hoodie
+  - image_url: /art/characters/chomb/chombSketchHoodie.png
+    thumbnail_url: /art/characters/chomb/thumbnails/chombSketchHoodie.webp
+    alt: Sketch - Hoodie

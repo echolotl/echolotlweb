@@ -9,6 +9,6 @@ character: king
 description: Made when trying out Procreate's gradient map feature
 thumbnail_url: /art/characters/king/thumbnails/kingScarey.webp
 images:
-    - image_url: /art/characters/king/kingScarey.png
-      thumbnail_url: /art/characters/king/thumbnails/kingScarey.webp
-      alt: Scarey
+  - image_url: /art/characters/king/kingScarey.png
+    thumbnail_url: /art/characters/king/thumbnails/kingScarey.webp
+    alt: Scarey

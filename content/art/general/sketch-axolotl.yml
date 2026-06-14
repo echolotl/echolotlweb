@@ -7,9 +7,9 @@ sketch: true
 image_url: /art/general/sketch_axolotl.jpg
 description: Pencil style test with an ugly axolotl
 tags:
-    - idea
+  - idea
 thumbnail_url: /art/general/thumbnails/sketch_axolotl.webp
 images:
-    - image_url: /art/general/sketch_axolotl.jpg
-      thumbnail_url: /art/general/thumbnails/sketch_axolotl.webp
-      alt: Sketch - Axolotl
+  - image_url: /art/general/sketch_axolotl.jpg
+    thumbnail_url: /art/general/thumbnails/sketch_axolotl.webp
+    alt: Sketch - Axolotl

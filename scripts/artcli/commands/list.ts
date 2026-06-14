@@ -1,7 +1,10 @@
 import { Logger } from "../../logger";
 import { exit } from "../utils/cli";
-import { getAllArts, getCharacterData } from "../utils/art";
+import { getAllArts, getCharacterBySlug } from "../utils/art";
 
+/**
+ * Lists all art pieces' slugs, grouped by character.
+ */
 export async function list() {
   function section(title: string, color: string = "#da39a4") {
     Logger.log(Logger.fmtBold(Logger.fmtHex(color, title.toUpperCase())));
@@ -12,7 +15,8 @@ export async function list() {
   const characterColors: Record<string, string> = {};
   for (const art of characterArts) {
     if (art.character && !characterColors[art.character]) {
-      characterColors[art.character] = getCharacterData(art.character).theme_color || "#da39a4";
+      characterColors[art.character] =
+        getCharacterBySlug(art.character).theme_color || "#da39a4";
     }
   }
   section("General Art");
@@ -23,7 +27,9 @@ export async function list() {
   );
   for (const character of Object.keys(characterColors)) {
     section(`${character}`, characterColors[character]);
-    const artsForCharacter = characterArts.filter((art) => art.character === character);
+    const artsForCharacter = characterArts.filter(
+      (art) => art.character === character,
+    );
     Logger.dim(
       artsForCharacter.length > 0
         ? artsForCharacter.map((art) => art.slug).join(", ")
@@ -31,5 +37,5 @@ export async function list() {
     );
   }
 
-  exit();
+  exit(0);
 }

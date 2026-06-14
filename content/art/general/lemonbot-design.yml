@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/lemonbot_desig.png
 description: Proposed design for Lemon Tree's "Lemonbot"
 tags:
-    - idea
-    - oc
+  - idea
+  - oc
 thumbnail_url: /art/general/thumbnails/lemonbot_desig.webp
 images:
-    - image_url: /art/general/lemonbot_desig.png
-      thumbnail_url: /art/general/thumbnails/lemonbot_desig.webp
-      alt: Lemonbot Design
+  - image_url: /art/general/lemonbot_desig.png
+    thumbnail_url: /art/general/thumbnails/lemonbot_desig.webp
+    alt: Lemonbot Design

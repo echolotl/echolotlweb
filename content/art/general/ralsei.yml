@@ -7,10 +7,10 @@ sketch: true
 image_url: /art/general/ralsei.jpg
 description: Blue lined sketch of Ralsei from Deltarune
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/ralsei.webp
 images:
-    - image_url: /art/general/ralsei.jpg
-      thumbnail_url: /art/general/thumbnails/ralsei.webp
-      alt: Ralsei
+  - image_url: /art/general/ralsei.jpg
+    thumbnail_url: /art/general/thumbnails/ralsei.webp
+    alt: Ralsei

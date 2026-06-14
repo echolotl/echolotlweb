@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/king/thumbnails/king-reference-sheet.webp
 description: King's Reference Sheet
 character: king
 images:
-    - image_url: /art/characters/king/king-reference-sheet.png
-      thumbnail_url: /art/characters/king/thumbnails/king-reference-sheet.webp
-      alt: King Reference Sheet
+  - image_url: /art/characters/king/king-reference-sheet.png
+    thumbnail_url: /art/characters/king/thumbnails/king-reference-sheet.webp
+    alt: King Reference Sheet

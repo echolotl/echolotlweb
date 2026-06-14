@@ -5,9 +5,9 @@ title: gilly silly
 pinned: true
 sketch: false
 images:
-    - id: gilly-silly
-      image_url: /art/general/gilly-silly.png
-      thumbnail_url: /art/general/thumbnails/gilly-silly.webp
+  - id: gilly-silly
+    image_url: /art/general/gilly-silly.png
+    thumbnail_url: /art/general/thumbnails/gilly-silly.webp
 description: gilly by [Fi4estorm](https://www.instagram.com/fi4estorm/)
 tags:
-    - friends
+  - friends

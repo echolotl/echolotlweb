@@ -5,8 +5,8 @@ title: caved in, sun out
 pinned: false
 sketch: false
 images:
-    - id: caved-in-sun-out
-      image_url: /art/characters/orchy/caved-in-sun-out.png
-      thumbnail_url: /art/characters/orchy/thumbnails/caved-in-sun-out.webp
+  - id: caved-in-sun-out
+    image_url: /art/characters/orchy/caved-in-sun-out.png
+    thumbnail_url: /art/characters/orchy/thumbnails/caved-in-sun-out.webp
 description: Made for use as my computer's lock screen background
 character: orchy

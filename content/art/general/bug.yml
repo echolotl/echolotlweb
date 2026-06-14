@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/bug.png
 description: Fanart of a large artist from Twitter in 2022
 tags:
-    - fanart
+  - fanart
 thumbnail_url: /art/general/thumbnails/bug.webp
 images:
-    - image_url: /art/general/bug.png
-      thumbnail_url: /art/general/thumbnails/bug.webp
-      alt: Bug
+  - image_url: /art/general/bug.png
+    thumbnail_url: /art/general/thumbnails/bug.webp
+    alt: Bug

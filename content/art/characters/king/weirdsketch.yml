@@ -9,6 +9,6 @@ character: king
 description: Attempt at trying something new
 thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
 images:
-    - image_url: /art/characters/king/kingWeirdSketch.png
-      thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
-      alt: weirdSketch
+  - image_url: /art/characters/king/kingWeirdSketch.png
+    thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
+    alt: weirdSketch

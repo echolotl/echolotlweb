@@ -8,8 +8,8 @@ image_url: /art/general/slimy.png
 thumbnail_url: /art/general/thumbnails/slimy.webp
 description: Attack on [S_shrimpy](https://artfight.net/~S_shrimpy)
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/slimy.png
-      thumbnail_url: /art/general/thumbnails/slimy.webp
-      alt: Slimy
+  - image_url: /art/general/slimy.png
+    thumbnail_url: /art/general/thumbnails/slimy.webp
+    alt: Slimy

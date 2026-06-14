@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/metal_tin.png
 description: Original design for Card Tin
 tags:
-    - oc
-    - object show
+  - oc
+  - object show
 thumbnail_url: /art/general/thumbnails/metal_tin.webp
 images:
-    - image_url: /art/general/metal_tin.png
-      thumbnail_url: /art/general/thumbnails/metal_tin.webp
-      alt: Card Tin
+  - image_url: /art/general/metal_tin.png
+    thumbnail_url: /art/general/thumbnails/metal_tin.webp
+    alt: Card Tin

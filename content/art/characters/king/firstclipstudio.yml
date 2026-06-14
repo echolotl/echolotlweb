@@ -8,6 +8,6 @@ image_url: /art/characters/king/firstClipStudio.png
 character: king
 thumbnail_url: /art/characters/king/thumbnails/firstClipStudio.webp
 images:
-    - image_url: /art/characters/king/firstClipStudio.png
-      thumbnail_url: /art/characters/king/thumbnails/firstClipStudio.webp
-      alt: firstClipStudio
+  - image_url: /art/characters/king/firstClipStudio.png
+    thumbnail_url: /art/characters/king/thumbnails/firstClipStudio.webp
+    alt: firstClipStudio

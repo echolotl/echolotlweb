@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/characters/king/kingeEcho.png
 character: king
 related_characters:
-    - echo
+  - echo
 description: A profile picture made for Discord featuring the two sonas
 thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
 images:
-    - image_url: /art/characters/king/kingeEcho.png
-      thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
-      alt: King n' Echo
+  - image_url: /art/characters/king/kingeEcho.png
+    thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
+    alt: King n' Echo

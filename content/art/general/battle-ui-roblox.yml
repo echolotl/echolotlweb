@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/robloxstudio.png
 description: Idea for a battle UI for a Roblox game if I were ever to make one
 tags:
-    - video game
-    - idea
+  - video game
+  - idea
 thumbnail_url: /art/general/thumbnails/robloxstudio.webp
 images:
-    - image_url: /art/general/robloxstudio.png
-      thumbnail_url: /art/general/thumbnails/robloxstudio.webp
-      alt: Battle UI Roblox
+  - image_url: /art/general/robloxstudio.png
+    thumbnail_url: /art/general/thumbnails/robloxstudio.webp
+    alt: Battle UI Roblox

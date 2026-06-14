@@ -1,9 +1,9 @@
 <template>
-    <div :class="{ 'light-theme': theme }">
-        <Navbar :light="theme" @toggle-theme="toggleTheme" />
-        <slot />
-        <Footer></Footer>
-    </div>
+  <div :class="{ 'light-theme': theme }">
+    <Navbar :light="theme" @toggle-theme="toggleTheme" />
+    <slot />
+    <Footer></Footer>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -16,21 +16,21 @@ const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 const route = useRoute();
 
 onMounted(() => {
-    initializeTheme();
+  initializeTheme();
 });
 
 onUnmounted(() => {
-    cleanupTheme();
+  cleanupTheme();
 });
 
 useSeoMeta({
-    ogSiteName: "echolotl.lol",
-    description:
-        "echolotl's personal website, containing their art, characters, and more.",
-    ogType: "website",
-    ogLocale: "en_US",
-    ogTitle: "echolotl",
-    themeColor: "#DA39A4",
-    ogUrl: "https://www.echolotl.lol" + route.fullPath,
+  ogSiteName: "echolotl.lol",
+  description:
+    "echolotl's personal website, containing their art, characters, and more.",
+  ogType: "website",
+  ogLocale: "en_US",
+  ogTitle: "echolotl",
+  themeColor: "#DA39A4",
+  ogUrl: "https://www.echolotl.lol" + route.fullPath,
 });
 </script>

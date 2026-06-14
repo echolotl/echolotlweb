@@ -1,81 +1,81 @@
 <template>
-    <div :class="['callout']" :style="{ '--callout-color': color }">
-        <div
-            class="callout__icon"
-            :style="{ '--filter-url': `url(#callout-icon-shadow-${id})` }">
-            <SketchFilter
-                :id="`callout-icon-shadow-${id}`"
-                :std-deviation="1.5"
-                :intercept="-3"
-                flood-color="var(--background)" />
-            <Icon
-                :icon="iconName"
-                style="color: var(--callout-color)"
-                height="32px"
-                width="32px" />
-        </div>
-        <div class="callout__content">
-            <h4
-                v-if="title"
-                class="callout__title lotl-font"
-                style="color: var(--callout-color)">
-                {{ title }}
-            </h4>
-            <div class="callout__body">
-                <slot />
-            </div>
-        </div>
+  <div :class="['callout']" :style="{ '--callout-color': color }">
+    <div
+      class="callout__icon"
+      :style="{ '--filter-url': `url(#callout-icon-shadow-${id})` }">
+      <SketchFilter
+        :id="`callout-icon-shadow-${id}`"
+        :std-deviation="1.5"
+        :intercept="-3"
+        flood-color="var(--background)" />
+      <Icon
+        :icon="iconName"
+        style="color: var(--callout-color)"
+        height="32px"
+        width="32px" />
     </div>
+    <div class="callout__content">
+      <h4
+        v-if="title"
+        class="callout__title lotl-font"
+        style="color: var(--callout-color)">
+        {{ title }}
+      </h4>
+      <div class="callout__body">
+        <slot />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import Icon from "../common/Icon.vue";
 import SketchFilter from "../common/SketchFilter.vue";
 interface Props {
-    type?: "info" | "warning" | "error" | "tip";
-    title?: string;
+  type?: "info" | "warning" | "error" | "tip";
+  title?: string;
 }
 
 var id = Math.random().toString(36).slice(2);
 
 const props = withDefaults(defineProps<Props>(), {
-    type: "info",
-    title: undefined,
+  type: "info",
+  title: undefined,
 });
 
 const iconName = computed(() => {
-    const icons = {
-        info: "info",
-        warning: "warning",
-        error: "md-danger",
-        tip: "tip",
-        important: "feedback",
-    };
-    return icons[props.type];
+  const icons = {
+    info: "info",
+    warning: "warning",
+    error: "md-danger",
+    tip: "tip",
+    important: "feedback",
+  };
+  return icons[props.type];
 });
 
 const title = computed(() => {
-    if (props.title) return props.title;
+  if (props.title) return props.title;
 
-    const titles = {
-        info: "Note",
-        warning: "Warning",
-        error: "Caution",
-        tip: "Tip",
-        important: "Important",
-    };
-    return titles[props.type];
+  const titles = {
+    info: "Note",
+    warning: "Warning",
+    error: "Caution",
+    tip: "Tip",
+    important: "Important",
+  };
+  return titles[props.type];
 });
 
 const color = computed(() => {
-    const colors = {
-        info: "var(--primary)",
-        warning: "var(--orange)",
-        error: "var(--red)",
-        tip: "var(--green)",
-        important: "var(--purple)",
-    };
-    return colors[props.type];
+  const colors = {
+    info: "var(--primary)",
+    warning: "var(--orange)",
+    error: "var(--red)",
+    tip: "var(--green)",
+    important: "var(--purple)",
+  };
+  return colors[props.type];
 });
 </script>
 
@@ -83,47 +83,43 @@ const color = computed(() => {
 @use "~/assets/styles/partials/_mixins" as *;
 
 .callout {
-    position: relative;
-    display: flex;
-    gap: 12px;
-    padding: 12px 16px;
-    border-left: 3px dotted var(--callout-color);
-    margin: 16px 0;
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 48px;
-        height: 100%;
-        background: linear-gradient(
-            to right,
-            var(--callout-color),
-            transparent
-        );
-        opacity: 0.1;
-        z-index: -1;
-    }
+  position: relative;
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-left: 3px dotted var(--callout-color);
+  margin: 16px 0;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 100%;
+    background: linear-gradient(to right, var(--callout-color), transparent);
+    opacity: 0.1;
+    z-index: -1;
+  }
 }
 
 .callout__icon {
-    position: absolute;
-    left: -24px;
-    top: 8px;
-    filter: var(--filter-url);
+  position: absolute;
+  left: -24px;
+  top: 8px;
+  filter: var(--filter-url);
 }
 
 .callout__title {
-    margin: 0 0 8px 0 !important;
-    font-size: 1.2em !important;
-    color: var(--text);
+  margin: 0 0 8px 0 !important;
+  font-size: 1.2em !important;
+  color: var(--text);
 }
 
 .callout__content {
-    flex: 1;
+  flex: 1;
 }
 
 .callout__body {
-    color: var(--text);
+  color: var(--text);
 }
 </style>

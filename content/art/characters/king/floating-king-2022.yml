@@ -9,6 +9,6 @@ character: king
 description: "Fun fact: I made that sparkle thing you see into a brush and that's why its plastered everywhere. Rare crown sighting"
 thumbnail_url: /art/characters/king/thumbnails/kingFloat.webp
 images:
-    - image_url: /art/characters/king/kingFloat.png
-      thumbnail_url: /art/characters/king/thumbnails/kingFloat.webp
-      alt: Floating King (2022)
+  - image_url: /art/characters/king/kingFloat.png
+    thumbnail_url: /art/characters/king/thumbnails/kingFloat.webp
+    alt: Floating King (2022)

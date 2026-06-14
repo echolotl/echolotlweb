@@ -9,6 +9,6 @@ character: king
 description: Artists when they don't want to draw backgrounds or the character
 thumbnail_url: /art/characters/king/thumbnails/kingVoid.webp
 images:
-    - image_url: /art/characters/king/kingVoid.png
-      thumbnail_url: /art/characters/king/thumbnails/kingVoid.webp
-      alt: Colorfilled Void
+  - image_url: /art/characters/king/kingVoid.png
+    thumbnail_url: /art/characters/king/thumbnails/kingVoid.webp
+    alt: Colorfilled Void

@@ -9,6 +9,6 @@ character: glory
 description: Hello, how are you? I am under da wator, please help me, here too much raining
 thumbnail_url: /art/characters/glory/thumbnails/gloryIsUnderTheWaterFINALFINAL.webp
 images:
-    - image_url: /art/characters/glory/gloryIsUnderTheWaterFINALFINAL.png
-      thumbnail_url: /art/characters/glory/thumbnails/gloryIsUnderTheWaterFINALFINAL.webp
-      alt: Under Da Water
+  - image_url: /art/characters/glory/gloryIsUnderTheWaterFINALFINAL.png
+    thumbnail_url: /art/characters/glory/thumbnails/gloryIsUnderTheWaterFINALFINAL.webp
+    alt: Under Da Water

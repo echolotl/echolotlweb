@@ -5,11 +5,11 @@ title: bird thing
 pinned: false
 sketch: true
 images:
-    - id: bird-thing
-      image_url: /art/general/bird-thing.png
-      thumbnail_url: /art/general/thumbnails/bird-thing.webp
+  - id: bird-thing
+    image_url: /art/general/bird-thing.png
+    thumbnail_url: /art/general/thumbnails/bird-thing.webp
 description: just a funky little bird thing
 tags:
-    - oc
-    - bird
-    - anthro
+  - oc
+  - bird
+  - anthro

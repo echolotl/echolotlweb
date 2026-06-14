@@ -1,8 +1,13 @@
 {
-    // https://nuxt.com/docs/guide/concepts/typescript
-    "extends": "./.nuxt/tsconfig.json",
-    "compilerOptions": {
-        "types": ["@types/bun"]
-    },
-    "include": ["scripts/**/*.ts", "app/**/*"]
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": ["@types/bun"]
+  },
+  "include": [
+    "scripts/**/*.ts",
+    "app/**/*",
+    "nuxt.config.ts",
+    "content.config.ts"
+  ]
 }

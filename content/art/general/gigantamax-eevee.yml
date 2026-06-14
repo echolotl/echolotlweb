@@ -7,11 +7,11 @@ sketch: false
 image_url: /art/general/eeveegigantamax.png
 description: Fanart of Gigantamax Eevee from Pokemon
 tags:
-    - fanart
-    - video game
-    - pokemon
+  - fanart
+  - video game
+  - pokemon
 thumbnail_url: /art/general/thumbnails/eeveegigantamax.webp
 images:
-    - image_url: /art/general/eeveegigantamax.png
-      thumbnail_url: /art/general/thumbnails/eeveegigantamax.webp
-      alt: Gigantamax Eevee
+  - image_url: /art/general/eeveegigantamax.png
+    thumbnail_url: /art/general/thumbnails/eeveegigantamax.webp
+    alt: Gigantamax Eevee

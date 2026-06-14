@@ -5,89 +5,91 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
 
 @font-face {
-    font-family: "Lotl";
-    src: local("Lotl"), url("/fonts/Lotl.ttf") format("truetype");
-    font-display: swap;
+  font-family: "Lotl";
+  src:
+    local("Lotl"),
+    url("/fonts/Lotl.ttf") format("truetype");
+  font-display: swap;
 }
 
 .lotl-font {
-    font-family: "Lotl", $display-font, sans-serif;
-    font-weight: normal !important;
+  font-family: "Lotl", $display-font, sans-serif;
+  font-weight: normal !important;
 }
 
 body {
-    margin: 0;
-    font-family: $body-font;
+  margin: 0;
+  font-family: $body-font;
 }
 
 button {
-    background-color: transparent;
-    display: inline-flex;
-    align-items: center;
-    color: var(--text);
-    font-family: $body-font;
-    border: 1px solid var(--distant);
-    border-bottom-width: 2px;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-size: var(--base-text);
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.1s ease,
-        filter 0.2s ease;
-    box-sizing: border-box;
+  background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  color: var(--text);
+  font-family: $body-font;
+  border: 1px solid var(--distant);
+  border-bottom-width: 2px;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: var(--base-text);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease,
+    filter 0.2s ease;
+  box-sizing: border-box;
+  &:hover:not(.disabled) {
+    filter: brightness(0.9);
+  }
+  &:not(.disabled):active {
+    border-bottom-width: 1px;
+    transform: translateY(1px);
+  }
+  &.filled {
+    background-color: var(--primary);
+    border: none;
+    color: $foreground-light;
+  }
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  // Button variants
+  &.button--icon {
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    min-width: auto;
+  }
+
+  &.button--chip {
+    padding: 0.35rem 0.75rem;
+    font-size: var(--small-text);
+    border-radius: 999px;
+
+    .icon {
+      margin-right: 0.25rem;
+      font-size: var(--small-text);
+    }
+
+    &.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--distant);
+    }
+  }
+
+  &.button--nav {
+    padding: 0.5rem;
+    border: none;
+
     &:hover:not(.disabled) {
-        filter: brightness(0.9);
+      background: var(--surface);
     }
-    &:not(.disabled):active {
-        border-bottom-width: 1px;
-        transform: translateY(1px);
-    }
-    &.filled {
-        background-color: var(--primary);
-        border: none;
-        color: $foreground-light;
-    }
-    &.disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-    }
-
-    // Button variants
-    &.button--icon {
-        padding: 0.5rem;
-        border: none;
-        background: transparent;
-        min-width: auto;
-    }
-
-    &.button--chip {
-        padding: 0.35rem 0.75rem;
-        font-size: var(--small-text);
-        border-radius: 999px;
-
-        .icon {
-            margin-right: 0.25rem;
-            font-size: var(--small-text);
-        }
-
-        &.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: var(--distant);
-        }
-    }
-
-    &.button--nav {
-        padding: 0.5rem;
-        border: none;
-
-        &:hover:not(.disabled) {
-            background: var(--surface);
-        }
-    }
+  }
 }
 
 h1,
@@ -96,48 +98,48 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: $display-font;
-    font-weight: normal !important;
-    a {
-        color: var(--text);
-        text-decoration: none;
-    }
+  font-family: $display-font;
+  font-weight: normal !important;
+  a {
+    color: var(--text);
+    text-decoration: none;
+  }
 }
 
 .font-display {
-    font-family: $display-font;
+  font-family: $display-font;
 }
 
 .font-body {
-    font-family: $body-font;
+  font-family: $body-font;
 }
 blockquote {
-    border-left: 4px solid var(--theme-color, var(--primary));
-    padding-left: 8px;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: var(--surface);
-    margin-left: 8px;
-    border-radius: 0 0 0 0;
-    color: var(--text);
+  border-left: 4px solid var(--theme-color, var(--primary));
+  padding-left: 8px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: var(--surface);
+  margin-left: 8px;
+  border-radius: 0 0 0 0;
+  color: var(--text);
 }
 p {
-    margin: 0;
+  margin: 0;
 }
 hr {
-    border: none;
-    border-top: 1px solid var(--distant);
-    margin: 10px 0;
+  border: none;
+  border-top: 1px solid var(--distant);
+  margin: 10px 0;
 }
 :root {
-    /* Adding transition for theme changes */
-    @include theme-transition;
+  /* Adding transition for theme changes */
+  @include theme-transition;
 }
 
 * {
-    @include full-transition;
+  @include full-transition;
 }
 
 .invert {
-    filter: invert(1);
+  filter: invert(1);
 }

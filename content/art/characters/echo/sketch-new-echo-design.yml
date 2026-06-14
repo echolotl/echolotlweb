@@ -9,6 +9,6 @@ character: echo
 description: a sketch of Echo's newer design
 thumbnail_url: /art/characters/echo/thumbnails/echoSketchdesign.webp
 images:
-    - image_url: /art/characters/echo/echoSketchdesign.png
-      thumbnail_url: /art/characters/echo/thumbnails/echoSketchdesign.webp
-      alt: Sketch - New Echo Design
+  - image_url: /art/characters/echo/echoSketchdesign.png
+    thumbnail_url: /art/characters/echo/thumbnails/echoSketchdesign.webp
+    alt: Sketch - New Echo Design

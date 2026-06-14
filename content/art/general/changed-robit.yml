@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/changed_robit.png
 description: Fanart of this robot guy from Changed
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/changed_robit.webp
 images:
-    - image_url: /art/general/changed_robit.png
-      thumbnail_url: /art/general/thumbnails/changed_robit.webp
-      alt: "Changed: Robit"
+  - image_url: /art/general/changed_robit.png
+    thumbnail_url: /art/general/thumbnails/changed_robit.webp
+    alt: "Changed: Robit"

@@ -9,6 +9,6 @@ character: kitral
 description: Old Kitral reference sheet, also the original drawing
 thumbnail_url: /art/characters/kitral/thumbnails/oldestRef.webp
 images:
-    - image_url: /art/characters/kitral/oldestRef.png
-      thumbnail_url: /art/characters/kitral/thumbnails/oldestRef.webp
-      alt: Kitral (2022)
+  - image_url: /art/characters/kitral/oldestRef.png
+    thumbnail_url: /art/characters/kitral/thumbnails/oldestRef.webp
+    alt: Kitral (2022)

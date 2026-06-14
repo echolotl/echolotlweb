@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/l.png
 description: Painting of EVIL storm of birds
 tags:
-    - painting
+  - painting
 thumbnail_url: /art/general/thumbnails/l.webp
 images:
-    - image_url: /art/general/l.png
-      thumbnail_url: /art/general/thumbnails/l.webp
-      alt: Bird Storm
+  - image_url: /art/general/l.png
+    thumbnail_url: /art/general/thumbnails/l.webp
+    alt: Bird Storm

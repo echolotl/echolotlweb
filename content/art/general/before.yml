@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/1743383604379.webp
 description: Before the storm there was probably water
 tags:
-    - painting
+  - painting
 thumbnail_url: /art/general/thumbnails/1743383604379.webp
 images:
-    - image_url: /art/general/1743383604379.webp
-      thumbnail_url: /art/general/thumbnails/1743383604379.webp
-      alt: Before
+  - image_url: /art/general/1743383604379.webp
+    thumbnail_url: /art/general/thumbnails/1743383604379.webp
+    alt: Before

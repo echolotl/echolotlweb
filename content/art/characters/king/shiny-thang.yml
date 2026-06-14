@@ -9,6 +9,6 @@ character: king
 description: This me messing around with a default Procreate brush
 thumbnail_url: /art/characters/king/thumbnails/shinythang.webp
 images:
-    - image_url: /art/characters/king/shinythang.png
-      thumbnail_url: /art/characters/king/thumbnails/shinythang.webp
-      alt: Shiny Thang
+  - image_url: /art/characters/king/shinythang.png
+    thumbnail_url: /art/characters/king/thumbnails/shinythang.webp
+    alt: Shiny Thang

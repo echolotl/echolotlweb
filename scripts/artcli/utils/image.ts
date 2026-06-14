@@ -20,7 +20,10 @@ export async function validateImage(filePath: string): Promise<boolean> {
   return true;
 }
 
-export async function copyImage(source: string, destination: string): Promise<void> {
+export async function copyImage(
+  source: string,
+  destination: string,
+): Promise<void> {
   if (!(await validateImage(source))) return;
   if (context.dryRun) {
     Logger.warning(
@@ -30,10 +33,15 @@ export async function copyImage(source: string, destination: string): Promise<vo
   }
   fs.mkdirSync(path.dirname(destination), { recursive: true });
   fs.copyFileSync(source, destination);
-  Logger.info(`Copied image from ${Logger.fmtBold(source)} to ${Logger.fmtBold(destination)}`);
+  Logger.info(
+    `Copied image from ${Logger.fmtBold(source)} to ${Logger.fmtBold(destination)}`,
+  );
 }
 
-export async function generateThumbnail(imagePath: string, thumbnailPath: string): Promise<void> {
+export async function generateThumbnail(
+  imagePath: string,
+  thumbnailPath: string,
+): Promise<void> {
   const thumbnailDir = path.dirname(thumbnailPath);
   fs.mkdirSync(thumbnailDir, { recursive: true });
 
@@ -44,6 +52,4 @@ export async function generateThumbnail(imagePath: string, thumbnailPath: string
     })
     .webp({ quality: 100 })
     .toFile(thumbnailPath);
-
-  Logger.info(`Generated thumbnail: ${Logger.fmtBold(thumbnailPath)}`);
 }

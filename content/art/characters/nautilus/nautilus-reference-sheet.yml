@@ -5,8 +5,8 @@ title: Nautilus Reference Sheet
 pinned: false
 sketch: false
 images:
-    - id: nautilus-reference-sheet
-      image_url: /art/characters/nautilus/nautilus-reference-sheet.webp
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-reference-sheet.webp
+  - id: nautilus-reference-sheet
+    image_url: /art/characters/nautilus/nautilus-reference-sheet.webp
+    thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-reference-sheet.webp
 description: I think I could do a better one in the future, but this is good
 character: nautilus

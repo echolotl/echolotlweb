@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/roblosoc.png
 description: Idea for a roblox character if I were ever to make a Roblox game
 tags:
-    - video game
-    - oc
+  - video game
+  - oc
 thumbnail_url: /art/general/thumbnails/roblosoc.webp
 images:
-    - image_url: /art/general/roblosoc.png
-      thumbnail_url: /art/general/thumbnails/roblosoc.webp
-      alt: Hydra
+  - image_url: /art/general/roblosoc.png
+    thumbnail_url: /art/general/thumbnails/roblosoc.webp
+    alt: Hydra

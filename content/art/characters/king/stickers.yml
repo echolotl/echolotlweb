@@ -5,33 +5,33 @@ title: Stickers
 pinned: false
 sketch: false
 images:
-    - id: stickers
-      image_url: /art/characters/king/stickers.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers.webp
-    - id: stickers-2
-      image_url: /art/characters/king/stickers-2.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers-2.webp
-    - id: stickers-3
-      image_url: /art/characters/king/stickers-3.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers-3.webp
-    - id: stickers-4
-      image_url: /art/characters/king/stickers-4.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers-4.webp
-    - id: stickers-5
-      image_url: /art/characters/king/stickers-5.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers-5.webp
-    - id: stickers-6
-      image_url: /art/characters/king/stickers-6.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers-6.webp
-    - id: stickers-7
-      image_url: /art/characters/king/stickers-7.png
-      thumbnail_url: /art/characters/king/thumbnails/stickers-7.webp
+  - id: stickers
+    image_url: /art/characters/king/stickers.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers.webp
+  - id: stickers-2
+    image_url: /art/characters/king/stickers-2.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers-2.webp
+  - id: stickers-3
+    image_url: /art/characters/king/stickers-3.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers-3.webp
+  - id: stickers-4
+    image_url: /art/characters/king/stickers-4.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers-4.webp
+  - id: stickers-5
+    image_url: /art/characters/king/stickers-5.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers-5.webp
+  - id: stickers-6
+    image_url: /art/characters/king/stickers-6.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers-6.webp
+  - id: stickers-7
+    image_url: /art/characters/king/stickers-7.png
+    thumbnail_url: /art/characters/king/thumbnails/stickers-7.webp
 description: Stickers of many of my characters
 character: king
 related_characters:
-    - orchy
-    - phosphor
-    - glory
-    - kitral
-    - nautilus
-    - chomb
+  - orchy
+  - phosphor
+  - glory
+  - kitral
+  - nautilus
+  - chomb

@@ -5,8 +5,8 @@ title: Orchy easter bellay
 pinned: false
 sketch: true
 images:
-    - id: orchy-easter-bellay
-      image_url: /art/characters/orchy/orchy-easter-bellay.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchy-easter-bellay.webp
+  - id: orchy-easter-bellay
+    image_url: /art/characters/orchy/orchy-easter-bellay.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchy-easter-bellay.webp
 description: It's not an egg...
 character: orchy

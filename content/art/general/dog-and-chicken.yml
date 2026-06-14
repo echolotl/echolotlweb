@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/tomdog.png
 description: Drawing of a friend's dog thing and creature
 tags:
-    - friends
-    - oc
+  - friends
+  - oc
 thumbnail_url: /art/general/thumbnails/tomdog.webp
 images:
-    - image_url: /art/general/tomdog.png
-      thumbnail_url: /art/general/thumbnails/tomdog.webp
-      alt: Dog and Chicken
+  - image_url: /art/general/tomdog.png
+    thumbnail_url: /art/general/thumbnails/tomdog.webp
+    alt: Dog and Chicken

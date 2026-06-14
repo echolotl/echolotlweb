@@ -1,9 +1,15 @@
+import { context } from "./artcli/utils/context";
+
 // Convert RGB to ANSI 256 color code
 export function rgbToAnsi256(r: number, g: number, b: number): string {
   return `\x1b[38;2;${r};${g};${b}m`;
 }
 
-export function parseHexColor(hex: string): { r: number; g: number; b: number } {
+export function parseHexColor(hex: string): {
+  r: number;
+  g: number;
+  b: number;
+} {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
@@ -17,7 +23,11 @@ export function parseHexColor(hex: string): { r: number; g: number; b: number } 
  * @param endColor The ending hex color of the gradient.
  * @returns The text with the gradient applied using ANSI escape codes.
  */
-export function gradientText(text: string, startColor: string, endColor: string): string {
+export function gradientText(
+  text: string,
+  startColor: string,
+  endColor: string,
+): string {
   const c1 = parseHexColor(startColor);
   const c2 = parseHexColor(endColor);
   const length = text.length;
@@ -37,34 +47,44 @@ let LOG_PREFIX = "▎ ";
 // Stylized logger
 export class Logger {
   static statement(message: string) {
+    if (context.noLog) return;
     console.log(`\x1b[0;95m${LOG_PREFIX}${message}\x1b[0m`);
   }
   static success(message: string) {
+    if (context.noLog) return;
     console.log(`\x1b[1;92m${LOG_PREFIX}\x1b[0m${message}\x1b[0m`);
   }
   static error(message: string) {
+    if (context.noLog) return;
     console.error(`\x1b[1;91m${LOG_PREFIX}${message}\x1b[0m`);
   }
   static info(message: string) {
+    if (context.noLog) return;
     console.log(`\x1b[0;36m\x1b[1m${LOG_PREFIX}\x1b[0m${message}\x1b[0m`);
   }
   static warning(message: string) {
+    if (context.noLog) return;
     console.warn(`\x1b[1;93m${LOG_PREFIX}${message}\x1b[0m`);
   }
   static log(message: string) {
+    if (context.noLog) return;
     // This purposefully does not include the LOG_PREFIX
     console.log(message);
   }
   static nl() {
+    if (context.noLog) return;
     console.log("");
   }
   static dim(message: string) {
+    if (context.noLog) return;
     console.log(`\x1b[0;30m${LOG_PREFIX}${message}\x1b[0m`);
   }
   static rgb(r: number, g: number, b: number, message: string) {
+    if (context.noLog) return;
     console.log(`\x1b[38;2;${r};${g};${b}m${LOG_PREFIX}${message}\x1b[0m`);
   }
   static hex(color: string, message: string) {
+    if (context.noLog) return;
     const c = parseHexColor(color);
     this.rgb(c.r, c.g, c.b, message);
   }
@@ -86,5 +106,25 @@ export class Logger {
   }
   static fmtGradient(message: string, startColor: string, endColor: string) {
     return gradientText(message, startColor, endColor);
+  }
+  static fmtRgbBg(r: number, g: number, b: number, message: string) {
+    return `\x1b[48;2;${r};${g};${b}m${message}\x1b[49m`;
+  }
+  static fmtHexBg(color: string, message: string) {
+    const c = parseHexColor(color);
+    return this.fmtRgbBg(c.r, c.g, c.b, message);
+  }
+  // Changes the current text color to the background color and vice versa, creating a "reverse" effect.
+  static fmtReverse(message: string) {
+    return `\x1b[7m${message}\x1b[27m`;
+  }
+  static noLogBypass<T>(fn: () => T): T {
+    const originalNoLog = context.noLog;
+    context.noLog = false;
+    try {
+      return fn();
+    } finally {
+      context.noLog = originalNoLog;
+    }
   }
 }

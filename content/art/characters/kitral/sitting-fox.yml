@@ -9,11 +9,11 @@ thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
 description: She has an onlooker...
 character: kitral
 related_characters:
-    - glory
+  - glory
 images:
-    - image_url: /art/characters/kitral/sitting-fox.png
-      thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
-      alt: Sitting Fox
-    - id: image-1
-      image_url: /art/characters/kitral/image-1.png
-      thumbnail_url: /art/characters/kitral/thumbnails/image-1.webp
+  - image_url: /art/characters/kitral/sitting-fox.png
+    thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
+    alt: Sitting Fox
+  - id: image-1
+    image_url: /art/characters/kitral/image-1.png
+    thumbnail_url: /art/characters/kitral/thumbnails/image-1.webp

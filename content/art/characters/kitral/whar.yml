@@ -9,6 +9,6 @@ character: kitral
 description: Khaby Lame pose
 thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
 images:
-    - image_url: /art/characters/kitral/kitralKhabyLame.png
-      thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
-      alt: Whar
+  - image_url: /art/characters/kitral/kitralKhabyLame.png
+    thumbnail_url: /art/characters/kitral/thumbnails/kitralKhabyLame.webp
+    alt: Whar

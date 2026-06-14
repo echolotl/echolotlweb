@@ -8,8 +8,8 @@ image_url: /art/general/whos-gus.png
 thumbnail_url: /art/general/thumbnails/whos-gus.webp
 description: Attack on [Fanboblol](https://artfight.net/~Fanboblol) on Art Fight!
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/whos-gus.png
-      thumbnail_url: /art/general/thumbnails/whos-gus.webp
-      alt: Who's Gus
+  - image_url: /art/general/whos-gus.png
+    thumbnail_url: /art/general/thumbnails/whos-gus.webp
+    alt: Who's Gus

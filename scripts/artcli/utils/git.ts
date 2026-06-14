@@ -49,7 +49,10 @@ export function runGit(args: string[]): GitResult {
  * @param commitMessage Commit message for the changes
  * @returns Promise that resolves when the push is complete, or exits the process on failure
  */
-export async function pushToRemote(files: string[], commitMessage: string): Promise<void> {
+export async function pushToRemote(
+  files: string[],
+  commitMessage: string,
+): Promise<void> {
   const name = process.env.ARTCLI_GIT_NAME;
   const appId = process.env.ARTCLI_GITHUB_APP_ID;
   if (context.dryRun) {

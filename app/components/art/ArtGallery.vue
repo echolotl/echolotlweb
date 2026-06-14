@@ -1,102 +1,97 @@
 <template>
-    <div
-        class="gallery"
-        v-if="art.images && art.images.length"
-        @keydown="onKey"
-        tabindex="0"
-        ref="galleryRoot">
-        <div class="viewer-container">
-            <div class="viewer">
-                <div class="image-wrapper">
-                    <img
-                        v-if="activeSource && activeImageDimensions"
-                        :src="activeSource.image_url"
-                        :alt="activeSource.alt"
-                        :width="activeImageDimensions.width"
-                        :height="activeImageDimensions.height"
-                        class="hero"
-                        :data-index="currentImageIndex"
-                        :data-variant="currentVariantIndex ?? 'base'" />
-                    <div v-else class="placeholder">
-                        <Icon
-                            icon="loading"
-                            width="3rem"
-                            height="3rem" />Loading...
-                    </div>
-                </div>
-            </div>
+  <div
+    class="gallery"
+    v-if="art.images && art.images.length"
+    @keydown="onKey"
+    tabindex="0"
+    ref="galleryRoot">
+    <div class="viewer-container">
+      <div class="viewer">
+        <div class="image-wrapper">
+          <img
+            v-if="activeSource && activeImageDimensions"
+            :src="activeSource.image_url"
+            :alt="activeSource.alt"
+            :width="activeImageDimensions.width"
+            :height="activeImageDimensions.height"
+            class="hero"
+            :data-index="currentImageIndex"
+            :data-variant="currentVariantIndex ?? 'base'" />
+          <div v-else class="placeholder">
+            <Icon icon="loading" width="3rem" height="3rem" />Loading...
+          </div>
         </div>
-
-        <!-- Variant selector for current base image -->
-        <div
-            v-if="currentImage?.variants && currentImage.variants.length"
-            class="variants">
-            <div class="variants__list">
-                <Icon icon="layers" />
-                <button
-                    class="button--chip"
-                    :class="{ active: currentVariantIndex === null }"
-                    @click="currentVariantIndex = null">
-                    Original
-                </button>
-                <button
-                    v-for="(variant, vIndex) in currentImage.variants"
-                    :key="vIndex"
-                    class="button--chip"
-                    :class="{ active: currentVariantIndex === vIndex }"
-                    @click="selectVariant(vIndex)">
-                    {{ variant.label || "Alt " + (vIndex + 1) }}
-                </button>
-            </div>
-        </div>
-
-        <!-- Selector for multiple images -->
-        <div v-if="hasMultiple" class="selector">
-            <div class="selector__dots">
-                <button
-                    v-for="(_, index) in art.images"
-                    :key="index"
-                    class="selector-dot"
-                    :class="{ active: currentImageIndex === index }"
-                    @click="selectImage(index)"></button>
-            </div>
-            <div class="selector__label">
-                <button
-                    class="button--nav prev"
-                    @click="prevImage"
-                    aria-label="Previous image"
-                    style="border-radius: 100%">
-                    <Icon
-                        icon="small-arrow"
-                        style="transform: rotate(180deg)" />
-                </button>
-                <Icon icon="images" /> {{ currentImageIndex + 1 }} /
-                {{ art.images.length }}
-                <button
-                    class="button--nav next"
-                    @click="nextImage"
-                    aria-label="Next image"
-                    style="border-radius: 100%">
-                    <Icon icon="small-arrow" />
-                </button>
-            </div>
-        </div>
-        <a
-            class="selector__label link"
-            style="
-                justify-content: center;
-                cursor: pointer;
-                width: fit-content;
-                margin: 0 auto;
-            "
-            :href="activeSource?.image_url"
-            target="_blank"
-            rel="noopener noreferrer">
-            {{ activeSource?.image_url.split("/").pop() || "Untitled Image" }}
-            <Icon icon="open-in-new" />
-        </a>
+      </div>
     </div>
-    <div v-else class="gallery-empty">No images available.</div>
+
+    <!-- Variant selector for current base image -->
+    <div
+      v-if="currentImage?.variants && currentImage.variants.length"
+      class="variants">
+      <div class="variants__list">
+        <Icon icon="layers" />
+        <button
+          class="button--chip"
+          :class="{ active: currentVariantIndex === null }"
+          @click="currentVariantIndex = null">
+          Original
+        </button>
+        <button
+          v-for="(variant, vIndex) in currentImage.variants"
+          :key="vIndex"
+          class="button--chip"
+          :class="{ active: currentVariantIndex === vIndex }"
+          @click="selectVariant(vIndex)">
+          {{ variant.label || "Alt " + (vIndex + 1) }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Selector for multiple images -->
+    <div v-if="hasMultiple" class="selector">
+      <div class="selector__dots">
+        <button
+          v-for="(_, index) in art.images"
+          :key="index"
+          class="selector-dot"
+          :class="{ active: currentImageIndex === index }"
+          @click="selectImage(index)"></button>
+      </div>
+      <div class="selector__label">
+        <button
+          class="button--nav prev"
+          @click="prevImage"
+          aria-label="Previous image"
+          style="border-radius: 100%">
+          <Icon icon="small-arrow" style="transform: rotate(180deg)" />
+        </button>
+        <Icon icon="images" /> {{ currentImageIndex + 1 }} /
+        {{ art.images.length }}
+        <button
+          class="button--nav next"
+          @click="nextImage"
+          aria-label="Next image"
+          style="border-radius: 100%">
+          <Icon icon="small-arrow" />
+        </button>
+      </div>
+    </div>
+    <a
+      class="selector__label link"
+      style="
+        justify-content: center;
+        cursor: pointer;
+        width: fit-content;
+        margin: 0 auto;
+      "
+      :href="activeSource?.image_url"
+      target="_blank"
+      rel="noopener noreferrer">
+      {{ activeSource?.image_url.split("/").pop() || "Untitled Image" }}
+      <Icon icon="open-in-new" />
+    </a>
+  </div>
+  <div v-else class="gallery-empty">No images available.</div>
 </template>
 
 <script setup lang="ts">
@@ -109,259 +104,259 @@ const currentImageIndex = ref(0);
 const currentVariantIndex = ref<number | null>(null);
 const galleryRoot = ref<HTMLElement | null>(null);
 const imageDimensionsCache = ref<
-    Map<string, { width: number; height: number }>
+  Map<string, { width: number; height: number }>
 >(new Map());
 
 const hasMultiple = computed(() => (props.art.images?.length || 0) > 1);
 const currentImage = computed<ArtImage | undefined>(
-    () => props.art.images?.[currentImageIndex.value],
+  () => props.art.images?.[currentImageIndex.value],
 );
 
 const activeSource = computed(() => {
-    const base = currentImage.value;
-    if (!base) return null;
-    if (currentVariantIndex.value !== null && base.variants) {
-        const maybe = base.variants[currentVariantIndex.value];
-        if (maybe) {
-            return {
-                image_url: maybe.image_url,
-                thumbnail_url: maybe.thumbnail_url || base.thumbnail_url,
-                alt: maybe.alt || base.alt || props.art.title,
-            };
-        }
+  const base = currentImage.value;
+  if (!base) return null;
+  if (currentVariantIndex.value !== null && base.variants) {
+    const maybe = base.variants[currentVariantIndex.value];
+    if (maybe) {
+      return {
+        image_url: maybe.image_url,
+        thumbnail_url: maybe.thumbnail_url || base.thumbnail_url,
+        alt: maybe.alt || base.alt || props.art.title,
+      };
     }
-    return {
-        image_url: base.image_url,
-        thumbnail_url: base.thumbnail_url,
-        alt: base.alt || props.art.title,
-    };
+  }
+  return {
+    image_url: base.image_url,
+    thumbnail_url: base.thumbnail_url,
+    alt: base.alt || props.art.title,
+  };
 });
 
 const activeImageDimensions = computed(() => {
-    if (!activeSource.value) return null;
-    return imageDimensionsCache.value.get(activeSource.value.image_url) || null;
+  if (!activeSource.value) return null;
+  return imageDimensionsCache.value.get(activeSource.value.image_url) || null;
 });
 
 function loadImage(url: string): Promise<{ width: number; height: number }> {
-    return new Promise((resolve) => {
-        // Check cache first
-        const cached = imageDimensionsCache.value.get(url);
-        if (cached) {
-            resolve(cached);
-            return;
-        }
+  return new Promise((resolve) => {
+    // Check cache first
+    const cached = imageDimensionsCache.value.get(url);
+    if (cached) {
+      resolve(cached);
+      return;
+    }
 
-        const img = new Image();
-        img.onload = () => {
-            const dimensions = {
-                width: img.naturalWidth,
-                height: img.naturalHeight,
-            };
-            imageDimensionsCache.value.set(url, dimensions);
-            resolve(dimensions);
-        };
-        img.onerror = () => {
-            const fallback = { width: 800, height: 600 };
-            imageDimensionsCache.value.set(url, fallback);
-            resolve(fallback);
-        };
-        img.src = url;
-    });
+    const img = new Image();
+    img.onload = () => {
+      const dimensions = {
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+      };
+      imageDimensionsCache.value.set(url, dimensions);
+      resolve(dimensions);
+    };
+    img.onerror = () => {
+      const fallback = { width: 800, height: 600 };
+      imageDimensionsCache.value.set(url, fallback);
+      resolve(fallback);
+    };
+    img.src = url;
+  });
 }
 
 async function preloadAllImages() {
-    if (typeof window === "undefined") return;
+  if (typeof window === "undefined") return;
 
-    const urlsToLoad: string[] = [];
+  const urlsToLoad: string[] = [];
 
-    props.art.images?.forEach((img) => {
-        urlsToLoad.push(img.image_url);
-        img.variants?.forEach((variant) => {
-            urlsToLoad.push(variant.image_url);
-        });
+  props.art.images?.forEach((img) => {
+    urlsToLoad.push(img.image_url);
+    img.variants?.forEach((variant) => {
+      urlsToLoad.push(variant.image_url);
     });
+  });
 
-    await Promise.all(urlsToLoad.map((url) => loadImage(url)));
+  await Promise.all(urlsToLoad.map((url) => loadImage(url)));
 }
 
 function selectImage(index: number) {
-    if (index < 0 || !props.art.images || index >= props.art.images.length)
-        return;
-    currentImageIndex.value = index;
-    currentVariantIndex.value = null; // reset variant selection
+  if (index < 0 || !props.art.images || index >= props.art.images.length)
+    return;
+  currentImageIndex.value = index;
+  currentVariantIndex.value = null; // reset variant selection
 }
 
 function selectVariant(vIndex: number) {
-    currentVariantIndex.value = vIndex;
+  currentVariantIndex.value = vIndex;
 }
 
 function prevImage() {
-    if (!props.art.images?.length) return;
-    currentImageIndex.value =
-        (currentImageIndex.value - 1 + props.art.images.length) %
-        props.art.images.length;
-    currentVariantIndex.value = null;
+  if (!props.art.images?.length) return;
+  currentImageIndex.value =
+    (currentImageIndex.value - 1 + props.art.images.length) %
+    props.art.images.length;
+  currentVariantIndex.value = null;
 }
 
 function nextImage() {
-    if (!props.art.images?.length) return;
-    currentImageIndex.value =
-        (currentImageIndex.value + 1) % props.art.images.length;
-    currentVariantIndex.value = null;
+  if (!props.art.images?.length) return;
+  currentImageIndex.value =
+    (currentImageIndex.value + 1) % props.art.images.length;
+  currentVariantIndex.value = null;
 }
 
 function onKey(e: KeyboardEvent) {
-    switch (e.key) {
-        case "ArrowLeft":
-            prevImage();
-            break;
-        case "ArrowRight":
-            nextImage();
-            break;
-        case "Escape":
-            currentVariantIndex.value = null;
-            break;
-        default:
-            if (currentImage.value?.variants?.length) {
-                const n = parseInt(e.key, 10);
-                if (!isNaN(n) && n >= 1) {
-                    if (n === 1) currentVariantIndex.value = null;
-                    else if (n - 2 < currentImage.value.variants.length)
-                        currentVariantIndex.value = n - 2;
-                }
-            }
-    }
+  switch (e.key) {
+    case "ArrowLeft":
+      prevImage();
+      break;
+    case "ArrowRight":
+      nextImage();
+      break;
+    case "Escape":
+      currentVariantIndex.value = null;
+      break;
+    default:
+      if (currentImage.value?.variants?.length) {
+        const n = parseInt(e.key, 10);
+        if (!isNaN(n) && n >= 1) {
+          if (n === 1) currentVariantIndex.value = null;
+          else if (n - 2 < currentImage.value.variants.length)
+            currentVariantIndex.value = n - 2;
+        }
+      }
+  }
 }
 
 onMounted(() => {
-    galleryRoot.value?.focus();
-    preloadAllImages();
+  galleryRoot.value?.focus();
+  preloadAllImages();
 });
 </script>
 
 <style scoped lang="scss">
 @use "~/assets/styles/partials/_mixins.scss" as *;
 .gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  outline: none;
 }
 
 .viewer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 .viewer-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .image-wrapper {
-    position: relative;
+  position: relative;
+  max-width: 100%;
+  max-height: 75vh;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .hero {
+    max-height: 70vh;
     max-width: 100%;
-    max-height: 75vh;
-    width: fit-content;
-    height: fit-content;
+    width: auto;
+    height: auto;
+    display: block;
+    border: 3px dashed var(--distant);
+  }
+  .placeholder {
     display: flex;
+    padding: 1rem;
+    aspect-ratio: 1 / 1;
+    flex-direction: row;
+    gap: 0.25rem;
+    font-size: var(--small-text);
     align-items: center;
     justify-content: center;
-
-    .hero {
-        max-height: 70vh;
-        max-width: 100%;
-        width: auto;
-        height: auto;
-        display: block;
-        border: 3px dashed var(--distant);
-    }
-    .placeholder {
-        display: flex;
-        padding: 1rem;
-        aspect-ratio: 1 / 1;
-        flex-direction: row;
-        gap: 0.25rem;
-        font-size: var(--small-text);
-        align-items: center;
-        justify-content: center;
-    }
-    &:hover .view-original {
-        opacity: 1;
-    }
+  }
+  &:hover .view-original {
+    opacity: 1;
+  }
 }
 
 .view-original {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    opacity: 0;
-    @include color-text-stroke(var(--background));
-    .link {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 0.25rem;
-    }
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  opacity: 0;
+  @include color-text-stroke(var(--background));
+  .link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.25rem;
+  }
 }
 
 .selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  &__label {
+    font-size: var(--base-text);
+    color: var(--text-secondary);
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    gap: 0.35rem;
     align-items: center;
-    &__label {
-        font-size: var(--base-text);
-        color: var(--text-secondary);
-        display: flex;
-        gap: 0.35rem;
-        align-items: center;
+  }
+  &__dots {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    .selector-dot {
+      width: 0.75rem;
+      height: 0.75rem;
+      padding: 0;
+      border-radius: 50%;
+      background: var(--distant);
+      border: 1px solid var(--surface);
+      cursor: pointer;
+      transition:
+        background-color 0.2s ease,
+        width 0.2s ease,
+        border-radius 0.2s ease;
+      &.active {
+        background: var(--primary);
+        width: 2rem;
+        border-radius: 9999px;
+      }
     }
-    &__dots {
-        display: flex;
-        gap: 0.2rem;
-        align-items: center;
-        .selector-dot {
-            width: 0.75rem;
-            height: 0.75rem;
-            padding: 0;
-            border-radius: 50%;
-            background: var(--distant);
-            border: 1px solid var(--surface);
-            cursor: pointer;
-            transition:
-                background-color 0.2s ease,
-                width 0.2s ease,
-                border-radius 0.2s ease;
-            &.active {
-                background: var(--primary);
-                width: 2rem;
-                border-radius: 9999px;
-            }
-        }
-    }
+  }
 }
 
 .variants {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  .variants__list {
     align-items: center;
-    width: 100%;
-    .variants__list {
-        align-items: center;
-        display: flex;
-        gap: 0.4rem;
-        flex-wrap: wrap;
-        color: var(--text-secondary);
-    }
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    color: var(--text-secondary);
+  }
 }
 
 .gallery-empty {
-    color: var(--text-secondary);
-    font-style: italic;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 </style>

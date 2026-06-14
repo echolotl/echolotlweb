@@ -9,6 +9,6 @@ character: king
 description: Reference image of King [DO NOT USE]
 thumbnail_url: /art/characters/king/thumbnails/reallyOldRef.webp
 images:
-    - image_url: /art/characters/king/reallyOldRef.png
-      thumbnail_url: /art/characters/king/thumbnails/reallyOldRef.webp
-      alt: King (2022)
+  - image_url: /art/characters/king/reallyOldRef.png
+    thumbnail_url: /art/characters/king/thumbnails/reallyOldRef.webp
+    alt: King (2022)

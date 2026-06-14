@@ -8,6 +8,6 @@ image_url: /art/characters/glory/gloryOrig.png
 character: glory
 thumbnail_url: /art/characters/glory/thumbnails/gloryOrig.webp
 images:
-    - image_url: /art/characters/glory/gloryOrig.png
-      thumbnail_url: /art/characters/glory/thumbnails/gloryOrig.webp
-      alt: gloryOrig
+  - image_url: /art/characters/glory/gloryOrig.png
+    thumbnail_url: /art/characters/glory/thumbnails/gloryOrig.webp
+    alt: gloryOrig

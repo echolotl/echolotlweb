@@ -7,26 +7,26 @@ sketch: false
 image_url: /art/characters/echo/stageWallpaper.png
 character: echo
 related_characters:
-    - chomb
-    - king
-    - phosphor
+  - chomb
+  - king
+  - phosphor
 description: Wallpaper made to be used on my devices, including the OCs I had at the time
 thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
 images:
-    - image_url: /art/characters/echo/stageWallpaper.png
-      thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
-      alt: Stage Wallpaper
-      id: stageWallpaper
-      variants:
-          - image_url: /art/characters/echo/stageWallpaper__outlined.png
-            thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__outlined.webp
-            label: Outlined
-            alt: Outlined version
-          - image_url: /art/characters/echo/stageWallpaper__notebook.png
-            thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__notebook.webp
-            label: Notebook
-            alt: Version with outlined characters with no faces, notebook paper in the background
-          - image_url: /art/characters/echo/stageWallpaper__cloudy.png
-            thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__cloudy.webp
-            label: Cloudy
-            alt: Version with two colored clouds in BG
+  - image_url: /art/characters/echo/stageWallpaper.png
+    thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
+    alt: Stage Wallpaper
+    id: stageWallpaper
+    variants:
+      - image_url: /art/characters/echo/stageWallpaper__outlined.png
+        thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__outlined.webp
+        label: Outlined
+        alt: Outlined version
+      - image_url: /art/characters/echo/stageWallpaper__notebook.png
+        thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__notebook.webp
+        label: Notebook
+        alt: Version with outlined characters with no faces, notebook paper in the background
+      - image_url: /art/characters/echo/stageWallpaper__cloudy.png
+        thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__cloudy.webp
+        label: Cloudy
+        alt: Version with two colored clouds in BG

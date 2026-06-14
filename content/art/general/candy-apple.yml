@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/discordoc.png
 description: Gift art for someone on Discord, I don't remember who
 tags:
-    - gift
+  - gift
 thumbnail_url: /art/general/thumbnails/discordoc.webp
 images:
-    - image_url: /art/general/discordoc.png
-      thumbnail_url: /art/general/thumbnails/discordoc.webp
-      alt: Candy Apple
+  - image_url: /art/general/discordoc.png
+    thumbnail_url: /art/general/thumbnails/discordoc.webp
+    alt: Candy Apple

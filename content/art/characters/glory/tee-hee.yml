@@ -9,6 +9,6 @@ character: glory
 description: Mormonful
 thumbnail_url: /art/characters/glory/thumbnails/gloryTee.webp
 images:
-    - image_url: /art/characters/glory/gloryTee.png
-      thumbnail_url: /art/characters/glory/thumbnails/gloryTee.webp
-      alt: Tee Hee
+  - image_url: /art/characters/glory/gloryTee.png
+    thumbnail_url: /art/characters/glory/thumbnails/gloryTee.webp
+    alt: Tee Hee

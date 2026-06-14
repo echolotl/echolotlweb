@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/mylittleoc.png
 description: Drawing to answer an art prompt in a server, an idea for a My Little Pony OC
 tags:
-    - idea
-    - oc
+  - idea
+  - oc
 thumbnail_url: /art/general/thumbnails/mylittleoc.webp
 images:
-    - image_url: /art/general/mylittleoc.png
-      thumbnail_url: /art/general/thumbnails/mylittleoc.webp
-      alt: Gummi
+  - image_url: /art/general/mylittleoc.png
+    thumbnail_url: /art/general/thumbnails/mylittleoc.webp
+    alt: Gummi

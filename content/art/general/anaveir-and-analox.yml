@@ -5,13 +5,13 @@ title: Anaveir and Analox
 pinned: false
 sketch: false
 images:
-    - id: anaveir-and-analox
-      image_url: /art/general/anaveir-and-analox.jpg
-      variants:
-          - image_url: /art/general/anaveir-and-analox__sketch.jpg
-            label: Sketch
-            thumbnail_url: /art/general/thumbnails/anaveir-and-analox__sketch.webp
-      thumbnail_url: /art/general/thumbnails/anaveir-and-analox.webp
+  - id: anaveir-and-analox
+    image_url: /art/general/anaveir-and-analox.jpg
+    variants:
+      - image_url: /art/general/anaveir-and-analox__sketch.jpg
+        label: Sketch
+        thumbnail_url: /art/general/thumbnails/anaveir-and-analox__sketch.webp
+    thumbnail_url: /art/general/thumbnails/anaveir-and-analox.webp
 description: Unused Angel and Devil OCs
 tags:
-    - oc
+  - oc

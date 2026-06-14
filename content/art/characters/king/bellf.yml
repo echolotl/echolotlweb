@@ -8,6 +8,6 @@ image_url: /art/characters/king/bellf.png
 character: king
 thumbnail_url: /art/characters/king/thumbnails/bellf.webp
 images:
-    - image_url: /art/characters/king/bellf.png
-      thumbnail_url: /art/characters/king/thumbnails/bellf.webp
-      alt: bellf
+  - image_url: /art/characters/king/bellf.png
+    thumbnail_url: /art/characters/king/thumbnails/bellf.webp
+    alt: bellf

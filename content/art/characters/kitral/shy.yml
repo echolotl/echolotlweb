@@ -9,6 +9,6 @@ character: kitral
 description: Kitral has arm warmers on in this drawing, which is a reference to how much I was looking at Twitter
 thumbnail_url: /art/characters/kitral/thumbnails/shy.webp
 images:
-    - image_url: /art/characters/kitral/shy.png
-      thumbnail_url: /art/characters/kitral/thumbnails/shy.webp
-      alt: Shy
+  - image_url: /art/characters/kitral/shy.png
+    thumbnail_url: /art/characters/kitral/thumbnails/shy.webp
+    alt: Shy

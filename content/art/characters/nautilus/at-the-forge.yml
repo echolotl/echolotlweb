@@ -9,11 +9,11 @@ character: nautilus
 description: Unbelieveably, this is related to a build in a Minecraft server. Very cool though
 thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge.webp
 images:
-    - image_url: /art/characters/nautilus/nautilusForge.png
-      thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge.webp
-      alt: At the Forge
-      id: nautilusForge
-      variants:
-          - image_url: /art/characters/nautilus/nautilusForge__no-background.png
-            thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge__no-background.webp
-            label: No Background
+  - image_url: /art/characters/nautilus/nautilusForge.png
+    thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge.webp
+    alt: At the Forge
+    id: nautilusForge
+    variants:
+      - image_url: /art/characters/nautilus/nautilusForge__no-background.png
+        thumbnail_url: /art/characters/nautilus/thumbnails/nautilusForge__no-background.webp
+        label: No Background

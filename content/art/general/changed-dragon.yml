@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/changed_dragon.png
 description: Fanart of a dragon guy from Changed
 tags:
-    - fanart
-    - video game
+  - fanart
+  - video game
 thumbnail_url: /art/general/thumbnails/changed_dragon.webp
 images:
-    - image_url: /art/general/changed_dragon.png
-      thumbnail_url: /art/general/thumbnails/changed_dragon.webp
-      alt: "Changed: Dragon"
+  - image_url: /art/general/changed_dragon.png
+    thumbnail_url: /art/general/thumbnails/changed_dragon.webp
+    alt: "Changed: Dragon"

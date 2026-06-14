@@ -9,6 +9,6 @@ character: king
 description: Among Us? I sure hope not
 thumbnail_url: /art/characters/king/thumbnails/stari.webp
 images:
-    - image_url: /art/characters/king/stari.png
-      thumbnail_url: /art/characters/king/thumbnails/stari.webp
-      alt: Erm Stari
+  - image_url: /art/characters/king/stari.png
+    thumbnail_url: /art/characters/king/thumbnails/stari.webp
+    alt: Erm Stari

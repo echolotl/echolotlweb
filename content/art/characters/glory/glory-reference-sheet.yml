@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/glory/thumbnails/glory-reference-sheet.webp
 description: Glory's reference sheet
 character: glory
 images:
-    - image_url: /art/characters/glory/glory-reference-sheet.png
-      thumbnail_url: /art/characters/glory/thumbnails/glory-reference-sheet.webp
-      alt: Glory Reference Sheet
+  - image_url: /art/characters/glory/glory-reference-sheet.png
+    thumbnail_url: /art/characters/glory/thumbnails/glory-reference-sheet.webp
+    alt: Glory Reference Sheet

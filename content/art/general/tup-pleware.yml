@@ -8,8 +8,8 @@ image_url: /art/general/tup-pleware.png
 thumbnail_url: /art/general/thumbnails/tup-pleware.webp
 description: Attack on [sodapack](https://artfight.net/~sodapack) for Art Fight
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/tup-pleware.png
-      thumbnail_url: /art/general/thumbnails/tup-pleware.webp
-      alt: tup pleware
+  - image_url: /art/general/tup-pleware.png
+    thumbnail_url: /art/general/thumbnails/tup-pleware.webp
+    alt: tup pleware

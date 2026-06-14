@@ -9,6 +9,6 @@ character: orchy
 description: How'd he even get in there?
 thumbnail_url: /art/characters/orchy/thumbnails/orchyRoomSketchWIP.webp
 images:
-    - image_url: /art/characters/orchy/orchyRoomSketchWIP.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchyRoomSketchWIP.webp
-      alt: Sketch - Breaking Room
+  - image_url: /art/characters/orchy/orchyRoomSketchWIP.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchyRoomSketchWIP.webp
+    alt: Sketch - Breaking Room

@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
 description: Echo's reference sheet!
 character: echo
 images:
-    - image_url: /art/characters/echo/echo-reference-sheet.png
-      thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
-      alt: Echo Reference Sheet
+  - image_url: /art/characters/echo/echo-reference-sheet.png
+    thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
+    alt: Echo Reference Sheet

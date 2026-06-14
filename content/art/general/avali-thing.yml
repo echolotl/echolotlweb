@@ -5,7 +5,7 @@ title: Avali(?) thing
 pinned: false
 sketch: false
 images:
-    - id: avali-thing
-      image_url: /art/general/avali-thing.png
-      thumbnail_url: /art/general/thumbnails/avali-thing.webp
+  - id: avali-thing
+    image_url: /art/general/avali-thing.png
+    thumbnail_url: /art/general/thumbnails/avali-thing.webp
 description: idk I just wanted to make a guy

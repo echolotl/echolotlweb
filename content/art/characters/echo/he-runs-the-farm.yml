@@ -9,6 +9,6 @@ character: echo
 description: Animated gif made for my profile on [Pokéfarm Q](https://pokefarm.com/user/echolotl)
 thumbnail_url: /art/characters/echo/thumbnails/mmiiskeapy.webp
 images:
-    - image_url: /art/characters/echo/mmiiskeapy.gif
-      thumbnail_url: /art/characters/echo/thumbnails/mmiiskeapy.webp
-      alt: He Runs the Farm
+  - image_url: /art/characters/echo/mmiiskeapy.gif
+    thumbnail_url: /art/characters/echo/thumbnails/mmiiskeapy.webp
+    alt: He Runs the Farm

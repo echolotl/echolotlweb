@@ -9,6 +9,6 @@ character: phosphor
 description: Yes! It can shapeshift, with limitations of course
 thumbnail_url: /art/characters/phosphor/thumbnails/newishPhosphor.webp
 images:
-    - image_url: /art/characters/phosphor/newishPhosphor.png
-      thumbnail_url: /art/characters/phosphor/thumbnails/newishPhosphor.webp
-      alt: Shapeshifting
+  - image_url: /art/characters/phosphor/newishPhosphor.png
+    thumbnail_url: /art/characters/phosphor/thumbnails/newishPhosphor.webp
+    alt: Shapeshifting

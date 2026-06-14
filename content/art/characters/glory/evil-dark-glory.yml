@@ -9,6 +9,6 @@ thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
 description: why so evilish
 character: glory
 images:
-    - image_url: /art/characters/glory/evil-dark-glory.png
-      thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
-      alt: Evil, Dark Glory
+  - image_url: /art/characters/glory/evil-dark-glory.png
+    thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
+    alt: Evil, Dark Glory

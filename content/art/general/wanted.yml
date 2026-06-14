@@ -8,8 +8,8 @@ image_url: /art/general/wanted.png
 thumbnail_url: /art/general/thumbnails/wanted.webp
 description: Attack on [C00kie_Sss](https://artfight.net/~C00kie_Sss) for Art Fight
 tags:
-    - art fight
+  - art fight
 images:
-    - image_url: /art/general/wanted.png
-      thumbnail_url: /art/general/thumbnails/wanted.webp
-      alt: Wanted
+  - image_url: /art/general/wanted.png
+    thumbnail_url: /art/general/thumbnails/wanted.webp
+    alt: Wanted

@@ -5,21 +5,21 @@ title: All of them
 pinned: true
 sketch: true
 images:
-    - id: w-gradient
-      title: w/ gradient
-      image_url: /art/characters/king/w-gradient.png
-      variants:
-          - image_url: /art/characters/king/w-gradient__flat-color.png
-            label: Flat Color
-            thumbnail_url: /art/characters/king/thumbnails/w-gradient__flat-color.webp
-      thumbnail_url: /art/characters/king/thumbnails/w-gradient.webp
+  - id: w-gradient
+    title: w/ gradient
+    image_url: /art/characters/king/w-gradient.png
+    variants:
+      - image_url: /art/characters/king/w-gradient__flat-color.png
+        label: Flat Color
+        thumbnail_url: /art/characters/king/thumbnails/w-gradient__flat-color.webp
+    thumbnail_url: /art/characters/king/thumbnails/w-gradient.webp
 description: its all of them
 character: king
 related_characters:
-    - glory
-    - kitral
-    - orchy
-    - nautilus
-    - phosphor
-    - echo
-    - chomb
+  - glory
+  - kitral
+  - orchy
+  - nautilus
+  - phosphor
+  - echo
+  - chomb

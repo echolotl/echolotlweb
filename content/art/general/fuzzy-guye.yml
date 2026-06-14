@@ -7,9 +7,9 @@ sketch: false
 image_url: /art/general/fuzzyguye.png
 description: Test of a lineless artstyle
 tags:
-    - idea
+  - idea
 thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
 images:
-    - image_url: /art/general/fuzzyguye.png
-      thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
-      alt: Fuzzy Guye
+  - image_url: /art/general/fuzzyguye.png
+    thumbnail_url: /art/general/thumbnails/fuzzyguye.webp
+    alt: Fuzzy Guye

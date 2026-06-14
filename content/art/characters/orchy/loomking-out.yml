@@ -9,6 +9,6 @@ character: orchy
 description: Very glowy
 thumbnail_url: /art/characters/orchy/thumbnails/orchyOldCave.webp
 images:
-    - image_url: /art/characters/orchy/orchyOldCave.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchyOldCave.webp
-      alt: Loomking Out
+  - image_url: /art/characters/orchy/orchyOldCave.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchyOldCave.webp
+    alt: Loomking Out

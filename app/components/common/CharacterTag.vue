@@ -1,12 +1,12 @@
 <template>
-    <CharacterLink :slug="slug" class="character-tag">
-        <Tag variant="character" :clickable="true" :custom-color="themeColor">
-            <span v-if="character?.name" class="lotl-font">
-                {{ character.name }}
-            </span>
-            <slot v-else></slot>
-        </Tag>
-    </CharacterLink>
+  <CharacterLink :slug="slug" class="character-tag">
+    <Tag variant="character" :clickable="true" :custom-color="themeColor">
+      <span v-if="character?.name" class="lotl-font">
+        {{ character.name }}
+      </span>
+      <slot v-else></slot>
+    </Tag>
+  </CharacterLink>
 </template>
 
 <script setup lang="ts">
@@ -15,30 +15,30 @@ import CharacterLink from "./CharacterLink.vue";
 import { useTheme } from "~~/composables/useTheme";
 
 interface Props {
-    slug: string;
+  slug: string;
 }
 
 const props = defineProps<Props>();
 
 const { data: character } = await useAsyncData(
-    `character-tag-${props.slug}`,
-    async () => {
-        const character = await queryCollection("characters")
-            .where("slug", "=", props.slug)
-            .first();
-        return character;
-    },
+  `character-tag-${props.slug}`,
+  async () => {
+    const character = await queryCollection("characters")
+      .where("slug", "=", props.slug)
+      .first();
+    return character;
+  },
 );
 
 const { theme } = useTheme();
 
 const themeColor = computed(() => {
-    if (!character.value) return "";
+  if (!character.value) return "";
 
-    if (theme.value && character.value.theme_color_light) {
-        return character.value.theme_color_light;
-    }
-    return character.value.theme_color || "";
+  if (theme.value && character.value.theme_color_light) {
+    return character.value.theme_color_light;
+  }
+  return character.value.theme_color || "";
 });
 </script>
 
@@ -46,6 +46,6 @@ const themeColor = computed(() => {
 @use "~/assets/styles/partials/_mixins" as *;
 
 .character-tag {
-    text-decoration: none;
+  text-decoration: none;
 }
 </style>

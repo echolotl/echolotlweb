@@ -9,6 +9,6 @@ character: orchy
 description: New ear design. [YAY!](https://www.youtube.com/watch?v=attUrDwfdr8)
 thumbnail_url: /art/characters/orchy/thumbnails/orchyStance.webp
 images:
-    - image_url: /art/characters/orchy/orchyStance.png
-      thumbnail_url: /art/characters/orchy/thumbnails/orchyStance.webp
-      alt: Stance
+  - image_url: /art/characters/orchy/orchyStance.png
+    thumbnail_url: /art/characters/orchy/thumbnails/orchyStance.webp
+    alt: Stance

@@ -7,10 +7,10 @@ sketch: false
 image_url: /art/general/dog_thing.png
 description: This was mostly just an idea, and it eventually turned into [Phosphor](/characters/phosphor)
 tags:
-    - idea
-    - oc
+  - idea
+  - oc
 thumbnail_url: /art/general/thumbnails/dog_thing.webp
 images:
-    - image_url: /art/general/dog_thing.png
-      thumbnail_url: /art/general/thumbnails/dog_thing.webp
-      alt: Dog Thing
+  - image_url: /art/general/dog_thing.png
+    thumbnail_url: /art/general/thumbnails/dog_thing.webp
+    alt: Dog Thing
