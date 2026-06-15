@@ -42,10 +42,14 @@
           on Spotify
         </span>
         <span class="extra-info"
-          >{{ msToMinutesAndSeconds(curDurationMsSpotify) }}
-          /
-          {{ msToMinutesAndSeconds(status.durationMs) }}</span
-        >
+          ><SlotText
+            :text="msToMinutesAndSeconds(curDurationMsSpotify)"
+            :options="{ skipUnchanged: true }" />
+          <span> / </span>
+          <SlotText
+            :text="msToMinutesAndSeconds(status.durationMs)"
+            :options="{ skipUnchanged: true }"
+        /></span>
       </template>
     </div>
     <div
@@ -60,11 +64,31 @@
 
 <script setup lang="ts">
 import Icon from "~/components/common/Icon.vue";
+import { SlotText } from "slot-text/vue";
+import "slot-text/style.css";
 
 const BACKEND_URL = "https://backend.echolotl.lol";
 
 const dateFormat = new Intl.RelativeTimeFormat("en", { style: "short" });
 const curDurationMsSpotify = ref(0);
+
+const statusText = computed(() => {
+  if (status.value === "loading") {
+    return "Thinking of a status...";
+  }
+  if (status.value === "error") {
+    return "Error loading status.";
+  }
+  if (isEcholotlStatus(status.value)) {
+    return status.value.text;
+  }
+  if (isSpotifyStatus(status.value)) {
+    return `Listening to ${status.value.title} by ${status.value.artists
+      .map((a: { name: string }) => a.name)
+      .join(", ")}`;
+  }
+  return "";
+});
 
 type SpotifyStatus = {
   playing: boolean;
