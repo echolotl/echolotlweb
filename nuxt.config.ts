@@ -7,7 +7,7 @@ import { regenthumb } from "./scripts/artcli/commands/regenthumb";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-05-15",
+  compatibilityDate: "2026-06-15",
   content: {
     build: {
       markdown: {
@@ -139,8 +139,9 @@ export default defineNuxtConfig({
   },
   hooks: {
     "build:before": async () => {
-      await regenpalette([]);
-      await regenthumb([]);
+      Promise.all([regenpalette([]), regenthumb([])]).catch((e) => {
+        console.error("Error during build hooks:", e);
+      });
     },
   },
   alias: {

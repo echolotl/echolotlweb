@@ -74,7 +74,6 @@ export default defineContentConfig({
       source: "art/**/*.{json,yml,yaml}",
       type: "data",
       schema: z.object({
-        sitemap: defineSitemapSchema(),
         slug: z.string(),
         created_at: z.string().date(),
         modified_at: z.string().date(),
@@ -87,7 +86,7 @@ export default defineContentConfig({
         artist_name: z.string().optional(),
         images: z.array(galleryImage).min(1, "At least one image required"),
         sketch: z.boolean().optional(),
-      }) as any,
+      }),
     }),
   },
 });
