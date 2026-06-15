@@ -27,52 +27,61 @@
         /></span>
         <span>
           Listening to
-          <a
-            class="link"
-            :href="status.item?.external_urls.spotify ?? undefined"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><b>{{ status.item?.name }}</b></a
+          <a :href="status.href" target="_blank" class="link">
+            <b>{{ status.title }}</b></a
           >
           -
-          <a
-            class="link"
-            :href="status.item?.artists[0]?.external_urls.spotify ?? undefined"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><b>{{ status.item?.artists[0]?.name }}</b></a
+          <a :href="status.artists[0]?.href" target="_blank" class="link"
+            ><b>{{ status.artists[0]?.name }}</b></a
           >
           <span
-            v-if="status.item?.artists.length > 1"
+            v-if="status.artists.length > 1"
             style="color: var(--text-secondary)">
-            (+{{ status.item?.artists.length - 1 }} other)</span
+            (+{{ status.artists.length - 1 }} other)</span
           >
           on Spotify
         </span>
         <span class="extra-info"
           >{{ msToMinutesAndSeconds(curDurationMsSpotify) }}
           /
-          {{ msToMinutesAndSeconds(status.item?.duration_ms ?? 0) }}</span
+          {{ msToMinutesAndSeconds(status.durationMs) }}</span
         >
       </template>
     </div>
     <div
+      v-if="thinkerImage"
       class="the-thinker"
       title="the thinkerrrr"
       :style="{
-        maskImage: thinkerImage ? `url(${thinkerImage})` : undefined,
+        maskImage: `url(${thinkerImage})`,
       }" />
   </template>
 </template>
 
 <script setup lang="ts">
 import Icon from "~/components/common/Icon.vue";
-import type { CurrentlyPlayingResponse } from "~~/types/spotify";
 
 const BACKEND_URL = "https://backend.echolotl.lol";
 
 const dateFormat = new Intl.RelativeTimeFormat("en", { style: "short" });
 const curDurationMsSpotify = ref(0);
+
+type SpotifyStatus = {
+  playing: boolean;
+  title: string;
+  href: string;
+  durationMs: number;
+  progressMs: number;
+  artists: {
+    name: string;
+    href: string;
+  }[];
+  album: {
+    name: string;
+    href: string;
+    imageUrl: string | null;
+  };
+};
 
 type EcholotlStatus = {
   text: string;
@@ -80,12 +89,7 @@ type EcholotlStatus = {
   createdAt: string;
 };
 
-type StatusValue =
-  | CurrentlyPlayingResponse
-  | EcholotlStatus
-  | "loading"
-  | "error"
-  | null;
+type StatusValue = SpotifyStatus | EcholotlStatus | "loading" | "error" | null;
 
 const thinkerImages = [
   "/images/home/plushking.webp",
@@ -147,14 +151,12 @@ const isEcholotlStatus = (value: StatusValue): value is EcholotlStatus => {
   );
 };
 
-const isSpotifyStatus = (
-  value: StatusValue,
-): value is CurrentlyPlayingResponse => {
+const isSpotifyStatus = (value: StatusValue): value is SpotifyStatus => {
   return (
     value !== null &&
     value !== "loading" &&
     value !== "error" &&
-    "is_playing" in value
+    "playing" in value
   );
 };
 
@@ -178,12 +180,12 @@ const getCreatedAtRelativeTime = (createdAt: string) => {
 const startProgressTick = () => {
   clearProgressInterval();
   progressInterval = setInterval(() => {
-    if (!isSpotifyStatus(status.value) || !status.value.is_playing) {
+    if (!isSpotifyStatus(status.value) || !status.value.playing) {
       clearProgressInterval();
       return;
     }
 
-    const duration = status.value.item?.duration_ms ?? 0;
+    const duration = status.value.durationMs;
     curDurationMsSpotify.value = Math.min(
       curDurationMsSpotify.value + PROGRESS_TICK_MS,
       duration,
@@ -191,23 +193,10 @@ const startProgressTick = () => {
   }, PROGRESS_TICK_MS);
 };
 
-const scheduleSpotifyRefetchOnSongEnd = (
-  playback: CurrentlyPlayingResponse,
-) => {
+const scheduleSpotifyRefetchOnSongEnd = (playback: SpotifyStatus) => {
   clearSpotifyRefetchTimeout();
 
-  if (
-    !playback.item ||
-    playback.item.duration_ms == null ||
-    playback.progress_ms == null
-  ) {
-    return;
-  }
-
-  const remainingMs = Math.max(
-    playback.item.duration_ms - playback.progress_ms,
-    0,
-  );
+  const remainingMs = Math.max(playback.durationMs - playback.progressMs, 0);
   const refetchDelayMs = remainingMs + 1000;
 
   spotifyRefetchTimeout = setTimeout(() => {
@@ -215,27 +204,26 @@ const scheduleSpotifyRefetchOnSongEnd = (
   }, refetchDelayMs);
 };
 
-const fetchSpotifyStatus: () => Promise<CurrentlyPlayingResponse | null> =
-  async () => {
-    try {
-      const data = await fetch(`${BACKEND_URL}/spotify`);
-      if (data.status === 204) {
-        clearSpotifyRefetchTimeout();
-        return null;
-      }
-      if (!data.ok) {
-        throw new Error(`HTTP error! status: ${data.status}`);
-      }
-
-      const json = (await data.json()) as CurrentlyPlayingResponse;
-      curDurationMsSpotify.value = json.progress_ms ?? 0;
-      return json;
-    } catch (err) {
-      console.error("Error fetching Spotify status:", err);
+const fetchSpotifyStatus: () => Promise<SpotifyStatus | null> = async () => {
+  try {
+    const data = await fetch(`${BACKEND_URL}/spotify`);
+    if (data.status === 204) {
       clearSpotifyRefetchTimeout();
       return null;
     }
-  };
+    if (!data.ok) {
+      throw new Error(`HTTP error! status: ${data.status}`);
+    }
+
+    const json = (await data.json()) as SpotifyStatus;
+    curDurationMsSpotify.value = json.progressMs ?? 0;
+    return json;
+  } catch (err) {
+    console.error("Error fetching Spotify status:", err);
+    clearSpotifyRefetchTimeout();
+    return null;
+  }
+};
 
 const fetchEcholotlStatus: () => Promise<EcholotlStatus | null> = async () => {
   try {
@@ -259,11 +247,7 @@ const refreshStatus = async () => {
   const hasCustomStatusDisplayed = isEcholotlStatus(status.value);
   const spotifyResponse = await fetchSpotifyStatus();
 
-  if (
-    spotifyResponse &&
-    spotifyResponse.is_playing &&
-    spotifyResponse.item?.type === "track"
-  ) {
+  if (spotifyResponse && spotifyResponse.playing) {
     status.value = spotifyResponse;
     scheduleSpotifyRefetchOnSongEnd(spotifyResponse);
     startProgressTick();
@@ -288,9 +272,9 @@ const startSpotifyPolling = () => {
 };
 
 onMounted(async () => {
+  thinkerImage.value = getRandomThinkerImage();
   await refreshStatus();
   startSpotifyPolling();
-  thinkerImage.value = getRandomThinkerImage();
 });
 
 onBeforeUnmount(() => {
