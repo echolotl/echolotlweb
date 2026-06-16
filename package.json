@@ -18,6 +18,8 @@
     "@nuxtjs/robots": "^6.0.9",
     "@nuxtjs/sitemap": "^8.1.0",
     "@types/js-yaml": "^4.0.9",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "baseline-browser-mapping": "^2.10.35",
     "better-sqlite3": "^12.10.0",
     "caniuse-lite": "^1.0.30001797",
