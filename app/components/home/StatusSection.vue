@@ -132,7 +132,7 @@ const thinkerImage = ref<string | null>(null);
 
 const status = ref<StatusValue>("loading");
 let spotifyRefetchTimeout: ReturnType<typeof setTimeout> | null = null;
-let spotifyPollInterval: ReturnType<typeof setInterval> | null = null;
+let spotifyPollInterval: ReturnType<typeof setTimeout> | null = null;
 let progressInterval: ReturnType<typeof setInterval> | null = null;
 
 const SPOTIFY_POLL_INTERVAL_MS = 15_000;
@@ -147,7 +147,7 @@ const clearSpotifyRefetchTimeout = () => {
 
 const clearSpotifyPollInterval = () => {
   if (spotifyPollInterval) {
-    clearInterval(spotifyPollInterval);
+    clearTimeout(spotifyPollInterval);
     spotifyPollInterval = null;
   }
 };
@@ -230,6 +230,7 @@ const scheduleSpotifyRefetchOnSongEnd = (playback: SpotifyStatus) => {
 
 const fetchSpotifyStatus: () => Promise<SpotifyStatus | null> = async () => {
   try {
+    const fetchStart = Date.now();
     const data = await fetch(`${BACKEND_URL}/spotify`);
     if (data.status === 204) {
       clearSpotifyRefetchTimeout();
@@ -240,7 +241,9 @@ const fetchSpotifyStatus: () => Promise<SpotifyStatus | null> = async () => {
     }
 
     const json = (await data.json()) as SpotifyStatus;
-    curDurationMsSpotify.value = json.progressMs ?? 0;
+    const fetchElapsed = Date.now() - fetchStart;
+    curDurationMsSpotify.value =
+      (json.progressMs ?? 0) + (json.playing ? fetchElapsed : 0);
     return json;
   } catch (err) {
     console.error("Error fetching Spotify status:", err);
@@ -290,9 +293,15 @@ const refreshStatus = async () => {
 
 const startSpotifyPolling = () => {
   clearSpotifyPollInterval();
-  spotifyPollInterval = setInterval(() => {
-    void refreshStatus();
-  }, SPOTIFY_POLL_INTERVAL_MS);
+  const poll = async () => {
+    const start = Date.now();
+    await refreshStatus();
+    const elapsed = Date.now() - start;
+    console.log(`Spotify status refreshed in ${elapsed}ms`);
+    const delay = Math.max(0, SPOTIFY_POLL_INTERVAL_MS - elapsed);
+    spotifyPollInterval = setTimeout(() => void poll(), delay);
+  };
+  spotifyPollInterval = setTimeout(() => void poll(), SPOTIFY_POLL_INTERVAL_MS);
 };
 
 onMounted(async () => {
