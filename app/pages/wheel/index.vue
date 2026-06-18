@@ -271,7 +271,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { queryCollection } from "#imports";
-import { useAsyncData } from "nuxt/app";
 import { type Character } from "~~/types";
 import Icon from "~/components/common/Icon.vue";
 import SketchFilter from "~/components/common/SketchFilter.vue";
@@ -290,6 +289,9 @@ type WheelSlice = Slice & {
 };
 
 type WheelState = "idling" | "spinning" | "waiting";
+
+const route = useRoute();
+const router = useRouter();
 
 // Reactive state
 const slices = ref<Slice[]>([]);
@@ -356,24 +358,23 @@ const skipSpinRequested = ref(false);
 const presets: Record<string, () => Slice[] | Promise<Slice[]>> = {
   None: () => [],
   Characters: async () => {
-    const { data: characters } = await useAsyncData<Character[]>(
-      "characters",
-      () => {
-        return queryCollection("characters" as never).all();
-      },
-    );
-    return characters.value
-      ? characters.value.map((char) => ({
-          title: char.name,
-          color: char.theme_color || "#888888",
-        }))
-      : [];
+    const characters = (await queryCollection(
+      "characters" as never,
+    ).all()) as Character[];
+    return characters.map((char) => ({
+      title: char.name,
+      color: char.theme_color || "#888888",
+    }));
   },
   "4 Slices": () => [
-    { title: "Slice 1", color: "#FF0000" },
-    { title: "Slice 2", color: "#00FF00" },
-    { title: "Slice 3", color: "#0000FF" },
+    { title: "Slice 1", color: "#fa22db" },
+    { title: "Slice 2", color: "#22fa4e" },
+    { title: "Slice 3", color: "#22cdfa" },
     { title: "Slice 4", color: "#FFFF00" },
+  ],
+  "Coin Flip": () => [
+    { title: "Heads", color: "#4a90e2" },
+    { title: "Tails", color: "#e94e77" },
   ],
 };
 
@@ -391,6 +392,11 @@ const loadPreset = (presetName: string) => {
     } else {
       slices.value = result;
     }
+  }
+  if (presetName === "None") {
+    router.replace({ query: { ...route.query, preset: undefined } });
+  } else {
+    router.replace({ query: { ...route.query, preset: presetName } });
   }
 };
 
@@ -713,6 +719,14 @@ function sliceContrastTextColor(slice: Slice): string {
 onMounted(() => {
   clickSound = new Audio("/sounds/wheel/click.wav");
   spinishedSound = new Audio("/sounds/wheel/spinished.wav");
+
+  // Load whatever preset was specified in the query params on initial load
+  selectedPreset.value = route.query.preset
+    ? String(route.query.preset)
+    : "None";
+  console.log("Selected preset from query:", selectedPreset.value);
+  loadPreset(selectedPreset.value);
+
   watch(
     () => sliceAtTop.value,
     (before, after) => {
@@ -743,7 +757,7 @@ onBeforeUnmount(() => {
 });
 
 useSeoMeta({
-  title: "echolotl Wheel",
+  title: "Wheel - echolotl.lol",
   description:
     "An awesome wheel that you can use and customize to get a random result, but with some fun stuff!!!",
   ogDescription: "My awesome wheel you can spin fr fr fr",
@@ -781,6 +795,7 @@ useSeoMeta({
 
   > svg {
     width: min(90vw, 800px);
+    object-fit: scale-down;
     height: auto;
     transform: none;
   }
@@ -842,6 +857,27 @@ useSeoMeta({
       flex-shrink: 0;
       width: 200px;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .selector {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+
+    .section.preset {
+      width: 100%;
+    }
+  }
+
+  .slice-editor {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    grid-auto-flow: row !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
   }
 }
 .section-heading {
