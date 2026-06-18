@@ -25,13 +25,20 @@ const handleError = () => {
   <div>
     <NuxtLayout>
       <div class="error-page">
-        <div>
+        <div
+          style="
+            display: flex;
+            gap: 0.25rem;
+            flex-direction: column;
+            margin-bottom: 2rem;
+            align-items: center;
+          ">
           <div
             class="error-image"
             :style="{
-              maskImage: `url('/images/${error?.statusCode}.png')`,
+              maskImage: `url('/images/${error?.status}.png')`,
             }"
-            :alt="`Error ${error?.statusCode}`"
+            :alt="`Error ${error?.status}`"
             width="300"
             height="200" />
           <span
@@ -39,10 +46,10 @@ const handleError = () => {
             style="font-size: 2rem; color: var(--primary); margin-top: 0.5rem">
             {{ error?.message || "An unexpected error occurred." }}
           </span>
-          <button @click="handleError" class="clear-error-button">
-            <Icon icon="back-arrow" style="margin-right: 0.5rem" />BACK
-          </button>
         </div>
+        <button @click="handleError" class="clear-error-button">
+          <Icon icon="back-arrow" style="margin-right: 0.5rem" />BACK
+        </button>
       </div>
       <div
         class="funny-little-guys"
@@ -72,7 +79,6 @@ const handleError = () => {
 
 .clear-error-button {
   font-weight: 900;
-  border: none;
 }
 
 .funny-little-guys {

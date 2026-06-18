@@ -1,80 +1,183 @@
 <template>
-  <div class="wheel-page">
+  <div class="wheel-page" :style="{ '--slice-color': sliceAtTop?.color }">
     <div class="content">
-      <div class="wheel-container" @click="!isSpinning && spinToSlice()">
-        <SketchFilter id="wheel-sketch" flood-color="var(--surface)" />
+      <div class="heading">
+        <template v-if="wheelState === 'idling'"></template>
+        <template v-else-if="wheelState === 'spinning'">
+          <h1>Spinning!</h1>
+          <p
+            style="
+              color: var(--text-secondary);
+              margin-top: 0.5rem;
+              font-size: var(--small-text);
+            ">
+            {{ spinningSplashText }}
+          </p>
+        </template>
+        <template v-else-if="wheelState === 'waiting'">
+          <h1>
+            It's
+            <span style="color: var(--slice-color)">{{
+              selectedSlice?.title || "Unknown"
+            }}</span
+            >!
+          </h1>
+          <p
+            style="
+              color: var(--text-secondary);
+              margin-top: 0.5rem;
+              font-size: var(--small-text);
+            ">
+            A
+            <b
+              >1 in
+              {{
+                selectedSliceChanceDenominator === null
+                  ? "?"
+                  : formatChance(selectedSliceChanceDenominator)
+              }}</b
+            >
+            chance!
+          </p>
+        </template>
+      </div>
+      <div class="gradient-bg" />
+      <div class="wheel-container">
+        <SketchFilter
+          id="wheel-sketch"
+          flood-color="var(--surface)"
+          :seed="80085" />
         <svg
           viewBox="0 0 400 400"
           width="800"
           height="800"
           filter="url(#wheel-sketch)">
           <g
-            v-if="wheelSlices.length >= 1"
             class="wheel-spin-layer"
             :style="{ transform: `rotate(${wheelRotation}deg)` }">
-            <circle
-              cx="200"
-              cy="200"
-              r="180"
-              fill="none"
-              stroke="var(--distant)"
-              stroke-width="6" />
-            <template v-for="(slice, index) in wheelSlices" :key="index">
+            <template v-if="wheelSlices.length >= 1">
               <circle
-                v-if="slice.endAngle - slice.startAngle >= 359.999"
                 cx="200"
                 cy="200"
                 r="180"
-                :fill="slice.color" />
-              <g v-else>
-                <path
-                  :d="getSlice(200, 200, 180, slice.startAngle, slice.endAngle)"
-                  :fill="slice.color" />
-                <path
-                  :d="
-                    getOuterArc(200, 200, 180, slice.startAngle, slice.endAngle)
-                  "
-                  fill="none"
-                  :stroke="slice.color"
-                  stroke-width="3" />
-                <g
-                  :transform="`translate(200, 200) rotate(${(slice.startAngle + slice.endAngle) / 2 - 90})`">
-                  <text
-                    :x="175"
-                    y="
-                    0
-                  "
-                    text-anchor="end"
-                    dominant-baseline="middle"
-                    :fill="sliceContrastTextColor(slice)"
-                    font-size="16"
-                    font-family="Lotl">
-                    {{ slice.title }}
-                  </text>
+                fill="none"
+                stroke="var(--distant)"
+                stroke-width="6" />
+              <template v-for="(slice, index) in wheelSlices" :key="index">
+                <g v-if="slice.endAngle - slice.startAngle >= 359.999">
+                  <circle cx="200" cy="200" r="180" :fill="slice.color" />
+                  <g
+                    :transform="`translate(200, 200) rotate(${(slice.startAngle + slice.endAngle) / 2 - 90})`">
+                    <text
+                      :x="175"
+                      y="
+                      0
+                    "
+                      text-anchor="end"
+                      dominant-baseline="middle"
+                      :fill="sliceContrastTextColor(slice)"
+                      font-size="16"
+                      font-family="Lotl">
+                      {{ slice.title }}
+                    </text>
+                  </g>
                 </g>
-              </g>
+                <g v-else>
+                  <path
+                    :d="
+                      getSlice(200, 200, 180, slice.startAngle, slice.endAngle)
+                    "
+                    :fill="slice.color" />
+                  <path
+                    :d="
+                      getOuterArc(
+                        200,
+                        200,
+                        180,
+                        slice.startAngle,
+                        slice.endAngle,
+                      )
+                    "
+                    fill="none"
+                    :stroke="slice.color"
+                    stroke-width="3" />
+                  <g
+                    :transform="`translate(200, 200) rotate(${(slice.startAngle + slice.endAngle) / 2 - 90})`">
+                    <text
+                      :x="175"
+                      y="
+                      0
+                    "
+                      text-anchor="end"
+                      dominant-baseline="middle"
+                      :fill="sliceContrastTextColor(slice)"
+                      font-size="16"
+                      font-family="Lotl">
+                      {{ slice.title }}
+                    </text>
+                  </g>
+                </g>
+              </template>
+              <path
+                v-for="(slice, index) in wheelSlices"
+                :key="`separator-${index}`"
+                :d="getLeftEdge(200, 200, 180, slice.startAngle)"
+                fill="none"
+                stroke="var(--distant)"
+                stroke-width="3"
+                vector-effect="non-scaling-stroke" />
             </template>
-            <path
-              v-for="(slice, index) in wheelSlices"
-              :key="`separator-${index}`"
-              :d="getLeftEdge(200, 200, 180, slice.startAngle)"
-              fill="none"
-              stroke="var(--distant)"
-              stroke-width="3"
-              vector-effect="non-scaling-stroke" />
+            <template v-else>
+              <circle
+                cx="200"
+                cy="200"
+                r="180"
+                stroke="var(--distant)"
+                fill="none"
+                stroke-dasharray="16 8"
+                stroke-linecap="round"
+                stroke-width="3" />
+            </template>
           </g>
-          <template v-else>
+          <g class="wheel-middle-mask" pointer-events="none">
             <circle
               cx="200"
               cy="200"
-              r="180"
-              stroke="var(--distant)"
-              fill="none"
-              stroke-dasharray="16 8"
-              stroke-linecap="round"
-              stroke-width="3" />
-          </template>
+              r="12"
+              fill="var(--surface)"
+              stroke="rgba(from var(--surface) r g b / 0.5)"
+              stroke-width="10"
+              vector-effect="non-scaling-stroke" />
+          </g>
         </svg>
+      </div>
+      <div class="spin-actions">
+        <template v-if="wheelState === 'waiting'">
+          <button class="wheel-button" @click="confirmResult">OK</button>
+          <button
+            class="wheel-button filled"
+            @click="spinToSlice"
+            :disabled="wheelSlices.length === 0">
+            Spin Again
+          </button>
+        </template>
+        <template v-else-if="wheelState === 'spinning'">
+          <button class="wheel-button" @click="stopSpin">Stop</button>
+          <button class="wheel-button" @click="skipSpin">Skip</button>
+        </template>
+        <button
+          v-else
+          class="wheel-button filled"
+          @click="spinToSlice"
+          :disabled="wheelSlices.length === 0"
+          style="
+            width: 200px;
+            justify-content: center;
+            font-weight: bold;
+            text-transform: uppercase;
+          ">
+          Spin
+        </button>
       </div>
       <div class="selector">
         <div class="section preset">
@@ -87,6 +190,19 @@
               {{ preset }}
             </option>
           </select>
+          <button
+            @click="loadPreset(selectedPreset)"
+            :disabled="isSpinning || !selectedPreset"
+            class="wheel-button filled"
+            style="
+              width: 100%;
+              margin-top: 0.5rem;
+              justify-content: center;
+              font-weight: bold;
+              text-transform: uppercase;
+            ">
+            Load Preset
+          </button>
         </div>
         <div class="section">
           <h6 class="section-heading">Slices</h6>
@@ -153,7 +269,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { queryCollection } from "#imports";
 import { useAsyncData } from "nuxt/app";
 import { type Character } from "~~/types";
@@ -173,21 +289,68 @@ type WheelSlice = Slice & {
   endAngle: number;
 };
 
+type WheelState = "idling" | "spinning" | "waiting";
+
 // Reactive state
 const slices = ref<Slice[]>([]);
 const wheelRotation = ref(0);
 const selectedSlice = ref<WheelSlice | null>(null);
-const isSpinning = ref(false);
+const wheelState = ref<WheelState>("idling");
+const isSpinning = computed(() => wheelState.value === "spinning");
 const selectedPreset = ref("");
+const sliceAtTop = computed(() => {
+  if (wheelSlices.value.length === 0) {
+    return null;
+  }
+
+  const angle = normalizeAngle(360 - normalizeAngle(wheelRotation.value));
+  const found = wheelSlices.value.find((slice, index) => {
+    const isLastSlice = index === wheelSlices.value.length - 1;
+    return isLastSlice
+      ? angle >= slice.startAngle && angle <= slice.endAngle
+      : angle >= slice.startAngle && angle < slice.endAngle;
+  });
+
+  return found ?? null;
+});
+var clickSound: HTMLAudioElement;
+var spinishedSound: HTMLAudioElement;
+const SPINNING_SPLASH_TEXTS = [
+  "Did you know? Pizza thinking",
+  "Some would say this wheel is spinning",
+  "This spin sucks and you know it",
+  "Who up spinning they wheel",
+  "Why do they call it a wheel",
+  "I guess wheel see what you get #goodone",
+  "It would be funny if this was for something important lol",
+  "I hope you like spinning wheels (this is a wheel)",
+  "Kid named wheel",
+  "Wheel be right back #goodone",
+  "A wheel is a rotating component (typically circular in shape) intended to turn on an axle bearing.",
+  "You could have used that one wheel website but yet you didn't",
+  "I knew a guy who spun a wheel once. They got 'em",
+  "Every time this wheel spins, a FNAF fan dies",
+  "A spin is spain without the a",
+  "As long as there's no squares involved, we should be okay...",
+];
+const getRandomSpinningSplashText = () => {
+  const index = Math.floor(Math.random() * SPINNING_SPLASH_TEXTS.length);
+  return SPINNING_SPLASH_TEXTS[index] || "Did you know? The wheel is spinning!";
+};
+const spinningSplashText = ref(getRandomSpinningSplashText());
 
 // Animation timing
 const SPIN_DURATION = 10000;
 const PREPARE_DURATION = 500;
 const PREPARE_OFFSET = 55;
+const IDLE_ROTATION_SPEED = 6;
 
 // Animation tracking
 let spinAnimationToken = 0;
 let spinRafId: number | null = null;
+let idleRafId: number | null = null;
+let lastIdleTimestamp: number | null = null;
+const skipSpinRequested = ref(false);
 
 // Preset generators
 const presets: Record<string, () => Slice[] | Promise<Slice[]>> = {
@@ -215,11 +378,21 @@ const presets: Record<string, () => Slice[] | Promise<Slice[]>> = {
 };
 
 // Preset selection
-watch(selectedPreset, async (preset: keyof typeof presets) => {
-  if (preset && presets[preset]) {
-    slices.value = await presets[preset]();
+const loadPreset = (presetName: string) => {
+  // Reset state
+  selectedSlice.value = null;
+  wheelState.value = "idling";
+  wheelRotation.value = 0;
+  const generator = presets[presetName];
+  if (generator) {
+    const result = generator();
+    if (result instanceof Promise) {
+      result.then((newSlices) => (slices.value = newSlices));
+    } else {
+      slices.value = result;
+    }
   }
-});
+};
 
 // Angle helpers
 const toRad = (angle: number) => ((angle - 90) * Math.PI) / 180;
@@ -272,11 +445,62 @@ const getLeftEdge = (cx: number, cy: number, r: number, startAngle: number) => {
 // Animation helpers
 function stopSpinAnimation() {
   spinAnimationToken += 1;
+  skipSpinRequested.value = false;
   if (spinRafId !== null) {
     cancelAnimationFrame(spinRafId);
     spinRafId = null;
-    isSpinning.value = false;
   }
+}
+
+function stopSpin() {
+  stopSpinAnimation();
+  if (wheelState.value === "spinning") {
+    wheelState.value = "idling";
+  }
+}
+
+function skipSpin() {
+  if (wheelState.value !== "spinning") {
+    return;
+  }
+
+  skipSpinRequested.value = true;
+}
+
+function stopIdleAnimation() {
+  if (idleRafId !== null) {
+    cancelAnimationFrame(idleRafId);
+    idleRafId = null;
+  }
+  lastIdleTimestamp = null;
+}
+
+function startIdleAnimation() {
+  if (idleRafId !== null) {
+    return;
+  }
+
+  const step = (now: number) => {
+    if (wheelState.value !== "idling") {
+      idleRafId = null;
+      lastIdleTimestamp = null;
+      return;
+    }
+
+    if (lastIdleTimestamp === null) {
+      lastIdleTimestamp = now;
+    }
+
+    const deltaSeconds = (now - lastIdleTimestamp) / 1000;
+    lastIdleTimestamp = now;
+    wheelRotation.value = normalizeAngle(
+      wheelRotation.value + IDLE_ROTATION_SPEED * deltaSeconds,
+    );
+
+    idleRafId = requestAnimationFrame(step);
+  };
+
+  idleRafId = requestAnimationFrame(step);
 }
 
 function runTween(
@@ -297,6 +521,13 @@ function runTween(
     const step = (now: number) => {
       if (token !== spinAnimationToken) {
         resolve(false);
+        return;
+      }
+
+      if (skipSpinRequested.value) {
+        wheelRotation.value = to;
+        spinRafId = null;
+        resolve(true);
         return;
       }
 
@@ -361,6 +592,27 @@ const wheelSlices = computed<WheelSlice[]>(() => {
   });
 });
 
+const selectedSliceChanceDenominator = computed<number | null>(() => {
+  const selected = selectedSlice.value;
+  if (!selected || selected.percent <= 0) {
+    return null;
+  }
+
+  const totalPercent = wheelSlices.value.reduce(
+    (sum, slice) => sum + slice.percent,
+    0,
+  );
+  if (totalPercent <= 0) {
+    return null;
+  }
+
+  return totalPercent / selected.percent;
+});
+
+function formatChance(value: number): string {
+  return Number.isInteger(value) ? value.toString() : value.toFixed(2);
+}
+
 // Randomally selects a slice w/ weights
 function selectSlice(): WheelSlice | null {
   const totalPercent = wheelSlices.value.reduce(
@@ -384,13 +636,21 @@ function selectSlice(): WheelSlice | null {
 }
 
 async function spinToSlice() {
+  if (wheelState.value === "spinning") {
+    return;
+  }
+
+  skipSpinRequested.value = false;
+  spinningSplashText.value = getRandomSpinningSplashText();
+
   const slice = selectSlice();
   if (!slice) {
     return;
   }
 
   selectedSlice.value = slice;
-  isSpinning.value = true;
+  wheelState.value = "spinning";
+  stopIdleAnimation();
   stopSpinAnimation();
   const token = spinAnimationToken;
 
@@ -411,7 +671,8 @@ async function spinToSlice() {
     token,
   );
   if (!prepareDone || token !== spinAnimationToken) {
-    isSpinning.value = false;
+    skipSpinRequested.value = false;
+    wheelState.value = "idling";
     return;
   }
 
@@ -423,12 +684,20 @@ async function spinToSlice() {
     token,
   );
   if (!spinDone || token !== spinAnimationToken) {
-    isSpinning.value = false;
+    skipSpinRequested.value = false;
+    wheelState.value = "idling";
     return;
   }
 
+  skipSpinRequested.value = false;
   wheelRotation.value = normalizeAngle(endRotation);
-  isSpinning.value = false;
+  spinishedSound.currentTime = 0;
+  spinishedSound.play();
+  wheelState.value = "waiting";
+}
+
+function confirmResult() {
+  wheelState.value = "idling";
 }
 
 // Text contrast helper
@@ -441,8 +710,36 @@ function sliceContrastTextColor(slice: Slice): string {
   return brightness > 128 ? "#000000" : "#FFFFFF";
 }
 
+onMounted(() => {
+  clickSound = new Audio("/sounds/wheel/click.wav");
+  spinishedSound = new Audio("/sounds/wheel/spinished.wav");
+  watch(
+    () => sliceAtTop.value,
+    (before, after) => {
+      if (after && before && before.title !== after.title) {
+        clickSound.currentTime = 0;
+        clickSound.play();
+      }
+    },
+    { immediate: true },
+  );
+  watch(
+    () => wheelState.value,
+    (state) => {
+      if (state === "idling") {
+        startIdleAnimation();
+        return;
+      }
+
+      stopIdleAnimation();
+    },
+    { immediate: true },
+  );
+});
+
 onBeforeUnmount(() => {
   stopSpinAnimation();
+  stopIdleAnimation();
 });
 </script>
 <style scoped lang="scss">
@@ -463,27 +760,31 @@ onBeforeUnmount(() => {
   width: 100%;
 }
 .wheel-container {
-  flex: 1;
+  padding-top: 2rem;
+  height: 432px;
+  flex: 0 0 auto;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 2rem;
+  align-items: flex-start;
   overflow: hidden;
-  mask-image: linear-gradient(to top, transparent 0%, black 64px);
+  padding-bottom: 0;
+  mask-image: linear-gradient(to top, transparent, black 128px);
   position: relative;
 
   > svg {
-    transform: translateY(50%);
+    width: min(90vw, 800px);
+    height: auto;
+    transform: none;
   }
   &::after {
     content: "";
     position: absolute;
-    bottom: 408px;
+    top: calc(2rem - 8px);
     left: calc(50% - 16px);
     width: 32px;
     height: 32px;
     mask: url("/images/icons/small-arrow.webp") no-repeat center;
-    background-color: var(--text);
+    background-color: var(--slice-color, var(--text));
     transform: rotate(90deg);
     pointer-events: none;
   }
@@ -493,6 +794,25 @@ onBeforeUnmount(() => {
   transform-box: view-box;
   will-change: transform;
 }
+.wheel-middle-mask {
+  pointer-events: none;
+}
+.gradient-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  background: linear-gradient(
+    in oklch to bottom,
+    var(--slice-color),
+    transparent
+  );
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: -1;
+  transition: --slice-color 0.5s;
+}
 .selector {
   display: flex;
   flex-direction: row;
@@ -501,7 +821,6 @@ onBeforeUnmount(() => {
   height: 300px;
   max-height: 75vh;
   overflow: hidden;
-  padding: 2rem 0;
   .section {
     display: flex;
     flex-direction: column;
@@ -542,7 +861,7 @@ onBeforeUnmount(() => {
   input {
     padding: 0.25rem;
     border: none;
-    border-bottom: 1px solid var(--distant);
+    border-bottom: 1px dashed var(--distant);
     background: transparent;
     color: var(--text);
     font-family: inherit;
@@ -641,28 +960,36 @@ select {
     display: none;
   }
 }
-.spin-button {
-  margin-top: 1rem;
-  width: 100%;
-  background-color: var(--primary);
-  color: var(--background);
-  border: none;
-  cursor: pointer;
+.spin-actions {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: inherit;
-  font-family: inherit;
-
-  &:disabled {
-    cursor: progress;
-    opacity: 0.75;
-  }
+  gap: 0.5rem;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 .selected-slice {
   margin: 0.75rem 0 0;
   color: var(--text-secondary);
   font-size: var(--small-text);
+}
+.wheel-button {
+  border-radius: 8px;
+  text-shadow: 0 1px 0 rgba(from black r g b / 0.5);
+}
+
+.heading {
+  text-align: center;
+  h1 {
+    font-size: 3rem;
+    margin: 0;
+    filter: url(#wheel-sketch);
+  }
+}
+
+@property --slice-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #000000;
 }
 </style>
