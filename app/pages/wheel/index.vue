@@ -741,6 +741,14 @@ onBeforeUnmount(() => {
   stopSpinAnimation();
   stopIdleAnimation();
 });
+
+useSeoMeta({
+  title: "echolotl Wheel",
+  description:
+    "An awesome wheel that you can use and customize to get a random result, but with some fun stuff!!!",
+  ogDescription: "My awesome wheel you can spin fr fr fr",
+  ogTitle: "echolotl's Wheel",
+});
 </script>
 <style scoped lang="scss">
 @use "sass:color";
