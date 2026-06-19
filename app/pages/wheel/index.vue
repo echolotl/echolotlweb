@@ -293,13 +293,23 @@ type WheelState = "idling" | "spinning" | "waiting";
 const route = useRoute();
 const router = useRouter();
 
+// Characters data — registered at setup level so Nuxt resolves it correctly
+// in both dev and static modes, but only fetched on demand.
+const { data: charactersData, execute: fetchCharacters } = useAsyncData<
+  Character[]
+>("wheel-characters", () => queryCollection("characters" as never).all(), {
+  immediate: false,
+});
+
 // Reactive state
 const slices = ref<Slice[]>([]);
 const wheelRotation = ref(0);
 const selectedSlice = ref<WheelSlice | null>(null);
 const wheelState = ref<WheelState>("idling");
 const isSpinning = computed(() => wheelState.value === "spinning");
-const selectedPreset = ref("");
+const selectedPreset = ref(
+  typeof route.query.preset === "string" ? route.query.preset : "None",
+);
 const sliceAtTop = computed(() => {
   if (wheelSlices.value.length === 0) {
     return null;
@@ -358,13 +368,13 @@ const skipSpinRequested = ref(false);
 const presets: Record<string, () => Slice[] | Promise<Slice[]>> = {
   None: () => [],
   Characters: async () => {
-    const characters = (await queryCollection(
-      "characters" as never,
-    ).all()) as Character[];
-    return characters.map((char) => ({
-      title: char.name,
-      color: char.theme_color || "#888888",
-    }));
+    await fetchCharacters();
+    return (
+      charactersData.value?.map((char: Character) => ({
+        title: char.name,
+        color: char.theme_color || "#888888",
+      })) ?? []
+    );
   },
   "4 Slices": () => [
     { title: "Slice 1", color: "#fa22db" },
@@ -399,6 +409,17 @@ const loadPreset = (presetName: string) => {
     router.replace({ query: { ...route.query, preset: presetName } });
   }
 };
+
+watch(
+  () => route.query.preset,
+  (preset) => {
+    const name = typeof preset === "string" ? preset : "None";
+    if (name !== selectedPreset.value) {
+      selectedPreset.value = name;
+      loadPreset(name);
+    }
+  },
+);
 
 // Angle helpers
 const toRad = (angle: number) => ((angle - 90) * Math.PI) / 180;
@@ -720,11 +741,6 @@ onMounted(() => {
   clickSound = new Audio("/sounds/wheel/click.wav");
   spinishedSound = new Audio("/sounds/wheel/spinished.wav");
 
-  // Load whatever preset was specified in the query params on initial load
-  selectedPreset.value = route.query.preset
-    ? String(route.query.preset)
-    : "None";
-  console.log("Selected preset from query:", selectedPreset.value);
   loadPreset(selectedPreset.value);
 
   watch(
