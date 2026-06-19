@@ -272,6 +272,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { queryCollection } from "#imports";
 import { type Character } from "~~/types";
+import { track } from "@vercel/analytics";
 import Icon from "~/components/common/Icon.vue";
 import SketchFilter from "~/components/common/SketchFilter.vue";
 
@@ -506,6 +507,7 @@ function skipSpin() {
     return;
   }
 
+  track("wheel_skip");
   skipSpinRequested.value = true;
 }
 
@@ -692,6 +694,10 @@ async function spinToSlice() {
 
   selectedSlice.value = slice;
   wheelState.value = "spinning";
+  track("wheel_spin", {
+    preset: selectedPreset.value || "custom",
+    sliceCount: wheelSlices.value.length,
+  });
   stopIdleAnimation();
   stopSpinAnimation();
   const token = spinAnimationToken;
