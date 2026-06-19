@@ -760,18 +760,6 @@ watch(
   },
   { immediate: true },
 );
-watch(
-  () => wheelState.value,
-  (state) => {
-    if (state === "idling") {
-      startIdleAnimation();
-      return;
-    }
-
-    stopIdleAnimation();
-  },
-  { immediate: true },
-);
 
 onMounted(async () => {
   audioCtx = new AudioContext();
@@ -786,6 +774,19 @@ onMounted(async () => {
     : "None";
   console.log("Selected preset from query:", selectedPreset.value);
   loadPreset(selectedPreset.value);
+
+  watch(
+    () => wheelState.value,
+    (state) => {
+      if (state === "idling") {
+        startIdleAnimation();
+        return;
+      }
+
+      stopIdleAnimation();
+    },
+    { immediate: true },
+  );
 });
 
 onBeforeUnmount(() => {
