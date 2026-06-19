@@ -315,8 +315,29 @@ const sliceAtTop = computed(() => {
 
   return found ?? null;
 });
-var clickSound: HTMLAudioElement;
-var spinishedSound: HTMLAudioElement;
+let audioCtx: AudioContext | null = null;
+let clickBuffer: AudioBuffer | null = null;
+let spinishedBuffer: AudioBuffer | null = null;
+
+async function loadBuffer(url: string): Promise<AudioBuffer | null> {
+  if (!audioCtx) return null;
+  try {
+    const res = await fetch(url);
+    const raw = await res.arrayBuffer();
+    return await audioCtx.decodeAudioData(raw);
+  } catch {
+    return null;
+  }
+}
+
+function playBuffer(buffer: AudioBuffer | null) {
+  if (!audioCtx || !buffer) return;
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  const source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioCtx.destination);
+  source.start(0);
+}
 const SPINNING_SPLASH_TEXTS = [
   "Did you know? Pizza thinking",
   "Some would say this wheel is spinning",
@@ -375,6 +396,10 @@ const presets: Record<string, () => Slice[] | Promise<Slice[]>> = {
   "Coin Flip": () => [
     { title: "Heads", color: "#4a90e2" },
     { title: "Tails", color: "#e94e77" },
+  ],
+  Pacman: () => [
+    { title: "Pacman", percent: 80, color: "#ffd500" },
+    { title: "Not Pacman", percent: 20, color: "#000000" },
   ],
 };
 
@@ -708,8 +733,7 @@ async function spinToSlice() {
 
   skipSpinRequested.value = false;
   wheelRotation.value = normalizeAngle(endRotation);
-  spinishedSound.currentTime = 0;
-  spinishedSound.play();
+  playBuffer(spinishedBuffer);
   wheelState.value = "waiting";
 }
 
@@ -727,9 +751,34 @@ function sliceContrastTextColor(slice: Slice): string {
   return brightness > 128 ? "#000000" : "#FFFFFF";
 }
 
-onMounted(() => {
-  clickSound = new Audio("/sounds/wheel/click.wav");
-  spinishedSound = new Audio("/sounds/wheel/spinished.wav");
+watch(
+  () => sliceAtTop.value,
+  (newSlice, oldSlice) => {
+    if (newSlice && oldSlice && newSlice.startAngle !== oldSlice.startAngle) {
+      playBuffer(clickBuffer);
+    }
+  },
+  { immediate: true },
+);
+watch(
+  () => wheelState.value,
+  (state) => {
+    if (state === "idling") {
+      startIdleAnimation();
+      return;
+    }
+
+    stopIdleAnimation();
+  },
+  { immediate: true },
+);
+
+onMounted(async () => {
+  audioCtx = new AudioContext();
+  [clickBuffer, spinishedBuffer] = await Promise.all([
+    loadBuffer("/sounds/wheel/click.wav"),
+    loadBuffer("/sounds/wheel/spinished.wav"),
+  ]);
 
   // Load whatever preset was specified in the query params on initial load
   selectedPreset.value = route.query.preset
@@ -737,34 +786,13 @@ onMounted(() => {
     : "None";
   console.log("Selected preset from query:", selectedPreset.value);
   loadPreset(selectedPreset.value);
-
-  watch(
-    () => sliceAtTop.value,
-    (before, after) => {
-      if (after && before && before.title !== after.title) {
-        clickSound.currentTime = 0;
-        clickSound.play();
-      }
-    },
-    { immediate: true },
-  );
-  watch(
-    () => wheelState.value,
-    (state) => {
-      if (state === "idling") {
-        startIdleAnimation();
-        return;
-      }
-
-      stopIdleAnimation();
-    },
-    { immediate: true },
-  );
 });
 
 onBeforeUnmount(() => {
   stopSpinAnimation();
   stopIdleAnimation();
+  audioCtx?.close();
+  audioCtx = null;
 });
 
 useSeoMeta({
