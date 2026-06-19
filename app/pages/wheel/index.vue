@@ -45,13 +45,26 @@
       <div class="wheel-container">
         <SketchFilter
           id="wheel-sketch"
-          flood-color="var(--surface)"
+          flood-color="var(--background)"
           :seed="80085" />
-        <svg
-          viewBox="0 0 400 400"
-          width="800"
-          height="800"
-          filter="url(#wheel-sketch)">
+        <svg viewBox="0 0 400 400" width="800" height="800">
+          <circle
+            v-if="useWheelSketchFilter"
+            cx="200"
+            cy="200"
+            r="179"
+            stroke="var(--background)"
+            fill="none"
+            stroke-width="4"
+            filter="url(#wheel-sketch)" />
+          <circle
+            v-else
+            cx="200"
+            cy="200"
+            r="180"
+            stroke="var(--background)"
+            fill="none"
+            stroke-width="16" />
           <g
             class="wheel-spin-layer"
             :style="{ transform: `rotate(${wheelRotation}deg)` }">
@@ -61,10 +74,13 @@
                 cy="200"
                 r="180"
                 fill="none"
-                stroke="var(--distant)"
-                stroke-width="6" />
-              <template v-for="(slice, index) in wheelSlices" :key="index">
-                <g v-if="slice.endAngle - slice.startAngle >= 359.999">
+                stroke="var(--surface)"
+                stroke-width="3" />
+              <template
+                v-for="(slice, index) in wheelRenderSlices"
+                :key="index">
+                <!-- Full circle if one slice !-->
+                <g v-if="slice.isFullCircle">
                   <circle cx="200" cy="200" r="180" :fill="slice.color" />
                   <g
                     :transform="`translate(200, 200) rotate(${(slice.startAngle + slice.endAngle) / 2 - 90})`">
@@ -75,32 +91,16 @@
                     "
                       text-anchor="end"
                       dominant-baseline="middle"
-                      :fill="sliceContrastTextColor(slice)"
+                      :fill="slice.textColor"
                       font-size="16"
                       font-family="Lotl">
                       {{ slice.title }}
                     </text>
                   </g>
                 </g>
+                <!-- The many slices otherwise !-->
                 <g v-else>
-                  <path
-                    :d="
-                      getSlice(200, 200, 180, slice.startAngle, slice.endAngle)
-                    "
-                    :fill="slice.color" />
-                  <path
-                    :d="
-                      getOuterArc(
-                        200,
-                        200,
-                        180,
-                        slice.startAngle,
-                        slice.endAngle,
-                      )
-                    "
-                    fill="none"
-                    :stroke="slice.color"
-                    stroke-width="3" />
+                  <path :d="slice.slicePath" :fill="slice.color" />
                   <g
                     :transform="`translate(200, 200) rotate(${(slice.startAngle + slice.endAngle) / 2 - 90})`">
                     <text
@@ -110,7 +110,7 @@
                     "
                       text-anchor="end"
                       dominant-baseline="middle"
-                      :fill="sliceContrastTextColor(slice)"
+                      :fill="slice.textColor"
                       font-size="16"
                       font-family="Lotl">
                       {{ slice.title }}
@@ -119,9 +119,9 @@
                 </g>
               </template>
               <path
-                v-for="(slice, index) in wheelSlices"
+                v-for="(slice, index) in wheelRenderSlices"
                 :key="`separator-${index}`"
-                :d="getLeftEdge(200, 200, 180, slice.startAngle)"
+                :d="slice.leftEdgePath"
                 fill="none"
                 stroke="var(--distant)"
                 stroke-width="3"
@@ -139,6 +139,7 @@
                 stroke-width="3" />
             </template>
           </g>
+
           <g class="wheel-middle-mask" pointer-events="none">
             <circle
               cx="200"
@@ -146,8 +147,7 @@
               r="12"
               fill="var(--surface)"
               stroke="rgba(from var(--surface) r g b / 0.5)"
-              stroke-width="10"
-              vector-effect="non-scaling-stroke" />
+              stroke-width="5" />
           </g>
         </svg>
       </div>
@@ -289,6 +289,14 @@ type WheelSlice = Slice & {
   endAngle: number;
 };
 
+type SliceGeom = WheelSlice & {
+  isFullCircle: boolean;
+  textColor: string;
+  slicePath: string;
+  outerArcPath: string;
+  leftEdgePath: string;
+};
+
 type WheelState = "idling" | "spinning" | "waiting";
 
 const route = useRoute();
@@ -301,6 +309,7 @@ const selectedSlice = ref<WheelSlice | null>(null);
 const wheelState = ref<WheelState>("idling");
 const isSpinning = computed(() => wheelState.value === "spinning");
 const selectedPreset = ref("");
+const useWheelSketchFilter = ref(true);
 const sliceAtTop = computed(() => {
   if (wheelSlices.value.length === 0) {
     return null;
@@ -636,6 +645,17 @@ const wheelSlices = computed<WheelSlice[]>(() => {
   });
 });
 
+const wheelRenderSlices = computed<SliceGeom[]>(() => {
+  return wheelSlices.value.map((slice) => ({
+    ...slice,
+    isFullCircle: slice.endAngle - slice.startAngle >= 359.999,
+    textColor: sliceContrastTextColor(slice),
+    slicePath: getSlice(200, 200, 180, slice.startAngle, slice.endAngle),
+    outerArcPath: getOuterArc(200, 200, 180, slice.startAngle, slice.endAngle),
+    leftEdgePath: getLeftEdge(200, 200, 180, slice.startAngle),
+  }));
+});
+
 const selectedSliceChanceDenominator = computed<number | null>(() => {
   const selected = selectedSlice.value;
   if (!selected || selected.percent <= 0) {
@@ -768,6 +788,7 @@ watch(
 );
 
 onMounted(async () => {
+  useWheelSketchFilter.value = window.matchMedia("(pointer: fine)").matches;
   audioCtx = new AudioContext();
   [clickBuffer, spinishedBuffer] = await Promise.all([
     loadBuffer("/sounds/wheel/click.wav"),
@@ -815,11 +836,11 @@ useSeoMeta({
 .wheel-page {
   display: flex;
   flex-direction: row;
-  padding: 2rem;
   padding-top: calc(2rem + 60px);
   max-width: 100%;
   min-height: 75vh;
   margin: 0 auto;
+  overflow: visible;
   z-index: 1;
 }
 .content {
@@ -834,13 +855,16 @@ useSeoMeta({
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  overflow: hidden;
+  overflow-x: visible;
+  overflow-y: hidden;
   padding-bottom: 0;
   mask-image: linear-gradient(to top, transparent, black 128px);
   position: relative;
 
   > svg {
-    width: min(90vw, 800px);
+    width: 800px;
+    min-width: 800px;
+    flex-shrink: 0;
     object-fit: scale-down;
     height: auto;
     transform: none;
@@ -886,10 +910,11 @@ useSeoMeta({
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  width: 100%;
+  width: calc(100% - 4rem);
   height: 300px;
   max-height: 75vh;
   overflow: hidden;
+  padding: 0 2rem;
   .section {
     display: flex;
     flex-direction: column;
@@ -924,6 +949,11 @@ useSeoMeta({
     grid-auto-flow: row !important;
     overflow-x: hidden !important;
     overflow-y: scroll !important;
+  }
+
+  .wheel-container > svg {
+    width: 600px;
+    min-width: 600px;
   }
 }
 .section-heading {
