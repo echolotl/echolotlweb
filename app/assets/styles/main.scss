@@ -2,6 +2,7 @@
 @use "./partials/_variables.scss" as *;
 @use "./partials/_mixins.scss" as *;
 @use "./partials/_animations.scss" as *;
+@use "./partials/_reusables.scss" as *;
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
 
 @font-face {
