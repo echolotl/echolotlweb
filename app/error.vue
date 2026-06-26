@@ -11,12 +11,10 @@ defineProps({
 
 const availableChars = ["echo", "glory", "king"];
 
-const selectedChar = computed(() => {
-  return availableChars[Math.floor(Math.random() * availableChars.length)];
-});
+const selectedChar =
+  availableChars[Math.floor(Math.random() * availableChars.length)];
 
-const handleError = () => {
-  clearError();
+const goBack = () => {
   history.back();
 };
 </script>
@@ -47,7 +45,7 @@ const handleError = () => {
             {{ error?.message || "An unexpected error occurred." }}
           </span>
         </div>
-        <button @click="handleError" class="clear-error-button">
+        <button @click="goBack" class="clear-error-button">
           <Icon icon="back-arrow" style="margin-right: 0.5rem" />BACK
         </button>
       </div>

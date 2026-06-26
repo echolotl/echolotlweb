@@ -8,6 +8,7 @@ import { regenthumb } from "./scripts/artcli/commands/regenthumb";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2026-06-15",
+  css: ["~/assets/styles/main.scss"],
   content: {
     build: {
       markdown: {

@@ -13,6 +13,7 @@
       <div class="subtitle">
         so called "furry artist", hobby coder, cult of the lamb enthusiast
       </div>
+      <p>surely one day i'll have something on this dam website</p>
     </div>
     <aside class="sidebar">
       <StatusSection />

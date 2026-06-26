@@ -6,10 +6,10 @@
       <filter
         :id="id"
         color-interpolation-filters="sRGB"
-        x="-50%"
-        y="-50%"
-        width="200%"
-        height="200%">
+        x="-15%"
+        y="-15%"
+        width="130%"
+        height="130%">
         <feTurbulence
           type="fractalNoise"
           baseFrequency="0.1"
