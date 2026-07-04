@@ -41,7 +41,6 @@ async function askPlacementChoice(): Promise<PlacementChoice> {
   );
   var choice: string = "";
   await ask({
-    default: "gallery",
     validate: (value) => {
       choice = value.trim().toLowerCase().charAt(0);
 
@@ -88,10 +87,16 @@ async function collectArtMetadata(
   Logger.log(
     "▌ Is this general or character-specific art? Enter character name or leave blank for general.",
   );
-  const character = await ask({ default: "General Art" });
+  const characterInput = await ask({ default: "General Art" });
+  const trimmedCharacter = characterInput.trim();
+  const isGeneralArt =
+    trimmedCharacter.length === 0 ||
+    trimmedCharacter.toLowerCase() === "general" ||
+    trimmedCharacter.toLowerCase() === "general art";
+  const character = isGeneralArt ? undefined : trimmedCharacter;
 
   let related_characters: string[] = [];
-  if (character) {
+  if (!isGeneralArt) {
     Logger.log(
       "▌ Any other characters that appear? (comma-separated, optional)",
     );
@@ -159,14 +164,9 @@ export async function add(args: string[]) {
     }
   }
 
-  const modifiedTimes = args
-    .map((imagePath) => {
-      return fs.statSync(imagePath).mtime;
-    })
-    .sort((a, b) => b.getTime() - a.getTime());
-  const defaultDate = modifiedTimes[0]
-    ? modifiedTimes[0].toISOString()
-    : new Date().toISOString();
+  const imageModifiedTimes = args.map((imagePath) => {
+    return fs.statSync(imagePath).mtime;
+  });
   const artDrafts: ArtDraft[] = [];
 
   let currentDraft: ArtDraft | null = null;
@@ -179,7 +179,14 @@ export async function add(args: string[]) {
     );
 
     if (!currentDraft) {
-      currentDraft = await collectArtMetadata(defaultDate, modifiedTimes[0]);
+      const detectedModifiedTime = imageModifiedTimes[i];
+      const defaultDate = detectedModifiedTime
+        ? detectedModifiedTime.toISOString()
+        : new Date().toISOString();
+      currentDraft = await collectArtMetadata(
+        defaultDate,
+        detectedModifiedTime,
+      );
       artDrafts.push(currentDraft);
       lastBaseImageIndex = -1;
     }
@@ -188,7 +195,14 @@ export async function add(args: string[]) {
     if (i > 0) {
       placement = await askPlacementChoice();
       if (placement === "new") {
-        currentDraft = await collectArtMetadata(defaultDate, modifiedTimes[0]);
+        const detectedModifiedTime = imageModifiedTimes[i];
+        const defaultDate = detectedModifiedTime
+          ? detectedModifiedTime.toISOString()
+          : new Date().toISOString();
+        currentDraft = await collectArtMetadata(
+          defaultDate,
+          detectedModifiedTime,
+        );
         artDrafts.push(currentDraft);
         lastBaseImageIndex = -1;
         placement = "gallery";
@@ -304,8 +318,8 @@ export async function add(args: string[]) {
 
     for (const img of draft.images) {
       const srcBasename = path.basename(img.image_url);
-      const sourceCandidates = sourceMap.get(srcBasename);
-      if (!sourceCandidates || sourceCandidates.length === 0) {
+      const sourceCandidates = sourceMap.get(srcBasename) ?? [];
+      if (sourceCandidates.length === 0) {
         Logger.error(
           `Could not find source file for ${Logger.fmtBold(srcBasename)}`,
         );
@@ -347,8 +361,8 @@ export async function add(args: string[]) {
         for (let v = 0; v < img.variants.length; v++) {
           const variant = img.variants[v]!;
           const varSrcBasename = path.basename(variant.image_url);
-          const varSourceCandidates = sourceMap.get(varSrcBasename);
-          if (!varSourceCandidates || varSourceCandidates.length === 0) {
+          const varSourceCandidates = sourceMap.get(varSrcBasename) ?? [];
+          if (varSourceCandidates.length === 0) {
             Logger.error(
               `Could not find source file for variant ${Logger.fmtBold(varSrcBasename)}`,
             );
