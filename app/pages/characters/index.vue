@@ -44,6 +44,9 @@ const { data: characters } = await useAsyncData<Character[]>(
   () => {
     return queryCollection("characters").all();
   },
+  {
+    server: true,
+  },
 );
 
 function hexToHsl(hex: string): { h: number; s: number; l: number } {

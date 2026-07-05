@@ -54,6 +54,7 @@ const { data: character } = await useAsyncData(
   },
   {
     watch: [() => route.params.slug],
+    server: true,
   },
 );
 
@@ -74,6 +75,7 @@ const { data: characterArtworks } = await useAsyncData(
   },
   {
     watch: [() => route.params.slug],
+    server: true,
   },
 );
 

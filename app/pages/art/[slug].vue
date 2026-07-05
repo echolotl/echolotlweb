@@ -6,7 +6,7 @@
       </h1>
 
       <div class="art-description">
-        <p v-if="art.description" v-html="parsedDescription"></p>
+        <div v-if="art.description" v-html="parsedDescription"></div>
         <p v-else>No description available.</p>
       </div>
       <div class="art-meta">
@@ -73,7 +73,11 @@ import CharacterTag from "~/components/common/CharacterTag.vue";
 import Icon from "~/components/common/Icon.vue";
 import Tag from "~/components/common/Tag.vue";
 import TagList from "~/components/common/TagList.vue";
-import { micromark } from "micromark";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import rehypeExternalLinks from "rehype-external-links";
+import rehypeStringify from "rehype-stringify";
 
 const route = useRoute();
 const router = useRouter();
@@ -83,11 +87,21 @@ function goToArtWithTag(tag: string) {
 }
 
 const parsedDescription = computed(() => {
-  return art.value?.description ? micromark(art.value.description) : "";
+  return art.value?.description
+    ? unified()
+        .use(remarkParse)
+        .use(remarkRehype)
+        .use(rehypeExternalLinks)
+        .use(rehypeStringify)
+        .processSync(art.value.description)
+        .toString()
+    : "";
 });
 
-const { data: art, refresh } = await useAsyncData(
-  `art-${route.params.slug}`,
+const artId = computed(() => `art-${route.params.slug}`);
+
+const { data: art } = await useAsyncData(
+  artId,
   () => {
     const slug = route.params.slug;
     return queryCollection("art").where("slug", "=", slug).first();
@@ -95,16 +109,8 @@ const { data: art, refresh } = await useAsyncData(
   {
     watch: [() => route.params.slug],
     server: true,
-    default: () => null,
   },
 );
-
-// Force refresh when navigating to ensure fresh data
-onMounted(() => {
-  if (import.meta.client) {
-    refresh();
-  }
-});
 
 // Redirect to 404 if art is not found
 if (!art.value) {
@@ -173,7 +179,7 @@ useSeoMeta({
   }
 
   :deep(a) {
-    color: var(--accent);
+    color: var(--primary);
     text-decoration: none;
 
     &:hover {

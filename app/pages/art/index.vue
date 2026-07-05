@@ -283,8 +283,12 @@ const filtersToText = computed(() => {
   return filterText || tagText;
 });
 
-const { data: allArtworks } = await useAsyncData("all-art", () =>
-  getArtworks(),
+const { data: allArtworks } = await useAsyncData(
+  "all-art",
+  () => getArtworks(),
+  {
+    server: true,
+  },
 );
 
 const allPinnedArtworks = ref(

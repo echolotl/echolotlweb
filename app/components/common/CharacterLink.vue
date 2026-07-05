@@ -20,6 +20,9 @@ const { data: character } = await useAsyncData(
       .first();
     return character;
   },
+  {
+    server: true,
+  },
 );
 
 const { theme } = useTheme();
