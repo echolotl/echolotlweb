@@ -138,6 +138,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       underConstruction: true,
+      backendUrl: process.env.BACKEND_URL || "",
     },
   },
   hooks: {

@@ -67,28 +67,9 @@ import Icon from "~/components/common/Icon.vue";
 import { SlotText } from "slot-text/vue";
 import "slot-text/style.css";
 
-const BACKEND_URL = "https://backend.echolotl.lol";
-
 const dateFormat = new Intl.RelativeTimeFormat("en", { style: "short" });
 const curDurationMsSpotify = ref(0);
-
-const statusText = computed(() => {
-  if (status.value === "loading") {
-    return "Thinking of a status...";
-  }
-  if (status.value === "error") {
-    return "Error loading status.";
-  }
-  if (isEcholotlStatus(status.value)) {
-    return status.value.text;
-  }
-  if (isSpotifyStatus(status.value)) {
-    return `Listening to ${status.value.title} by ${status.value.artists
-      .map((a: { name: string }) => a.name)
-      .join(", ")}`;
-  }
-  return "";
-});
+const { backendUrl } = useRuntimeConfig().public;
 
 type SpotifyStatus = {
   playing: boolean;
@@ -231,7 +212,7 @@ const scheduleSpotifyRefetchOnSongEnd = (playback: SpotifyStatus) => {
 const fetchSpotifyStatus: () => Promise<SpotifyStatus | null> = async () => {
   try {
     const fetchStart = Date.now();
-    const data = await fetch(`${BACKEND_URL}/spotify`);
+    const data = await fetch(`${backendUrl}/spotify`);
     if (data.status === 204) {
       clearSpotifyRefetchTimeout();
       return null;
@@ -254,7 +235,7 @@ const fetchSpotifyStatus: () => Promise<SpotifyStatus | null> = async () => {
 
 const fetchEcholotlStatus: () => Promise<EcholotlStatus | null> = async () => {
   try {
-    const data = await fetch(`${BACKEND_URL}/status`);
+    const data = await fetch(`${backendUrl}/status`);
     if (data.status === 204) {
       return null;
     }

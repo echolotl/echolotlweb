@@ -1,9 +1,6 @@
 <template>
   <div class="main-page">
-    <SketchFilter
-      id="sketch-filter-main"
-      flood-color="var(--distant)"
-      :seed="seed" />
+    <SketchFilter id="sketch-filter-main" flood-color="var(--distant)" />
     <div class="main-content">
       <h1 class="heading">
         <span class="lotl-font" style="font-size: 2.1rem"
@@ -24,31 +21,6 @@
 <script setup lang="ts">
 import SketchFilter from "~/components/common/SketchFilter.vue";
 import StatusSection from "~/components/home/StatusSection.vue";
-const seed = ref(0);
-
-function generateSeed() {
-  seed.value = Math.floor(Math.random() * 1000000);
-}
-
-let seedInterval: ReturnType<typeof setInterval> | null = null;
-
-const clearSeedInterval = () => {
-  if (seedInterval) {
-    clearInterval(seedInterval);
-    seedInterval = null;
-  }
-};
-
-onMounted(async () => {
-  generateSeed();
-  seedInterval = setInterval(() => {
-    generateSeed();
-  }, 1500);
-});
-
-onBeforeUnmount(() => {
-  clearSeedInterval();
-});
 </script>
 
 <style scoped lang="scss">

@@ -31,6 +31,13 @@
       </div>
       <SplashText v-if="characterArtworks && characterArtworks.length > 0" />
     </div>
+    <div class="character-comments">
+      <h2 class="section-title">
+        <span class="lotl-font" style="font-size: 1.2em">Comments</span>
+      </h2>
+      <CommentForm :slug="commentSlug" />
+      <CommentSection :slug="commentSlug" />
+    </div>
   </div>
 </template>
 
@@ -43,6 +50,8 @@ import { getArtworksByCharacter } from "~/utils/art";
 
 import { useTheme } from "~~/composables/useTheme";
 import SplashText from "~/components/common/SplashText.vue";
+import CommentForm from "~/components/comments/CommentForm.vue";
+import CommentSection from "~/components/comments/CommentSection.vue";
 
 const route = useRoute();
 
@@ -92,6 +101,8 @@ const themeColor = computed(() => {
   return character.value.theme_color || "#000000";
 });
 
+const commentSlug = computed(() => `char:${character.value?.slug}`);
+
 const updateScrollbarColor = () => {
   document.documentElement.style.setProperty(
     "--scrollbar-bar",
@@ -132,7 +143,8 @@ useSeoMeta({
 }
 
 .character-content,
-.character-images {
+.character-images,
+.character-comments {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;

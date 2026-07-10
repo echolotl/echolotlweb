@@ -64,6 +64,10 @@
 
     <!-- Main Art Section -->
     <ArtGallery :art="art" />
+
+    <h2>Comments</h2>
+    <CommentForm :slug="art.slug" />
+    <CommentSection :slug="art.slug" />
   </div>
 </template>
 
@@ -78,6 +82,8 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeStringify from "rehype-stringify";
+import CommentForm from "~/components/comments/CommentForm.vue";
+import CommentSection from "~/components/comments/CommentSection.vue";
 
 const route = useRoute();
 const router = useRouter();

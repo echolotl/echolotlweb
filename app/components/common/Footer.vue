@@ -33,6 +33,23 @@
             >.
           </div>
         </div>
+        <div v-if="user" class="user-info">
+          <UserAvatar :user="user" />
+          <div class="user-details">
+            <div>
+              Logged in as
+              <span class="lotl-font">{{ getDisplayName(user) }}</span>
+            </div>
+            <div class="actions">
+              <nuxt-link to="/profile" class="link">Manage</nuxt-link>•
+              <a href="#" class="link" @click.prevent="logout">Logout</a>
+            </div>
+          </div>
+        </div>
+        <div v-else class="user-info logged-out">
+          Not logged in.
+          <a href="#" class="link" @click.prevent="login">Login</a>
+        </div>
       </div>
     </div>
     <div class="footer-images">
@@ -51,10 +68,13 @@
 </template>
 
 <script setup lang="ts">
-import SocialIcons from "~/components/common/SocialIcons.vue";
 import Icon from "~/components/common/Icon.vue";
+import { useAuth } from "~~/composables/useAuth";
+import SocialIcons from "~/components/common/SocialIcons.vue";
+import UserAvatar from "~/components/common/UserAvatar.vue";
 
 const rtc = useRuntimeConfig();
+const { logout, login, user, getDisplayName } = useAuth();
 </script>
 
 <style scoped lang="scss">
@@ -200,5 +220,29 @@ footer {
   height: 16px;
   filter: drop-shadow(2px 0 0 black) drop-shadow(-2px 0 0 black)
     drop-shadow(0 -2px 0 black) drop-shadow(0 2px 0 black);
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  flex-direction: row;
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+
+    .actions {
+      font-size: var(--very-small-text);
+      display: flex;
+      gap: 0.25rem;
+    }
+  }
+  &.logged-out {
+    justify-content: center;
+    text-align: center;
+    font-size: var(--small-text);
+    color: var(--text-secondary);
+  }
 }
 </style>

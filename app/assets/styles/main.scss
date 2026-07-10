@@ -53,6 +53,14 @@ button {
     background-color: var(--primary);
     border: 2px solid color.scale($primary, $lightness: 20%);
     color: $foreground-light;
+    &.red {
+      background-color: var(--red);
+      border: 2px solid color.scale($red, $lightness: 20%);
+      color: $foreground-light;
+    }
+  }
+  &.round {
+    border-radius: 8px;
   }
   &.disabled,
   &[disabled] {
