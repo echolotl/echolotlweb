@@ -5,6 +5,23 @@
         <div class="small-username"></div>
         <SocialIcons style="image-rendering: pixelated" />
         <div>© 2026 echolotl</div>
+        <div v-if="user" class="user-info">
+          <UserAvatar :user="user" />
+          <div class="user-details">
+            <div>
+              Logged in as
+              <span class="lotl-font">{{ getDisplayName(user) }}</span>
+            </div>
+            <div class="actions">
+              <nuxt-link to="/profile" class="link">Manage</nuxt-link>•
+              <a href="#" class="link" @click.prevent="logout">Logout</a>
+            </div>
+          </div>
+        </div>
+        <div v-else class="user-info logged-out">
+          Not logged in.
+          <a href="#" class="link" @click.prevent="login">Login</a>
+        </div>
         <div class="license">
           <div class="license-image">
             <Icon icon="creative-commons" />
@@ -32,23 +49,6 @@
               >MIT License</a
             >.
           </div>
-        </div>
-        <div v-if="user" class="user-info">
-          <UserAvatar :user="user" />
-          <div class="user-details">
-            <div>
-              Logged in as
-              <span class="lotl-font">{{ getDisplayName(user) }}</span>
-            </div>
-            <div class="actions">
-              <nuxt-link to="/profile" class="link">Manage</nuxt-link>•
-              <a href="#" class="link" @click.prevent="logout">Logout</a>
-            </div>
-          </div>
-        </div>
-        <div v-else class="user-info logged-out">
-          Not logged in.
-          <a href="#" class="link" @click.prevent="login">Login</a>
         </div>
       </div>
     </div>
