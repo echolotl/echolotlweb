@@ -171,7 +171,7 @@ footer {
       transform: translateX(3px);
     }
     .license-image {
-      width: 75px;
+      width: 100px;
       height: 30px;
       color: var(--text-secondary);
       display: flex;
