@@ -411,6 +411,17 @@ const presets: Record<string, () => Slice[] | Promise<Slice[]>> = {
     { title: "Pacman", percent: 80, color: "#ffd500" },
     { title: "Not Pacman", percent: 20, color: "#000000" },
   ],
+  Roulette: () => {
+    // I did it this way so it doesn't take up anything
+    const nums = [
+      0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
+      24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,
+    ];
+    return nums.map((num, i) => ({
+      title: num.toString(),
+      color: num === 0 ? "#11ff11" : i % 2 === 0 ? "#333333" : "#ff1111",
+    }));
+  },
 };
 
 watch(
