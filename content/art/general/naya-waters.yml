@@ -1,0 +1,23 @@
+slug: naya-waters
+created_at: '2026-07-14T22:53:32.528Z'
+modified_at: '2026-07-14T23:00:20.028Z'
+title: naya waters
+pinned: false
+sketch: false
+images:
+    -
+        id: furred
+        title: Furred
+        image_url: /art/general/furred.png
+        variants:
+            -
+                image_url: /art/general/furred__clothed.png
+                label: Clothed
+                thumbnail_url: /art/general/thumbnails/furred__clothed.webp
+        thumbnail_url: /art/general/thumbnails/furred.webp
+description: >-
+    Attack on [ApplesforDucks](https://artfight.net/~ApplesforDucks) on Art
+    Fight
+tags:
+    - art fight
+    - anthro
