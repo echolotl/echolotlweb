@@ -11,7 +11,7 @@ clan: Natural
 short_description: now you sea bunny, now you don't
 theme_color: "#8bde10"
 theme_color_light: "#578A0A"
-category: "Talrien"
+category: "Main"
 likes:
   - "Mint"
   - "Weapons"

@@ -109,7 +109,7 @@ const charactersCategories = computed(() => {
 });
 
 const hardcodedCategoryDescriptions: Record<string, string> = {
-  Talrien: "All of the characters within the world of Talrien",
+  Main: "All of my main characters that all exist together",
   Sonas: "Characters created for echolotl as representations of themselves",
   Other: "Probably minor and/or possibly one-off characters",
 };

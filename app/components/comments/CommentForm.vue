@@ -50,7 +50,7 @@
 import { useComments } from "~~/composables/useComments";
 import { useAuth } from "~~/composables/useAuth";
 import UserAvatar from "~/components/common/UserAvatar.vue";
-import utils from "~/utils/index";
+import { insertPlainText } from "~/utils";
 const props = defineProps<Props>();
 const { isLoggedIn, login, publicUser, getDisplayName } = useAuth();
 const { postComment, error } = useComments(props.slug);
@@ -69,12 +69,12 @@ const onInput = (event: InputEvent) => {
 const onPaste = (event: ClipboardEvent) => {
   event.preventDefault();
   const text = event.clipboardData?.getData("text/plain") ?? "";
-  utils.insertPlainText(text);
+  insertPlainText(text);
 };
 const onDrop = (event: DragEvent) => {
   event.preventDefault();
   const text = event.dataTransfer?.getData("text/plain") ?? "";
-  utils.insertPlainText(text);
+  insertPlainText(text);
 };
 const submitting = ref(false);
 

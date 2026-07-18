@@ -21,7 +21,7 @@ color_palette:
   - "#411644"
   - "#EC91BD"
   - "#FCFCFD"
-category: "Talrien"
+category: "Main"
 likes:
   - "Water"
   - "Fluff"

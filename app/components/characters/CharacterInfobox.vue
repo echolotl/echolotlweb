@@ -87,10 +87,8 @@
               <span>Height</span>
             </td>
             <td>
-              {{
-                `${character.height} (${utils.feetStringToCm(character.height)}cm)` ||
-                "Unknown"
-              }}
+              <b>{{ character.height }}</b>
+              <span>({{ formatMetricLength(character.height) }})</span>
             </td>
           </tr>
 
@@ -172,9 +170,7 @@
               <span>Creation Date</span>
             </td>
             <td>
-              {{
-                utils.formatDate(new Date(character.created_date)) || "Unknown"
-              }}
+              {{ formatDate(new Date(character.created_date)) || "Unknown" }}
             </td>
           </tr>
         </tbody>
@@ -186,9 +182,9 @@
 <script setup lang="ts">
 import CharacterLink from "~/components/common/CharacterLink.vue";
 import Icon from "~/components/common/Icon.vue";
-import utils from "~/utils";
+import { feetStringToCm, formatDate } from "~/utils";
 import type { Character } from "~~/types";
-import { passesContrast } from "~/utils/ColorUtil";
+import { passesContrast } from "~/utils/color";
 
 const props = defineProps<{
   character: Character;
@@ -197,6 +193,14 @@ const props = defineProps<{
 const hoveredColor = ref<string | null>(null);
 const copiedColor = ref<string | null>(null);
 const isPaletteIconHovered = ref(false);
+
+const formatMetricLength = (feetString: string) => {
+  const cm = feetStringToCm(feetString);
+  if (cm >= 1000) {
+    return `${(cm / 100).toFixed(1)}m`;
+  }
+  return `${cm}cm`;
+};
 
 const paletteIcon = computed(() => {
   if (copiedColor.value) {

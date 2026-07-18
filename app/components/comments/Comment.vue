@@ -13,14 +13,14 @@
           >
         </p>
         <p class="text-secondary">
-          {{ utils.formatDateTime(new Date(props.comment.createdAt)) }}
+          {{ formatDateTime(new Date(props.comment.createdAt)) }}
           <span v-if="props.comment.editedAt">(edited)</span>
         </p>
       </div>
       <div v-else>
         <p class="lotl-font">Deleted User</p>
         <p class="text-secondary">
-          {{ utils.formatDateTime(new Date(props.comment.createdAt)) }}
+          {{ formatDateTime(new Date(props.comment.createdAt)) }}
           <span v-if="props.comment.editedAt">(edited)</span>
         </p>
       </div>
@@ -156,7 +156,7 @@ import {
   useComments,
   useReplies,
 } from "~~/composables/useComments";
-import utils from "~/utils/index";
+import { formatDateTime, insertPlainText } from "~/utils";
 interface Props {
   comment: CommentNode;
 }
@@ -221,12 +221,12 @@ const onEditInput = (event: InputEvent) => {
 const onEditPaste = (event: ClipboardEvent) => {
   event.preventDefault();
   const text = event.clipboardData?.getData("text/plain") ?? "";
-  utils.insertPlainText(text);
+  insertPlainText(text);
 };
 const onEditDrop = (event: DragEvent) => {
   event.preventDefault();
   const text = event.dataTransfer?.getData("text/plain") ?? "";
-  utils.insertPlainText(text);
+  insertPlainText(text);
 };
 
 const saveEdit = async () => {
@@ -274,12 +274,12 @@ const onReplyInput = (event: InputEvent) => {
 const onReplyPaste = (event: ClipboardEvent) => {
   event.preventDefault();
   const text = event.clipboardData?.getData("text/plain") ?? "";
-  utils.insertPlainText(text);
+  insertPlainText(text);
 };
 const onReplyDrop = (event: DragEvent) => {
   event.preventDefault();
   const text = event.dataTransfer?.getData("text/plain") ?? "";
-  utils.insertPlainText(text);
+  insertPlainText(text);
 };
 
 const submitReply = async () => {

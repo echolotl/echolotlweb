@@ -11,7 +11,7 @@ clan: Changed
 short_description: a goo thing turned protogen
 theme_color: "#30cde9"
 theme_color_light: "#13a3bd"
-category: "Talrien"
+category: "Main"
 color_palette:
   - "#64D7E8"
   - "#9D69D7"

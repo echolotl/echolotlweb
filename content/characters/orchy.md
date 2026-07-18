@@ -26,7 +26,7 @@ icon_image: /images/no_image.png
 title_image: /images/characters/orchy/title.png
 background_texture: /images/characters/orchy/texture.png
 banner_image: /images/characters/orchy/banner.png
-category: "Talrien"
+category: "Main"
 likes:
   - "Berries"
   - "Rocks"
