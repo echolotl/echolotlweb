@@ -2,6 +2,7 @@ import { Logger } from "../../logger";
 import { exit } from "../utils/cli";
 import { generateThumbnail } from "../utils/image";
 import { context } from "../utils/context";
+import { getAllArts } from "../utils/art";
 import * as fs from "fs";
 import * as path from "path";
 import { dump, load } from "js-yaml";
@@ -10,115 +11,36 @@ import type { Point } from "../../../types";
 
 const extensions = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
 
+let thumbnailDataMap = new Map<string, ThumbnailMetadata>();
+
 type ThumbnailMetadata = {
   thumbnail_focus?: Point;
   thumbnail_scale?: number;
 };
 
-function buildThumbnailMetadataIndex(): Map<string, ThumbnailMetadata> {
-  const metadataByImagePath = new Map<string, ThumbnailMetadata>();
-  const contentArtDir = path.join("content", "art");
-  const directoriesToScan = [
-    path.join(contentArtDir, "general"),
-    path.join(contentArtDir, "characters"),
-  ];
+function buildThumbnailMetadata(): void {
+  const arts = getAllArts();
+  for (const art of arts) {
+    const images = Array.isArray(art.images) ? art.images : [];
+    for (const image of images) {
+      const key = path.parse(image.image_url).name;
+      thumbnailDataMap.set(key, {
+        thumbnail_focus: image.thumbnail_focus,
+        thumbnail_scale: image.thumbnail_scale,
+      });
 
-  const yamlFiles: string[] = [];
-  for (const scanDir of directoriesToScan) {
-    if (!fs.existsSync(scanDir)) continue;
-
-    for (const entry of fs.readdirSync(scanDir, { withFileTypes: true })) {
-      if (entry.isFile() && entry.name.endsWith(".yml")) {
-        yamlFiles.push(path.join(scanDir, entry.name));
-      }
-      if (entry.isDirectory()) {
-        const nestedDir = path.join(scanDir, entry.name);
-        for (const nestedEntry of fs.readdirSync(nestedDir, {
-          withFileTypes: true,
-        })) {
-          if (nestedEntry.isFile() && nestedEntry.name.endsWith(".yml")) {
-            yamlFiles.push(path.join(nestedDir, nestedEntry.name));
-          }
-        }
+      if (!Array.isArray(image.variants)) continue;
+      for (const variantImage of image.variants) {
+        const variantKey = path.parse(variantImage.image_url).name;
+        thumbnailDataMap.set(variantKey, {
+          thumbnail_focus: variantImage.thumbnail_focus,
+          thumbnail_scale: variantImage.thumbnail_scale,
+        });
       }
     }
   }
 
-  function toPublicRelativePathFromUrl(url: string): string {
-    const withoutQuery = url.split(/[?#]/)[0] ?? "";
-    const trimmed = withoutQuery.replace(/^\/+/, "");
-    return trimmed
-      .split("/")
-      .map((segment) => {
-        try {
-          return decodeURIComponent(segment);
-        } catch {
-          return segment;
-        }
-      })
-      .join("/");
-  }
-
-  for (const yamlPath of yamlFiles) {
-    try {
-      const yamlContent = fs.readFileSync(yamlPath, "utf8");
-      const data = load(yamlContent) as { images?: unknown[] };
-      const images = Array.isArray(data?.images) ? data.images : [];
-
-      for (const image of images) {
-        if (!image || typeof image !== "object") continue;
-        const base = image as {
-          image_url?: unknown;
-          thumbnail_focus?: unknown;
-          thumbnail_scale?: unknown;
-          variants?: unknown;
-        };
-
-        if (typeof base.image_url === "string") {
-          const key = toPublicRelativePathFromUrl(base.image_url);
-          metadataByImagePath.set(key, {
-            thumbnail_focus:
-              typeof base.thumbnail_focus === "object" &&
-              base.thumbnail_focus !== null
-                ? (base.thumbnail_focus as Point)
-                : undefined,
-            thumbnail_scale:
-              typeof base.thumbnail_scale === "number"
-                ? base.thumbnail_scale
-                : undefined,
-          });
-        }
-
-        if (!Array.isArray(base.variants)) continue;
-        for (const variant of base.variants) {
-          if (!variant || typeof variant !== "object") continue;
-          const variantImage = variant as {
-            image_url?: unknown;
-            thumbnail_focus?: unknown;
-            thumbnail_scale?: unknown;
-          };
-
-          if (typeof variantImage.image_url !== "string") continue;
-          const key = toPublicRelativePathFromUrl(variantImage.image_url);
-          metadataByImagePath.set(key, {
-            thumbnail_focus:
-              typeof variantImage.thumbnail_focus === "object" &&
-              variantImage.thumbnail_focus !== null
-                ? (variantImage.thumbnail_focus as Point)
-                : undefined,
-            thumbnail_scale:
-              typeof variantImage.thumbnail_scale === "number"
-                ? variantImage.thumbnail_scale
-                : undefined,
-          });
-        }
-      }
-    } catch {
-      Logger.warning(`Failed to parse YAML file ${yamlPath}, skipping...`);
-    }
-  }
-
-  return metadataByImagePath;
+  return;
 }
 
 async function updateContentFile(
@@ -211,7 +133,7 @@ async function updateContentFile(
 export async function regenthumb(args: string[]) {
   var thumbnailsToRegenerate: string[] = [];
   const startTime = Date.now();
-  const thumbnailMetadataByImagePath = buildThumbnailMetadataIndex();
+  buildThumbnailMetadata();
   // Get all art pieces in public/art/characters and public/art/general (or the slug specified in args) and add them to thumbnailsToRegenerate
   // Then regenerate the thumbnail for each piece of art that doesn't exist (or if --force is specified)
   const artDirs = ["characters", "general"];
@@ -272,8 +194,8 @@ export async function regenthumb(args: string[]) {
         continue;
       }
       try {
-        const imageKey = path.relative("public", imagePath).replace(/\\/g, "/");
-        const thumbnailMetadata = thumbnailMetadataByImagePath.get(imageKey);
+        const imageKey = path.parse(imagePath).name;
+        const thumbnailMetadata = thumbnailDataMap.get(imageKey);
         await generateThumbnail(
           imagePath,
           thumbnailPath,
