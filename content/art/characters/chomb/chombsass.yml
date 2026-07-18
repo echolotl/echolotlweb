@@ -1,6 +1,6 @@
 slug: chombsass
-created_at: "2022-01-14T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.261Z"
+created_at: '2022-01-14T00:00:00.000Z'
+modified_at: '2026-07-18T04:01:19.855Z'
 title: chombSass
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ images:
   - image_url: /art/characters/chomb/chombSass.png
     thumbnail_url: /art/characters/chomb/thumbnails/chombSass.webp
     alt: chombSass
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 809
+      'y': 440

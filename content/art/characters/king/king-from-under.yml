@@ -1,13 +1,16 @@
 slug: king-from-under
 created_at: '2026-06-19T21:03:33.832Z'
-modified_at: '2026-06-20T01:04:06.193Z'
+modified_at: '2026-07-18T04:06:08.999Z'
 title: king from under
 pinned: false
 sketch: true
 images:
-    -
-        id: king-from-under
-        image_url: /art/characters/king/king-from-under.png
-        thumbnail_url: /art/characters/king/thumbnails/king-from-under.webp
+  - id: king-from-under
+    image_url: /art/characters/king/king-from-under.png
+    thumbnail_url: /art/characters/king/thumbnails/king-from-under.webp
+    thumbnail_scale: 2.8
+    thumbnail_focus:
+      x: 1073
+      'y': 468
 description: bellay
 character: king

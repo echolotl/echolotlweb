@@ -1,6 +1,6 @@
 slug: orchy-2022
-created_at: "2022-03-09T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.372Z"
+created_at: '2022-03-09T00:00:00.000Z'
+modified_at: '2026-07-18T04:08:19.686Z'
 title: Orchy (2022)
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/orchy/oldOrchy.png
     thumbnail_url: /art/characters/orchy/thumbnails/oldOrchy.webp
     alt: Orchy (2022)
+    thumbnail_scale: 2.8
+    thumbnail_focus:
+      x: 760
+      'y': 695

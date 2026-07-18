@@ -1,6 +1,6 @@
 slug: floatinginthestars
-created_at: "2022-01-12T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.317Z"
+created_at: '2022-01-12T00:00:00.000Z'
+modified_at: '2026-07-18T04:03:46.048Z'
 title: floatingInthestars
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ images:
   - image_url: /art/characters/king/floatingInthestars.png
     thumbnail_url: /art/characters/king/thumbnails/floatingInthestars.webp
     alt: floatingInthestars
+    thumbnail_scale: 2.5
+    thumbnail_focus:
+      x: 683
+      'y': 312

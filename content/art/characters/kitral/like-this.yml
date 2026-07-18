@@ -1,6 +1,6 @@
 slug: like-this
-created_at: "2022-02-07T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.348Z"
+created_at: '2022-02-07T00:00:00.000Z'
+modified_at: '2026-07-18T04:07:01.666Z'
 title: Like This?
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/kitral/likethis.png
     thumbnail_url: /art/characters/kitral/thumbnails/likethis.webp
     alt: Like This?
+    thumbnail_scale: 2.3
+    thumbnail_focus:
+      x: 634
+      'y': 818

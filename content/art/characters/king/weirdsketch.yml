@@ -1,6 +1,6 @@
 slug: weirdsketch
-created_at: "2022-04-28T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.344Z"
+created_at: '2022-04-28T00:00:00.000Z'
+modified_at: '2026-07-18T04:13:19.498Z'
 title: weirdSketch
 pinned: false
 sketch: true
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/kingWeirdSketch.png
     thumbnail_url: /art/characters/king/thumbnails/kingWeirdSketch.webp
     alt: weirdSketch
+    thumbnail_scale: 2.3
+    thumbnail_focus:
+      x: 808
+      'y': 488

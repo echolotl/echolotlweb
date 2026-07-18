@@ -1,6 +1,6 @@
 slug: marry-christmas
-created_at: "2024-12-25T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.331Z"
+created_at: '2024-12-25T00:00:00.000Z'
+modified_at: '2026-07-18T04:07:19.443Z'
 title: Marry Christmas
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/marrychristmas.png
     thumbnail_url: /art/characters/king/thumbnails/marrychristmas.webp
     alt: Marry Christmas
+    thumbnail_scale: 2.3
+    thumbnail_focus:
+      x: 364
+      'y': 282

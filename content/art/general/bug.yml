@@ -1,6 +1,6 @@
 slug: bug
-created_at: "2022-03-19T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.402Z"
+created_at: '2022-03-19T00:00:00.000Z'
+modified_at: '2026-07-18T04:00:01.955Z'
 title: Bug
 pinned: false
 sketch: false
@@ -13,3 +13,7 @@ images:
   - image_url: /art/general/bug.png
     thumbnail_url: /art/general/thumbnails/bug.webp
     alt: Bug
+    thumbnail_scale: 1.3
+    thumbnail_focus:
+      x: 913
+      'y': 938

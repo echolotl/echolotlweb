@@ -1,6 +1,6 @@
 slug: battle-ui-roblox
-created_at: "2024-02-23T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.397Z"
+created_at: '2024-02-23T00:00:00.000Z'
+modified_at: '2026-07-18T03:59:09.733Z'
 title: Battle UI Roblox
 pinned: false
 sketch: false
@@ -14,3 +14,7 @@ images:
   - image_url: /art/general/robloxstudio.png
     thumbnail_url: /art/general/thumbnails/robloxstudio.webp
     alt: Battle UI Roblox
+    thumbnail_scale: 1
+    thumbnail_focus:
+      x: 213
+      'y': 343

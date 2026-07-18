@@ -1,6 +1,6 @@
 slug: i-dont-pick-favorites
-created_at: "2025-09-20T20:17:58.819Z"
-modified_at: "2025-09-28T22:44:50.650Z"
+created_at: '2025-09-20T20:17:58.819Z'
+modified_at: '2026-07-18T04:05:37.341Z'
 title: I don't pick favorites
 pinned: false
 sketch: false
@@ -16,3 +16,7 @@ images:
       - image_url: /art/characters/chomb/i-dont-pick-favorites__minimal-shading.png
         thumbnail_url: /art/characters/chomb/thumbnails/i-dont-pick-favorites__minimal-shading.webp
         label: Minimal Shading
+    thumbnail_scale: 3.4
+    thumbnail_focus:
+      x: 376
+      'y': 291

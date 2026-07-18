@@ -1,6 +1,6 @@
 slug: sure-yeah-its-king
-created_at: "2025-09-18T03:10:42.361Z"
-modified_at: "2025-09-28T20:15:02.338Z"
+created_at: '2025-09-18T03:10:42.361Z'
+modified_at: '2026-07-18T04:11:49.291Z'
 title: Sure yeah it's King
 pinned: false
 sketch: true
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/sure-yeah-its-king.png
     thumbnail_url: /art/characters/king/thumbnails/sure-yeah-its-king.webp
     alt: Sure yeah it's King
+    thumbnail_scale: 2.3
+    thumbnail_focus:
+      x: 374
+      'y': 268

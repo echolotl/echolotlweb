@@ -1,6 +1,6 @@
 slug: gloryorig
-created_at: "2022-01-15T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.291Z"
+created_at: '2022-01-15T00:00:00.000Z'
+modified_at: '2026-07-18T04:04:29.292Z'
 title: gloryOrig
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ images:
   - image_url: /art/characters/glory/gloryOrig.png
     thumbnail_url: /art/characters/glory/thumbnails/gloryOrig.webp
     alt: gloryOrig
+    thumbnail_scale: 2.5
+    thumbnail_focus:
+      x: 780
+      'y': 382

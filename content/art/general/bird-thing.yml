@@ -1,6 +1,6 @@
 slug: bird-thing
-created_at: "2025-10-13T21:20:48.564Z"
-modified_at: "2025-12-07T22:10:42.293Z"
+created_at: '2025-10-13T21:20:48.564Z'
+modified_at: '2026-07-18T03:59:48.641Z'
 title: bird thing
 pinned: false
 sketch: true
@@ -8,6 +8,10 @@ images:
   - id: bird-thing
     image_url: /art/general/bird-thing.png
     thumbnail_url: /art/general/thumbnails/bird-thing.webp
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 401
+      'y': 363
 description: just a funky little bird thing
 tags:
   - oc

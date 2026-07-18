@@ -1,6 +1,6 @@
 slug: tailmaw
-created_at: "2025-03-27T05:09:29.799Z"
-modified_at: "2025-09-28T20:15:02.388Z"
+created_at: '2025-03-27T05:09:29.799Z'
+modified_at: '2026-07-18T04:11:53.665Z'
 title: Tailmaw
 pinned: false
 sketch: true
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/phosphor/1743052169218.png
     thumbnail_url: /art/characters/phosphor/thumbnails/1743052169218.webp
     alt: Tailmaw
+    thumbnail_scale: 1.5
+    thumbnail_focus:
+      x: 325
+      'y': 519

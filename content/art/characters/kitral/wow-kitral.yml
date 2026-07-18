@@ -1,6 +1,6 @@
 slug: wow-kitral
-created_at: "2026-03-06T01:18:52.685Z"
-modified_at: "2026-03-09T01:33:21.061Z"
+created_at: '2026-03-06T01:18:52.685Z'
+modified_at: '2026-07-18T04:13:50.844Z'
 title: Wow kitral
 pinned: false
 sketch: true
@@ -8,5 +8,9 @@ images:
   - id: wow-kitral
     image_url: /art/characters/kitral/wow-kitral.png
     thumbnail_url: /art/characters/kitral/thumbnails/wow-kitral.webp
+    thumbnail_scale: 3.7
+    thumbnail_focus:
+      x: 1101
+      'y': 634
 description: Sketch of kitral (cool gradient though)
 character: kitral

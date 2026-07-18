@@ -337,7 +337,13 @@ export async function add(args: string[]) {
       await copyImage(sourcePath, dest);
 
       const thumbDest = path.join(thumbsDir, `${img.id}.webp`);
-      if (!context.dryRun) await generateThumbnail(dest, thumbDest);
+      if (!context.dryRun)
+        await generateThumbnail(
+          dest,
+          thumbDest,
+          img.thumbnail_focus,
+          img.thumbnail_scale,
+        );
       stagedFiles.push(dest, thumbDest);
 
       img.image_url =
@@ -387,7 +393,13 @@ export async function add(args: string[]) {
             thumbsDir,
             `${img.id}__${varSlug}.webp`,
           );
-          if (!context.dryRun) await generateThumbnail(varDest, varThumbDest);
+          if (!context.dryRun)
+            await generateThumbnail(
+              varDest,
+              varThumbDest,
+              variant.thumbnail_focus,
+              variant.thumbnail_scale,
+            );
           stagedFiles.push(varDest, varThumbDest);
 
           variant.image_url =

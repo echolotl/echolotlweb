@@ -1,6 +1,6 @@
 slug: gummi
-created_at: "2024-04-16T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.432Z"
+created_at: '2024-04-16T00:00:00.000Z'
+modified_at: '2026-07-18T04:04:48.177Z'
 title: Gummi
 pinned: false
 sketch: false
@@ -14,3 +14,7 @@ images:
   - image_url: /art/general/mylittleoc.png
     thumbnail_url: /art/general/thumbnails/mylittleoc.webp
     alt: Gummi
+    thumbnail_scale: 1
+    thumbnail_focus:
+      x: 242
+      'y': 244

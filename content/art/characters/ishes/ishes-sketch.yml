@@ -1,13 +1,16 @@
 slug: ishes-sketch
 created_at: '2026-07-13T22:00:49.075Z'
-modified_at: '2026-07-14T23:00:20.242Z'
+modified_at: '2026-07-18T04:05:47.362Z'
 title: Ishes sketch
 pinned: false
 sketch: true
 images:
-    -
-        id: ishes-sketch
-        image_url: /art/characters/ishes/ishes-sketch.png
-        thumbnail_url: /art/characters/ishes/thumbnails/ishes-sketch.webp
+  - id: ishes-sketch
+    image_url: /art/characters/ishes/ishes-sketch.png
+    thumbnail_url: /art/characters/ishes/thumbnails/ishes-sketch.webp
+    thumbnail_scale: 3.4
+    thumbnail_focus:
+      x: 788
+      'y': 830
 description: apparently everyone's favorite
 character: ishes

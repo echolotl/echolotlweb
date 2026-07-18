@@ -1,6 +1,6 @@
 slug: nautilus-reference-sheet
-created_at: "2026-02-02T02:47:46.565Z"
-modified_at: "2026-02-02T05:33:13.355Z"
+created_at: '2026-02-02T02:47:46.565Z'
+modified_at: '2026-07-18T04:07:57.018Z'
 title: Nautilus Reference Sheet
 pinned: false
 sketch: false
@@ -8,5 +8,9 @@ images:
   - id: nautilus-reference-sheet
     image_url: /art/characters/nautilus/nautilus-reference-sheet.webp
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-reference-sheet.webp
+    thumbnail_scale: 4.1
+    thumbnail_focus:
+      x: 1389
+      'y': 876
 description: I think I could do a better one in the future, but this is good
 character: nautilus

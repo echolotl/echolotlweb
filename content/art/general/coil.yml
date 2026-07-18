@@ -1,6 +1,6 @@
 slug: coil
-created_at: "2024-08-27T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.417Z"
+created_at: '2024-08-27T00:00:00.000Z'
+modified_at: '2026-07-18T04:01:31.141Z'
 title: Coil
 pinned: false
 sketch: false
@@ -14,3 +14,7 @@ images:
   - image_url: /art/general/coil.png
     thumbnail_url: /art/general/thumbnails/coil.webp
     alt: Coil
+    thumbnail_scale: 1.7
+    thumbnail_focus:
+      x: 317
+      'y': 333

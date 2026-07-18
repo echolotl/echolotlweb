@@ -1,6 +1,6 @@
 slug: sketch-axolotl
-created_at: "2022-01-03T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.459Z"
+created_at: '2022-01-03T00:00:00.000Z'
+modified_at: '2026-07-18T04:10:33.157Z'
 title: Sketch - Axolotl
 pinned: false
 sketch: true
@@ -13,3 +13,7 @@ images:
   - image_url: /art/general/sketch_axolotl.jpg
     thumbnail_url: /art/general/thumbnails/sketch_axolotl.webp
     alt: Sketch - Axolotl
+    thumbnail_scale: 1.5
+    thumbnail_focus:
+      x: 388
+      'y': 351

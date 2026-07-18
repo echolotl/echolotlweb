@@ -1,6 +1,6 @@
 slug: scary-guye
-created_at: "2025-01-30T04:16:20.646Z"
-modified_at: "2025-09-28T20:15:02.295Z"
+created_at: '2025-01-30T04:16:20.646Z'
+modified_at: '2026-07-18T04:09:56.301Z'
 title: Scary Guye
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/glory/scary-guye-1738210569565.png
     thumbnail_url: /art/characters/glory/thumbnails/scary-guye-1738210569565.webp
     alt: Scary Guye
+    thumbnail_scale: 2.3
+    thumbnail_focus:
+      x: 352
+      'y': 641

@@ -1,6 +1,6 @@
 slug: card-tin-2
-created_at: "2022-09-29T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.405Z"
+created_at: '2022-09-29T00:00:00.000Z'
+modified_at: '2026-07-18T04:00:17.853Z'
 title: Card Tin 2
 pinned: false
 sketch: true
@@ -14,3 +14,7 @@ images:
   - image_url: /art/general/metal_tin2.png
     thumbnail_url: /art/general/thumbnails/metal_tin2.webp
     alt: Card Tin 2
+    thumbnail_scale: 1.1
+    thumbnail_focus:
+      x: 500
+      'y': 532

@@ -1,6 +1,6 @@
 slug: shy
-created_at: "2022-01-31T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.351Z"
+created_at: '2022-01-31T00:00:00.000Z'
+modified_at: '2026-07-18T04:10:23.118Z'
 title: Shy
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/kitral/shy.png
     thumbnail_url: /art/characters/kitral/thumbnails/shy.webp
     alt: Shy
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 754
+      'y': 801

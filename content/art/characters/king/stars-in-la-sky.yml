@@ -1,6 +1,6 @@
 slug: stars-in-la-sky
-created_at: "2022-01-19T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.336Z"
+created_at: '2022-01-19T00:00:00.000Z'
+modified_at: '2026-07-18T04:11:40.724Z'
 title: Stars in la Sky
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/starsInlasky.png
     thumbnail_url: /art/characters/king/thumbnails/starsInlasky.webp
     alt: Stars in la Sky
+    thumbnail_scale: 1.7
+    thumbnail_focus:
+      x: 886
+      'y': 658

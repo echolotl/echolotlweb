@@ -1,6 +1,6 @@
 slug: kings-1-year-birthday
-created_at: "2022-12-14T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.327Z"
+created_at: '2022-12-14T00:00:00.000Z'
+modified_at: '2026-07-18T04:06:26.660Z'
 title: King's 1 Year Birthday
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/king1yrbirthday.png
     thumbnail_url: /art/characters/king/thumbnails/king1yrbirthday.webp
     alt: King's 1 Year Birthday
+    thumbnail_scale: 2.5
+    thumbnail_focus:
+      x: 381
+      'y': 898

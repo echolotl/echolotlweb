@@ -1,6 +1,6 @@
 slug: mino
-created_at: "2025-12-23T05:17:55.549Z"
-modified_at: "2025-12-28T01:47:51.369Z"
+created_at: '2025-12-23T05:17:55.549Z'
+modified_at: '2026-07-18T04:07:23.617Z'
 title: Mino
 pinned: false
 sketch: false
@@ -12,5 +12,9 @@ images:
         label: Old Colors
         thumbnail_url: /art/characters/mino/thumbnails/mino__old-colors.webp
     thumbnail_url: /art/characters/mino/thumbnails/mino.webp
+    thumbnail_scale: 2.5
+    thumbnail_focus:
+      x: 589
+      'y': 268
 description: initial design of Mino
 character: mino

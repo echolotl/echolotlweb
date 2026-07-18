@@ -1,6 +1,6 @@
 slug: bellf
-created_at: "2023-03-02T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.304Z"
+created_at: '2023-03-02T00:00:00.000Z'
+modified_at: '2026-07-18T03:59:29.763Z'
 title: bellf
 pinned: false
 sketch: false
@@ -11,3 +11,7 @@ images:
   - image_url: /art/characters/king/bellf.png
     thumbnail_url: /art/characters/king/thumbnails/bellf.webp
     alt: bellf
+    thumbnail_scale: 1.4
+    thumbnail_focus:
+      x: 438
+      'y': 475

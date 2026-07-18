@@ -1,6 +1,6 @@
 slug: airbud-3
-created_at: "2025-07-25T02:12:19.279Z"
-modified_at: "2025-09-28T20:15:02.395Z"
+created_at: '2025-07-25T02:12:19.279Z'
+modified_at: '2026-07-18T03:57:56.295Z'
 title: airbud 3
 pinned: false
 sketch: false
@@ -14,3 +14,7 @@ images:
   - image_url: /art/general/airbud-3.png
     thumbnail_url: /art/general/thumbnails/airbud-3.webp
     alt: airbud 3
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 337
+      'y': 530

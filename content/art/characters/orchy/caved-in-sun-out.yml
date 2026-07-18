@@ -1,6 +1,6 @@
 slug: caved-in-sun-out
-created_at: "2025-10-13T01:37:09.612Z"
-modified_at: "2025-12-07T22:09:24.522Z"
+created_at: '2025-10-13T01:37:09.612Z'
+modified_at: '2026-07-18T04:00:33.154Z'
 title: caved in, sun out
 pinned: false
 sketch: false
@@ -8,5 +8,9 @@ images:
   - id: caved-in-sun-out
     image_url: /art/characters/orchy/caved-in-sun-out.png
     thumbnail_url: /art/characters/orchy/thumbnails/caved-in-sun-out.webp
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 1428
+      'y': 496
 description: Made for use as my computer's lock screen background
 character: orchy

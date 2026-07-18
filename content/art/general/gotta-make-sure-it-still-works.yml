@@ -1,17 +1,18 @@
 slug: gotta-make-sure-it-still-works
 created_at: '2026-07-04T05:49:01.651Z'
-modified_at: '2026-07-04T13:17:42.895Z'
+modified_at: '2026-07-18T04:04:39.938Z'
 title: gotta make sure it still works
 pinned: false
 sketch: false
 images:
-    -
-        id: gotta-make-sure-it-still-works
-        image_url: /art/general/gotta-make-sure-it-still-works.png
-        thumbnail_url: /art/general/thumbnails/gotta-make-sure-it-still-works.webp
-description: >-
-    Revenge attack on [sparkofcourage](https://artfight.net/~sparkofcourage) for
-    Art Fight!
+  - id: gotta-make-sure-it-still-works
+    image_url: /art/general/gotta-make-sure-it-still-works.png
+    thumbnail_url: /art/general/thumbnails/gotta-make-sure-it-still-works.webp
+    thumbnail_scale: 2.5
+    thumbnail_focus:
+      x: 1280
+      'y': 1128
+description: Revenge attack on [sparkofcourage](https://artfight.net/~sparkofcourage) for Art Fight!
 tags:
-    - art fight
-    - anthro
+  - art fight
+  - anthro

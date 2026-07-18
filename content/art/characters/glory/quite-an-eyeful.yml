@@ -1,6 +1,6 @@
 slug: quite-an-eyeful
-created_at: "2022-02-10T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.293Z"
+created_at: '2022-02-10T00:00:00.000Z'
+modified_at: '2026-07-18T04:09:15.738Z'
 title: Quite an Eyeful
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/glory/Emergance.png
     thumbnail_url: /art/characters/glory/thumbnails/Emergance.webp
     alt: Quite an Eyeful
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 629
+      'y': 675

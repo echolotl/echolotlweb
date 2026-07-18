@@ -1,6 +1,6 @@
 slug: the-echo
-created_at: "2021-12-10T00:00:00.000Z"
-modified_at: "2025-09-28T23:24:00.207Z"
+created_at: '2021-12-10T00:00:00.000Z'
+modified_at: '2026-07-18T04:12:32.923Z'
 title: The Echo
 pinned: false
 sketch: false
@@ -17,3 +17,7 @@ images:
       - image_url: /art/characters/echo/echo__wip-w-notes.png
         thumbnail_url: /art/characters/echo/thumbnails/echo__wip-w-notes.webp
         label: WIP w/ notes
+    thumbnail_scale: 2.8
+    thumbnail_focus:
+      x: 1040
+      'y': 218

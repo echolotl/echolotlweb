@@ -1,14 +1,17 @@
 slug: guilty-pleasure
 created_at: '2026-07-09T01:48:36.405Z'
-modified_at: '2026-07-10T00:55:37.482Z'
+modified_at: '2026-07-18T04:04:44.740Z'
 title: guilty pleasure
 pinned: false
 sketch: false
 images:
-    -
-        id: guilty-pleasure
-        image_url: /art/general/guilty-pleasure.png
-        thumbnail_url: /art/general/thumbnails/guilty-pleasure.webp
+  - id: guilty-pleasure
+    image_url: /art/general/guilty-pleasure.png
+    thumbnail_url: /art/general/thumbnails/guilty-pleasure.webp
+    thumbnail_scale: 2.8
+    thumbnail_focus:
+      x: 576
+      'y': 504
 description: Revenge on [kedamiine](https://artfight.net/~kedamiine) on Art Fight!
 tags:
-    - anthro
+  - anthro

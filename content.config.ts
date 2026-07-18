@@ -4,6 +4,12 @@ import { defineSitemapSchema } from "@nuxtjs/sitemap/content";
 const imageVariant = z.object({
   image_url: z.string().url(),
   thumbnail_url: z.string().url().optional(),
+  thumbnail_focus: z
+    .object({
+      x: z.number(),
+      y: z.number(),
+    })
+    .optional(),
   label: z.string().optional(),
   alt: z.string().optional(),
 });
@@ -13,6 +19,12 @@ const galleryImage = z.object({
   title: z.string().optional(),
   image_url: z.string().url(),
   thumbnail_url: z.string().url().optional(),
+  thumbnail_focus: z
+    .object({
+      x: z.number(),
+      y: z.number(),
+    })
+    .optional(),
   alt: z.string().optional(),
   variants: z.array(imageVariant).optional(),
 });

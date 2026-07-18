@@ -1,6 +1,6 @@
 slug: orchy-easter-bellay
-created_at: "2026-04-06T01:28:04.476Z"
-modified_at: "2026-05-09T03:52:49.023Z"
+created_at: '2026-04-06T01:28:04.476Z'
+modified_at: '2026-07-18T04:08:30.015Z'
 title: Orchy easter bellay
 pinned: false
 sketch: true
@@ -8,5 +8,9 @@ images:
   - id: orchy-easter-bellay
     image_url: /art/characters/orchy/orchy-easter-bellay.png
     thumbnail_url: /art/characters/orchy/thumbnails/orchy-easter-bellay.webp
+    thumbnail_scale: 4.5
+    thumbnail_focus:
+      x: 1255
+      'y': 796
 description: It's not an egg...
 character: orchy

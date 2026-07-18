@@ -1,6 +1,6 @@
 slug: two-tailed
-created_at: "2022-02-01T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.342Z"
+created_at: '2022-02-01T00:00:00.000Z'
+modified_at: '2026-07-18T04:12:45.310Z'
 title: Two Tailed
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/two_tailed.png
     thumbnail_url: /art/characters/king/thumbnails/two_tailed.webp
     alt: Two Tailed
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 1080
+      'y': 830

@@ -1,13 +1,16 @@
 slug: glorys-pose-of-all-time
 created_at: '2026-06-19T21:03:33.832Z'
-modified_at: '2026-06-20T01:04:06.024Z'
+modified_at: '2026-07-18T04:04:22.783Z'
 title: glory's pose of all time
 pinned: false
 sketch: true
 images:
-    -
-        id: glorys-pose-of-all-time
-        image_url: /art/characters/glory/glorys-pose-of-all-time.png
-        thumbnail_url: /art/characters/glory/thumbnails/glorys-pose-of-all-time.webp
+  - id: glorys-pose-of-all-time
+    image_url: /art/characters/glory/glorys-pose-of-all-time.png
+    thumbnail_url: /art/characters/glory/thumbnails/glorys-pose-of-all-time.webp
+    thumbnail_scale: 2.3
+    thumbnail_focus:
+      x: 830
+      'y': 694
 description: this is a pose that she hit. I didn't ask her to do that
 character: glory

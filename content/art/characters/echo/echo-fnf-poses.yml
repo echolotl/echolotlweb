@@ -1,6 +1,6 @@
 slug: echo-fnf-poses
-created_at: "2021-12-12T00:00:00.000Z"
-modified_at: "2026-01-20T03:20:26.224Z"
+created_at: '2021-12-12T00:00:00.000Z'
+modified_at: '2026-07-18T04:02:48.191Z'
 title: Echo FNF Poses
 pinned: false
 sketch: true
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/echo/image%20copy.png
     thumbnail_url: /art/characters/echo/thumbnails/image%20copy.webp
     alt: Echo FNF Poses
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 4051
+      'y': 472

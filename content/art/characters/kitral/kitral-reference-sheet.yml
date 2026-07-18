@@ -1,13 +1,16 @@
 slug: kitral-reference-sheet
 created_at: '2026-07-01T18:39:55.275Z'
-modified_at: '2026-07-04T13:17:43.611Z'
+modified_at: '2026-07-18T04:06:37.532Z'
 title: Kitral Reference Sheet
 pinned: false
 sketch: false
 images:
-    -
-        id: kitral-reference-sheet
-        image_url: /art/characters/kitral/kitral-reference-sheet.png
-        thumbnail_url: /art/characters/kitral/thumbnails/kitral-reference-sheet.webp
+  - id: kitral-reference-sheet
+    image_url: /art/characters/kitral/kitral-reference-sheet.png
+    thumbnail_url: /art/characters/kitral/thumbnails/kitral-reference-sheet.webp
+    thumbnail_scale: 3.7
+    thumbnail_focus:
+      x: 1543
+      'y': 694
 description: wow look it is Kitral after all this time
 character: kitral

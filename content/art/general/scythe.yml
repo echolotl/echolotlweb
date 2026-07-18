@@ -1,16 +1,19 @@
 slug: scythe
 created_at: '2026-07-07T02:50:27.291Z'
-modified_at: '2026-07-10T00:55:37.787Z'
+modified_at: '2026-07-18T04:10:01.157Z'
 title: Scythe
 pinned: true
 sketch: false
 images:
-    -
-        id: scythe
-        image_url: /art/general/scythe.png
-        thumbnail_url: /art/general/thumbnails/scythe.webp
+  - id: scythe
+    image_url: /art/general/scythe.png
+    thumbnail_url: /art/general/thumbnails/scythe.webp
+    thumbnail_scale: 3.1
+    thumbnail_focus:
+      x: 1311
+      'y': 877
 description: Attack on [NULLEDx](https://artfight.net/~NULLEDx) on Art Fight
 tags:
-    - anthro
-    - art fight
-    - blood
+  - anthro
+  - art fight
+  - blood

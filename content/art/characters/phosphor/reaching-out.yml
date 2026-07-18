@@ -1,6 +1,6 @@
 slug: reaching-out
-created_at: "2025-10-14T17:58:01.646Z"
-modified_at: "2025-12-07T22:12:19.070Z"
+created_at: '2025-10-14T17:58:01.646Z'
+modified_at: '2026-07-18T04:09:35.400Z'
 title: Reaching Out
 pinned: false
 sketch: false
@@ -8,5 +8,9 @@ images:
   - id: reaching-out
     image_url: /art/characters/phosphor/reaching-out.png
     thumbnail_url: /art/characters/phosphor/thumbnails/reaching-out.webp
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 348
+      'y': 459
 description: cool shading yo
 character: phosphor

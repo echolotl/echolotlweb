@@ -1,6 +1,6 @@
 slug: thankful-easter
-created_at: "2023-04-09T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.340Z"
+created_at: '2023-04-09T00:00:00.000Z'
+modified_at: '2026-07-18T04:12:11.217Z'
 title: Thankful Easter
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/kEaster.png
     thumbnail_url: /art/characters/king/thumbnails/kEaster.webp
     alt: Thankful Easter
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 1879
+      'y': 950

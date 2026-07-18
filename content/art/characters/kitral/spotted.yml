@@ -1,6 +1,6 @@
 slug: spotted
-created_at: "2025-05-27T04:31:47.979Z"
-modified_at: "2025-09-28T20:15:02.355Z"
+created_at: '2025-05-27T04:31:47.979Z'
+modified_at: '2026-07-18T04:11:14.017Z'
 title: Spotted
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/kitral/1748320306919.webp
     thumbnail_url: /art/characters/kitral/thumbnails/1748320306919.webp
     alt: Spotted
+    thumbnail_scale: 2.8
+    thumbnail_focus:
+      x: 613
+      'y': 322

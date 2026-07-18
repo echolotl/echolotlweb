@@ -1,6 +1,6 @@
 slug: candy-apple
-created_at: "2023-07-26T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.403Z"
+created_at: '2023-07-26T00:00:00.000Z'
+modified_at: '2026-07-18T04:00:06.716Z'
 title: Candy Apple
 pinned: false
 sketch: false
@@ -13,3 +13,7 @@ images:
   - image_url: /art/general/discordoc.png
     thumbnail_url: /art/general/thumbnails/discordoc.webp
     alt: Candy Apple
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 1049
+      'y': 570

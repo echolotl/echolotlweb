@@ -1,6 +1,6 @@
 slug: cereal-monke-games
-created_at: "2024-08-02T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.409Z"
+created_at: '2024-08-02T00:00:00.000Z'
+modified_at: '2026-07-18T04:00:37.535Z'
 title: Cereal Monke Games
 pinned: false
 sketch: false
@@ -14,3 +14,7 @@ images:
   - image_url: /art/general/themonkeygamescereal.png
     thumbnail_url: /art/general/thumbnails/themonkeygamescereal.webp
     alt: Cereal Monke Games
+    thumbnail_scale: 1.4
+    thumbnail_focus:
+      x: 858
+      'y': 573

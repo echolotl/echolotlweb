@@ -1,15 +1,18 @@
 slug: olive-royale
 created_at: '2026-07-03T05:27:53.475Z'
-modified_at: '2026-07-04T13:17:43.114Z'
+modified_at: '2026-07-18T04:08:15.226Z'
 title: olive royale
 pinned: true
 sketch: false
 images:
-    -
-        id: olive-royale
-        image_url: /art/general/olive-royale.png
-        thumbnail_url: /art/general/thumbnails/olive-royale.webp
+  - id: olive-royale
+    image_url: /art/general/olive-royale.png
+    thumbnail_url: /art/general/thumbnails/olive-royale.webp
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 946
+      'y': 556
 description: Revenge attack on [Fi4estorm](https://artfight.net/~Fi4estorm) for Art Fight
 tags:
-    - art fight
-    - anthro
+  - art fight
+  - anthro

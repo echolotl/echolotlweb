@@ -1,6 +1,6 @@
 slug: height-sheet-2024
-created_at: "2024-03-10T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.320Z"
+created_at: '2024-03-10T00:00:00.000Z'
+modified_at: '2026-07-18T04:05:19.649Z'
 title: Height Sheet (2024)
 pinned: false
 sketch: false
@@ -20,3 +20,7 @@ images:
   - image_url: /art/characters/king/heightSheet.png
     thumbnail_url: /art/characters/king/thumbnails/heightSheet.webp
     alt: Height Sheet (2024)
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 2903
+      'y': 1943

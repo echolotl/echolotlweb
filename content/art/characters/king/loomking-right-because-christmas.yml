@@ -1,6 +1,6 @@
 slug: loomking-right-because-christmas
-created_at: "2022-12-25T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.329Z"
+created_at: '2022-12-25T00:00:00.000Z'
+modified_at: '2026-07-18T04:07:10.432Z'
 title: Loomking Right because Christmas
 pinned: false
 sketch: false
@@ -14,3 +14,7 @@ images:
   - image_url: /art/characters/king/kingOldChristmas.png
     thumbnail_url: /art/characters/king/thumbnails/kingOldChristmas.webp
     alt: Loomking Right because Christmas
+    thumbnail_scale: 2.1
+    thumbnail_focus:
+      x: 2891
+      'y': 800

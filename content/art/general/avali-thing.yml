@@ -1,6 +1,6 @@
 slug: avali-thing
-created_at: "2025-10-15T03:09:20.901Z"
-modified_at: "2025-12-07T22:13:04.056Z"
+created_at: '2025-10-15T03:09:20.901Z'
+modified_at: '2026-07-18T03:58:55.795Z'
 title: Avali(?) thing
 pinned: false
 sketch: false
@@ -8,4 +8,8 @@ images:
   - id: avali-thing
     image_url: /art/general/avali-thing.png
     thumbnail_url: /art/general/thumbnails/avali-thing.webp
+    thumbnail_scale: 1.9
+    thumbnail_focus:
+      x: 319
+      'y': 288
 description: idk I just wanted to make a guy

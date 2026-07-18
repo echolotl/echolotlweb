@@ -1,6 +1,6 @@
 slug: shapeshifting
-created_at: "2023-03-24T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.386Z"
+created_at: '2023-03-24T00:00:00.000Z'
+modified_at: '2026-07-18T04:10:12.576Z'
 title: Shapeshifting
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/phosphor/newishPhosphor.png
     thumbnail_url: /art/characters/phosphor/thumbnails/newishPhosphor.webp
     alt: Shapeshifting
+    thumbnail_scale: 3.4
+    thumbnail_focus:
+      x: 102
+      'y': 145

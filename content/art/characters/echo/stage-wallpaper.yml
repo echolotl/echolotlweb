@@ -1,6 +1,6 @@
 slug: stage-wallpaper
-created_at: "2022-01-07T00:00:00.000Z"
-modified_at: "2025-09-28T23:16:02.972Z"
+created_at: '2022-01-07T00:00:00.000Z'
+modified_at: '2026-07-18T04:11:23.981Z'
 title: Stage Wallpaper
 pinned: false
 sketch: false
@@ -30,3 +30,7 @@ images:
         thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__cloudy.webp
         label: Cloudy
         alt: Version with two colored clouds in BG
+    thumbnail_scale: 3.4
+    thumbnail_focus:
+      x: 1568
+      'y': 644

@@ -1,15 +1,18 @@
 slug: thats-so-sickle
 created_at: '2026-07-13T00:38:29.433Z'
-modified_at: '2026-07-14T23:00:20.428Z'
+modified_at: '2026-07-18T04:12:14.804Z'
 title: That's so sickle
 pinned: false
 sketch: false
 images:
-    -
-        id: thats-so-sickle
-        image_url: /art/general/thats-so-sickle.png
-        thumbnail_url: /art/general/thumbnails/thats-so-sickle.webp
+  - id: thats-so-sickle
+    image_url: /art/general/thats-so-sickle.png
+    thumbnail_url: /art/general/thumbnails/thats-so-sickle.webp
+    thumbnail_scale: 3.4
+    thumbnail_focus:
+      x: 1047
+      'y': 525
 description: Attack on [Nopesicle](https://artfight.net/~Nopesicle) on Art Fight
 tags:
-    - art fight
-    - anthro
+  - art fight
+  - anthro

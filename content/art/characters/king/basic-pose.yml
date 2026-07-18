@@ -1,6 +1,6 @@
 slug: basic-pose
-created_at: "2022-12-17T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.301Z"
+created_at: '2022-12-17T00:00:00.000Z'
+modified_at: '2026-07-18T03:59:05.363Z'
 title: Basic Pose
 pinned: false
 sketch: false
@@ -12,3 +12,7 @@ images:
   - image_url: /art/characters/king/kingOldStand.png
     thumbnail_url: /art/characters/king/thumbnails/kingOldStand.webp
     alt: Basic Pose
+    thumbnail_scale: 1.5
+    thumbnail_focus:
+      x: 792
+      'y': 801
