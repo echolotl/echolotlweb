@@ -1,0 +1,13 @@
+slug: beached
+created_at: '2026-08-01T00:37:44.375Z'
+modified_at: '2026-08-01T00:47:37.893Z'
+title: Beached
+pinned: false
+sketch: false
+images:
+    -
+        id: beached
+        image_url: /art/characters/glory/beached.png
+        thumbnail_url: /art/characters/glory/thumbnails/beached.webp
+description: This was neccessary
+character: glory
