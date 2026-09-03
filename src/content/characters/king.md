@@ -4,10 +4,9 @@ name: King
 species: Cat
 age: 18
 height: 6' 0"
-created_date: "2021-12-14"
-last_modified: "2026-01-29"
+created_at: "2021-12-14"
+modified_at: "2026-01-29"
 pronouns: he/they
-clan: Unaffiliated
 short_description: A purple cat
 theme_color: "#d257db"
 theme_color_light: "#CB39D5"

@@ -4,14 +4,13 @@ name: Nautilus
 species: Protogen
 age: 26
 height: 5' 10"
-created_date: "2022-02-04"
-last_modified: "2025-07-03"
+created_at: "2022-02-04"
+modified_at: "2025-07-03"
 pronouns: they/them
-clan: Changed
 short_description: a goo thing turned protogen
 theme_color: "#30cde9"
 theme_color_light: "#13a3bd"
-category: talrien
+category: main
 color_palette:
     - "#64D7E8"
     - "#9D69D7"

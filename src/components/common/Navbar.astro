@@ -1,169 +1,184 @@
 ---
-import Icon from "./Icon.astro";
+import Icon from "@components/common/Icon.astro";
+interface Props {
+    spacer?: boolean;
+}
 type NavIcon = {
-  name: string;
-  href: string;
-  icon: string;
+    name: string;
+    href: string;
+    icon: string;
 };
 const NAV_ICONS: NavIcon[] = [
-  { name: "Art", href: "/art", icon: "art_brush" },
-  { name: "Characters", href: "/characters", icon: "character" },
+    { name: "Art", href: "/art", icon: "art_brush" },
+    { name: "Characters", href: "/characters", icon: "character" },
 ];
+const { spacer = true } = Astro.props as Props;
 ---
 
 <header class="navbar" transition:persist>
-  <nav class="navbar-top">
-    <div class="navbar-content">
-      <button class="theme-changer" type="button" aria-label="Toggle theme">
-        <span class="theme-icon theme-icon-light"><Icon icon="sun" /></span>
-        <span class="theme-icon theme-icon-dark"><Icon icon="moon" /></span>
-      </button>
-      <div class="logo">
-        <a href="/">
-          <Icon icon="echolotl" />
-          <span class="logo-image"></span>
-        </a>
-      </div>
-      <ul class="nav-icons">
-        {
-          NAV_ICONS.map(({ name, href, icon }) => (
-            <li>
-              <a href={href} aria-label={name}>
-                <Icon icon={icon} />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </nav>
-  <div class="navbar-bottom"></div>
+    <nav class="navbar-top">
+        <div class="navbar-content">
+            <button
+                class="theme-changer"
+                type="button"
+                aria-label="Toggle theme"
+            >
+                <span class="theme-icon theme-icon-light"
+                    ><Icon icon="sun" /></span
+                >
+                <span class="theme-icon theme-icon-dark"
+                    ><Icon icon="moon" /></span
+                >
+            </button>
+            <div class="logo">
+                <a href="/">
+                    <Icon icon="echolotl" />
+                    <span class="logo-image"></span>
+                </a>
+            </div>
+            <ul class="nav-icons">
+                {
+                    NAV_ICONS.map(({ name, href, icon }) => (
+                        <li>
+                            <a href={href} aria-label={name}>
+                                <Icon icon={icon} />
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </nav>
+    <div class="navbar-bottom"></div>
 </header>
-<div class="navbar-spacer"></div>
+{spacer && <div class="navbar-spacer"></div>}
 
 <script>
-  import { toggleTheme } from "../../composables/theme";
+    import { toggleTheme } from "../../composables/theme";
 
-  const themeChanger = document.querySelector(".theme-changer");
-  themeChanger?.addEventListener("click", toggleTheme);
+    const themeChanger = document.querySelector(".theme-changer");
+    themeChanger?.addEventListener("click", toggleTheme);
 </script>
 
 <style>
-  .theme-changer {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    color: inherit;
-    padding: 0;
-    cursor: pointer;
-    font-size: inherit;
-    font-size: 3rem;
-    line-height: 0;
-  }
-  .theme-changer .theme-icon {
-    line-height: 0;
-  }
-
-  .theme-icon-dark {
-    display: none;
-  }
-
-  :root[data-theme="dark"] .theme-icon-light {
-    display: none;
-  }
-
-  :root[data-theme="dark"] .theme-icon-dark {
-    display: inline-flex;
-  }
-
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-  }
-  .navbar-icon {
-    font-size: 1.5rem;
-  }
-  .navbar-top {
-    width: 100%;
-    height: fit-content;
-    background-color: var(--distant);
-  }
-  .navbar-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: center;
-    justify-content: stretch;
-    padding: 0 1rem;
-    padding-top: 0.75rem;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
-  }
-  .theme-changer {
-    justify-self: start;
-  }
-  .logo {
-    justify-self: center;
-    line-height: 0;
-  }
-  .logo a {
-    font-size: 3rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 0;
-    padding: 0;
-  }
-  .logo-image {
-    display: inline-block;
-    width: 300px;
-    height: 48px;
-    background-color: currentColor;
-    mask-image: url("/images/logo.png");
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    margin-left: 0.5rem;
-  }
-  .navbar-bottom {
-    width: 100%;
-    height: 60px;
-    mask-image: url("/images/sketch_divider.png");
-    background-color: var(--distant);
-    transform: scaleY(-1);
-  }
-  .nav-icons {
-    width: fit-content;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1rem;
-    padding-left: 0;
-    margin: 0;
-    justify-self: end;
-    font-size: 3rem;
-  }
-  .nav-icons li {
-    display: flex;
-    line-height: 0;
-    margin: 0;
-    padding: 0;
-  }
-  .nav-icons a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 0;
-    padding: 0;
-    &.active {
-      color: var(--primary);
+    .theme-changer {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: inherit;
+        padding: 0;
+        cursor: pointer;
+        font-size: inherit;
+        font-size: 3rem;
+        line-height: 0;
     }
-  }
+    .theme-changer .theme-icon {
+        line-height: 0;
+    }
+
+    .theme-icon-dark {
+        display: none;
+    }
+
+    :root[data-theme="dark"] .theme-icon-light {
+        display: none;
+    }
+
+    :root[data-theme="dark"] .theme-icon-dark {
+        display: inline-flex;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+    .navbar-icon {
+        font-size: 1.5rem;
+    }
+    .navbar-top {
+        width: 100%;
+        height: fit-content;
+        background-color: var(--distant);
+    }
+    .navbar-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        justify-content: stretch;
+        padding: 0 1rem;
+        padding-top: 0.75rem;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+    }
+    .theme-changer {
+        justify-self: start;
+    }
+    .logo {
+        justify-self: center;
+        line-height: 0;
+    }
+    .logo a {
+        font-size: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
+        padding: 0;
+    }
+    .logo-image {
+        display: inline-block;
+        width: 300px;
+        height: 48px;
+        background-color: currentColor;
+        mask-image: url("/images/logo.png");
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        margin-left: 0.5rem;
+    }
+    .navbar-bottom {
+        width: 100%;
+        height: 60px;
+        mask-image: url("/images/sketch_divider.png");
+        background-color: var(--distant);
+        transform: scaleY(-1);
+    }
+    .nav-icons {
+        width: fit-content;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-left: 0;
+        margin: 0;
+        justify-self: end;
+        font-size: 3rem;
+    }
+    .nav-icons li {
+        display: flex;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+    .nav-icons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
+        padding: 0;
+        &.active {
+            color: var(--primary);
+        }
+    }
+    .navbar-spacer {
+        height: 64px;
+    }
 </style>

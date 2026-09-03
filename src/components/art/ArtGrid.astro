@@ -1,0 +1,34 @@
+---
+import ArtItem from "@components/art/ArtItem.astro";
+import type { Art } from "../../types/content";
+interface Props {
+    art: Art[];
+    metadata?: boolean;
+    characterMetadata?: boolean;
+}
+const { art, metadata = true, characterMetadata = true } = Astro.props as Props;
+---
+
+{
+    art.length > 0 ? (
+        <div class="art-grid">
+            {art.map((item) => (
+                <ArtItem
+                    art={item}
+                    metadata={metadata}
+                    characterMetadata={characterMetadata}
+                />
+            ))}
+        </div>
+    ) : (
+        <p class="text-secondary">No art found.</p>
+    )
+}
+
+<style>
+    .art-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+</style>

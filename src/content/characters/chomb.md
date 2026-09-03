@@ -4,10 +4,9 @@ name: Chomb
 species: Spider
 age: 22
 height: 5' 2"
-created_date: "2021-12-20"
-last_modified: "2026-01-29"
+created_at: "2021-12-20"
+modified_at: "2026-01-29"
 pronouns: he/him
-clan: Natural
 short_description: an anthropomorphic spider with golden rings
 theme_color: "#e23c3c"
 color_palette:
@@ -19,7 +18,7 @@ color_palette:
     - "#FFD08F"
     - "#D32F39"
     - "#4E0049"
-category: talrien
+category: main
 friends:
     - mino
 enemies:

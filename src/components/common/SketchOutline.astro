@@ -1,0 +1,59 @@
+---
+interface Props {
+    id: string; // So you can use this as a filter url
+    seed?: number;
+    fill?: string;
+}
+function getRandomSeed(seed?: number): number {
+    if (seed !== undefined) {
+        return seed;
+    }
+    return Math.floor(Math.random() * 1000000);
+}
+const {
+    id,
+    seed = getRandomSeed(),
+    fill = "var(--theme-color, var(--primary))",
+} = Astro.props as Props;
+---
+
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="0"
+    height="0"
+    style="position: absolute; z-index: -1; opacity: 0;"
+>
+    <defs>
+        <filter id={id} x="-15%" y="-15%" width="130%" height="130%">
+            <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.1"
+                numOctaves="5"
+                result="noise"
+                seed={seed}></feTurbulence>
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blurred"
+            ></feGaussianBlur>
+            <feComponentTransfer in="blurred" result="expanded">
+                <feFuncA type="linear" slope="500" intercept="-5"></feFuncA>
+            </feComponentTransfer>
+            <feFlood flood-color={fill} flood-opacity="1" result="color"
+            ></feFlood>
+            <feComposite
+                in="color"
+                in2="expanded"
+                operator="in"
+                result="outlineFill"></feComposite>
+            <feDisplacementMap
+                in="outlineFill"
+                in2="noise"
+                scale="7"
+                xChannelSelector="A"
+                yChannelSelector="A"
+                result="sketchOutline"></feDisplacementMap>
+            <feMerge>
+                <feMergeNode in="sketchOutline"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+</svg>

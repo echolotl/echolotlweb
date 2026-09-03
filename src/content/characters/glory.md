@@ -4,10 +4,9 @@ name: Glory
 species: Shark/Dog
 age: 26
 height: 5' 8"
-created_date: "2022-01-15"
-last_modified: "2026-01-29"
+created_at: "2022-01-15"
+modified_at: "2026-01-29"
 pronouns: she/her
-clan: Changed
 short_description: a shark-dog-girl hybrid with many, many eyes
 theme_color: "#5195ef"
 theme_color_light: "#287DEB"
@@ -21,7 +20,7 @@ color_palette:
     - "#411644"
     - "#EC91BD"
     - "#FCFCFD"
-category: talrien
+category: main
 likes:
     - "Water"
     - "Fluff"

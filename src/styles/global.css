@@ -1,6 +1,14 @@
+@font-face {
+  font-family: "Lotl";
+  src: local("Lotl"), url("/fonts/Lotl.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --display-font: "Red Hat Display", sans-serif;
   --body-font: "IBM Plex Sans", sans-serif;
+  --lotl-font: "Lotl", sans-serif;
 
   --very-small-text: clamp(0.7rem, 0.6vw + 0.55rem, 0.75rem);
   --small-text: clamp(0.85rem, 0.7vw + 0.75rem, 0.875rem);
@@ -112,4 +120,29 @@ a:visited {
 p {
   font-size: var(--base-text);
   line-height: 1.6;
+}
+
+/* Text styling */
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-very-small {
+  font-size: var(--very-small-text);
+}
+.text-small {
+  font-size: var(--small-text);
+}
+.text-medium {
+  font-size: var(--medium-text);
+}
+.text-large {
+  font-size: var(--large-text);
+}
+.text-xl {
+  font-size: var(--xl-text);
+}
+.lotl-font {
+  font-family: var(--lotl-font);
+  font-weight: 400 !important;
 }

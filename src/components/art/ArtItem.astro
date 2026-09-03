@@ -1,0 +1,146 @@
+---
+import type { Art } from "../../types/content";
+import SketchOutline from "@components/common/SketchOutline.astro";
+import Icon from "@components/common/Icon.astro";
+
+interface Props {
+    art: Art;
+    metadata?: boolean;
+    characterMetadata?: boolean;
+}
+
+const { art, metadata = true, characterMetadata = true } = Astro.props as Props;
+
+const filterId = `aitem-${art.slug}`;
+---
+
+<div class="art-item">
+    <SketchOutline id={filterId} />
+
+    <a href={`/art/${art.slug}`} class="art-link">
+        <div
+            class="art-thumbnail"
+            style={{
+                backgroundImage: `url(${art.images?.[0]?.thumbnail.src})`,
+            }}
+        >
+            {
+                metadata && (
+                    <div class="art-item-metadata">
+                        {characterMetadata && art.character && (
+                            <div class="art-metadata-icon">
+                                <Icon icon="character" />
+                            </div>
+                        )}
+                        {art.pinned && (
+                            <div class="art-metadata-icon">
+                                <Icon icon="pin" />
+                            </div>
+                        )}
+                        {art.sketch && (
+                            <div class="art-metadata-icon">
+                                <Icon icon="sketch" />
+                            </div>
+                        )}
+                        {(art.images?.[0]?.variants?.length || 0) > 0 && (
+                            <div class="art-metadata-icon">
+                                <Icon icon="layers" />
+                            </div>
+                        )}
+                        {
+                            (art.images?.length || 0) > 1 && (
+                                <div class="art-metadata-icon">
+                                    <Icon icon="images" />
+                                </div>
+                            )
+                        }
+                    </div>
+                )
+            }
+        </div>
+    </a>
+</div>
+
+<style define:vars={{ filterId: `url(#${filterId})` }}>
+    .art-link {
+        display: block;
+        aspect-ratio: 1;
+        max-width: 200px;
+        transform-origin: center;
+        transition: transform 0.3s ease-out;
+        will-change: transform filter;
+        outline: none;
+        z-index: 1;
+
+        &:hover,
+        &:focus-within {
+            transform: scale(1.1);
+            z-index: 5;
+
+            .art-thumbnail {
+                background-size: 100%;
+            }
+            .art-item__metadata {
+                color: var(--background);
+                &::before {
+                    background: var(--theme-color, var(--primary));
+                }
+            }
+        }
+    }
+
+    .art-thumbnail {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        background-size: 110%;
+        background-position: center;
+        background-repeat: no-repeat;
+        mask-image: url("/images/art_mask.png");
+        mask-size: cover;
+        mask-repeat: no-repeat;
+        background-color: var(--surface);
+        z-index: -1;
+        will-change: background-size;
+        transition: background-size 0.3s ease-out;
+    }
+    .art-item {
+        max-width: 200px;
+    }
+    .art-item:hover,
+    .art-item:focus-within {
+        filter: var(--filterId);
+    }
+
+    .art-item-metadata {
+        position: absolute;
+  display: flex;
+  color: var(--theme-color, var(--primary));
+  align-items: flex-start;
+  justify-content: left;
+  z-index: 2;
+  width: auto;
+  height: auto;
+  font-size: 1.3em;
+  padding-left: 2%;
+  padding-top: 2%;
+  padding-right: 2%;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    z-index: -3;
+    border-radius: 0.5rem 0 0 0;
+    corner-shape: superellipse(1.2);
+    border: none;
+  }
+    }
+</style>

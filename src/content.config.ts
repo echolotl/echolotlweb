@@ -33,24 +33,19 @@ const characters = defineCollection({
         species: z.string(),
         age: z.number(),
         height: z.string(),
-        created_date: z.iso.date(),
-        last_modified: z.iso.date(),
+        created_at: z.iso.date(),
+        modified_at: z.iso.date(),
         pronouns: z.string(),
         friends: z.array(reference("characters")).optional(),
         likes: z.array(z.string()).optional(),
         dislikes: z.array(z.string()).optional(),
         enemies: z.array(reference("characters")).optional(),
-        clan: z.string(),
-        category: z.enum(["talrien", "sonas", "other"]),
+        category: z.enum(["main", "sonas", "other"]).default("other"),
         short_description: z.string().optional(),
         theme_color: color,
         theme_color_light: color.optional(),
         color_palette: z.array(color).optional(),
-        portrait: z
-            .object({
-                src: z.string(),
-                alt: z.string(),
-            })
+        portrait: image
             .optional(),
     }),
 });
@@ -67,7 +62,7 @@ const art = defineCollection({
         description: z.string().optional(),
         tags: z.array(z.string()).optional(),
         pinned: z.boolean(),
-        artist_name: z.string().optional(),
+        artist: z.string().optional(),
         images: z.array(galleryImage).min(1, "At least one image required"),
         sketch: z.boolean().optional(),
     }),

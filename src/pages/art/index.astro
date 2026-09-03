@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import Head from "@layouts/Head.astro";
+import Body from "@layouts/Body.astro";
+import Content from "@layouts/Content.astro";
+import ArtItem from "@components/art/ArtItem.astro";
+import ArtGrid from "@components/art/ArtGrid.astro";
+
+const allArt = (await getCollection("art")).map((item) => item.data);
+const pinned = allArt.filter((art) => art.pinned);
+const entries = allArt.filter((art) => !art.pinned);
+---
+
+<html lang="en">
+    <Head title="echolotl" description="" />
+
+    <Body>
+        <Content>
+            {
+                pinned.length > 0 && (
+                    <>
+                        <h2 class="lotl-font">Pinned</h2>
+                        <ArtGrid art={pinned} metadata={false} />
+                    </>
+                )
+            }
+            {
+                entries.length > 0 && (
+                    <>
+                        <h2 class="lotl-font">All Art</h2>
+                        <ArtGrid art={entries} />
+                    </>
+                )
+            }
+        </Content>
+    </Body>
+</html>

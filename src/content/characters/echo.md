@@ -4,10 +4,9 @@ name: Echo
 species: Mimikyu
 age: 18
 height: 5' 1"
-created_date: "2021-12-10"
-last_modified: "2026-01-29"
+created_at: "2021-12-10"
+modified_at: "2026-01-29"
 pronouns: it/its
-clan: Unaffiliated
 short_description: echolotl's mimikyu pokesona
 theme_color: "#e2c68a"
 theme_color_light: "#9F7928"
