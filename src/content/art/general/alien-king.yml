@@ -1,17 +1,17 @@
-slug: alien-king
-created_at: "2024-04-01T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.396Z"
-title: Alien King
-pinned: false
-sketch: false
-description: A joke drawing of King as an alien for April Fools
-tags:
-  - excluded
-  - joke
-images:
-  - image:
-      src: /art/general/000000000000.png
-      alt: Alien King
-    thumbnail:
-      src: /art/general/thumbnails/000000000000.webp
-      alt: Alien King
+"slug": "alien-king"
+"created_at": "2024-04-01T00:00:00.000Z"
+"modified_at": "2026-07-18T03:58:01.150Z"
+"title": "Alien King"
+"pinned": false
+"sketch": false
+"description": "A joke drawing of King as an alien for April Fools"
+"tags":
+  - "excluded"
+  - "joke"
+"images":
+  - "image":
+      "src": "/art/general/000000000000.png"
+      "alt": "Alien King"
+    "thumbnail":
+      "src": "/art/general/thumbnails/000000000000.webp"
+      "alt": "Alien King"

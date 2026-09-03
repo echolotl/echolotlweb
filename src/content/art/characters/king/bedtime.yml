@@ -1,15 +1,15 @@
-slug: bedtime
-created_at: "2023-10-19T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.303Z"
-title: Bedtime
-pinned: false
-sketch: false
-character: king
-description: sleepy time w/ "The Lamb" from Cult of the Lamb (plushie)
-images:
-  - image:
-      src: /art/characters/king/bedtime.png
-      alt: Bedtime
-    thumbnail:
-      src: /art/characters/king/thumbnails/bedtime.webp
-      alt: Bedtime
+"slug": "bedtime"
+"created_at": "2023-10-19T00:00:00.000Z"
+"modified_at": "2026-07-18T03:59:14.882Z"
+"title": "Bedtime"
+"pinned": false
+"sketch": false
+"character": "king"
+"description": "sleepy time w/ \"The Lamb\" from Cult of the Lamb (plushie)"
+"images":
+  - "image":
+      "src": "/art/characters/king/bedtime.png"
+      "alt": "Bedtime"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/bedtime.webp"
+      "alt": "Bedtime"

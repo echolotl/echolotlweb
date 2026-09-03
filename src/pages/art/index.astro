@@ -8,7 +8,11 @@ import ArtGrid from "@components/art/ArtGrid.astro";
 
 const allArt = (await getCollection("art")).map((item) => item.data);
 const pinned = allArt.filter((art) => art.pinned);
-const entries = allArt.filter((art) => !art.pinned);
+const entries = allArt.filter((art) => !art.pinned).sort((a, b) => {
+    const aDate = new Date(a.created_at);
+    const bDate = new Date(b.created_at);
+    return bDate.getTime() - aDate.getTime();
+});
 ---
 
 <html lang="en">

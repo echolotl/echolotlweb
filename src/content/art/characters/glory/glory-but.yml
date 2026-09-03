@@ -1,0 +1,16 @@
+"slug": "glory-but"
+"created_at": "2026-08-01T00:28:33.951Z"
+"modified_at": "2026-08-01T00:47:37.798Z"
+"title": "Glory but"
+"pinned": false
+"sketch": true
+"description": "...but what?"
+"character": "glory"
+"images":
+  - "id": "glory-but"
+    "image":
+      "src": "/art/characters/glory/glory-but.png"
+      "alt": "Glory but"
+    "thumbnail":
+      "src": "/art/characters/glory/thumbnails/glory-but.webp"
+      "alt": "Glory but"

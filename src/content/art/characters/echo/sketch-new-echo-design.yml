@@ -1,15 +1,15 @@
-slug: sketch-new-echo-design
-created_at: "2024-12-26T04:34:41.256Z"
-modified_at: "2025-09-28T20:15:02.282Z"
-title: Sketch - New Echo Design
-pinned: false
-sketch: false
-character: echo
-description: a sketch of Echo's newer design
-images:
-  - image:
-      src: /art/characters/echo/echoSketchdesign.png
-      alt: Sketch - New Echo Design
-    thumbnail:
-      src: /art/characters/echo/thumbnails/echoSketchdesign.webp
-      alt: Sketch - New Echo Design
+"slug": "sketch-new-echo-design"
+"created_at": "2024-12-26T04:34:41.256Z"
+"modified_at": "2026-07-18T04:10:53.637Z"
+"title": "Sketch - New Echo Design"
+"pinned": false
+"sketch": false
+"character": "echo"
+"description": "a sketch of Echo's newer design"
+"images":
+  - "image":
+      "src": "/art/characters/echo/echoSketchdesign.png"
+      "alt": "Sketch - New Echo Design"
+    "thumbnail":
+      "src": "/art/characters/echo/thumbnails/echoSketchdesign.webp"
+      "alt": "Sketch - New Echo Design"

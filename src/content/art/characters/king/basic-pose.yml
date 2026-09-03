@@ -1,15 +1,15 @@
-slug: basic-pose
-created_at: "2022-12-17T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.301Z"
-title: Basic Pose
-pinned: false
-sketch: false
-character: king
-description: Sketchy eyes forward legs, you wouldn't get it
-images:
-  - image:
-      src: /art/characters/king/kingOldStand.png
-      alt: Basic Pose
-    thumbnail:
-      src: /art/characters/king/thumbnails/kingOldStand.webp
-      alt: Basic Pose
+"slug": "basic-pose"
+"created_at": "2022-12-17T00:00:00.000Z"
+"modified_at": "2026-07-18T03:59:05.363Z"
+"title": "Basic Pose"
+"pinned": false
+"sketch": false
+"character": "king"
+"description": "Sketchy eyes forward legs, you wouldn't get it"
+"images":
+  - "image":
+      "src": "/art/characters/king/kingOldStand.png"
+      "alt": "Basic Pose"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/kingOldStand.webp"
+      "alt": "Basic Pose"

@@ -1,0 +1,16 @@
+"slug": "phosphor-creature"
+"created_at": "2026-02-09T06:00:00.000Z"
+"modified_at": "2026-07-18T04:08:58.451Z"
+"title": "Phosphor (Creature)"
+"pinned": false
+"sketch": true
+"description": "creature-esque phosphor. Creatuire"
+"character": "phosphor"
+"images":
+  - "id": "phosphor-creature"
+    "image":
+      "src": "/art/characters/phosphor/phosphor-creature.png"
+      "alt": "Phosphor (Creature)"
+    "thumbnail":
+      "src": "/art/characters/phosphor/thumbnails/phosphor-creature.webp"
+      "alt": "Phosphor (Creature)"

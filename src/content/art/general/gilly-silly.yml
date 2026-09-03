@@ -1,17 +1,17 @@
-slug: gilly-silly
-created_at: "2026-04-15T01:07:30.904Z"
-modified_at: "2026-05-09T03:54:20.859Z"
-title: gilly silly
-pinned: true
-sketch: false
-images:
-  - id: gilly-silly
-    image:
-      src: /art/general/gilly-silly.png
-      alt: gilly silly
-    thumbnail:
-      src: /art/general/thumbnails/gilly-silly.webp
-      alt: gilly silly
-description: gilly by [Fi4estorm](https://www.instagram.com/fi4estorm/)
-tags:
-  - friends
+"slug": "gilly-silly"
+"created_at": "2026-04-15T01:07:30.904Z"
+"modified_at": "2026-07-18T04:03:58.365Z"
+"title": "gilly silly"
+"pinned": true
+"sketch": false
+"description": "gilly by [Fi4estorm](https://www.instagram.com/fi4estorm/)"
+"tags":
+  - "friends"
+"images":
+  - "id": "gilly-silly"
+    "image":
+      "src": "/art/general/gilly-silly.png"
+      "alt": "gilly silly"
+    "thumbnail":
+      "src": "/art/general/thumbnails/gilly-silly.webp"
+      "alt": "gilly silly"

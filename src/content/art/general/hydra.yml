@@ -1,17 +1,17 @@
-slug: hydra
-created_at: "2024-02-24T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.438Z"
-title: Hydra
-pinned: false
-sketch: false
-description: Idea for a roblox character if I were ever to make a Roblox game
-tags:
-  - video game
-  - oc
-images:
-  - image:
-      src: /art/general/roblosoc.png
-      alt: Hydra
-    thumbnail:
-      src: /art/general/thumbnails/roblosoc.webp
-      alt: Hydra
+"slug": "hydra"
+"created_at": "2024-02-24T00:00:00.000Z"
+"modified_at": "2026-07-18T04:05:28.590Z"
+"title": "Hydra"
+"pinned": false
+"sketch": false
+"description": "Idea for a roblox character if I were ever to make a Roblox game"
+"tags":
+  - "video game"
+  - "oc"
+"images":
+  - "image":
+      "src": "/art/general/roblosoc.png"
+      "alt": "Hydra"
+    "thumbnail":
+      "src": "/art/general/thumbnails/roblosoc.webp"
+      "alt": "Hydra"

@@ -1,14 +1,14 @@
-slug: chombsass
-created_at: "2022-01-14T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.261Z"
-title: chombSass
-pinned: false
-sketch: false
-character: chomb
-images:
-  - image:
-      src: /art/characters/chomb/chombSass.png
-      alt: chombSass
-    thumbnail:
-      src: /art/characters/chomb/thumbnails/chombSass.webp
-      alt: chombSass
+"slug": "chombsass"
+"created_at": "2022-01-14T00:00:00.000Z"
+"modified_at": "2026-07-18T04:01:19.855Z"
+"title": "chombSass"
+"pinned": false
+"sketch": false
+"character": "chomb"
+"images":
+  - "image":
+      "src": "/art/characters/chomb/chombSass.png"
+      "alt": "chombSass"
+    "thumbnail":
+      "src": "/art/characters/chomb/thumbnails/chombSass.webp"
+      "alt": "chombSass"

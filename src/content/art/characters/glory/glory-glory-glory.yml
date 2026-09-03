@@ -1,16 +1,16 @@
-slug: glory-glory-glory
-created_at: "2026-03-29T00:00:00.000Z"
-modified_at: "2026-05-09T03:58:30.296Z"
-title: glory glory glory
-pinned: false
-sketch: true
-images:
-  - id: glory-glory-glory
-    image:
-      src: /art/characters/glory/glory-glory-glory.png
-      alt: glory glory glory
-    thumbnail:
-      src: /art/characters/glory/thumbnails/glory-glory-glory.webp
-      alt: glory glory glory
-description: glory glory glory glory glory glory glory
-character: glory
+"slug": "glory-glory-glory"
+"created_at": "2026-03-29T00:00:00.000Z"
+"modified_at": "2026-07-18T04:04:09.535Z"
+"title": "glory glory glory"
+"pinned": false
+"sketch": true
+"description": "glory glory glory glory glory glory glory"
+"character": "glory"
+"images":
+  - "id": "glory-glory-glory"
+    "image":
+      "src": "/art/characters/glory/glory-glory-glory.png"
+      "alt": "glory glory glory"
+    "thumbnail":
+      "src": "/art/characters/glory/thumbnails/glory-glory-glory.webp"
+      "alt": "glory glory glory"

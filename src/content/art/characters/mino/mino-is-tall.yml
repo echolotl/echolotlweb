@@ -1,16 +1,16 @@
-slug: mino-is-tall
-created_at: "2026-02-01T00:02:44.057Z"
-modified_at: "2026-02-02T05:35:56.510Z"
-title: Mino is tall
-pinned: false
-sketch: true
-images:
-  - id: mino-is-tall
-    image:
-      src: /art/characters/mino/mino-is-tall.webp
-      alt: Mino is tall
-    thumbnail:
-      src: /art/characters/mino/thumbnails/mino-is-tall.webp
-      alt: Mino is tall
-description: and also has a mace I guess
-character: mino
+"slug": "mino-is-tall"
+"created_at": "2026-02-01T00:02:44.057Z"
+"modified_at": "2026-07-18T04:07:28.863Z"
+"title": "Mino is tall"
+"pinned": false
+"sketch": true
+"description": "and also has a mace I guess"
+"character": "mino"
+"images":
+  - "id": "mino-is-tall"
+    "image":
+      "src": "/art/characters/mino/mino-is-tall.webp"
+      "alt": "Mino is tall"
+    "thumbnail":
+      "src": "/art/characters/mino/thumbnails/mino-is-tall.webp"
+      "alt": "Mino is tall"

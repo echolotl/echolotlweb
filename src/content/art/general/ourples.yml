@@ -1,18 +1,18 @@
-slug: ourples
-created_at: "2023-05-23T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.448Z"
-title: Ourples
-pinned: false
-sketch: false
-description: "A collection of a variety of Ourples from a variety of [FNF:
+"slug": "ourples"
+"created_at": "2023-05-23T00:00:00.000Z"
+"modified_at": "2025-09-28T20:15:02.448Z"
+"title": "Ourples"
+"pinned": false
+"sketch": false
+"description": "A collection of a variety of Ourples from a variety of [FNF:
   Ourple Guy](https://ourpleguy.neocities.org/) mods"
-tags:
-  - fanart
-  - video game
-images:
-  - image:
-      src: /art/general/ourples.png
-      alt: Ourples
-    thumbnail:
-      src: /art/general/thumbnails/ourples.webp
-      alt: Ourples
+"tags":
+  - "fanart"
+  - "video game"
+"images":
+  - "image":
+      "src": "/art/general/ourples.png"
+      "alt": "Ourples"
+    "thumbnail":
+      "src": "/art/general/thumbnails/ourples.webp"
+      "alt": "Ourples"

@@ -1,15 +1,15 @@
-slug: orchy-2022
-created_at: "2022-03-09T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.372Z"
-title: Orchy (2022)
-pinned: false
-sketch: false
-character: orchy
-description: The original design of Orchy, with a small tail
-images:
-  - image:
-      src: /art/characters/orchy/oldOrchy.png
-      alt: Orchy (2022)
-    thumbnail:
-      src: /art/characters/orchy/thumbnails/oldOrchy.webp
-      alt: Orchy (2022)
+"slug": "orchy-2022"
+"created_at": "2022-03-09T00:00:00.000Z"
+"modified_at": "2026-07-18T04:08:19.686Z"
+"title": "Orchy (2022)"
+"pinned": false
+"sketch": false
+"character": "orchy"
+"description": "The original design of Orchy, with a small tail"
+"images":
+  - "image":
+      "src": "/art/characters/orchy/oldOrchy.png"
+      "alt": "Orchy (2022)"
+    "thumbnail":
+      "src": "/art/characters/orchy/thumbnails/oldOrchy.webp"
+      "alt": "Orchy (2022)"

@@ -111,6 +111,12 @@ const filterId = `aitem-${art.slug}`;
     .art-item:hover,
     .art-item:focus-within {
         filter: var(--filterId);
+        .art-item-metadata {
+            color: var(--background);
+            &::before {
+                background: var(--theme-color, var(--primary));
+            }
+        }
     }
 
     .art-item-metadata {

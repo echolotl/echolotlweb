@@ -1,23 +1,23 @@
-slug: creeptaur
-created_at: "2025-12-28T01:49:19.637Z"
-modified_at: "2025-12-28T01:59:09.975Z"
-title: Creeptaur
-pinned: false
-sketch: false
-images:
-  - id: creeptaur
-    image:
-      src: /art/general/creeptaur.png
-      alt: Creeptaur
-    thumbnail:
-      src: /art/general/thumbnails/creeptaur.webp
-      alt: Creeptaur
-    variants:
-      - image:
-          src: /art/general/creeptaur__minimal-shading.png
-          alt: Creeptaur
-        label: Minimal Shading
-description: made because of [this
-  tweet](https://x.com/TweeterTweers/status/2004587723500486969)
-tags:
-  - video game
+"slug": "creeptaur"
+"created_at": "2025-12-28T01:49:19.637Z"
+"modified_at": "2026-07-18T04:01:55.389Z"
+"title": "Creeptaur"
+"pinned": false
+"sketch": false
+"description": "made because of [this
+  tweet](https://x.com/TweeterTweers/status/2004587723500486969)"
+"tags":
+  - "video game"
+"images":
+  - "id": "creeptaur"
+    "image":
+      "src": "/art/general/creeptaur.png"
+      "alt": "Creeptaur"
+    "thumbnail":
+      "src": "/art/general/thumbnails/creeptaur.webp"
+      "alt": "Creeptaur"
+    "variants":
+      - "label": "Minimal Shading"
+        "image":
+          "src": "/art/general/creeptaur__minimal-shading.png"
+          "alt": "Creeptaur"

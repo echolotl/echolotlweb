@@ -1,0 +1,16 @@
+"slug": "orchy-standing"
+"created_at": "2026-08-01T00:29:31.191Z"
+"modified_at": "2026-08-01T00:47:37.719Z"
+"title": "Orchy standing"
+"pinned": false
+"sketch": true
+"description": "good stance them"
+"character": "orchy"
+"images":
+  - "id": "orchy-standing"
+    "image":
+      "src": "/art/characters/orchy/orchy-standing.png"
+      "alt": "Orchy standing"
+    "thumbnail":
+      "src": "/art/characters/orchy/thumbnails/orchy-standing.webp"
+      "alt": "Orchy standing"

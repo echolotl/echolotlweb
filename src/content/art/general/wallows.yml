@@ -1,22 +1,22 @@
-slug: wallows
-created_at: "2022-01-22T00:00:00.000Z"
-modified_at: "2025-09-28T23:47:59.012Z"
-title: Wallows
-pinned: false
-sketch: false
-images:
-  - id: image-1
-    image:
-      src: /art/general/image-1.jpg
-      alt: Wallows
-    thumbnail:
-      src: /art/general/thumbnails/image-1.webp
-      alt: Wallows
-    variants:
-      - image:
-          src: /art/general/image-1__full-ref-w-uchor.jpg
-          alt: Wallows
-        label: Full ref w/ Uchor
-description: Terrible attempt at making a species, not unique
-tags:
-  - oc
+"slug": "wallows"
+"created_at": "2022-01-22T00:00:00.000Z"
+"modified_at": "2026-07-18T04:12:57.640Z"
+"title": "Wallows"
+"pinned": false
+"sketch": false
+"description": "Terrible attempt at making a species, not unique"
+"tags":
+  - "oc"
+"images":
+  - "id": "image-1"
+    "image":
+      "src": "/art/general/image-1.jpg"
+      "alt": "Wallows"
+    "thumbnail":
+      "src": "/art/general/thumbnails/image-1.webp"
+      "alt": "Wallows"
+    "variants":
+      - "label": "Full ref w/ Uchor"
+        "image":
+          "src": "/art/general/image-1__full-ref-w-uchor.jpg"
+          "alt": "Wallows"

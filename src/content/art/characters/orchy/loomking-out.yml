@@ -1,15 +1,15 @@
-slug: loomking-out
-created_at: "2022-12-14T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.369Z"
-title: Loomking Out
-pinned: false
-sketch: false
-character: orchy
-description: Very glowy
-images:
-  - image:
-      src: /art/characters/orchy/orchyOldCave.png
-      alt: Loomking Out
-    thumbnail:
-      src: /art/characters/orchy/thumbnails/orchyOldCave.webp
-      alt: Loomking Out
+"slug": "loomking-out"
+"created_at": "2022-12-14T00:00:00.000Z"
+"modified_at": "2026-07-18T04:07:06.129Z"
+"title": "Loomking Out"
+"pinned": false
+"sketch": false
+"character": "orchy"
+"description": "Very glowy"
+"images":
+  - "image":
+      "src": "/art/characters/orchy/orchyOldCave.png"
+      "alt": "Loomking Out"
+    "thumbnail":
+      "src": "/art/characters/orchy/thumbnails/orchyOldCave.webp"
+      "alt": "Loomking Out"

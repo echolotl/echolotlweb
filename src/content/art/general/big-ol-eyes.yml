@@ -1,14 +1,14 @@
-slug: big-ol-eyes
-created_at: "2024-04-08T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.390Z"
-title: Big Ol' Eyes
-pinned: false
-sketch: false
-description: Original design of Xelex
-images:
-  - image:
-      src: /art/characters/xelex/xelexBigOlEyes.png
-      alt: Big Ol' Eyes
-    thumbnail:
-      src: /art/characters/xelex/thumbnails/xelexBigOlEyes.webp
-      alt: Big Ol' Eyes
+"slug": "big-ol-eyes"
+"created_at": "2024-04-08T00:00:00.000Z"
+"modified_at": "2026-07-18T03:59:36.236Z"
+"title": "Big Ol' Eyes"
+"pinned": false
+"sketch": false
+"description": "Original design of Xelex"
+"images":
+  - "image":
+      "src": "/art/characters/xelex/xelexBigOlEyes.png"
+      "alt": "Big Ol' Eyes"
+    "thumbnail":
+      "src": "/art/characters/xelex/thumbnails/xelexBigOlEyes.webp"
+      "alt": "Big Ol' Eyes"

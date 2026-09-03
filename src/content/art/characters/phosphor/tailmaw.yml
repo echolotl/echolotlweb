@@ -1,15 +1,15 @@
-slug: tailmaw
-created_at: "2025-03-27T05:09:29.799Z"
-modified_at: "2025-09-28T20:15:02.388Z"
-title: Tailmaw
-pinned: false
-sketch: true
-character: phosphor
-description: Phosphor w/ a tailmaw
-images:
-  - image:
-      src: /art/characters/phosphor/1743052169218.png
-      alt: Tailmaw
-    thumbnail:
-      src: /art/characters/phosphor/thumbnails/1743052169218.webp
-      alt: Tailmaw
+"slug": "tailmaw"
+"created_at": "2025-03-27T05:09:29.799Z"
+"modified_at": "2026-07-18T04:11:53.665Z"
+"title": "Tailmaw"
+"pinned": false
+"sketch": true
+"character": "phosphor"
+"description": "Phosphor w/ a tailmaw"
+"images":
+  - "image":
+      "src": "/art/characters/phosphor/1743052169218.png"
+      "alt": "Tailmaw"
+    "thumbnail":
+      "src": "/art/characters/phosphor/thumbnails/1743052169218.webp"
+      "alt": "Tailmaw"

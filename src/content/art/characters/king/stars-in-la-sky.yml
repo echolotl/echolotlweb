@@ -1,15 +1,15 @@
-slug: stars-in-la-sky
-created_at: "2022-01-19T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.336Z"
-title: Stars in la Sky
-pinned: false
-sketch: false
-character: king
-description: Beautiful glowing white borders and yellow stars, big ol' tail
-images:
-  - image:
-      src: /art/characters/king/starsInlasky.png
-      alt: Stars in la Sky
-    thumbnail:
-      src: /art/characters/king/thumbnails/starsInlasky.webp
-      alt: Stars in la Sky
+"slug": "stars-in-la-sky"
+"created_at": "2022-01-19T00:00:00.000Z"
+"modified_at": "2026-07-18T04:11:40.724Z"
+"title": "Stars in la Sky"
+"pinned": false
+"sketch": false
+"character": "king"
+"description": "Beautiful glowing white borders and yellow stars, big ol' tail"
+"images":
+  - "image":
+      "src": "/art/characters/king/starsInlasky.png"
+      "alt": "Stars in la Sky"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/starsInlasky.webp"
+      "alt": "Stars in la Sky"

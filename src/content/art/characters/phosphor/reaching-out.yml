@@ -1,16 +1,16 @@
-slug: reaching-out
-created_at: "2025-10-14T17:58:01.646Z"
-modified_at: "2025-12-07T22:12:19.070Z"
-title: Reaching Out
-pinned: false
-sketch: false
-images:
-  - id: reaching-out
-    image:
-      src: /art/characters/phosphor/reaching-out.png
-      alt: Reaching Out
-    thumbnail:
-      src: /art/characters/phosphor/thumbnails/reaching-out.webp
-      alt: Reaching Out
-description: cool shading yo
-character: phosphor
+"slug": "reaching-out"
+"created_at": "2025-10-14T17:58:01.646Z"
+"modified_at": "2026-07-18T04:09:35.400Z"
+"title": "Reaching Out"
+"pinned": false
+"sketch": false
+"description": "cool shading yo"
+"character": "phosphor"
+"images":
+  - "id": "reaching-out"
+    "image":
+      "src": "/art/characters/phosphor/reaching-out.png"
+      "alt": "Reaching Out"
+    "thumbnail":
+      "src": "/art/characters/phosphor/thumbnails/reaching-out.webp"
+      "alt": "Reaching Out"

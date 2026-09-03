@@ -1,15 +1,15 @@
-slug: nautilus-again
-created_at: "2025-04-21T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.361Z"
-title: Nautilus Again
-pinned: false
-sketch: false
-description: He eats a the rock
-character: nautilus
-images:
-  - image:
-      src: /art/characters/nautilus/nautilus-again.png
-      alt: Nautilus Again
-    thumbnail:
-      src: /art/characters/nautilus/thumbnails/nautilus-again.webp
-      alt: Nautilus Again
+"slug": "nautilus-again"
+"created_at": "2025-04-21T00:00:00.000Z"
+"modified_at": "2026-07-18T04:07:41.123Z"
+"title": "Nautilus Again"
+"pinned": false
+"sketch": false
+"description": "He eats a the rock"
+"character": "nautilus"
+"images":
+  - "image":
+      "src": "/art/characters/nautilus/nautilus-again.png"
+      "alt": "Nautilus Again"
+    "thumbnail":
+      "src": "/art/characters/nautilus/thumbnails/nautilus-again.webp"
+      "alt": "Nautilus Again"

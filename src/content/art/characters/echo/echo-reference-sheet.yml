@@ -1,15 +1,15 @@
-slug: echo-reference-sheet
-created_at: "2025-07-25T02:06:22.345Z"
-modified_at: "2025-09-28T20:15:02.277Z"
-title: Echo Reference Sheet
-pinned: false
-sketch: false
-description: Echo's reference sheet!
-character: echo
-images:
-  - image:
-      src: /art/characters/echo/echo-reference-sheet.png
-      alt: Echo Reference Sheet
-    thumbnail:
-      src: /art/characters/echo/thumbnails/echo-reference-sheet.webp
-      alt: Echo Reference Sheet
+"slug": "echo-reference-sheet"
+"created_at": "2025-07-25T02:06:22.345Z"
+"modified_at": "2026-07-18T04:02:55.522Z"
+"title": "Echo Reference Sheet"
+"pinned": false
+"sketch": false
+"description": "Echo's reference sheet!"
+"character": "echo"
+"images":
+  - "image":
+      "src": "/art/characters/echo/echo-reference-sheet.png"
+      "alt": "Echo Reference Sheet"
+    "thumbnail":
+      "src": "/art/characters/echo/thumbnails/echo-reference-sheet.webp"
+      "alt": "Echo Reference Sheet"

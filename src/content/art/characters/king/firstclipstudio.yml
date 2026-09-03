@@ -1,14 +1,14 @@
-slug: firstclipstudio
-created_at: "2022-06-28T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.312Z"
-title: firstClipStudio
-pinned: false
-sketch: false
-character: king
-images:
-  - image:
-      src: /art/characters/king/firstClipStudio.png
-      alt: firstClipStudio
-    thumbnail:
-      src: /art/characters/king/thumbnails/firstClipStudio.webp
-      alt: firstClipStudio
+"slug": "firstclipstudio"
+"created_at": "2022-06-28T00:00:00.000Z"
+"modified_at": "2026-07-18T04:03:27.713Z"
+"title": "firstClipStudio"
+"pinned": false
+"sketch": false
+"character": "king"
+"images":
+  - "image":
+      "src": "/art/characters/king/firstClipStudio.png"
+      "alt": "firstClipStudio"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/firstClipStudio.webp"
+      "alt": "firstClipStudio"

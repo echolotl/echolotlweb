@@ -1,16 +1,16 @@
-slug: bird-storm
-created_at: "2024-09-02T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.401Z"
-title: Bird Storm
-pinned: false
-sketch: false
-description: Painting of EVIL storm of birds
-tags:
-  - painting
-images:
-  - image:
-      src: /art/general/l.png
-      alt: Bird Storm
-    thumbnail:
-      src: /art/general/thumbnails/l.webp
-      alt: Bird Storm
+"slug": "bird-storm"
+"created_at": "2024-09-02T00:00:00.000Z"
+"modified_at": "2026-07-18T03:59:42.157Z"
+"title": "Bird Storm"
+"pinned": false
+"sketch": false
+"description": "Painting of EVIL storm of birds"
+"tags":
+  - "painting"
+"images":
+  - "image":
+      "src": "/art/general/l.png"
+      "alt": "Bird Storm"
+    "thumbnail":
+      "src": "/art/general/thumbnails/l.webp"
+      "alt": "Bird Storm"

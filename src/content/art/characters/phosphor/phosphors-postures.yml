@@ -1,0 +1,16 @@
+"slug": "phosphors-postures"
+"created_at": "2026-08-01T00:30:53.973Z"
+"modified_at": "2026-08-01T00:47:37.627Z"
+"title": "Phosphor's Postures"
+"pinned": false
+"sketch": true
+"description": "terrible"
+"character": "phosphor"
+"images":
+  - "id": "phosphors-postures"
+    "image":
+      "src": "/art/characters/phosphor/phosphors-postures.png"
+      "alt": "Phosphor's Postures"
+    "thumbnail":
+      "src": "/art/characters/phosphor/thumbnails/phosphors-postures.webp"
+      "alt": "Phosphor's Postures"

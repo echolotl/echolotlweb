@@ -1,21 +1,21 @@
-slug: mino
-created_at: "2025-12-23T05:17:55.549Z"
-modified_at: "2025-12-28T01:47:51.369Z"
-title: Mino
-pinned: true
-sketch: false
-images:
-  - id: mino
-    image:
-      src: /art/characters/mino/mino.png
-      alt: Mino
-    thumbnail:
-      src: /art/characters/mino/thumbnails/mino.webp
-      alt: Mino
-    variants:
-      - image:
-          src: /art/characters/mino/mino__old-colors.png
-          alt: Mino
-        label: Old Colors
-description: initial design of Mino
-character: mino
+"slug": "mino"
+"created_at": "2025-12-23T05:17:55.549Z"
+"modified_at": "2026-07-18T04:07:23.617Z"
+"title": "Mino"
+"pinned": false
+"sketch": false
+"description": "initial design of Mino"
+"character": "mino"
+"images":
+  - "id": "mino"
+    "image":
+      "src": "/art/characters/mino/mino.png"
+      "alt": "Mino"
+    "thumbnail":
+      "src": "/art/characters/mino/thumbnails/mino.webp"
+      "alt": "Mino"
+    "variants":
+      - "label": "Old Colors"
+        "image":
+          "src": "/art/characters/mino/mino__old-colors.png"
+          "alt": "Mino"

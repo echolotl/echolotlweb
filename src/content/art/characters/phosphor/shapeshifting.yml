@@ -1,15 +1,15 @@
-slug: shapeshifting
-created_at: "2023-03-24T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.386Z"
-title: Shapeshifting
-pinned: false
-sketch: false
-character: phosphor
-description: Yes! It can shapeshift, with limitations of course
-images:
-  - image:
-      src: /art/characters/phosphor/newishPhosphor.png
-      alt: Shapeshifting
-    thumbnail:
-      src: /art/characters/phosphor/thumbnails/newishPhosphor.webp
-      alt: Shapeshifting
+"slug": "shapeshifting"
+"created_at": "2023-03-24T00:00:00.000Z"
+"modified_at": "2026-07-18T04:10:12.576Z"
+"title": "Shapeshifting"
+"pinned": false
+"sketch": false
+"character": "phosphor"
+"description": "Yes! It can shapeshift, with limitations of course"
+"images":
+  - "image":
+      "src": "/art/characters/phosphor/newishPhosphor.png"
+      "alt": "Shapeshifting"
+    "thumbnail":
+      "src": "/art/characters/phosphor/thumbnails/newishPhosphor.webp"
+      "alt": "Shapeshifting"

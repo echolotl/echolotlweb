@@ -1,19 +1,19 @@
-slug: cereal-monke-games
-created_at: "2024-08-02T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.409Z"
-title: Cereal Monke Games
-pinned: false
-sketch: false
-description: Drawing I made for [The Monke
+"slug": "cereal-monke-games"
+"created_at": "2024-08-02T00:00:00.000Z"
+"modified_at": "2026-07-18T04:00:37.535Z"
+"title": "Cereal Monke Games"
+"pinned": false
+"sketch": false
+"description": "Drawing I made for [The Monke
   Games](https://store.steampowered.com/app/2309070/The_Monke_Games/?beta=0) for
-  a cereal box
-tags:
-  - video game
-  - friends
-images:
-  - image:
-      src: /art/general/themonkeygamescereal.png
-      alt: Cereal Monke Games
-    thumbnail:
-      src: /art/general/thumbnails/themonkeygamescereal.webp
-      alt: Cereal Monke Games
+  a cereal box"
+"tags":
+  - "video game"
+  - "friends"
+"images":
+  - "image":
+      "src": "/art/general/themonkeygamescereal.png"
+      "alt": "Cereal Monke Games"
+    "thumbnail":
+      "src": "/art/general/thumbnails/themonkeygamescereal.webp"
+      "alt": "Cereal Monke Games"

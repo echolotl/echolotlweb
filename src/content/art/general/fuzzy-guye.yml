@@ -1,16 +1,16 @@
-slug: fuzzy-guye
-created_at: "2022-03-11T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.429Z"
-title: Fuzzy Guye
-pinned: false
-sketch: false
-description: Test of a lineless artstyle
-tags:
-  - idea
-images:
-  - image:
-      src: /art/general/fuzzyguye.png
-      alt: Fuzzy Guye
-    thumbnail:
-      src: /art/general/thumbnails/fuzzyguye.webp
-      alt: Fuzzy Guye
+"slug": "fuzzy-guye"
+"created_at": "2022-03-11T00:00:00.000Z"
+"modified_at": "2026-07-18T04:03:51.402Z"
+"title": "Fuzzy Guye"
+"pinned": false
+"sketch": false
+"description": "Test of a lineless artstyle"
+"tags":
+  - "idea"
+"images":
+  - "image":
+      "src": "/art/general/fuzzyguye.png"
+      "alt": "Fuzzy Guye"
+    "thumbnail":
+      "src": "/art/general/thumbnails/fuzzyguye.webp"
+      "alt": "Fuzzy Guye"

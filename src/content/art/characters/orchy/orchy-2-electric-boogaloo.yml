@@ -1,15 +1,15 @@
-slug: orchy-2-electric-boogaloo
-created_at: "2022-03-25T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.371Z"
-title: "Orchy 2: Electric Boogaloo"
-pinned: false
-sketch: false
-character: orchy
-description: New wing and tail design
-images:
-  - image:
-      src: /art/characters/orchy/oldOrchy2.png
-      alt: "Orchy 2: Electric Boogaloo"
-    thumbnail:
-      src: /art/characters/orchy/thumbnails/oldOrchy2.webp
-      alt: "Orchy 2: Electric Boogaloo"
+"slug": "orchy-2-electric-boogaloo"
+"created_at": "2022-03-25T00:00:00.000Z"
+"modified_at": "2026-07-18T04:08:25.332Z"
+"title": "Orchy 2: Electric Boogaloo"
+"pinned": false
+"sketch": false
+"character": "orchy"
+"description": "New wing and tail design"
+"images":
+  - "image":
+      "src": "/art/characters/orchy/oldOrchy2.png"
+      "alt": "Orchy 2: Electric Boogaloo"
+    "thumbnail":
+      "src": "/art/characters/orchy/thumbnails/oldOrchy2.webp"
+      "alt": "Orchy 2: Electric Boogaloo"

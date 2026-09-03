@@ -1,17 +1,17 @@
-slug: rough-guy
-created_at: "2022-02-05T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.457Z"
-title: Rough Guy
-pinned: false
-sketch: false
-description: Fanart of a friend's OC
-tags:
-  - friends
-  - oc
-images:
-  - image:
-      src: /art/general/tomguy.png
-      alt: Rough Guy
-    thumbnail:
-      src: /art/general/thumbnails/tomguy.webp
-      alt: Rough Guy
+"slug": "rough-guy"
+"created_at": "2022-02-05T00:00:00.000Z"
+"modified_at": "2026-07-18T04:09:43.179Z"
+"title": "Rough Guy"
+"pinned": false
+"sketch": false
+"description": "Fanart of a friend's OC"
+"tags":
+  - "friends"
+  - "oc"
+"images":
+  - "image":
+      "src": "/art/general/tomguy.png"
+      "alt": "Rough Guy"
+    "thumbnail":
+      "src": "/art/general/thumbnails/tomguy.webp"
+      "alt": "Rough Guy"

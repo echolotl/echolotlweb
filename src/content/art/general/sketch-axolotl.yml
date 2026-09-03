@@ -1,16 +1,16 @@
-slug: sketch-axolotl
-created_at: "2022-01-03T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.459Z"
-title: Sketch - Axolotl
-pinned: false
-sketch: true
-description: Pencil style test with an ugly axolotl
-tags:
-  - idea
-images:
-  - image:
-      src: /art/general/sketch_axolotl.jpg
-      alt: Sketch - Axolotl
-    thumbnail:
-      src: /art/general/thumbnails/sketch_axolotl.webp
-      alt: Sketch - Axolotl
+"slug": "sketch-axolotl"
+"created_at": "2022-01-03T00:00:00.000Z"
+"modified_at": "2026-07-18T04:10:33.157Z"
+"title": "Sketch - Axolotl"
+"pinned": false
+"sketch": true
+"description": "Pencil style test with an ugly axolotl"
+"tags":
+  - "idea"
+"images":
+  - "image":
+      "src": "/art/general/sketch_axolotl.jpg"
+      "alt": "Sketch - Axolotl"
+    "thumbnail":
+      "src": "/art/general/thumbnails/sketch_axolotl.webp"
+      "alt": "Sketch - Axolotl"

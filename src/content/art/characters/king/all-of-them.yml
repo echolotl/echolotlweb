@@ -1,30 +1,30 @@
-slug: all-of-them
-created_at: "2025-12-01T02:22:13.876Z"
-modified_at: "2025-12-07T22:19:34.061Z"
-title: All of them
-pinned: true
-sketch: true
-images:
-  - id: w-gradient
-    title: w/ gradient
-    image:
-      src: /art/characters/king/w-gradient.png
-      alt: w/ gradient
-    thumbnail:
-      src: /art/characters/king/thumbnails/w-gradient.webp
-      alt: w/ gradient
-    variants:
-      - image:
-          src: /art/characters/king/w-gradient__flat-color.png
-          alt: w/ gradient
-        label: Flat Color
-description: its all of them
-character: king
-related_characters:
-  - glory
-  - kitral
-  - orchy
-  - nautilus
-  - phosphor
-  - echo
-  - chomb
+"slug": "all-of-them"
+"created_at": "2025-12-01T02:22:13.876Z"
+"modified_at": "2026-07-18T03:58:22.266Z"
+"title": "All of them"
+"pinned": false
+"sketch": true
+"description": "its all of them"
+"character": "king"
+"related_characters":
+  - "glory"
+  - "kitral"
+  - "orchy"
+  - "nautilus"
+  - "phosphor"
+  - "echo"
+  - "chomb"
+"images":
+  - "id": "w-gradient"
+    "title": "w/ gradient"
+    "image":
+      "src": "/art/characters/king/w-gradient.png"
+      "alt": "All of them"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/w-gradient.webp"
+      "alt": "All of them"
+    "variants":
+      - "label": "Flat Color"
+        "image":
+          "src": "/art/characters/king/w-gradient__flat-color.png"
+          "alt": "All of them"

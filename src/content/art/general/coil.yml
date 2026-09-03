@@ -1,18 +1,18 @@
-slug: coil
-created_at: "2024-08-27T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.417Z"
-title: Coil
-pinned: false
-sketch: false
-description: Fanart of Coil from Roblox game
-  *[Phighting!](https://www.roblox.com/games/7138009149/PHIGHTING-ALPHA)*
-tags:
-  - fanart
-  - video game
-images:
-  - image:
-      src: /art/general/coil.png
-      alt: Coil
-    thumbnail:
-      src: /art/general/thumbnails/coil.webp
-      alt: Coil
+"slug": "coil"
+"created_at": "2024-08-27T00:00:00.000Z"
+"modified_at": "2026-07-18T04:01:31.141Z"
+"title": "Coil"
+"pinned": false
+"sketch": false
+"description": "Fanart of Coil from Roblox game
+  *[Phighting!](https://www.roblox.com/games/7138009149/PHIGHTING-ALPHA)*"
+"tags":
+  - "fanart"
+  - "video game"
+"images":
+  - "image":
+      "src": "/art/general/coil.png"
+      "alt": "Coil"
+    "thumbnail":
+      "src": "/art/general/thumbnails/coil.webp"
+      "alt": "Coil"

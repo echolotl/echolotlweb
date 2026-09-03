@@ -1,14 +1,14 @@
-slug: bellf
-created_at: "2023-03-02T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.304Z"
-title: bellf
-pinned: false
-sketch: false
-character: king
-images:
-  - image:
-      src: /art/characters/king/bellf.png
-      alt: bellf
-    thumbnail:
-      src: /art/characters/king/thumbnails/bellf.webp
-      alt: bellf
+"slug": "bellf"
+"created_at": "2023-03-02T00:00:00.000Z"
+"modified_at": "2026-07-18T03:59:29.763Z"
+"title": "bellf"
+"pinned": false
+"sketch": false
+"character": "king"
+"images":
+  - "image":
+      "src": "/art/characters/king/bellf.png"
+      "alt": "bellf"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/bellf.webp"
+      "alt": "bellf"

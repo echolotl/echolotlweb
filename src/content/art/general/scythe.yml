@@ -1,0 +1,19 @@
+"slug": "scythe"
+"created_at": "2026-07-07T02:50:27.291Z"
+"modified_at": "2026-07-18T04:10:01.157Z"
+"title": "Scythe"
+"pinned": true
+"sketch": false
+"description": "Attack on [NULLEDx](https://artfight.net/~NULLEDx) on Art Fight"
+"tags":
+  - "anthro"
+  - "art fight"
+  - "blood"
+"images":
+  - "id": "scythe"
+    "image":
+      "src": "/art/general/scythe.png"
+      "alt": "Scythe"
+    "thumbnail":
+      "src": "/art/general/thumbnails/scythe.webp"
+      "alt": "Scythe"

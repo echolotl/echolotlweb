@@ -1,17 +1,18 @@
-slug: ewow-lives
-created_at: "2024-04-28T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.428Z"
-title: EWOW Lives
-pinned: false
-sketch: false
-description: Art of me and friend's lives remaining in [EWOW](https://youtu.be/jcqE0Z5Sgbw)
-tags:
-  - friends
-  - object show
-images:
-  - image:
-      src: /art/general/Illustration91212.png
-      alt: EWOW Lives
-    thumbnail:
-      src: /art/general/thumbnails/Illustration91212.webp
-      alt: EWOW Lives
+"slug": "ewow-lives"
+"created_at": "2024-04-28T00:00:00.000Z"
+"modified_at": "2026-07-18T04:03:16.834Z"
+"title": "EWOW Lives"
+"pinned": false
+"sketch": false
+"description": "Art of me and friend's lives remaining in
+  [EWOW](https://youtu.be/jcqE0Z5Sgbw)"
+"tags":
+  - "friends"
+  - "object show"
+"images":
+  - "image":
+      "src": "/art/general/Illustration91212.png"
+      "alt": "EWOW Lives"
+    "thumbnail":
+      "src": "/art/general/thumbnails/Illustration91212.webp"
+      "alt": "EWOW Lives"

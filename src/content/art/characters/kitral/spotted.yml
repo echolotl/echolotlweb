@@ -1,15 +1,15 @@
-slug: spotted
-created_at: "2025-05-27T04:31:47.979Z"
-modified_at: "2025-09-28T20:15:02.355Z"
-title: Spotted
-pinned: false
-sketch: false
-character: kitral
-description: Kitral with... considerably more spots
-images:
-  - image:
-      src: /art/characters/kitral/1748320306919.webp
-      alt: Spotted
-    thumbnail:
-      src: /art/characters/kitral/thumbnails/1748320306919.webp
-      alt: Spotted
+"slug": "spotted"
+"created_at": "2025-05-27T04:31:47.979Z"
+"modified_at": "2026-07-18T04:11:14.017Z"
+"title": "Spotted"
+"pinned": false
+"sketch": false
+"character": "kitral"
+"description": "Kitral with... considerably more spots"
+"images":
+  - "image":
+      "src": "/art/characters/kitral/1748320306919.webp"
+      "alt": "Spotted"
+    "thumbnail":
+      "src": "/art/characters/kitral/thumbnails/1748320306919.webp"
+      "alt": "Spotted"

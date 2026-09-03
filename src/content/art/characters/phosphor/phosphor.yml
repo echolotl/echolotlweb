@@ -1,21 +1,21 @@
-slug: phosphor
-created_at: "2021-12-29T00:00:00.000Z"
-modified_at: "2025-09-28T23:21:13.970Z"
-title: Phosphor
-pinned: false
-sketch: false
-character: phosphor
-description: Original design of Phosphor
-images:
-  - id: oldPhosphor
-    image:
-      src: /art/characters/phosphor/oldPhosphor.png
-      alt: Phosphor
-    thumbnail:
-      src: /art/characters/phosphor/thumbnails/oldPhosphor.webp
-      alt: Phosphor
-    variants:
-      - image:
-          src: /art/characters/phosphor/oldPhosphor__no-background.jpg
-          alt: Phosphor
-        label: No Background
+"slug": "phosphor"
+"created_at": "2021-12-29T00:00:00.000Z"
+"modified_at": "2026-07-18T04:08:53.512Z"
+"title": "Phosphor"
+"pinned": false
+"sketch": false
+"character": "phosphor"
+"description": "Original design of Phosphor"
+"images":
+  - "id": "oldPhosphor"
+    "image":
+      "src": "/art/characters/phosphor/oldPhosphor.png"
+      "alt": "Phosphor"
+    "thumbnail":
+      "src": "/art/characters/phosphor/thumbnails/oldPhosphor.webp"
+      "alt": "Phosphor"
+    "variants":
+      - "label": "No Background"
+        "image":
+          "src": "/art/characters/phosphor/oldPhosphor__no-background.jpg"
+          "alt": "Phosphor"

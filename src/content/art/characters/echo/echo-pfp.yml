@@ -1,21 +1,21 @@
-slug: echo-pfp
-created_at: "2021-12-10T00:00:00.001Z"
-modified_at: "2025-09-28T23:25:38.508Z"
-title: Echo - PFP
-pinned: false
-sketch: false
-character: echo
-description: Profile picture made of Echo before [King](/characters/king) existed
-images:
-  - id: echoPFP
-    image:
-      src: /art/characters/echo/echoPFP.png
-      alt: Echo - PFP
-    thumbnail:
-      src: /art/characters/echo/thumbnails/echoPFP.webp
-      alt: Echo - PFP
-    variants:
-      - image:
-          src: /art/characters/echo/echoPFP__christmas.png
-          alt: Echo - PFP
-        label: Christmas
+"slug": "echo-pfp"
+"created_at": "2021-12-10T00:00:00.001Z"
+"modified_at": "2025-09-28T23:25:38.508Z"
+"title": "Echo - PFP"
+"pinned": false
+"sketch": false
+"character": "echo"
+"description": "Profile picture made of Echo before [King](/characters/king) existed"
+"images":
+  - "id": "echoPFP"
+    "image":
+      "src": "/art/characters/echo/echoPFP.png"
+      "alt": "Echo - PFP"
+    "thumbnail":
+      "src": "/art/characters/echo/thumbnails/echoPFP.webp"
+      "alt": "Echo - PFP"
+    "variants":
+      - "label": "Christmas"
+        "image":
+          "src": "/art/characters/echo/echoPFP__christmas.png"
+          "alt": "Echo - PFP"

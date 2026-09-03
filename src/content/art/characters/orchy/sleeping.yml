@@ -1,17 +1,17 @@
-slug: sleeping
-created_at: "2024-02-15T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.379Z"
-title: Sleeping
-pinned: false
-sketch: true
-character: orchy
-related_characters:
-  - phosphor
-description: Phosphor sleeping on Orchy, with the potion-tail-lamp overhead
-images:
-  - image:
-      src: /art/characters/orchy/image.png
-      alt: Sleeping
-    thumbnail:
-      src: /art/characters/orchy/thumbnails/image.webp
-      alt: Sleeping
+"slug": "sleeping"
+"created_at": "2024-02-15T00:00:00.000Z"
+"modified_at": "2025-09-28T20:15:02.379Z"
+"title": "Sleeping"
+"pinned": false
+"sketch": true
+"character": "orchy"
+"related_characters":
+  - "phosphor"
+"description": "Phosphor sleeping on Orchy, with the potion-tail-lamp overhead"
+"images":
+  - "image":
+      "src": "/art/characters/orchy/image.png"
+      "alt": "Sleeping"
+    "thumbnail":
+      "src": "/art/characters/orchy/thumbnails/image.webp"
+      "alt": "Sleeping"

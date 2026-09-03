@@ -1,18 +1,18 @@
-slug: dog-thing
-created_at: "2022-12-27T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.423Z"
-title: Dog Thing
-pinned: false
-sketch: false
-description: This was mostly just an idea, and it eventually turned into
-  [Phosphor](/characters/phosphor)
-tags:
-  - idea
-  - oc
-images:
-  - image:
-      src: /art/general/dog_thing.png
-      alt: Dog Thing
-    thumbnail:
-      src: /art/general/thumbnails/dog_thing.webp
-      alt: Dog Thing
+"slug": "dog-thing"
+"created_at": "2022-12-27T00:00:00.000Z"
+"modified_at": "2026-07-18T04:02:22.344Z"
+"title": "Dog Thing"
+"pinned": false
+"sketch": false
+"description": "This was mostly just an idea, and it eventually turned into
+  [Phosphor](/characters/phosphor)"
+"tags":
+  - "idea"
+  - "oc"
+"images":
+  - "image":
+      "src": "/art/general/dog_thing.png"
+      "alt": "Dog Thing"
+    "thumbnail":
+      "src": "/art/general/thumbnails/dog_thing.webp"
+      "alt": "Dog Thing"

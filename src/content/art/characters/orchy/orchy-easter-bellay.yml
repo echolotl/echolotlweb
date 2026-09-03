@@ -1,16 +1,16 @@
-slug: orchy-easter-bellay
-created_at: "2026-04-06T01:28:04.476Z"
-modified_at: "2026-05-09T03:52:49.023Z"
-title: Orchy easter bellay
-pinned: false
-sketch: true
-images:
-  - id: orchy-easter-bellay
-    image:
-      src: /art/characters/orchy/orchy-easter-bellay.png
-      alt: Orchy easter bellay
-    thumbnail:
-      src: /art/characters/orchy/thumbnails/orchy-easter-bellay.webp
-      alt: Orchy easter bellay
-description: It's not an egg...
-character: orchy
+"slug": "orchy-easter-bellay"
+"created_at": "2026-04-06T01:28:04.476Z"
+"modified_at": "2026-07-18T04:08:30.015Z"
+"title": "Orchy easter bellay"
+"pinned": false
+"sketch": true
+"description": "It's not an egg..."
+"character": "orchy"
+"images":
+  - "id": "orchy-easter-bellay"
+    "image":
+      "src": "/art/characters/orchy/orchy-easter-bellay.png"
+      "alt": "Orchy easter bellay"
+    "thumbnail":
+      "src": "/art/characters/orchy/thumbnails/orchy-easter-bellay.webp"
+      "alt": "Orchy easter bellay"

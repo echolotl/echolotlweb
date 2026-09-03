@@ -1,21 +1,21 @@
-slug: crowned
-created_at: "2021-12-14T00:00:00.000Z"
-modified_at: "2025-09-28T23:18:37.194Z"
-title: Crowned
-pinned: false
-sketch: false
-character: king
-description: The original drawing of King
-images:
-  - id: oldestKing
-    image:
-      src: /art/characters/king/oldestKing.png
-      alt: Crowned
-    thumbnail:
-      src: /art/characters/king/thumbnails/oldestKing.webp
-      alt: Crowned
-    variants:
-      - image:
-          src: /art/characters/king/oldestKing__sketch.jpg
-          alt: Sketched out version of previous image
-        label: Sketch
+"slug": "crowned"
+"created_at": "2021-12-14T00:00:00.000Z"
+"modified_at": "2026-07-18T04:02:04.018Z"
+"title": "Crowned"
+"pinned": false
+"sketch": false
+"character": "king"
+"description": "The original drawing of King"
+"images":
+  - "id": "oldestKing"
+    "image":
+      "src": "/art/characters/king/oldestKing.png"
+      "alt": "Crowned"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/oldestKing.webp"
+      "alt": "Crowned"
+    "variants":
+      - "label": "Sketch"
+        "image":
+          "src": "/art/characters/king/oldestKing__sketch.jpg"
+          "alt": "Sketched out version of previous image"

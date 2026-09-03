@@ -1,0 +1,16 @@
+"slug": "ishes-sketch"
+"created_at": "2026-07-13T22:00:49.075Z"
+"modified_at": "2026-07-18T04:05:47.362Z"
+"title": "Ishes sketch"
+"pinned": false
+"sketch": true
+"description": "apparently everyone's favorite"
+"character": "ishes"
+"images":
+  - "id": "ishes-sketch"
+    "image":
+      "src": "/art/characters/ishes/ishes-sketch.png"
+      "alt": "Ishes sketch"
+    "thumbnail":
+      "src": "/art/characters/ishes/thumbnails/ishes-sketch.webp"
+      "alt": "Ishes sketch"

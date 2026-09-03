@@ -1,19 +1,19 @@
-slug: hazel
-created_at: "2023-11-27T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.434Z"
-title: Hazel
-pinned: false
-sketch: false
-description: "Fanart of Hazel from [Monster Prom 3: Monster
+"slug": "hazel"
+"created_at": "2023-11-27T00:00:00.000Z"
+"modified_at": "2026-07-18T04:04:52.748Z"
+"title": "Hazel"
+"pinned": false
+"sketch": false
+"description": "Fanart of Hazel from [Monster Prom 3: Monster
   Roadtrip](https://store.steampowered.com/app/1665190/Monster_Prom_3_Monster_R\
   oadtrip/)"
-tags:
-  - fanart
-  - video game
-images:
-  - image:
-      src: /art/general/hazel.png
-      alt: Hazel
-    thumbnail:
-      src: /art/general/thumbnails/hazel.webp
-      alt: Hazel
+"tags":
+  - "fanart"
+  - "video game"
+"images":
+  - "image":
+      "src": "/art/general/hazel.png"
+      "alt": "Hazel"
+    "thumbnail":
+      "src": "/art/general/thumbnails/hazel.webp"
+      "alt": "Hazel"

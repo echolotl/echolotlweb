@@ -1,17 +1,17 @@
-slug: card-tin-on-tour
-created_at: "2022-10-09T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.406Z"
-title: Card Tin on Tour
-pinned: false
-sketch: false
-description: Card Tin on the stage for whatever reason
-tags:
-  - oc
-  - object show
-images:
-  - image:
-      src: /art/general/metal_tin3.png
-      alt: Card Tin on Tour
-    thumbnail:
-      src: /art/general/thumbnails/metal_tin3.webp
-      alt: Card Tin on Tour
+"slug": "card-tin-on-tour"
+"created_at": "2022-10-09T00:00:00.000Z"
+"modified_at": "2026-07-18T04:00:20.297Z"
+"title": "Card Tin on Tour"
+"pinned": false
+"sketch": false
+"description": "Card Tin on the stage for whatever reason"
+"tags":
+  - "oc"
+  - "object show"
+"images":
+  - "image":
+      "src": "/art/general/metal_tin3.png"
+      "alt": "Card Tin on Tour"
+    "thumbnail":
+      "src": "/art/general/thumbnails/metal_tin3.webp"
+      "alt": "Card Tin on Tour"

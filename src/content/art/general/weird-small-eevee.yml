@@ -1,18 +1,18 @@
-slug: weird-small-eevee
-created_at: "2021-12-10T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.477Z"
-title: Weird Small Eevee
-pinned: false
-sketch: true
-description: Drawing of a weird Eevee
-tags:
-  - fanart
-  - video game
-  - pokemon
-images:
-  - image:
-      src: /art/general/weirdsmalleevee.png
-      alt: Weird Small Eevee
-    thumbnail:
-      src: /art/general/thumbnails/weirdsmalleevee.webp
-      alt: Weird Small Eevee
+"slug": "weird-small-eevee"
+"created_at": "2021-12-10T00:00:00.000Z"
+"modified_at": "2025-09-28T20:15:02.477Z"
+"title": "Weird Small Eevee"
+"pinned": false
+"sketch": true
+"description": "Drawing of a weird Eevee"
+"tags":
+  - "fanart"
+  - "video game"
+  - "pokemon"
+"images":
+  - "image":
+      "src": "/art/general/weirdsmalleevee.png"
+      "alt": "Weird Small Eevee"
+    "thumbnail":
+      "src": "/art/general/thumbnails/weirdsmalleevee.webp"
+      "alt": "Weird Small Eevee"

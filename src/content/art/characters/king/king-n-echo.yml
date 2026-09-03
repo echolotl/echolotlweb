@@ -1,17 +1,17 @@
-slug: king-n-echo
-created_at: "2021-12-15T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.324Z"
-title: King n' Echo
-pinned: false
-sketch: false
-character: king
-related_characters:
-  - echo
-description: A profile picture made for Discord featuring the two sonas
-images:
-  - image:
-      src: /art/characters/king/kingeEcho.png
-      alt: King n' Echo
-    thumbnail:
-      src: /art/characters/king/thumbnails/kingeEcho.webp
-      alt: King n' Echo
+"slug": "king-n-echo"
+"created_at": "2021-12-15T00:00:00.000Z"
+"modified_at": "2025-09-28T20:15:02.324Z"
+"title": "King n' Echo"
+"pinned": false
+"sketch": false
+"character": "king"
+"related_characters":
+  - "echo"
+"description": "A profile picture made for Discord featuring the two sonas"
+"images":
+  - "image":
+      "src": "/art/characters/king/kingeEcho.png"
+      "alt": "King n' Echo"
+    "thumbnail":
+      "src": "/art/characters/king/thumbnails/kingeEcho.webp"
+      "alt": "King n' Echo"

@@ -1,22 +1,22 @@
-slug: at-the-forge
-created_at: "2024-01-10T00:00:00.000Z"
-modified_at: "2025-09-28T23:22:39.029Z"
-title: At the Forge
-pinned: false
-sketch: false
-character: nautilus
-description: Unbelieveably, this is related to a build in a Minecraft server.
-  Very cool though
-images:
-  - id: nautilusForge
-    image:
-      src: /art/characters/nautilus/nautilusForge.png
-      alt: At the Forge
-    thumbnail:
-      src: /art/characters/nautilus/thumbnails/nautilusForge.webp
-      alt: At the Forge
-    variants:
-      - image:
-          src: /art/characters/nautilus/nautilusForge__no-background.png
-          alt: At the Forge
-        label: No Background
+"slug": "at-the-forge"
+"created_at": "2024-01-10T00:00:00.000Z"
+"modified_at": "2026-07-18T03:58:51.183Z"
+"title": "At the Forge"
+"pinned": false
+"sketch": false
+"character": "nautilus"
+"description": "Unbelieveably, this is related to a build in a Minecraft server.
+  Very cool though"
+"images":
+  - "id": "nautilusForge"
+    "image":
+      "src": "/art/characters/nautilus/nautilusForge.png"
+      "alt": "At the Forge"
+    "thumbnail":
+      "src": "/art/characters/nautilus/thumbnails/nautilusForge.webp"
+      "alt": "At the Forge"
+    "variants":
+      - "label": "No Background"
+        "image":
+          "src": "/art/characters/nautilus/nautilusForge__no-background.png"
+          "alt": "At the Forge"
