@@ -71,6 +71,10 @@ export class Logger {
     // This purposefully does not include the LOG_PREFIX
     console.log(message);
   }
+  static question(message: string) {
+    if (context.noLog) return;
+    console.log(`\x1b[2m${message}\x1b[0m`);
+  }
   static nl() {
     if (context.noLog) return;
     console.log("");

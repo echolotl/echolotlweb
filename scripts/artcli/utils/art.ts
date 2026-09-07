@@ -61,10 +61,10 @@ export async function buildArtGallery(
         base.variants = [];
       }
 
-      Logger.log("▌ Enter a name for this variant:");
+      Logger.question("▌ Enter a name for this variant:");
       const label = await ask();
 
-      Logger.log("▌ Enter alt text for this variant (optional):");
+      Logger.question("▌ Enter alt text for this variant (optional):");
       const alt = await ask();
 
       base.variants.push({
@@ -73,10 +73,10 @@ export async function buildArtGallery(
         alt: alt || undefined,
       });
     } else {
-      Logger.log("▌ Image title (optional):");
+      Logger.question("▌ Image title (optional):");
       const title = await ask();
 
-      Logger.log("▌ Enter alt text for this image (optional):");
+      Logger.question("▌ Enter alt text for this image (optional):");
       const alt = await ask();
       const titleSlug = title ? generateSlug(title) : slug;
       let idCandidate = titleSlug;
@@ -219,4 +219,22 @@ export function getAllCharacters(): Character[] {
     }
   }
   return characters;
+}
+
+export function isActualCharacter(slug: string): boolean {
+  try {
+    getCharacterBySlug(slug);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function slugExists(slug: string): boolean {
+  try {
+    getArtBySlug(slug);
+    return true;
+  } catch {
+    return false;
+  }
 }

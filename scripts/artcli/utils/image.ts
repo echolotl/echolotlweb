@@ -1,4 +1,5 @@
 import sharp from "sharp";
+import { spawn } from "node:child_process";
 import { Logger } from "../../logger";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -25,6 +26,27 @@ export async function validateImage(filePath: string): Promise<boolean> {
   }
 
   return true;
+}
+
+export async function getImageDimensions(
+  filePath: string,
+): Promise<{ width?: number; height?: number }> {
+  const metadata = await sharp(filePath).metadata();
+  return { width: metadata.width, height: metadata.height };
+}
+
+export function previewImage(filePath: string): void {
+  const command =
+    process.platform === "win32"
+      ? "explorer.exe"
+      : process.platform === "darwin"
+        ? "open"
+        : "xdg-open";
+  const previewProcess = spawn(command, [filePath], {
+    detached: true,
+    stdio: "ignore",
+  });
+  previewProcess.unref();
 }
 
 export async function copyImage(

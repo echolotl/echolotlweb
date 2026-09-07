@@ -192,7 +192,7 @@ export async function ask(options: AskOptions = {}): Promise<string> {
   } = options;
   const getAnswer = async (): Promise<string> => {
     try {
-      return await rl.question(`\x1b[2m${prompt}`);
+      return await rl.question(`\x1b[2m${prompt}\x1b[0m`);
     } catch (error) {
       Logger.nl();
       Logger.error(String(error));
@@ -212,7 +212,7 @@ export async function ask(options: AskOptions = {}): Promise<string> {
     }
 
     if (!answer && defaultValue !== undefined) {
-      process.stdout.write(`\x1b[1A\r\x1b[2m${prompt}${defaultValue}\x1b[0m\n`);
+      process.stdout.write(`\x1b[1A\r\x1b[2m${prompt}\x1b[0m${defaultValue}\n`);
       return defaultValue;
     }
 

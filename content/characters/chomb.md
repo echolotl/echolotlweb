@@ -38,6 +38,8 @@ sitemap:
   lastmod: 2026-01-29
 ---
 
-<Callout type="info">
-This character's description and page is currently a WIP. There will be something here eventually.
+<Callout type="info" title="WIP">
+This character's description and page is a work in progress...
 </Callout>
+
+**Chomb** is an anthropomorphic spider who spends most of his time in the forest near the main town. They're a trickster by nature, often playing tricks on the wanderers who roam through the forest. He also likes to leave messages made out of his webs hanging from trees or other public infrastructure. He does not like most unnatural, mechanical things, or anything that threatens to destroy life within the forest.

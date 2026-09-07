@@ -34,6 +34,8 @@ import SketchFilter from "../common/SketchFilter.vue";
 interface Props {
   type?: "info" | "warning" | "error" | "tip";
   title?: string;
+  icon?: string;
+  color?: string;
 }
 
 var id = Math.random().toString(36).slice(2);
@@ -41,9 +43,13 @@ var id = Math.random().toString(36).slice(2);
 const props = withDefaults(defineProps<Props>(), {
   type: "info",
   title: undefined,
+  icon: undefined,
+  color: undefined,
 });
 
 const iconName = computed(() => {
+  if (props.icon) return props.icon;
+
   const icons = {
     info: "info",
     warning: "warning",
@@ -68,6 +74,8 @@ const title = computed(() => {
 });
 
 const color = computed(() => {
+  if (props.color) return props.color;
+
   const colors = {
     info: "var(--primary)",
     warning: "var(--orange)",

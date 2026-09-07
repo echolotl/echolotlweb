@@ -3,8 +3,19 @@ import * as path from "node:path";
 import { Logger } from "../../logger";
 import type { Art, ArtImage } from "../../../types";
 import { context, ART_DIR, CONTENT_DIR } from "../utils/context";
-import { validateImage, copyImage, generateThumbnail } from "../utils/image";
-import { generateSlug, generateArtYAML } from "../utils/art";
+import {
+  validateImage,
+  copyImage,
+  generateThumbnail,
+  getImageDimensions,
+  previewImage,
+} from "../utils/image";
+import {
+  generateSlug,
+  generateArtYAML,
+  isActualCharacter,
+  slugExists,
+} from "../utils/art";
 import { ask, exit } from "../utils/cli";
 import { pushToRemote } from "../utils/git";
 import { parseCommaSeparated } from "../utils/parse";
@@ -12,6 +23,36 @@ import { parseCommaSeparated } from "../utils/parse";
 type PlacementChoice = "variant" | "gallery" | "new";
 
 type ArtDraft = Omit<Art, "modified_at">;
+
+const IMAGE_EXTENSIONS = new Set([
+  ".avif",
+  ".bmp",
+  ".gif",
+  ".jpeg",
+  ".jpg",
+  ".png",
+  ".tif",
+  ".tiff",
+  ".webp",
+]);
+
+function expandImagePaths(args: string[]): string[] {
+  return args.flatMap((arg) => {
+    if (!fs.existsSync(arg) || !fs.statSync(arg).isDirectory()) {
+      return [arg];
+    }
+
+    return fs
+      .readdirSync(arg, { withFileTypes: true })
+      .filter(
+        (entry) =>
+          entry.isFile() &&
+          IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase()),
+      )
+      .map((entry) => path.join(arg, entry.name))
+      .sort((first, second) => first.localeCompare(second));
+  });
+}
 
 /**
  * Gets a unique ID based on the slug provided or generated from the title.
@@ -36,7 +77,7 @@ function getImageId(images: ArtImage[], slug: string, title?: string): string {
  * @returns "variant", "gallery", or "new" based on input
  */
 async function askPlacementChoice(): Promise<PlacementChoice> {
-  Logger.log(
+  Logger.question(
     "▌ Do you want to add this as a variant, gallery image, or create a new art piece? (variant/gallery/new)",
   );
   var choice: string = "";
@@ -73,21 +114,31 @@ async function collectArtMetadata(
   defaultDate: string,
   detectedModifiedTime?: Date,
 ): Promise<ArtDraft> {
-  Logger.log("▌ What's the title?");
-  const title = await ask({ required: true });
+  Logger.question("▌ What's the title?");
+  const title = await ask({
+    required: true,
+    validate: (value) =>
+      slugExists(generateSlug(value))
+        ? "An art piece with this title already exists."
+        : true,
+  });
   const slug = generateSlug(title);
 
-  Logger.log("▌ What's the description? (optional)");
+  Logger.question("▌ What's the description? (optional)");
   const description = await ask();
 
-  Logger.log("▌ What are the tags? (comma-separated, optional)");
+  Logger.question("▌ What are the tags? (comma-separated, optional)");
   const tagsInput = await ask();
   const tags = parseCommaSeparated(tagsInput);
 
-  Logger.log(
+  Logger.question(
     "▌ Is this general or character-specific art? Enter character name or leave blank for general.",
   );
-  const characterInput = await ask({ default: "General Art" });
+  const characterInput = await ask({
+    default: "General Art",
+    validate: (value) =>
+      isActualCharacter(value) ? true : "That character does not exist.",
+  });
   const trimmedCharacter = characterInput.trim();
   const isGeneralArt =
     trimmedCharacter.length === 0 ||
@@ -97,14 +148,25 @@ async function collectArtMetadata(
 
   let related_characters: string[] = [];
   if (!isGeneralArt) {
-    Logger.log(
+    Logger.question(
       "▌ Any other characters that appear? (comma-separated, optional)",
     );
-    const relatedInput = await ask();
-    related_characters = parseCommaSeparated(relatedInput);
+    let characters: string[] = [];
+    const relatedInput = await ask({
+      validate: (value) => {
+        characters = parseCommaSeparated(value);
+        for (const char of characters) {
+          if (!isActualCharacter(char)) {
+            return `Character "${char}" does not exist.`;
+          }
+        }
+        return true;
+      },
+    });
+    related_characters = characters;
   }
 
-  Logger.log(
+  Logger.question(
     `▌ When was the image created? ${detectedModifiedTime ? `(Detected: ${detectedModifiedTime.toLocaleString()}. Leave blank to use this date.)` : "(Couldn't detect a modification time. Leave blank to use current time.)"}`,
   );
   const created_at_input = await ask({
@@ -118,11 +180,11 @@ async function collectArtMetadata(
   });
   const created_at = new Date(created_at_input).toISOString();
 
-  Logger.log("▌ Is this a sketch? (y/N)");
+  Logger.question("▌ Is this a sketch? (y/N)");
   const sketchInput = await ask({ default: "N" });
   const sketch = sketchInput.charAt(0).toLowerCase() === "y";
 
-  Logger.log("▌ Should this be pinned? (y/N)");
+  Logger.question("▌ Should this be pinned? (y/N)");
   const pinnedInput = await ask({ default: "N" });
   const pinned = pinnedInput.charAt(0).toLowerCase() === "y";
 
@@ -153,18 +215,23 @@ export async function add(args: string[]) {
     Logger.error("Please provide the path to the image you want to add.");
     exit(1);
   }
+  const imagePaths = expandImagePaths(args);
+  if (imagePaths.length === 0) {
+    Logger.error("The provided folder does not contain any supported images.");
+    exit(1);
+  }
   Logger.info(
-    `Processing ${args.length} image${args.length > 1 ? "s" : ""}...`,
+    `Processing ${imagePaths.length} image${imagePaths.length > 1 ? "s" : ""}...`,
   );
   Logger.nl();
 
-  for (const imagePath of args) {
+  for (const imagePath of imagePaths) {
     if (!(await validateImage(imagePath))) {
       exit(1);
     }
   }
 
-  const imageModifiedTimes = args.map((imagePath) => {
+  const imageModifiedTimes = imagePaths.map((imagePath) => {
     return fs.statSync(imagePath).mtime;
   });
   const artDrafts: ArtDraft[] = [];
@@ -172,11 +239,16 @@ export async function add(args: string[]) {
   let currentDraft: ArtDraft | null = null;
   let lastBaseImageIndex = -1;
 
-  for (let i = 0; i < args.length; i++) {
-    const imagePath = args[i]!;
+  for (let i = 0; i < imagePaths.length; i++) {
+    const imagePath = imagePaths[i]!;
     Logger.info(
       `Image #${i + 1} (${Logger.fmtBold(path.basename(imagePath))})`,
     );
+    const { width, height } = await getImageDimensions(imagePath);
+    Logger.dim(
+      `${path.resolve(imagePath)}${width && height ? ` (${width}x${height})` : ""}`,
+    );
+    previewImage(imagePath);
 
     if (!currentDraft) {
       const detectedModifiedTime = imageModifiedTimes[i];
@@ -224,10 +296,10 @@ export async function add(args: string[]) {
       } else {
         if (!baseImage.variants) baseImage.variants = [];
 
-        Logger.log("▌ Enter a name for this variant:");
+        Logger.question("▌ Enter a name for this variant:");
         const label = await ask();
 
-        Logger.log("▌ Enter alt text for this variant (optional):");
+        Logger.question("▌ Enter alt text for this variant (optional):");
         const alt = await ask();
 
         baseImage.variants.push({
@@ -239,10 +311,10 @@ export async function add(args: string[]) {
       }
     }
 
-    Logger.log("▌ Image title (optional):");
+    Logger.question("▌ Image title (optional):");
     const imageTitle = await ask();
 
-    Logger.log("▌ Enter alt text for this image (optional):");
+    Logger.question("▌ Enter alt text for this image (optional):");
     const imageAlt = await ask();
 
     const id = getImageId(draft.images, draft.slug, imageTitle || undefined);
@@ -262,7 +334,7 @@ export async function add(args: string[]) {
 
   // Map original basenames to full source paths for lookup
   const sourceMap = new Map<string, string[]>();
-  for (const arg of args) {
+  for (const arg of imagePaths) {
     const basename = path.basename(arg);
     const existing = sourceMap.get(basename);
     if (existing) {
