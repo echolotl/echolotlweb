@@ -87,7 +87,7 @@ const hasMultipleImages = computed(() => {
   color: inherit;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 200px;
+  max-width: 150px;
   transform-origin: center;
   transition: transform 0.3s ease-out;
   will-change: transform filter;
