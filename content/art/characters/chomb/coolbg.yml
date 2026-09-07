@@ -1,6 +1,6 @@
 slug: coolbg
 created_at: '2024-01-28T00:00:00.000Z'
-modified_at: '2026-07-18T04:01:49.341Z'
+modified_at: '2026-09-07T02:59:07.035Z'
 title: coolBG
 pinned: false
 sketch: false
@@ -12,7 +12,4 @@ images:
   - image_url: /art/characters/chomb/chombcoolbg.png
     thumbnail_url: /art/characters/chomb/thumbnails/chombcoolbg.webp
     alt: coolBG
-    thumbnail_scale: 1.7
-    thumbnail_focus:
-      x: 1000
-      'y': 743
+    thumbnail_anchor: top

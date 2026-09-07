@@ -1,6 +1,6 @@
 slug: hydra
 created_at: '2024-02-24T00:00:00.000Z'
-modified_at: '2026-07-18T04:05:28.590Z'
+modified_at: '2026-09-07T02:59:07.347Z'
 title: Hydra
 pinned: false
 sketch: false
@@ -14,7 +14,4 @@ images:
   - image_url: /art/general/roblosoc.png
     thumbnail_url: /art/general/thumbnails/roblosoc.webp
     alt: Hydra
-    thumbnail_scale: 2.8
-    thumbnail_focus:
-      x: 233
-      'y': 165
+    thumbnail_anchor: top

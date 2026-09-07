@@ -43,8 +43,7 @@ export interface Art {
 export interface ArtImageVariant {
   image_url: string;
   thumbnail_url?: string;
-  thumbnail_focus?: Point;
-  thumbnail_scale?: number;
+  thumbnail_anchor?: ThumbnailAnchor;
   label?: string;
   alt?: string;
 }
@@ -54,13 +53,18 @@ export interface ArtImage {
   title?: string;
   image_url: string;
   thumbnail_url?: string;
-  thumbnail_focus?: Point;
-  thumbnail_scale?: number;
+  thumbnail_anchor?: ThumbnailAnchor;
   alt?: string;
   variants?: ArtImageVariant[];
 }
 
-export interface Point {
-  x: number;
-  y: number;
-}
+export type ThumbnailAnchor =
+  | "top-left"
+  | "top"
+  | "top-right"
+  | "left"
+  | "center"
+  | "right"
+  | "bottom-left"
+  | "bottom"
+  | "bottom-right";

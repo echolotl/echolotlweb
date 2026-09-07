@@ -1,6 +1,6 @@
 slug: phosphor
 created_at: '2021-12-29T00:00:00.000Z'
-modified_at: '2026-07-18T04:08:53.512Z'
+modified_at: '2026-09-07T02:59:07.249Z'
 title: Phosphor
 pinned: false
 sketch: false
@@ -17,7 +17,4 @@ images:
       - image_url: /art/characters/phosphor/oldPhosphor__no-background.jpg
         thumbnail_url: /art/characters/phosphor/thumbnails/oldPhosphor__no-background.webp
         label: No Background
-    thumbnail_scale: 1.7
-    thumbnail_focus:
-      x: 800
-      'y': 562
+    thumbnail_anchor: top

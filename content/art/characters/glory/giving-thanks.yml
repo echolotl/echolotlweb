@@ -1,6 +1,6 @@
 slug: giving-thanks
 created_at: '2025-11-28T04:56:08.599Z'
-modified_at: '2026-07-18T04:04:03.937Z'
+modified_at: '2026-09-07T02:59:07.077Z'
 title: Giving Thanks
 pinned: false
 sketch: true
@@ -8,10 +8,7 @@ images:
   - id: giving-thanks
     image_url: /art/characters/glory/giving-thanks.png
     thumbnail_url: /art/characters/glory/thumbnails/giving-thanks.webp
-    thumbnail_scale: 2.8
-    thumbnail_focus:
-      x: 502
-      'y': 393
+    thumbnail_anchor: top-left
 description: or taking it maybe, we're not sure
 character: glory
 related_characters:

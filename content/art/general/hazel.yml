@@ -1,6 +1,6 @@
 slug: hazel
 created_at: '2023-11-27T00:00:00.000Z'
-modified_at: '2026-07-18T04:04:52.748Z'
+modified_at: '2026-09-07T02:59:07.342Z'
 title: Hazel
 pinned: false
 sketch: false
@@ -14,7 +14,4 @@ images:
   - image_url: /art/general/hazel.png
     thumbnail_url: /art/general/thumbnails/hazel.webp
     alt: Hazel
-    thumbnail_scale: 2.5
-    thumbnail_focus:
-      x: 1213
-      'y': 1018
+    thumbnail_anchor: center

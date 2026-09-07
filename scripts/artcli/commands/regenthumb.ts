@@ -7,15 +7,14 @@ import * as fs from "fs";
 import * as path from "path";
 import { dump, load } from "js-yaml";
 import { pushToRemote } from "../utils/git";
-import type { Point } from "../../../types";
+import type { ThumbnailAnchor } from "../../../types";
 
 const extensions = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
 
 let thumbnailDataMap = new Map<string, ThumbnailMetadata>();
 
 type ThumbnailMetadata = {
-  thumbnail_focus?: Point;
-  thumbnail_scale?: number;
+  thumbnail_anchor?: ThumbnailAnchor;
 };
 
 function buildThumbnailMetadata(): void {
@@ -25,16 +24,14 @@ function buildThumbnailMetadata(): void {
     for (const image of images) {
       const key = path.parse(image.image_url).name;
       thumbnailDataMap.set(key, {
-        thumbnail_focus: image.thumbnail_focus,
-        thumbnail_scale: image.thumbnail_scale,
+        thumbnail_anchor: image.thumbnail_anchor,
       });
 
       if (!Array.isArray(image.variants)) continue;
       for (const variantImage of image.variants) {
         const variantKey = path.parse(variantImage.image_url).name;
         thumbnailDataMap.set(variantKey, {
-          thumbnail_focus: variantImage.thumbnail_focus,
-          thumbnail_scale: variantImage.thumbnail_scale,
+          thumbnail_anchor: variantImage.thumbnail_anchor,
         });
       }
     }
@@ -199,8 +196,7 @@ export async function regenthumb(args: string[]) {
         await generateThumbnail(
           imagePath,
           thumbnailPath,
-          thumbnailMetadata?.thumbnail_focus,
-          thumbnailMetadata?.thumbnail_scale,
+          thumbnailMetadata?.thumbnail_anchor,
         );
         await updateContentFile(imagePath, thumbnailPath);
         Logger.success(

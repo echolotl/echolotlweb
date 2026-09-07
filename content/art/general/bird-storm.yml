@@ -1,6 +1,6 @@
 slug: bird-storm
 created_at: '2024-09-02T00:00:00.000Z'
-modified_at: '2026-07-18T03:59:42.157Z'
+modified_at: '2026-09-07T02:59:07.285Z'
 title: Bird Storm
 pinned: false
 sketch: false
@@ -13,7 +13,4 @@ images:
   - image_url: /art/general/l.png
     thumbnail_url: /art/general/thumbnails/l.webp
     alt: Bird Storm
-    thumbnail_scale: 1.9
-    thumbnail_focus:
-      x: 1114
-      'y': 789
+    thumbnail_anchor: right

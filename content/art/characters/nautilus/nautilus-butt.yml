@@ -5,8 +5,7 @@ title: Nautilus butt
 pinned: false
 sketch: true
 images:
-    -
-        id: nautilus-butt
+    -   id: nautilus-butt
         image_url: /art/characters/nautilus/nautilus-butt.png
         thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-butt.webp
 description: wow I didn't know it could do that

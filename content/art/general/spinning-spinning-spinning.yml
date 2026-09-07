@@ -1,6 +1,6 @@
 slug: spinning-spinning-spinning
 created_at: '2026-07-02T02:15:49.693Z'
-modified_at: '2026-07-18T04:11:09.166Z'
+modified_at: '2026-09-07T02:59:07.389Z'
 title: spinning spinning spinning
 pinned: false
 sketch: false
@@ -8,10 +8,7 @@ images:
   - id: spinning-spinning-spinning
     image_url: /art/general/spinning-spinning-spinning.png
     thumbnail_url: /art/general/thumbnails/spinning-spinning-spinning.webp
-    thumbnail_scale: 3.1
-    thumbnail_focus:
-      x: 707
-      'y': 529
+    thumbnail_anchor: top
 description: Attack on [trinemisis](https://artfight.net/~trinemesis) for Art Fight!
 tags:
   - art fight

@@ -4,13 +4,21 @@ import { Logger } from "../../logger";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { context } from "./context";
-import type { Point } from "../../../types";
+import type { ThumbnailAnchor } from "../../../types";
 
 const THUMBNAIL_SIZE = 300;
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value));
-}
+const thumbnailAnchorPositions: Record<ThumbnailAnchor, sharp.Gravity> = {
+  "top-left": "northwest",
+  top: "north",
+  "top-right": "northeast",
+  left: "west",
+  center: "centre",
+  right: "east",
+  "bottom-left": "southwest",
+  bottom: "south",
+  "bottom-right": "southeast",
+};
 
 export async function validateImage(filePath: string): Promise<boolean> {
   if (!fs.existsSync(filePath)) {
@@ -70,51 +78,15 @@ export async function copyImage(
 export async function generateThumbnail(
   imagePath: string,
   thumbnailPath: string,
-  thumbnailFocus?: Point,
-  thumbnailScale?: number,
+  thumbnailAnchor: ThumbnailAnchor = "center",
 ): Promise<void> {
   const thumbnailDir = path.dirname(thumbnailPath);
   fs.mkdirSync(thumbnailDir, { recursive: true });
 
-  const image = sharp(imagePath);
-  const metadata = await image.metadata();
-  const width = metadata.width;
-  const height = metadata.height;
-
-  if (!width || !height) {
-    throw new Error(`Could not read image dimensions for ${imagePath}`);
-  }
-
-  const baseCropSide = Math.min(width, height);
-  const zoom =
-    typeof thumbnailScale === "number" && Number.isFinite(thumbnailScale)
-      ? Math.max(1, thumbnailScale)
-      : 1;
-  const cropSide = Math.max(1, Math.round(baseCropSide / zoom));
-
-  const focusX =
-    typeof thumbnailFocus?.x === "number" && Number.isFinite(thumbnailFocus.x)
-      ? thumbnailFocus.x
-      : width / 2;
-  const focusY =
-    typeof thumbnailFocus?.y === "number" && Number.isFinite(thumbnailFocus.y)
-      ? thumbnailFocus.y
-      : height / 2;
-
-  const maxLeft = Math.max(0, width - cropSide);
-  const maxTop = Math.max(0, height - cropSide);
-  const left = clamp(Math.round(focusX - cropSide / 2), 0, maxLeft);
-  const top = clamp(Math.round(focusY - cropSide / 2), 0, maxTop);
-
-  await image
-    .extract({
-      left,
-      top,
-      width: cropSide,
-      height: cropSide,
-    })
+  await sharp(imagePath)
     .resize(THUMBNAIL_SIZE, THUMBNAIL_SIZE, {
       fit: "cover",
+      position: thumbnailAnchorPositions[thumbnailAnchor],
     })
     .webp({ quality: 100 })
     .toFile(thumbnailPath);

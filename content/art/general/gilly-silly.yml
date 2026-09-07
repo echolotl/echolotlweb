@@ -1,6 +1,6 @@
 slug: gilly-silly
 created_at: '2026-04-15T01:07:30.904Z'
-modified_at: '2026-07-18T04:03:58.365Z'
+modified_at: '2026-09-07T02:59:07.334Z'
 title: gilly silly
 pinned: true
 sketch: false
@@ -8,10 +8,7 @@ images:
   - id: gilly-silly
     image_url: /art/general/gilly-silly.png
     thumbnail_url: /art/general/thumbnails/gilly-silly.webp
-    thumbnail_scale: 2.8
-    thumbnail_focus:
-      x: 1142
-      'y': 525
+    thumbnail_anchor: top
 description: gilly by [Fi4estorm](https://www.instagram.com/fi4estorm/)
 tags:
   - friends

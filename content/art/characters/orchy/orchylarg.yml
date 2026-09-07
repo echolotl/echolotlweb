@@ -1,6 +1,6 @@
 slug: orchylarg
 created_at: '2024-09-16T00:00:00.000Z'
-modified_at: '2026-07-18T04:08:43.835Z'
+modified_at: '2026-09-07T02:59:07.236Z'
 title: orchylarg
 pinned: false
 sketch: true
@@ -14,7 +14,4 @@ images:
   - image_url: /art/characters/orchy/orchylarg.png
     thumbnail_url: /art/characters/orchy/thumbnails/orchylarg.webp
     alt: orchylarg
-    thumbnail_scale: 1.7
-    thumbnail_focus:
-      x: 971
-      'y': 386
+    thumbnail_anchor: top

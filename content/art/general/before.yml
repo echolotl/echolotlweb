@@ -1,6 +1,6 @@
 slug: before
 created_at: '2025-03-31T01:13:26.803Z'
-modified_at: '2026-07-18T03:59:24.813Z'
+modified_at: '2026-09-07T02:59:07.281Z'
 title: Before
 pinned: false
 sketch: false
@@ -13,7 +13,4 @@ images:
   - image_url: /art/general/1743383604379.webp
     thumbnail_url: /art/general/thumbnails/1743383604379.webp
     alt: Before
-    thumbnail_scale: 1
-    thumbnail_focus:
-      x: 2895
-      'y': 1306
+    thumbnail_anchor: center

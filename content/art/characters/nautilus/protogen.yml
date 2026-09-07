@@ -1,6 +1,6 @@
 slug: protogen
 created_at: '2023-01-03T00:00:00.000Z'
-modified_at: '2026-07-18T04:09:05.938Z'
+modified_at: '2026-09-07T02:59:07.211Z'
 title: Protogen
 pinned: false
 sketch: false
@@ -12,7 +12,4 @@ images:
   - image_url: /art/characters/nautilus/nautilusProtogen.png
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
     alt: Protogen
-    thumbnail_scale: 2.3
-    thumbnail_focus:
-      x: 580
-      'y': 499
+    thumbnail_anchor: top

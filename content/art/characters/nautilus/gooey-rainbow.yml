@@ -1,6 +1,6 @@
 slug: gooey-rainbow
 created_at: '2022-02-04T00:00:00.000Z'
-modified_at: '2026-07-18T04:04:34.202Z'
+modified_at: '2026-09-07T02:59:07.202Z'
 title: Gooey Rainbow
 pinned: false
 sketch: false
@@ -12,7 +12,4 @@ images:
   - image_url: /art/characters/nautilus/nautilusOG.png
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilusOG.webp
     alt: Gooey Rainbow
-    thumbnail_scale: 2.3
-    thumbnail_focus:
-      x: 1220
-      'y': 638
+    thumbnail_anchor: top

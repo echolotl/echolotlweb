@@ -4,11 +4,18 @@ import { defineSitemapSchema } from "@nuxtjs/sitemap/content";
 const imageVariant = z.object({
   image_url: z.string().url(),
   thumbnail_url: z.string().url().optional(),
-  thumbnail_focus: z
-    .object({
-      x: z.number(),
-      y: z.number(),
-    })
+  thumbnail_anchor: z
+    .enum([
+      "top-left",
+      "top",
+      "top-right",
+      "left",
+      "center",
+      "right",
+      "bottom-left",
+      "bottom",
+      "bottom-right",
+    ])
     .optional(),
   label: z.string().optional(),
   alt: z.string().optional(),
@@ -19,11 +26,18 @@ const galleryImage = z.object({
   title: z.string().optional(),
   image_url: z.string().url(),
   thumbnail_url: z.string().url().optional(),
-  thumbnail_focus: z
-    .object({
-      x: z.number(),
-      y: z.number(),
-    })
+  thumbnail_anchor: z
+    .enum([
+      "top-left",
+      "top",
+      "top-right",
+      "left",
+      "center",
+      "right",
+      "bottom-left",
+      "bottom",
+      "bottom-right",
+    ])
     .optional(),
   alt: z.string().optional(),
   variants: z.array(imageVariant).optional(),
