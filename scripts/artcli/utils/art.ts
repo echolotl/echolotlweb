@@ -231,10 +231,20 @@ export function isActualCharacter(slug: string): boolean {
 }
 
 export function slugExists(slug: string): boolean {
-  try {
-    getArtBySlug(slug);
+  const artDir = path.join(process.cwd(), "content/art");
+  if (fs.existsSync(path.join(artDir, "general", `${slug}.yml`))) {
     return true;
-  } catch {
+  }
+
+  const charactersDir = path.join(artDir, "characters");
+  if (!fs.existsSync(charactersDir)) {
     return false;
   }
+
+  return fs
+    .readdirSync(charactersDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .some((entry) =>
+      fs.existsSync(path.join(charactersDir, entry.name, `${slug}.yml`)),
+    );
 }

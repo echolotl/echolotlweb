@@ -38,6 +38,7 @@ export interface Art {
   artist_name?: string;
   images: ArtImage[]; // At least one per schema
   sketch?: boolean;
+  nsfw: boolean;
 }
 
 export interface ArtImageVariant {
