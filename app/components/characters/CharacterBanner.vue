@@ -1,17 +1,19 @@
 <template>
-  <div class="character-banner">
+  <div class="character-banner" :class="bannerVariant">
     <SketchFilter
       id="sketch-banner-title"
       :seed="64"
       flood-color="var(--background)" />
 
     <div class="character-banner__content">
-      <div
-        class="character-banner__texture"
-        :style="{
-          maskImage: `url(/images/characters/${character.slug}/texture.png)`,
-          maskPosition: `0 ${scrollY}px`,
-        }" />
+      <div class="character-banner__texture-layer">
+        <div
+          class="character-banner__texture"
+          :style="{
+            maskImage: `url(/images/characters/${character.slug}/texture.png)`,
+            maskPosition: `0 ${scrollY}px`,
+          }" />
+      </div>
       <div class="character-banner__underlay" />
       <div class="character-banner__images">
         <div
@@ -59,6 +61,18 @@ const props = defineProps<{
 }>();
 
 const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
+const bannerVariant = computed(() => {
+  switch (props.character.slug) {
+    case "nautilus":
+      return "character-banner--nautilus";
+    case "nae":
+      return "character-banner--nae";
+    case "quiver":
+      return "character-banner--quiver";
+    default:
+      return null;
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -100,6 +114,12 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
   mask-size: 300px 300px;
   mask-origin: content-box;
   @include theme-transition;
+}
+
+.character-banner__texture-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 
 .character-banner__image {
@@ -145,6 +165,42 @@ const titleImage = `url(/images/characters/${props.character.slug}/title.png)`;
   background-color: var(--background);
   mask-image: linear-gradient(to top, black, transparent);
   @include theme-transition;
+}
+.character-banner--nautilus .character-banner__underlay {
+  background: linear-gradient(to right, #30cde9, #d64eff);
+  opacity: 1;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+.character-banner--nautilus .character-banner__texture {
+  background: linear-gradient(to right, #30cde9, #d64eff);
+}
+
+.character-banner--nautilus .character-banner__texture-layer {
+  @include mask-gradient(to bottom, black, 0%, transparent, 100%);
+}
+
+.character-banner--nae .character-banner__underlay {
+  background: repeating-conic-gradient(
+    at 50% 0%,
+    var(--theme-color) 0% 8.25%,
+    #131c97 8.25% 16.5%,
+    var(--theme-color) 16.5% 25%
+  );
+  opacity: 1;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+.character-banner--nae .character-banner__texture {
+  background: repeating-conic-gradient(
+    at 50% 0%,
+    var(--theme-color) 0% 8.25%,
+    #7b84ff 8.25% 16.5%,
+    var(--theme-color) 16.5% 25%
+  );
+  mask-size: 100px 100px;
+}
+
+.character-banner--nae .character-banner__texture-layer {
+  @include mask-gradient(to bottom, black, 0%, transparent, 100%);
 }
 .character-banner__images {
   @include mask-gradient(to top, transparent, 0%, black, 70%);
