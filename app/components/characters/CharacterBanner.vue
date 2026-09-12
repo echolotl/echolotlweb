@@ -69,6 +69,8 @@ const bannerVariant = computed(() => {
       return "character-banner--nae";
     case "quiver":
       return "character-banner--quiver";
+    case "sesame":
+      return "character-banner--sesame";
     default:
       return null;
   }
@@ -202,6 +204,20 @@ const bannerVariant = computed(() => {
 .character-banner--nae .character-banner__texture-layer {
   @include mask-gradient(to bottom, black, 0%, transparent, 100%);
 }
+
+.character-banner--sesame .character-banner__underlay {
+  background: linear-gradient(to bottom, var(--theme-color), #ff6600);
+  opacity: 1;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+.character-banner--sesame .character-banner__texture {
+  background: linear-gradient(to right, var(--theme-color), #ff6600);
+}
+
+.character-banner--sesame .character-banner__texture-layer {
+  @include mask-gradient(to bottom, black, 0%, transparent, 100%);
+}
+
 .character-banner__images {
   @include mask-gradient(to top, transparent, 0%, black, 70%);
   position: absolute;

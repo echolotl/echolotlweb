@@ -8,7 +8,7 @@ last_modified: 2026-09-08
 pronouns: she/he/they
 clan: Unaffiliated
 short_description: what da dawg doin
-theme_color: "#ffe760"
+theme_color: "#ffda61"
 theme_color_light: "#d8ba0f"
 category: "Other"
 sitemap:
