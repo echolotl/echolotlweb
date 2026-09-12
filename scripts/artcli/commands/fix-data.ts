@@ -242,9 +242,16 @@ export async function fixdata(): Promise<void> {
   }
 
   const action = context.dryRun ? "Would format" : "Formatted";
-  Logger.statement(
-    `${action} ${changed} file${changed === 1 ? "" : "s"}; found ${invalid} validation error${invalid === 1 ? "" : "s"}.`,
-  );
+  const summary = `${action} ${changed} file${changed === 1 ? "" : "s"}; found ${invalid} validation error${invalid === 1 ? "" : "s"}.`;
+  if (context.noLog && !context.shouldExit) {
+    Logger.noLogBypass(() =>
+      Logger.statement(
+        `${Logger.fmtReverse(Logger.fmtBold(" ARTCLI ")) + Logger.fmtHexBg("#744780", `${Logger.fmtHex("#000000", " fixdata ")}`)} ${summary}`,
+      ),
+    );
+  } else {
+    Logger.statement(summary);
+  }
   if (invalid === 0 && context.shouldCommit && changedFiles.length > 0) {
     await pushToRemote(
       changedFiles,
