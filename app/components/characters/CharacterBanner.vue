@@ -169,16 +169,43 @@ const bannerVariant = computed(() => {
   @include theme-transition;
 }
 .character-banner--nautilus .character-banner__underlay {
-  background: linear-gradient(to right, #30cde9, #d64eff);
+  background: repeating-linear-gradient(
+    to right,
+    #30cde9 0%,
+    #d64eff 25%,
+    #30cde9 50%
+  );
+  background-size: 200% 100%;
+  animation: nautilus-gradient-scroll 12s linear infinite;
   opacity: 1;
   mask-image: linear-gradient(to bottom, black, transparent);
 }
 .character-banner--nautilus .character-banner__texture {
-  background: linear-gradient(to right, #30cde9, #d64eff);
+  background: repeating-linear-gradient(
+    to right,
+    #30cde9 0%,
+    #d64eff 25%,
+    #30cde9 50%
+  );
+  background-size: 200% 100%;
+  animation: nautilus-gradient-scroll 12s linear infinite reverse;
 }
 
 .character-banner--nautilus .character-banner__texture-layer {
   @include mask-gradient(to bottom, black, 0%, transparent, 100%);
+}
+
+@keyframes nautilus-gradient-scroll {
+  to {
+    background-position: 100% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-banner--nautilus .character-banner__underlay,
+  .character-banner--nautilus .character-banner__texture {
+    animation: none;
+  }
 }
 
 .character-banner--nae .character-banner__underlay {
