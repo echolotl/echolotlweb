@@ -232,7 +232,7 @@ export async function regenthumb(args: string[]) {
     );
   }
 
-  if (context.shouldPush) {
+  if (context.shouldCommit) {
     const pushMessage =
       regenerated.length > 1
         ? `Regenerate ${regenerated.length} thumbnails`

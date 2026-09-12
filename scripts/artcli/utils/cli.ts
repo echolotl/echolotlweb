@@ -64,6 +64,11 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
       description: "Pushes the changes to the remote repository.",
     },
     {
+      command: "--commit",
+      description:
+        "Commits the changes without pushing to the remote repository.",
+    },
+    {
       command: "--force",
       description:
         "Overwrite existing generated files or skip confirmation prompts where supported.",

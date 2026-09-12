@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { Logger } from "../../logger";
-import type { Art, ArtImage } from "../../../types";
+import type { Art, ArtImage, Artist } from "../../../types";
 import { context, ART_DIR, CONTENT_DIR } from "../utils/context";
 import {
   validateImage,
@@ -147,6 +147,7 @@ async function collectArtMetadata(
   const character = isGeneralArt ? undefined : trimmedCharacter;
 
   let related_characters: string[] = [];
+  let artist: Artist | undefined;
   if (!isGeneralArt) {
     Logger.question(
       "▌ Any other characters that appear? (comma-separated, optional)",
@@ -164,6 +165,24 @@ async function collectArtMetadata(
       },
     });
     related_characters = characters;
+
+    Logger.question("▌ Was this made by a different artist? (optional)");
+    const artistName = await ask();
+    if (artistName) {
+      Logger.question("▌ Artist link? (optional)");
+      const artistLink = await ask({
+        validate: (value) => {
+          if (!value) return true;
+          try {
+            new URL(value);
+            return true;
+          } catch {
+            return "Please enter a valid URL or leave blank.";
+          }
+        },
+      });
+      artist = { name: artistName, ...(artistLink && { link: artistLink }) };
+    }
   }
 
   Logger.question(
@@ -188,18 +207,24 @@ async function collectArtMetadata(
   const pinnedInput = await ask({ default: "N" });
   const pinned = pinnedInput.charAt(0).toLowerCase() === "y";
 
+  Logger.question("▌ Is this NSFW? (y/N)");
+  const nsfwInput = await ask({ default: "N" });
+  const nsfw = nsfwInput.charAt(0).toLowerCase() === "y";
+
   const draft: ArtDraft = {
     slug,
     created_at,
     title,
     pinned,
     sketch,
+    nsfw,
     images: [],
   };
   if (description) draft.description = description;
   if (tags.length) draft.tags = tags;
   if (character) draft.character = character;
   if (related_characters.length) draft.related_characters = related_characters;
+  if (artist) draft.artist = artist;
 
   return draft;
 }
@@ -495,6 +520,7 @@ export async function add(args: string[]) {
       title: draft.title,
       pinned: draft.pinned,
       sketch: draft.sketch,
+      nsfw: draft.nsfw,
       images: draft.images,
     };
     if (draft.description) art.description = draft.description;
@@ -502,12 +528,13 @@ export async function add(args: string[]) {
     if (draft.character) art.character = draft.character;
     if (draft.related_characters?.length)
       art.related_characters = draft.related_characters;
+    if (draft.artist) art.artist = draft.artist;
 
     generateArtYAML(art, yamlPath);
     stagedFiles.push(yamlPath);
   }
 
-  if (context.shouldPush) {
+  if (context.shouldCommit) {
     const pushMessage =
       artDrafts.length === 1
         ? `Upload "${artDrafts[0]!.title}"`

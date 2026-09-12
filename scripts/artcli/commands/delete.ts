@@ -137,7 +137,7 @@ export async function del(args: string[]) {
         );
       }
     }
-    if (context.shouldPush) {
+    if (context.shouldCommit) {
       const pushMessage =
         artsToDelete.length > 1
           ? `Delete ${artsToDelete.length} art pieces`

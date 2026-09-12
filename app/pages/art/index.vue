@@ -30,6 +30,7 @@
         :class="{
           active:
             filters.sketches ||
+            filters.nsfw ||
             filters.characterArt ||
             filters.generalArt ||
             filters.gallery ||
@@ -67,6 +68,7 @@
               Sketches
               <Icon icon="sketch" />
             </label>
+
             <label>
               <input type="checkbox" v-model="filters.gallery" />
               Has Gallery
@@ -76,6 +78,12 @@
               <input type="checkbox" v-model="filters.variants" />
               Has Variants
               <Icon icon="layers" />
+            </label>
+
+            <label>
+              <input type="checkbox" v-model="filters.nsfw" />
+              Show NSFW
+              <Icon icon="r18" />
             </label>
 
             <div class="search-section">
@@ -135,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import { getArtworks } from "#imports";
+import { getArtworks, isEcholotlArtwork } from "#imports";
 import Icon from "~/components/common/Icon.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
@@ -143,6 +151,7 @@ import ArtGrid from "~/components/art/ArtGrid.vue";
 interface Filters {
   title: string;
   sketches: boolean;
+  nsfw: boolean;
   characterArt: boolean;
   generalArt: boolean;
   gallery: boolean;
@@ -154,9 +163,10 @@ const route = useRoute();
 const router = useRouter();
 
 // Boolean filters are encoded into the query parameters using a bitmask as follows:
-// sketches, characterArt, generalArt, gallery, variants
+// sketches, nsfw, characterArt, generalArt, gallery, variants
 const FILTER_BITS: Array<keyof Omit<Filters, "title" | "tags">> = [
   "sketches",
+  "nsfw",
   "characterArt",
   "generalArt",
   "gallery",
@@ -187,6 +197,7 @@ function encodeBitmask(val: Filters): number {
 const filters = ref<Filters>({
   title: typeof route.query.title === "string" ? route.query.title : "",
   sketches: false,
+  nsfw: false,
   characterArt: false,
   generalArt: false,
   gallery: false,
@@ -248,6 +259,7 @@ function onTagInputBlur() {
 const FILTER_NAMES: Record<keyof Omit<Filters, "tags">, string> = {
   title: "Title",
   sketches: "Sketches",
+  nsfw: "NSFW",
   characterArt: "Character Art",
   generalArt: "General Art",
   gallery: "Has Gallery",
@@ -291,15 +303,25 @@ const { data: allArtworks } = await useAsyncData(
   },
 );
 
-const allPinnedArtworks = ref(
-  (allArtworks.value || []).filter((artwork) => artwork.pinned),
-);
-const allRegularArtworks = ref(
-  (allArtworks.value || []).filter((artwork) => !artwork.pinned),
+const allPinnedArtworks = computed(() =>
+  (allArtworks.value || []).filter(
+    (artwork) =>
+      artwork.pinned &&
+      isEcholotlArtwork(artwork) &&
+      (filters.value.nsfw || !artwork.nsfw),
+  ),
 );
 
 const filteredArtworks = computed(() => {
-  return allRegularArtworks.value.filter((artwork) => {
+  return (allArtworks.value || []).filter((artwork) => {
+    if (
+      artwork.pinned ||
+      !isEcholotlArtwork(artwork) ||
+      (!filters.value.nsfw && artwork.nsfw)
+    ) {
+      return false;
+    }
+
     const titleSearch = filters.value.title.trim().toLowerCase();
     if (titleSearch && !artwork.title.toLowerCase().includes(titleSearch)) {
       return false;

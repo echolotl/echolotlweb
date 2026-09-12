@@ -43,6 +43,12 @@
             title="Multiple Images">
             <Icon icon="images" />
           </div>
+          <div
+            v-if="!isEcholotlArtwork(props.artwork)"
+            class="art-item__metadata-icon"
+            title="Non-echolotl Artwork">
+            <Icon icon="other" />
+          </div>
         </div>
       </div>
     </nuxt-link>
@@ -53,6 +59,7 @@
 import type { Art } from "~~/types";
 import SketchFilter from "../common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
+import { isEcholotlArtwork } from "#imports";
 
 const props = defineProps<{
   artwork: Art;

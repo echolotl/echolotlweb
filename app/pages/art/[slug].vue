@@ -44,9 +44,17 @@
               new Date(art.created_at).toLocaleDateString()
             }}</span>
           </div>
-          <div v-if="art.artist_name" class="art-meta__section">
-            <Icon icon="pencil" color="var(--text-secondary)" />
-            <span class="art-meta__date">{{ art.artist_name }}</span>
+          <div v-if="art.artist" class="art-meta__section">
+            <Icon icon="other" color="var(--text-secondary)" />
+            <a
+              v-if="art.artist.link"
+              class="art-meta__date"
+              :href="art.artist.link"
+              target="_blank"
+              rel="noopener noreferrer">
+              by {{ art.artist.name }}
+            </a>
+            <span v-else class="art-meta__date">by {{ art.artist.name }}</span>
           </div>
         </div>
         <div class="right">

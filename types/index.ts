@@ -35,10 +35,10 @@ export interface Art {
   description?: string;
   tags?: string[];
   pinned: boolean;
-  artist_name?: string;
+  artist?: Artist;
   images: ArtImage[]; // At least one per schema
   sketch?: boolean;
-  nsfw: boolean;
+  nsfw?: boolean;
 }
 
 export interface ArtImageVariant {
@@ -57,6 +57,11 @@ export interface ArtImage {
   thumbnail_anchor?: ThumbnailAnchor;
   alt?: string;
   variants?: ArtImageVariant[];
+}
+
+export interface Artist {
+  name: string;
+  link?: string;
 }
 
 export type ThumbnailAnchor =

@@ -22,7 +22,7 @@ export function generateArtMetadataDisplay(art: Art) {
   if (art.tags && art.tags.length > 0) {
     Logger.dim(`${Logger.fmtBold("Tags")}: ${art.tags.join(", ")}`);
   }
-  Logger.dim(`${Logger.fmtBold("Artist")}: ${art.artist_name || "echolotl"}`);
+  Logger.dim(`${Logger.fmtBold("Artist")}: ${art.artist?.name || "echolotl"}`);
   Logger.dim(
     `${Logger.fmtBold("URL")}: ${Logger.fmtUnderline(Logger.fmtHex("#0033FF", `https://www.echolotl.lol/art/${art.slug}`))}`,
   );

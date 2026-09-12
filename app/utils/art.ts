@@ -91,7 +91,7 @@ export async function getFinishedArtworks(): Promise<Art[]> {
  */
 export async function getArtworksByArtist(artistName: string): Promise<Art[]> {
   return await queryCollection("art")
-    .where("artist_name", "=", artistName)
+    .where("artist.name", "=", artistName)
     .all();
 }
 
@@ -113,4 +113,10 @@ export async function searchArtworks(searchTerm: string) {
     .where("title", "LIKE", `%${searchTerm}%`)
     .orWhere("description", "LIKE", `%${searchTerm}%`)
     .all();
+}
+
+export function isEcholotlArtwork(artwork: Art): boolean {
+  return (
+    !artwork.artist || artwork.artist.name.trim().toLowerCase() === "echolotl"
+  );
 }

@@ -17,6 +17,7 @@ import { regenpalette } from "./commands/regenpalette";
 
 function resetContext() {
   context.dryRun = false;
+  context.shouldCommit = false;
   context.shouldPush = false;
   context.noLog = false;
   context.force = false;
@@ -30,7 +31,12 @@ export async function runArtCLI(rawArgs: string[]) {
       return false;
     }
     if (arg === "--push") {
+      context.shouldCommit = true;
       context.shouldPush = true;
+      return false;
+    }
+    if (arg === "--commit") {
+      context.shouldCommit = true;
       return false;
     }
     if (arg === "--no-log") {

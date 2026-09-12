@@ -44,7 +44,7 @@ export function runGit(args: string[]): GitResult {
 }
 
 /**
- * Pushes selected files to the remote repository with a commit message.
+ * Stages and commits selected files, optionally pushing them to the remote repository.
  * @param files Array of file paths to stage and commit
  * @param commitMessage Commit message for the changes
  * @returns Promise that resolves when the push is complete, or exits the process on failure
@@ -57,7 +57,7 @@ export async function pushToRemote(
   const appId = process.env.ARTCLI_GITHUB_APP_ID;
   if (context.dryRun) {
     Logger.warning(
-      `[DRYRUN] Would stage, commit, and push${name ? ` as ${name}${appId ? ` <${appId}+${name}@users.noreply.github.com>` : ""}` : ""} with message: "${commitMessage}"`,
+      `[DRYRUN] Would stage and commit${context.shouldPush ? " and push" : ""}${name ? ` as ${name}${appId ? ` <${appId}+${name}@users.noreply.github.com>` : ""}` : ""} with message: "${commitMessage}"`,
     );
     return;
   }
@@ -76,6 +76,8 @@ export async function pushToRemote(
     exit(1);
   }
   Logger.success(`Committed: ${Logger.fmtBold(commitMessage)}`);
+
+  if (!context.shouldPush) return;
 
   Logger.info("Pushing to remote...");
   const pushResult = runGit(["push"]);

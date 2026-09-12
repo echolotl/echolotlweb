@@ -109,7 +109,13 @@ export default defineContentConfig({
         description: z.string().optional(),
         tags: z.array(z.string()).optional(),
         pinned: z.boolean(),
-        artist_name: z.string().optional(),
+        artist: z
+          .object({
+            name: z.string(),
+            link: z.string().url().optional(),
+          })
+          .optional(),
+        nsfw: z.boolean().default(false),
         images: z.array(galleryImage).min(1, "At least one image required"),
         sketch: z.boolean().optional(),
       }),
