@@ -2,6 +2,7 @@ import type { Art, ArtImage } from "./types";
 import { readdir, readFile } from "fs/promises";
 import { resolve } from "node:path";
 import { load } from "js-yaml";
+import { fixdata } from "./scripts/artcli/commands/fix-data";
 import { regenpalette } from "./scripts/artcli/commands/regenpalette";
 import { regenthumb } from "./scripts/artcli/commands/regenthumb";
 
@@ -143,9 +144,12 @@ export default defineNuxtConfig({
   },
   hooks: {
     "build:before": async () => {
-      Promise.all([regenpalette([]), regenthumb([])]).catch((e) => {
-        console.error("Error during build hooks:", e);
-      });
+      try {
+        await fixdata();
+        await Promise.all([regenpalette([]), regenthumb([])]);
+      } catch (error) {
+        console.error("Error during art build hooks:", error);
+      }
     },
   },
   alias: {

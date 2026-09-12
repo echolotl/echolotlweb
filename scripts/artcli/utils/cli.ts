@@ -53,6 +53,10 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
       description:
         "Regenerates palette images for all characters, or just for a specific character if a slug is provided.",
     },
+    {
+      command: "fixdata",
+      description: "Formats and validates all art and character metadata.",
+    },
   ],
   flags: [
     {

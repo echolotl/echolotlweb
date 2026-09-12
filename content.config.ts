@@ -53,10 +53,10 @@ export default defineContentConfig({
         slug: z.string(),
         name: z.string(),
         species: z.string(),
-        age: z.number(),
+        age: z.number().optional(),
         height: z.string(),
-        created_date: z.string().datetime(),
-        last_modified: z.string().datetime(),
+        created_at: z.string().datetime(),
+        modified_at: z.string().datetime(),
         pronouns: z.string(),
         friends: z
           .array(
@@ -76,17 +76,18 @@ export default defineContentConfig({
             }),
           )
           .optional(),
-        clan: z.string(),
         category: z.string().optional(),
         short_description: z.string().optional(),
         theme_color: z.string().startsWith("#").length(7),
         theme_color_light: z.string().startsWith("#").length(7).optional(),
         color_palette: z.array(z.string().startsWith("#").length(7)).optional(),
-        image: z.object({
-          type: z.enum(["artwork", "url"]),
-          url: z.string().optional(),
-          slug: z.string().optional(),
-        }),
+        image: z
+          .object({
+            type: z.enum(["artwork", "url"]),
+            url: z.string().optional(),
+            slug: z.string().optional(),
+          })
+          .optional(),
         image_description: z.string().optional(),
         title_image: z.string().optional(),
         background_texture: z.string().optional(),

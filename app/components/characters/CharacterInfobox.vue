@@ -152,25 +152,12 @@
             </td>
           </tr>
 
-          <tr v-if="character.clan !== 'Unaffiliated' && character.clan">
-            <td class="character-infobox__item-label">
-              <span> Type </span>
-            </td>
-            <td>
-              {{ character.clan || "Unknown" }}
-              <Icon
-                :icon="character.clan.toLowerCase()"
-                height="24"
-                class="character-infobox__clan-icon" />
-            </td>
-          </tr>
-
           <tr>
             <td class="character-infobox__item-label">
               <span>Creation Date</span>
             </td>
             <td>
-              {{ formatDate(new Date(character.created_date)) || "Unknown" }}
+              {{ formatDate(new Date(character.created_at)) || "Unknown" }}
             </td>
           </tr>
         </tbody>

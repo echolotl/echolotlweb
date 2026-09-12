@@ -142,20 +142,33 @@ export function getArtBySlug(slug: string): Art | null {
 }
 
 export function getAllArts(): Art[] {
-  const artDir = path.join(process.cwd(), "content/art");
+  const artFiles = getAllArtFiles();
   const arts: Art[] = [];
+  for (const artFile of artFiles) {
+    const slug = path.basename(artFile, ".yml");
+    const art = getArtBySlug(slug);
+    if (art) {
+      arts.push(art);
+    }
+  }
+
+  return arts;
+}
+
+export function getAllArtFiles(): string[] {
+  const artDir = path.join(process.cwd(), "content/art");
+  const artFiles: string[] = [];
+
   const generalDir = path.join(artDir, "general");
   if (fs.existsSync(generalDir)) {
     const generalFiles = fs.readdirSync(generalDir);
     for (const file of generalFiles) {
       if (file.endsWith(".yml")) {
-        const art = getArtBySlug(path.basename(file, ".yml"));
-        if (art) {
-          arts.push(art);
-        }
+        artFiles.push(path.join(generalDir, file));
       }
     }
   }
+
   const charactersDir = path.join(artDir, "characters");
   if (fs.existsSync(charactersDir)) {
     const characterFolders = fs
@@ -167,15 +180,13 @@ export function getAllArts(): Art[] {
       const characterFiles = fs.readdirSync(characterDir);
       for (const file of characterFiles) {
         if (file.endsWith(".yml")) {
-          const art = getArtBySlug(path.basename(file, ".yml"));
-          if (art) {
-            arts.push(art);
-          }
+          artFiles.push(path.join(characterDir, file));
         }
       }
     }
   }
-  return arts;
+
+  return artFiles;
 }
 
 export function getCharacterBySlug(slug: string): Character {
@@ -202,23 +213,32 @@ export function getCharacterBySlug(slug: string): Character {
 }
 
 export function getAllCharacters(): Character[] {
-  const charactersDir = path.join(process.cwd(), "content/characters");
+  const characterFiles = getAllCharacterFiles();
   const characters: Character[] = [];
-  if (fs.existsSync(charactersDir)) {
-    const characterFiles = fs
-      .readdirSync(charactersDir)
-      .filter((file) => file.endsWith(".md"));
-    for (const file of characterFiles) {
-      const slug = path.basename(file, ".md");
-      try {
-        const character = getCharacterBySlug(slug);
-        characters.push(character);
-      } catch (e) {
-        Logger.error(`Error loading character with slug "${slug}": ${e}`);
-      }
+  for (const characterFile of characterFiles) {
+    const slug = path.basename(characterFile, ".md");
+    try {
+      const character = getCharacterBySlug(slug);
+      characters.push(character);
+    } catch (e) {
+      Logger.error(`Error loading character with slug "${slug}": ${e}`);
     }
   }
   return characters;
+}
+
+export function getAllCharacterFiles(): string[] {
+  const charactersDir = path.join(process.cwd(), "content/characters");
+  const characterFiles: string[] = [];
+  if (fs.existsSync(charactersDir)) {
+    const files = fs.readdirSync(charactersDir);
+    for (const file of files) {
+      if (file.endsWith(".md")) {
+        characterFiles.push(path.join(charactersDir, file));
+      }
+    }
+  }
+  return characterFiles;
 }
 
 export function isActualCharacter(slug: string): boolean {

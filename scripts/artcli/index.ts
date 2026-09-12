@@ -14,6 +14,7 @@ import { list } from "./commands/list";
 import { show } from "./commands/show";
 import { regenthumb } from "./commands/regenthumb";
 import { regenpalette } from "./commands/regenpalette";
+import { fixdata } from "./commands/fix-data";
 
 function resetContext() {
   context.dryRun = false;
@@ -83,6 +84,9 @@ export async function runArtCLI(rawArgs: string[]) {
       break;
     case "regenpalette":
       await regenpalette(args);
+      break;
+    case "fixdata":
+      await fixdata();
       break;
     default:
       printUsage();
