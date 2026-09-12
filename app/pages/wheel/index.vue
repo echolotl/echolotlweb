@@ -41,7 +41,9 @@
           </p>
         </template>
       </div>
-      <div class="gradient-bg" />
+      <div
+        class="gradient-bg"
+        :class="{ 'is-flashing': isBackgroundFlashing }" />
       <div class="wheel-container">
         <SketchFilter
           id="wheel-sketch"
@@ -205,7 +207,23 @@
           </button>
         </div>
         <div class="section">
-          <h6 class="section-heading">Slices</h6>
+          <div class="slice-heading">
+            <h6 class="section-heading">Slices</h6>
+            <button
+              @click="
+                slices.push({
+                  title: `Slice ${slices.length + 1}`,
+                  color: `#${Math.floor(Math.random() * 16777215)
+                    .toString(16)
+                    .padStart(6, '0')}`,
+                })
+              "
+              class="action-button add-slice"
+              aria-label="Add slice"
+              title="Add slice">
+              <Icon icon="add" width="16px" height="16px" />
+            </button>
+          </div>
           <div class="slice-editor">
             <div
               v-for="(slice, index) in slices"
@@ -243,24 +261,6 @@
                 </div>
               </div>
             </div>
-            <button
-              @click="
-                slices.push({
-                  title: 'New Slice',
-                  color: `#${Math.floor(Math.random() * 16777215)
-                    .toString(16)
-                    .padStart(6, '0')}`,
-                })
-              "
-              class="action-button"
-              style="
-                display: flex;
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 0.25rem;
-              ">
-              <Icon icon="edit" /> Add Slice
-            </button>
           </div>
         </div>
       </div>
@@ -310,6 +310,7 @@ const wheelState = ref<WheelState>("idling");
 const isSpinning = computed(() => wheelState.value === "spinning");
 const selectedPreset = ref("");
 const useWheelSketchFilter = ref(true);
+const isBackgroundFlashing = ref(false);
 const sliceAtTop = computed(() => {
   if (wheelSlices.value.length === 0) {
     return null;
@@ -383,6 +384,7 @@ let spinAnimationToken = 0;
 let spinRafId: number | null = null;
 let idleRafId: number | null = null;
 let lastIdleTimestamp: number | null = null;
+let backgroundFlashTimeout: ReturnType<typeof setTimeout> | null = null;
 const skipSpinRequested = ref(false);
 
 // Preset generators
@@ -513,6 +515,18 @@ function stopSpinAnimation() {
     cancelAnimationFrame(spinRafId);
     spinRafId = null;
   }
+}
+
+function flashBackground() {
+  if (backgroundFlashTimeout !== null) {
+    clearTimeout(backgroundFlashTimeout);
+  }
+
+  isBackgroundFlashing.value = true;
+  backgroundFlashTimeout = setTimeout(() => {
+    isBackgroundFlashing.value = false;
+    backgroundFlashTimeout = null;
+  }, 650);
 }
 
 function stopSpin() {
@@ -771,7 +785,9 @@ async function spinToSlice() {
   skipSpinRequested.value = false;
   wheelRotation.value = normalizeAngle(endRotation);
   playBuffer(spinishedBuffer);
+
   wheelState.value = "waiting";
+  flashBackground();
 }
 
 function confirmResult() {
@@ -830,6 +846,9 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   stopSpinAnimation();
   stopIdleAnimation();
+  if (backgroundFlashTimeout !== null) {
+    clearTimeout(backgroundFlashTimeout);
+  }
   audioCtx?.close();
   audioCtx = null;
 });
@@ -916,6 +935,18 @@ useSeoMeta({
   opacity: 0.5;
   z-index: -1;
   transition: --slice-color 0.5s;
+
+  &.is-flashing {
+    animation: wheel-finish-flash 650ms ease-out;
+  }
+}
+@keyframes wheel-finish-flash {
+  0% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 .selector {
   display: flex;
@@ -966,6 +997,11 @@ useSeoMeta({
     width: 600px;
     min-width: 600px;
   }
+}
+.slice-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .section-heading {
   margin: 1rem 0 0.5rem;
@@ -1043,6 +1079,13 @@ useSeoMeta({
   color: var(--text-secondary);
   border-radius: 9999px;
   vertical-align: top;
+  &.add-slice {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
   &.delete {
     color: var(--red);
 
