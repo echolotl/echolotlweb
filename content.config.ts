@@ -55,8 +55,8 @@ export default defineContentConfig({
         species: z.string(),
         age: z.number(),
         height: z.string(),
-        created_date: z.string().date(),
-        last_modified: z.string().date(),
+        created_date: z.string().datetime(),
+        last_modified: z.string().datetime(),
         pronouns: z.string(),
         friends: z
           .array(
@@ -101,8 +101,8 @@ export default defineContentConfig({
       type: "data",
       schema: z.object({
         slug: z.string(),
-        created_at: z.string().date(),
-        modified_at: z.string().date(),
+        created_at: z.string().datetime(),
+        modified_at: z.string().datetime(),
         character: z.string().optional(),
         related_characters: z.array(z.string()).optional(),
         title: z.string(),

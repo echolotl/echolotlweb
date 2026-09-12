@@ -171,9 +171,9 @@ const bannerVariant = computed(() => {
 .character-banner--nautilus .character-banner__underlay {
   background: repeating-linear-gradient(
     to right,
-    #30cde9 0%,
+    var(--theme-color) 0%,
     #d64eff 25%,
-    #30cde9 50%
+    var(--theme-color) 50%
   );
   background-size: 200% 100%;
   animation: nautilus-gradient-scroll 12s linear infinite;
@@ -183,9 +183,9 @@ const bannerVariant = computed(() => {
 .character-banner--nautilus .character-banner__texture {
   background: repeating-linear-gradient(
     to right,
-    #30cde9 0%,
+    var(--theme-color) 0%,
     #d64eff 25%,
-    #30cde9 50%
+    var(--theme-color) 50%
   );
   background-size: 200% 100%;
   animation: nautilus-gradient-scroll 12s linear infinite reverse;

@@ -41,7 +41,9 @@
           <div v-if="art.created_at" class="art-meta__section">
             <Icon icon="date" color="var(--text-secondary)" />
             <span class="art-meta__date">{{
-              new Date(art.created_at).toLocaleDateString()
+              new Date(art.created_at).toLocaleDateString(undefined, {
+                timeZone: "UTC",
+              })
             }}</span>
           </div>
           <div v-if="art.artist" class="art-meta__section">
@@ -133,6 +135,10 @@ if (!art.value) {
     statusMessage: "Art not found",
   });
 }
+
+onMounted(() => {
+  console.log("Art page mounted for:", art.value);
+});
 
 useSeoMeta({
   title: art.value.title,
