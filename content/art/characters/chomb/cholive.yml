@@ -1,15 +1,16 @@
 slug: cholive
 created_at: '2025-11-17T05:06:00.320Z'
 modified_at: '2026-09-07T02:59:07.026Z'
+character: chomb
 title: Cholive
-pinned: false
-sketch: false
-images:
-  - id: cholive
-    image_url: /art/characters/chomb/cholive.png
-    thumbnail_url: /art/characters/chomb/thumbnails/cholive.webp
-    thumbnail_anchor: top-left
 description: Olive by [Fi4estorm](https://www.instagram.com/fi4estorm)
 tags:
   - friends
-character: chomb
+pinned: false
+nsfw: false
+images:
+  - image_url: /art/characters/chomb/cholive.png
+    thumbnail_url: /art/characters/chomb/thumbnails/cholive.webp
+    thumbnail_anchor: top-left
+    id: cholive
+sketch: false

@@ -1,13 +1,14 @@
 slug: balloons
 created_at: '2026-06-19T21:03:33.832Z'
 modified_at: '2026-09-07T02:59:07.100Z'
+character: ishes
 title: balloon's
+description: wow look there's shading
 pinned: false
-sketch: false
+nsfw: false
 images:
-  - id: balloons
-    image_url: /art/characters/ishes/balloons.png
+  - image_url: /art/characters/ishes/balloons.png
     thumbnail_url: /art/characters/ishes/thumbnails/balloons.webp
     thumbnail_anchor: center
-description: wow look there's shading
-character: ishes
+    id: balloons
+sketch: false

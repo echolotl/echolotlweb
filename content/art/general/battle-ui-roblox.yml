@@ -2,16 +2,15 @@ slug: battle-ui-roblox
 created_at: '2024-02-23T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.278Z'
 title: Battle UI Roblox
-pinned: false
-sketch: false
-image_url: /art/general/robloxstudio.png
 description: Idea for a battle UI for a Roblox game if I were ever to make one
 tags:
   - video game
   - idea
-thumbnail_url: /art/general/thumbnails/robloxstudio.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/general/robloxstudio.png
     thumbnail_url: /art/general/thumbnails/robloxstudio.webp
-    alt: Battle UI Roblox
     thumbnail_anchor: top-left
+    alt: Battle UI Roblox
+sketch: false

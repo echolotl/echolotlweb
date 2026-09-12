@@ -1,13 +1,14 @@
 slug: ishes-in-tha-pool
 created_at: '2026-05-27T05:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.102Z'
+character: ishes
 title: Ishes in tha pool
+description: it in the pool
 pinned: false
-sketch: false
+nsfw: false
 images:
-  - id: ishes-in-tha-pool
-    image_url: /art/characters/ishes/ishes-in-tha-pool.png
+  - image_url: /art/characters/ishes/ishes-in-tha-pool.png
     thumbnail_url: /art/characters/ishes/thumbnails/ishes-in-tha-pool.webp
     thumbnail_anchor: top
-description: it in the pool
-character: ishes
+    id: ishes-in-tha-pool
+sketch: false

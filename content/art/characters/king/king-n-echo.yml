@@ -1,16 +1,15 @@
 slug: king-n-echo
-created_at: "2021-12-15T00:00:00.000Z"
-modified_at: "2025-09-28T20:15:02.324Z"
-title: King n' Echo
-pinned: false
-sketch: false
-image_url: /art/characters/king/kingeEcho.png
+created_at: '2021-12-15T00:00:00.000Z'
+modified_at: '2025-09-28T20:15:02.324Z'
 character: king
 related_characters:
   - echo
+title: King n' Echo
 description: A profile picture made for Discord featuring the two sonas
-thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/king/kingeEcho.png
     thumbnail_url: /art/characters/king/thumbnails/kingeEcho.webp
     alt: King n' Echo
+sketch: false

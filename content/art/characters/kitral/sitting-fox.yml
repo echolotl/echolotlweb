@@ -1,20 +1,19 @@
 slug: sitting-fox
 created_at: '2025-09-13T19:04:02.890Z'
 modified_at: '2026-09-07T02:59:07.185Z'
-title: Sitting Fox
-pinned: false
-sketch: true
-image_url: /art/characters/kitral/sitting-fox.png
-thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
-description: She has an onlooker...
 character: kitral
 related_characters:
   - glory
+title: Sitting Fox
+description: She has an onlooker...
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/kitral/sitting-fox.png
     thumbnail_url: /art/characters/kitral/thumbnails/sitting-fox.webp
-    alt: Sitting Fox
     thumbnail_anchor: center
-  - id: image-1
-    image_url: /art/characters/kitral/image-1.png
+    alt: Sitting Fox
+  - image_url: /art/characters/kitral/image-1.png
     thumbnail_url: /art/characters/kitral/thumbnails/image-1.webp
+    id: image-1
+sketch: true

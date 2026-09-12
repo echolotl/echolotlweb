@@ -1,15 +1,14 @@
 slug: gooey-rainbow
 created_at: '2022-02-04T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.202Z'
-title: Gooey Rainbow
-pinned: false
-sketch: false
-image_url: /art/characters/nautilus/nautilusOG.png
 character: nautilus
+title: Gooey Rainbow
 description: The original design for Nautilus
-thumbnail_url: /art/characters/nautilus/thumbnails/nautilusOG.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/nautilus/nautilusOG.png
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilusOG.webp
-    alt: Gooey Rainbow
     thumbnail_anchor: top
+    alt: Gooey Rainbow
+sketch: false

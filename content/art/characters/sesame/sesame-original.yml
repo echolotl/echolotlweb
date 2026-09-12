@@ -1,23 +1,20 @@
 slug: sesame-original
 created_at: '2026-09-08T00:00:00.000Z'
 modified_at: '2026-09-12T04:04:11.859Z'
+character: sesame
 title: Sesame (original)
+description: dawg
 pinned: false
-sketch: false
+artist:
+  name: Fi4estorm
+  link: https://www.instagram.com/fi4estorm
 nsfw: false
 images:
-    -
-        id: sesame-original
-        image_url: /art/characters/sesame/sesame-original.png
-        variants:
-            -
-                image_url: /art/characters/sesame/sesame-original__t-shirt.png
-                label: T-Shirt
-                thumbnail_url: >-
-                    /art/characters/sesame/thumbnails/sesame-original__t-shirt.webp
-        thumbnail_url: /art/characters/sesame/thumbnails/sesame-original.webp
-description: dawg
-character: sesame
-artist:
-    name: Fi4estorm
-    link: https://www.instagram.com/fi4estorm
+  - image_url: /art/characters/sesame/sesame-original.png
+    thumbnail_url: /art/characters/sesame/thumbnails/sesame-original.webp
+    id: sesame-original
+    variants:
+      - image_url: /art/characters/sesame/sesame-original__t-shirt.png
+        thumbnail_url: /art/characters/sesame/thumbnails/sesame-original__t-shirt.webp
+        label: T-Shirt
+sketch: false

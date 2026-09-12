@@ -1,15 +1,14 @@
 slug: king-reference-sheet
 created_at: '2025-07-25T15:32:21.563Z'
 modified_at: '2026-09-07T02:59:07.143Z'
-title: King Reference Sheet
-pinned: false
-sketch: false
-image_url: /art/characters/king/king-reference-sheet.png
-thumbnail_url: /art/characters/king/thumbnails/king-reference-sheet.webp
-description: King's Reference Sheet
 character: king
+title: King Reference Sheet
+description: King's Reference Sheet
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/king/king-reference-sheet.png
     thumbnail_url: /art/characters/king/thumbnails/king-reference-sheet.webp
-    alt: King Reference Sheet
     thumbnail_anchor: top
+    alt: King Reference Sheet
+sketch: false

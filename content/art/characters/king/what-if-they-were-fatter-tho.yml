@@ -1,13 +1,14 @@
 slug: what-if-they-were-fatter-tho
 created_at: '2026-06-30T05:36:05.804Z'
 modified_at: '2026-09-07T02:59:07.171Z'
+character: king
 title: what if they were fatter tho
+description: this is what
 pinned: false
-sketch: true
+nsfw: false
 images:
-  - id: what-if-they-were-fatter-tho
-    image_url: /art/characters/king/what-if-they-were-fatter-tho.webp
+  - image_url: /art/characters/king/what-if-they-were-fatter-tho.webp
     thumbnail_url: /art/characters/king/thumbnails/what-if-they-were-fatter-tho.webp
     thumbnail_anchor: top
-description: this is what
-character: king
+    id: what-if-they-were-fatter-tho
+sketch: true

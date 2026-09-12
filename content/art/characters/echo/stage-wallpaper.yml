@@ -1,20 +1,19 @@
 slug: stage-wallpaper
 created_at: '2022-01-07T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.065Z'
-title: Stage Wallpaper
-pinned: false
-sketch: false
-image_url: /art/characters/echo/stageWallpaper.png
 character: echo
 related_characters:
   - chomb
   - king
   - phosphor
+title: Stage Wallpaper
 description: Wallpaper made to be used on my devices, including the OCs I had at the time
-thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/echo/stageWallpaper.png
     thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper.webp
+    thumbnail_anchor: center
     alt: Stage Wallpaper
     id: stageWallpaper
     variants:
@@ -30,4 +29,4 @@ images:
         thumbnail_url: /art/characters/echo/thumbnails/stageWallpaper__cloudy.webp
         label: Cloudy
         alt: Version with two colored clouds in BG
-    thumbnail_anchor: center
+sketch: false

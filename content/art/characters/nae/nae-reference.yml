@@ -1,19 +1,18 @@
 slug: nae-reference
 created_at: '2026-09-08T05:00:00.000Z'
 modified_at: '2026-09-09T04:46:06.403Z'
-title: Nae Reference
-pinned: false
-sketch: false
-images:
-    -
-        id: normal
-        title: Normal
-        image_url: /art/characters/nae/normal.png
-        variants:
-            -
-                image_url: /art/characters/nae/normal__jester-outfit.png
-                label: Jester Outfit
-                thumbnail_url: /art/characters/nae/thumbnails/normal__jester-outfit.webp
-        thumbnail_url: /art/characters/nae/thumbnails/normal.webp
-description: wow lookie lookie its a axolotl cookie (I jest(er))
 character: nae
+title: Nae Reference
+description: wow lookie lookie its a axolotl cookie (I jest(er))
+pinned: false
+nsfw: false
+images:
+  - image_url: /art/characters/nae/normal.png
+    thumbnail_url: /art/characters/nae/thumbnails/normal.webp
+    id: normal
+    title: Normal
+    variants:
+      - image_url: /art/characters/nae/normal__jester-outfit.png
+        thumbnail_url: /art/characters/nae/thumbnails/normal__jester-outfit.webp
+        label: Jester Outfit
+sketch: false

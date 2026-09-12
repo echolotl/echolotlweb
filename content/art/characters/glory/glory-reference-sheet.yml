@@ -1,15 +1,14 @@
 slug: glory-reference-sheet
 created_at: '2025-07-25T02:07:27.683Z'
 modified_at: '2026-09-07T02:59:07.082Z'
-title: Glory Reference Sheet
-pinned: false
-sketch: false
-image_url: /art/characters/glory/glory-reference-sheet.png
-thumbnail_url: /art/characters/glory/thumbnails/glory-reference-sheet.webp
-description: Glory's reference sheet
 character: glory
+title: Glory Reference Sheet
+description: Glory's reference sheet
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/glory/glory-reference-sheet.png
     thumbnail_url: /art/characters/glory/thumbnails/glory-reference-sheet.webp
-    alt: Glory Reference Sheet
     thumbnail_anchor: top-right
+    alt: Glory Reference Sheet
+sketch: false

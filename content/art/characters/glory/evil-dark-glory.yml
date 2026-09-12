@@ -1,15 +1,14 @@
 slug: evil-dark-glory
 created_at: '2025-04-24T02:59:25.628Z'
 modified_at: '2026-09-07T02:59:07.073Z'
-title: Evil, Dark Glory
-pinned: false
-sketch: true
-image_url: /art/characters/glory/evil-dark-glory.png
-thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
-description: why so evilish
 character: glory
+title: Evil, Dark Glory
+description: why so evilish
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/glory/evil-dark-glory.png
     thumbnail_url: /art/characters/glory/thumbnails/evil-dark-glory.webp
-    alt: Evil, Dark Glory
     thumbnail_anchor: center
+    alt: Evil, Dark Glory
+sketch: true

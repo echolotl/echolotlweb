@@ -2,16 +2,15 @@ slug: card-tin-on-tour
 created_at: '2022-10-09T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.296Z'
 title: Card Tin on Tour
-pinned: false
-sketch: false
-image_url: /art/general/metal_tin3.png
 description: Card Tin on the stage for whatever reason
 tags:
   - oc
   - object show
-thumbnail_url: /art/general/thumbnails/metal_tin3.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/general/metal_tin3.png
     thumbnail_url: /art/general/thumbnails/metal_tin3.webp
-    alt: Card Tin on Tour
     thumbnail_anchor: center
+    alt: Card Tin on Tour
+sketch: false

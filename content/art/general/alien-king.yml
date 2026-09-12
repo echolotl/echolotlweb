@@ -2,16 +2,15 @@ slug: alien-king
 created_at: '2024-04-01T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.271Z'
 title: Alien King
-pinned: false
-sketch: false
-image_url: /art/general/000000000000.png
 description: A joke drawing of King as an alien for April Fools
 tags:
   - excluded
   - joke
-thumbnail_url: /art/general/thumbnails/000000000000.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/general/000000000000.png
     thumbnail_url: /art/general/thumbnails/000000000000.webp
-    alt: Alien King
     thumbnail_anchor: center
+    alt: Alien King
+sketch: false

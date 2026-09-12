@@ -1,15 +1,14 @@
 slug: echo-reference-sheet
 created_at: '2025-07-25T02:06:22.345Z'
 modified_at: '2026-09-07T02:59:07.055Z'
-title: Echo Reference Sheet
-pinned: false
-sketch: false
-image_url: /art/characters/echo/echo-reference-sheet.png
-thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
-description: Echo's reference sheet!
 character: echo
+title: Echo Reference Sheet
+description: Echo's reference sheet!
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/echo/echo-reference-sheet.png
     thumbnail_url: /art/characters/echo/thumbnails/echo-reference-sheet.webp
-    alt: Echo Reference Sheet
     thumbnail_anchor: top
+    alt: Echo Reference Sheet
+sketch: false

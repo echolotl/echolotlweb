@@ -1,13 +1,14 @@
 slug: nautilus-origin
 created_at: '2026-03-30T03:24:54.478Z'
 modified_at: '2026-09-07T02:59:07.206Z'
+character: nautilus
 title: Nautilus origin
+description: tldr; was goop
 pinned: false
-sketch: true
+nsfw: false
 images:
-  - id: nautilus-origin
-    image_url: /art/characters/nautilus/nautilus-origin.png
+  - image_url: /art/characters/nautilus/nautilus-origin.png
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilus-origin.webp
     thumbnail_anchor: top-left
-description: tldr; was goop
-character: nautilus
+    id: nautilus-origin
+sketch: true

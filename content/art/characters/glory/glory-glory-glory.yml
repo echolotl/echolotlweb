@@ -1,13 +1,14 @@
 slug: glory-glory-glory
 created_at: '2026-03-29T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.079Z'
+character: glory
 title: glory glory glory
+description: glory glory glory glory glory glory glory
 pinned: false
-sketch: true
+nsfw: false
 images:
-  - id: glory-glory-glory
-    image_url: /art/characters/glory/glory-glory-glory.png
+  - image_url: /art/characters/glory/glory-glory-glory.png
     thumbnail_url: /art/characters/glory/thumbnails/glory-glory-glory.webp
     thumbnail_anchor: top
-description: glory glory glory glory glory glory glory
-character: glory
+    id: glory-glory-glory
+sketch: true

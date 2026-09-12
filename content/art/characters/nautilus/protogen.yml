@@ -1,15 +1,14 @@
 slug: protogen
 created_at: '2023-01-03T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.211Z'
-title: Protogen
-pinned: false
-sketch: false
-image_url: /art/characters/nautilus/nautilusProtogen.png
 character: nautilus
+title: Protogen
 description: Design of Nautilus being a Protogen instead
-thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/nautilus/nautilusProtogen.png
     thumbnail_url: /art/characters/nautilus/thumbnails/nautilusProtogen.webp
-    alt: Protogen
     thumbnail_anchor: top
+    alt: Protogen
+sketch: false

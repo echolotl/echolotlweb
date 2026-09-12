@@ -1,15 +1,14 @@
 slug: basic-pose
 created_at: '2022-12-17T00:00:00.000Z'
 modified_at: '2026-09-07T02:59:07.111Z'
-title: Basic Pose
-pinned: false
-sketch: false
-image_url: /art/characters/king/kingOldStand.png
 character: king
+title: Basic Pose
 description: Sketchy eyes forward legs, you wouldn't get it
-thumbnail_url: /art/characters/king/thumbnails/kingOldStand.webp
+pinned: false
+nsfw: false
 images:
   - image_url: /art/characters/king/kingOldStand.png
     thumbnail_url: /art/characters/king/thumbnails/kingOldStand.webp
-    alt: Basic Pose
     thumbnail_anchor: center
+    alt: Basic Pose
+sketch: false
