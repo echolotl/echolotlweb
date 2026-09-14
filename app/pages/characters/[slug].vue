@@ -172,39 +172,44 @@ useSeoMeta({
 
   :deep(p) {
     font-size: var(--base-text);
+    margin: 1.2rem 0;
   }
 
-  :deep(h1),
-  :deep(h2),
-  :deep(h3),
-  :deep(h4),
-  :deep(h5),
-  :deep(h6) {
+  > :deep(h1),
+  > :deep(h2),
+  > :deep(h3),
+  > :deep(h4),
+  > :deep(h5),
+  > :deep(h6) {
     font-weight: 800;
     line-height: 1.25;
     margin-bottom: 1rem;
     margin-top: 1.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--distant);
+  }
+  
+  > :deep(h1) {
+    font-size: var(--xl-text);
   }
 
-  :deep(h2) {
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid var(--distant);
+  > :deep(h2) {
     font-size: var(--large-text);
   }
 
-  :deep(h3) {
+  > :deep(h3) {
     font-size: var(--medium-text);
   }
 
-  :deep(h4) {
+  > :deep(h4) {
     font-size: var(--base-text);
   }
 
-  :deep(h5) {
+  > :deep(h5) {
     font-size: var(--small-text);
   }
 
-  :deep(h6) {
+  > :deep(h6) {
     font-size: var(--small-text);
     color: var(--text-secondary);
   }

@@ -3,7 +3,7 @@
     <h1 class="art-title">Artchive</h1>
     <p class="subtitle">
       echolotl's archive of art! Currently contains
-      <b>{{ allArtworks?.length }}</b> artworks. Click on any piece to view
+      <b>{{ allArtworks?.length - allArtworks?.filter(art => !isEcholotlArtwork(art)).length }}</b> artworks. Click on any piece to view
       details.
     </p>
 

@@ -39,6 +39,13 @@ sitemap:
   lastmod: 2026-01-29T00:00:00.000Z
 ---
 
-<Callout type="info">
-This character's description and page is currently a WIP. There will be something here eventually.
-</Callout>
+**Glory** is a shark(y) girl who has many, many sets of eyes around her gray furred body. 
+## Overview
+Glory lives in a small town, rooming with [Kitral](/chararacters/kitral). She is somewhat trapped in this location, as she is shunned based upon her appearance by the townsfolk in this and neighboring cities. In turn, she stays indoors most days, and tries to keep Kitral's house tidy in return for her long stay. She dreams of leaving one day. Maybe with Kitral.
+
+In the meanwhile, she spends time trying to create outfits that she likes, with whatever scraps blow by or Kitral brings home for her. She sits at a rickety desk in the home's attic and stitches these pieces of fabric together basically all day, every day. She's lost all sense of time, so it happens very inconsistently. If she isn't sewing, she's sleeping.
+
+She's very aloof, and is often stuck in her own thoughts. Her brain always has a layer of brain fog that makes it difficult for her to focus on anything for long. The constant stream of information being intaken from her many eyes doesn't help either, and she tries to cover them with clothing when she can.
+## Inspiration
+All I remember about her creation is that I had a bit going with all of my characters where I would try to give them all different eye shapes. This led to Glory, where I just decided I was going to make her have every eye shape I could think of. And gray because shark.
+She's very different from how I originally created her now.

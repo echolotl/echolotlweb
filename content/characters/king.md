@@ -38,6 +38,10 @@ This character's description and page is currently a WIP. There will be more her
 
 **King** is echolotl's main fursona, a purple furred anthropomorphic cat.
 
-## History
+## Overview
 
-King was created in 2021, and was the first furry character I ever drew. I had originally based him off an Enderman from Minecraft as just a fun idea, but eventually I took him to use as a fursona.
+idk
+
+## Inspiration
+
+I had originally created King not as something for me, but just a character based off of an Enderman from Minecraft. He also originally had two tails because I thought two tails was cool.
