@@ -1,5 +1,6 @@
 import sharp from "sharp";
 import { spawn } from "node:child_process";
+import { pathToFileURL } from "node:url";
 import { Logger } from "../../logger";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -50,7 +51,13 @@ export function previewImage(filePath: string): void {
       : process.platform === "darwin"
         ? "open"
         : "xdg-open";
-  const previewProcess = spawn(command, [filePath], {
+  const previewTarget =
+    process.platform === "win32"
+      ? `ms-photos:viewer?fileName=${encodeURIComponent(
+          pathToFileURL(path.resolve(filePath)).href,
+        )}`
+      : filePath;
+  const previewProcess = spawn(command, [previewTarget], {
     detached: true,
     stdio: "ignore",
   });
