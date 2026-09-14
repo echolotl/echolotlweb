@@ -2,10 +2,10 @@ import { Logger } from "../../logger";
 import { exit } from "../utils/cli";
 import { generateThumbnail } from "../utils/image";
 import { context } from "../utils/context";
-import { getAllArts } from "../utils/art";
+import { formatYaml, getAllArts } from "../utils/art";
 import * as fs from "fs";
 import * as path from "path";
-import { dump, load } from "js-yaml";
+import { load } from "js-yaml";
 import { pushToRemote } from "../utils/git";
 import type { ThumbnailAnchor } from "../../../types";
 
@@ -102,12 +102,7 @@ async function updateContentFile(
           // Update the thumbnail URL in the YAML file
           data.thumbnail_url = expectedThumbnailUrl;
           data.modified_at = new Date().toISOString();
-          const newYamlContent = dump(data, {
-            indent: 2,
-            lineWidth: -1,
-            noRefs: true,
-            sortKeys: false,
-          });
+          const newYamlContent = formatYaml(data);
           fs.writeFileSync(yamlPath, newYamlContent, "utf8");
           Logger.info(
             `Updated thumbnail URL in ${yamlPath} to ${expectedThumbnailUrl}`,

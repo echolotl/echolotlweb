@@ -1,11 +1,12 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { z } from "@nuxt/content";
-import { dump, load } from "js-yaml";
+import { load } from "js-yaml";
 import { Logger } from "../../logger";
 import { exit } from "../utils/cli";
 import { context } from "../utils/context";
 import {
+  formatYaml,
   getAllArtFiles,
   getAllCharacterFiles,
   isActualCharacter,
@@ -146,7 +147,9 @@ const characterSchema = z.preprocess(
   }),
 );
 
-function formatErrors(error: z.ZodError): string[] {
+function formatErrors(error: {
+  issues: { path: PropertyKey[]; message: string }[];
+}): string[] {
   return error.issues.map(
     (issue) => `${issue.path.join(".") || "root"}: ${issue.message}`,
   );
@@ -162,15 +165,6 @@ function writeFile(filePath: string, content: string): boolean {
     Logger.success(`Updated ${Logger.fmtBold(filePath)}`);
   }
   return true;
-}
-
-function formatYaml(data: Record<string, unknown>): string {
-  return dump(data, {
-    indent: 2,
-    lineWidth: -1,
-    noRefs: true,
-    sortKeys: false,
-  });
 }
 
 function fixArtFile(filePath: string): { changed: boolean; errors: string[] } {

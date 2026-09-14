@@ -15,12 +15,17 @@ export function generateSlug(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function generateArtYAML(art: Art, savePath: string): void {
-  const yamlContent = yaml.dump(art, {
-    lineWidth: 80,
-    indent: 4,
+export function formatYaml(data: object): string {
+  return yaml.dump(data, {
+    indent: 2,
+    lineWidth: -1,
     noRefs: true,
+    sortKeys: false,
   });
+}
+
+export function generateArtYAML(art: Art, savePath: string): void {
+  const yamlContent = formatYaml(art);
   if (context.dryRun) {
     Logger.warning(
       `[DRYRUN] Would save art metadata to ${Logger.fmtBold(savePath)}`,
