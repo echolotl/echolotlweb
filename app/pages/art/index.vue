@@ -3,8 +3,11 @@
     <h1 class="art-title">Artchive</h1>
     <p class="subtitle">
       echolotl's archive of art! Currently contains
-      <b>{{ allArtworks?.length - allArtworks?.filter(art => !isEcholotlArtwork(art)).length }}</b> artworks. Click on any piece to view
-      details.
+      <b>{{
+        allArtworks?.length -
+        allArtworks?.filter((art) => !isEcholotlArtwork(art)).length
+      }}</b>
+      artworks over. Click on any piece to view details.
     </p>
 
     <div v-if="allPinnedArtworks.length > 0" class="section-header">
@@ -37,7 +40,8 @@
             filters.variants ||
             filters.title ||
             tagInput.trim() !== '' ||
-            filters.tags.length > 0,
+            filters.tags.length > 0 ||
+            excludedMetadataFilters.length > 0,
         }">
         <Icon
           :icon="
@@ -46,77 +50,126 @@
         {{ filtersToText || "Filters" }}
       </button>
       <div id="filter-popover" popover="auto" anchor="filter-button">
-        <div>
-          <fieldset>
-            <legend>FILTERS</legend>
-            <label>
-              <input type="checkbox" v-model="filters.generalArt" />
-              General
-              <Icon icon="art" />
-            </label>
-            <label>
-              <input type="checkbox" v-model="filters.characterArt" />
-              Character
-              <Icon icon="character" />
-            </label>
-          </fieldset>
-          <hr />
-          <fieldset>
-            <legend>METADATA</legend>
-            <label>
-              <input type="checkbox" v-model="filters.sketches" />
-              Sketches
-              <Icon icon="sketch" />
-            </label>
-
-            <label>
-              <input type="checkbox" v-model="filters.gallery" />
-              Has Gallery
-              <Icon icon="images" />
-            </label>
-            <label>
-              <input type="checkbox" v-model="filters.variants" />
-              Has Variants
-              <Icon icon="layers" />
-            </label>
-
-            <label>
-              <input type="checkbox" v-model="filters.nsfw" />
-              Show NSFW
-              <Icon icon="r18" />
-            </label>
-
-            <div class="search-section">
-              <hr />
-              <div class="search-wrapper">
+        <div class="filter-controls">
+          <div class="filter-column">
+            <fieldset>
+              <legend>FILTERS</legend>
+              <label :class="{ selected: filters.generalArt }">
                 <input
-                  type="text"
-                  v-model="filters.title"
-                  placeholder="Search by name..."
-                  autocomplete="off" />
-                <Icon icon="search" style="margin-right: 0.5rem" />
-              </div>
-              <div class="search-wrapper">
+                  type="checkbox"
+                  :checked="filters.generalArt"
+                  @click.prevent="toggleArtworkTypeFilter('generalArt')" />
+                General
+                <Icon icon="art" />
+              </label>
+              <label :class="{ selected: filters.characterArt }">
                 <input
-                  type="text"
-                  v-model="tagInput"
-                  placeholder="Search by tag..."
-                  @focus="tagDropdownOpen = true"
-                  @blur="onTagInputBlur"
-                  autocomplete="off" />
-                <Icon icon="tag" style="margin-right: 0.5rem" />
+                  type="checkbox"
+                  :checked="filters.characterArt"
+                  @click.prevent="toggleArtworkTypeFilter('characterArt')" />
+                Character
+                <Icon icon="character" />
+              </label>
+            </fieldset>
+            <hr />
+            <fieldset>
+              <legend>METADATA</legend>
+              <label
+                :class="{
+                  selected: filters.sketches,
+                  'anti-filter': isMetadataFilterExcluded('sketches'),
+                }">
+                <input
+                  type="checkbox"
+                  :checked="filters.sketches"
+                  :indeterminate="isMetadataFilterExcluded('sketches')"
+                  @click.prevent="cycleMetadataFilter('sketches')" />
+                Sketches
+                <Icon icon="sketch" />
+              </label>
+              <label
+                :class="{
+                  selected: filters.gallery,
+                  'anti-filter': isMetadataFilterExcluded('gallery'),
+                }">
+                <input
+                  type="checkbox"
+                  :checked="filters.gallery"
+                  :indeterminate="isMetadataFilterExcluded('gallery')"
+                  @click.prevent="cycleMetadataFilter('gallery')" />
+                Has Gallery
+                <Icon icon="images" />
+              </label>
+              <label
+                :class="{
+                  selected: filters.variants,
+                  'anti-filter': isMetadataFilterExcluded('variants'),
+                }">
+                <input
+                  type="checkbox"
+                  :checked="filters.variants"
+                  :indeterminate="isMetadataFilterExcluded('variants')"
+                  @click.prevent="cycleMetadataFilter('variants')" />
+                Has Variants
+                <Icon icon="layers" />
+              </label>
+            </fieldset>
+          </div>
+          <div class="filter-column">
+            <fieldset>
+              <legend>SEARCH</legend>
+              <div class="search-section">
+                <div class="search-wrapper">
+                  <input
+                    type="text"
+                    v-model="filters.title"
+                    placeholder="Search by name..."
+                    autocomplete="off" />
+                  <Icon icon="search" style="margin-right: 0.5rem" />
+                </div>
+                <div class="search-wrapper">
+                  <input
+                    type="text"
+                    v-model="tagInput"
+                    placeholder="Search by tag..."
+                    @focus="tagDropdownOpen = true"
+                    @blur="onTagInputBlur"
+                    autocomplete="off" />
+                  <Icon icon="tag" style="margin-right: 0.5rem" />
+                </div>
+                <div v-if="filters.tags.length > 0" class="tag-filter-chips">
+                  <span
+                    v-for="tag in filters.tags"
+                    :key="tag"
+                    class="tag-chip"
+                    @click="removeTag(tag)"
+                    >{{ tag }} &times;</span
+                  >
+                </div>
               </div>
-              <div v-if="filters.tags.length > 0" class="tag-filter-chips">
-                <span
-                  v-for="tag in filters.tags"
-                  :key="tag"
-                  class="tag-chip"
-                  @click="removeTag(tag)"
-                  >{{ tag }} &times;</span
-                >
-              </div>
-            </div>
-          </fieldset>
+            </fieldset>
+            <hr />
+            <fieldset>
+              <legend>TOGGLES</legend>
+              <label>
+                <input type="checkbox" v-model="filters.nsfw" />
+                Show NSFW
+                <Icon icon="r18" />
+              </label>
+            </fieldset>
+            <hr />
+            <fieldset>
+              <legend>SORTING</legend>
+              <label class="no-padding">
+                <select v-model="filters.sortBy">
+                  <option value="created">Created</option>
+                  <option value="added">Added</option>
+                  <option value="alphabetical">Alphabetical</option>
+                  <option value="whatever">Whatever</option>
+                </select>
+              </label>
+            </fieldset>
+          </div>
         </div>
         <div v-if="tagDropdownOpen" class="tag-suggestions-scroll">
           <ul v-if="tagSuggestions.length > 0" class="tag-suggestions">
@@ -147,8 +200,12 @@ import { getArtworks, isEcholotlArtwork } from "#imports";
 import Icon from "~/components/common/Icon.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
-
+type SortBy = "created" | "added" | "alphabetical" | "whatever";
+const METADATA_FILTERS = ["sketches", "gallery", "variants"] as const;
+type MetadataFilter = (typeof METADATA_FILTERS)[number];
+type ArtworkTypeFilter = "generalArt" | "characterArt";
 interface Filters {
+  sortBy: SortBy;
   title: string;
   sketches: boolean;
   nsfw: boolean;
@@ -182,6 +239,13 @@ function parseQueryTags(raw: string | string[] | undefined): string[] {
     .filter(Boolean);
 }
 
+function parseExcludedMetadataFilters(
+  raw: string | string[] | undefined,
+): MetadataFilter[] {
+  const decodedFilters = decodeBitmask(raw);
+  return METADATA_FILTERS.filter((filter) => decodedFilters[filter]);
+}
+
 function decodeBitmask(raw: string | string[] | undefined): Partial<Filters> {
   const num = parseInt((Array.isArray(raw) ? raw[0] : raw) ?? "0", 10);
   if (isNaN(num) || num === 0) return {};
@@ -194,24 +258,45 @@ function encodeBitmask(val: Filters): number {
   return FILTER_BITS.reduce((acc, key, i) => acc | (val[key] ? 1 << i : 0), 0);
 }
 
+function encodeExcludedMetadataFilters(filters: MetadataFilter[]): number {
+  return filters.reduce(
+    (bitmask, filter) => bitmask | (1 << FILTER_BITS.indexOf(filter)),
+    0,
+  );
+}
+
+const queryFilters = decodeBitmask(route.query.f as string | undefined);
 const filters = ref<Filters>({
   title: typeof route.query.title === "string" ? route.query.title : "",
   sketches: false,
   nsfw: false,
-  characterArt: false,
   generalArt: false,
   gallery: false,
   variants: false,
+  sortBy:
+    typeof route.query.sort === "string" &&
+    ["created", "added", "alphabetical", "whatever"].includes(route.query.sort)
+      ? (route.query.sort as SortBy)
+      : "created",
   tags: parseQueryTags(route.query.tags as string | undefined),
-  ...decodeBitmask(route.query.f as string | undefined),
+  ...queryFilters,
+  characterArt: queryFilters.generalArt
+    ? false
+    : (queryFilters.characterArt ?? false),
 });
+const excludedMetadataFilters = ref<MetadataFilter[]>(
+  parseExcludedMetadataFilters(route.query.not as string | undefined),
+);
 
 watch(
-  filters,
-  (val) => {
+  [filters, excludedMetadataFilters],
+  ([val, excluded]) => {
     const query: Record<string, string> = {};
     if (val.title) query.title = val.title;
     if (val.tags.length > 0) query.tags = val.tags.join(",");
+    if (val.sortBy !== "created") query.sort = val.sortBy;
+    const excludedBitmask = encodeExcludedMetadataFilters(excluded);
+    if (excludedBitmask !== 0) query.not = String(excludedBitmask);
     const bitmask = encodeBitmask(val);
     if (bitmask !== 0) query.f = String(bitmask);
     router.replace({ query });
@@ -221,6 +306,29 @@ watch(
 
 const tagInput = ref("");
 const tagDropdownOpen = ref(false);
+
+function toggleArtworkTypeFilter(filter: ArtworkTypeFilter) {
+  const otherFilter = filter === "generalArt" ? "characterArt" : "generalArt";
+  filters.value[filter] = !filters.value[filter];
+  filters.value[otherFilter] = false;
+}
+
+function isMetadataFilterExcluded(filter: MetadataFilter): boolean {
+  return excludedMetadataFilters.value.includes(filter);
+}
+
+function cycleMetadataFilter(filter: MetadataFilter) {
+  if (filters.value[filter]) {
+    filters.value[filter] = false;
+    excludedMetadataFilters.value.push(filter);
+  } else if (isMetadataFilterExcluded(filter)) {
+    excludedMetadataFilters.value = excludedMetadataFilters.value.filter(
+      (excludedFilter) => excludedFilter !== filter,
+    );
+  } else {
+    filters.value[filter] = true;
+  }
+}
 
 const allKnownTags = computed(() => {
   const tagSet = new Set<string>();
@@ -256,31 +364,34 @@ function onTagInputBlur() {
   tagDropdownOpen.value = false;
 }
 
-const FILTER_NAMES: Record<keyof Omit<Filters, "tags">, string> = {
+const FILTER_NAMES: Record<keyof Omit<Filters, "tags" | "sortBy">, string> = {
   title: "Title",
   sketches: "Sketches",
   nsfw: "NSFW",
   characterArt: "Character Art",
   generalArt: "General Art",
-  gallery: "Has Gallery",
-  variants: "Has Variants",
+  gallery: "Galleries",
+  variants: "Variants",
 };
 
 const activeFilters = computed(() =>
-  (Object.keys(FILTER_NAMES) as Array<keyof Omit<Filters, "tags">>).filter(
-    (key) => Boolean(filters.value[key]),
-  ),
+  (
+    Object.keys(FILTER_NAMES) as Array<keyof Omit<Filters, "tags" | "sortBy">>
+  ).filter((key) => Boolean(filters.value[key])),
 );
 
 const filtersToText = computed(() => {
   const tagCount = filters.value.tags.length;
-  const filterCount = activeFilters.value.length;
+  const filterCount =
+    activeFilters.value.length + excludedMetadataFilters.value.length;
 
   const filterText =
     filterCount === 1
       ? activeFilters.value[0] === "title"
         ? `"${filters.value.title}"`
-        : FILTER_NAMES[activeFilters.value[0]]
+        : activeFilters.value.length === 1
+          ? FILTER_NAMES[activeFilters.value[0]]
+          : `No ${FILTER_NAMES[excludedMetadataFilters.value[0]]}`
       : filterCount > 1
         ? `${filterCount} Filters`
         : "";
@@ -313,7 +424,7 @@ const allPinnedArtworks = computed(() =>
 );
 
 const filteredArtworks = computed(() => {
-  return (allArtworks.value || []).filter((artwork) => {
+  const artworks = (allArtworks.value || []).filter((artwork) => {
     if (
       artwork.pinned ||
       !isEcholotlArtwork(artwork) ||
@@ -327,7 +438,10 @@ const filteredArtworks = computed(() => {
       return false;
     }
 
-    if (filters.value.sketches && !artwork.sketch) {
+    if (
+      (filters.value.sketches && !artwork.sketch) ||
+      (isMetadataFilterExcluded("sketches") && artwork.sketch)
+    ) {
       return false;
     }
 
@@ -346,13 +460,20 @@ const filteredArtworks = computed(() => {
       return false;
     }
 
-    if (filters.value.gallery && artwork.images.length <= 1) {
+    const hasGallery = artwork.images.length > 1;
+    if (
+      (filters.value.gallery && !hasGallery) ||
+      (isMetadataFilterExcluded("gallery") && hasGallery)
+    ) {
       return false;
     }
 
+    const hasVariants = artwork.images.some(
+      (image) => image.variants && image.variants.length > 0,
+    );
     if (
-      filters.value.variants &&
-      !artwork.images.some((img) => img.variants && img.variants.length > 0)
+      (filters.value.variants && !hasVariants) ||
+      (isMetadataFilterExcluded("variants") && hasVariants)
     ) {
       return false;
     }
@@ -365,6 +486,25 @@ const filteredArtworks = computed(() => {
     }
 
     return true;
+  });
+
+  return artworks.sort((firstArtwork, secondArtwork) => {
+    switch (filters.value.sortBy) {
+      case "created":
+        return (
+          new Date(secondArtwork.created_at).getTime() -
+          new Date(firstArtwork.created_at).getTime()
+        );
+      case "added":
+        return (
+          new Date(secondArtwork.modified_at).getTime() -
+          new Date(firstArtwork.modified_at).getTime()
+        );
+      case "alphabetical":
+        return firstArtwork.title.localeCompare(secondArtwork.title);
+      case "whatever":
+        return Math.random() - 0.5;
+    }
   });
 });
 
@@ -435,10 +575,21 @@ useSeoMeta({
     border: 1px solid var(--distant);
     background: var(--surface);
     padding: 0.5rem;
-    width: 200px;
+    width: 430px;
     inset: auto;
     border-top: 2px solid var(--primary);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .filter-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .filter-column {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   fieldset {
@@ -462,7 +613,7 @@ useSeoMeta({
       display: flex;
       width: calc(100% - 1rem);
       border-radius: 4px;
-      padding: 0.25rem 0.5rem;
+
       align-items: center;
       justify-content: space-between;
       color: var(--text);
@@ -482,6 +633,38 @@ useSeoMeta({
       &:has(input[type="checkbox"]:checked) {
         background-color: var(--primary);
         color: var(--background);
+      }
+
+      &.selected {
+        background-color: var(--primary);
+        color: var(--background);
+      }
+
+      &.anti-filter {
+        background-color: var(--foreground);
+        color: var(--text-secondary);
+        text-decoration: line-through;
+      }
+
+      &:not(.no-padding) {
+        padding: 0.25rem 0.5rem;
+      }
+
+      &.no-padding {
+        width: 100%;
+      }
+
+      select {
+        box-sizing: border-box;
+        background: var(--background);
+        border: 1px solid var(--distant);
+        border-radius: 4px;
+        padding: 0.15rem 0.25rem;
+        font-size: var(--small-text);
+        color: var(--text);
+        width: 100%;
+        font-family: inherit;
+        outline: none;
       }
     }
 
@@ -545,6 +728,17 @@ useSeoMeta({
       &:hover {
         opacity: 0.8;
       }
+    }
+  }
+
+  @media (max-width: 600px) {
+    > div {
+      width: 200px;
+    }
+
+    .filter-controls {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
     }
   }
 }

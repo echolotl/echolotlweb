@@ -1,17 +1,17 @@
 slug: new-years-2026
 created_at: '2026-01-01T06:00:00.000Z'
 modified_at: '2026-09-15T03:37:26.578Z'
-title: New Years 2026
-pinned: false
-sketch: true
-nsfw: false
-images:
-  - id: new-years-2026
-    image_url: /art/characters/echo/new-years-2026.png
-    thumbnail_url: /art/characters/echo/thumbnails/new-years-2026.webp
-description: It's a party
 character: echo
 related_characters:
   - king
   - glory
   - kitral
+title: New Years 2026
+description: It's a party
+pinned: false
+nsfw: false
+images:
+  - image_url: /art/characters/echo/new-years-2026.png
+    thumbnail_url: /art/characters/echo/thumbnails/new-years-2026.webp
+    id: new-years-2026
+sketch: true
