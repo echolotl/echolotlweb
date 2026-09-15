@@ -45,23 +45,24 @@ export async function getImageDimensions(
 }
 
 export function previewImage(filePath: string): void {
-  const command =
-    process.platform === "win32"
-      ? "explorer.exe"
-      : process.platform === "darwin"
-        ? "open"
-        : "xdg-open";
-  const previewTarget =
-    process.platform === "win32"
-      ? `ms-photos:viewer?fileName=${encodeURIComponent(
-          pathToFileURL(path.resolve(filePath)).href,
-        )}`
-      : filePath;
-  const previewProcess = spawn(command, [previewTarget], {
-    detached: true,
-    stdio: "ignore",
-  });
-  previewProcess.unref();
+  // Open ms-photos
+  const isWindows = process.platform === "win32";
+  if (isWindows) {
+    const command = "cmd.exe";
+    const args = [
+      "/c",
+      "start",
+      "",
+      `ms-photos:viewer?fileName=${encodeURIComponent(path.resolve(filePath))}`,
+    ];
+    const previewProcess = spawn(command, args, {
+      detached: true,
+      stdio: "ignore",
+    });
+    previewProcess.unref();
+  } else {
+    Logger.warning("Preview is only supported on Windows with ms-photos.");
+  }
 }
 
 export async function copyImage(
