@@ -1,13 +1,14 @@
 slug: king-but
 created_at: '2025-11-09T06:00:00.000Z'
 modified_at: '2026-09-15T03:21:17.258Z'
+character: king
 title: King but
+description: drawn on vactation on da ipad
 pinned: false
-sketch: false
 nsfw: false
 images:
-  - id: king-but
-    image_url: /art/characters/king/king-but.png
+  - image_url: /art/characters/king/king-but.png
     thumbnail_url: /art/characters/king/thumbnails/king-but.webp
-description: drawn on vactation on da ipad
-character: king
+    thumbnail_anchor: top
+    id: king-but
+sketch: false

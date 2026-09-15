@@ -1,13 +1,13 @@
 slug: orchy-car-bit
 created_at: '2025-11-11T06:00:00.000Z'
 modified_at: '2026-09-15T03:21:17.323Z'
+character: orchy
 title: Orchy car bit
+description: drawn in the car
 pinned: false
-sketch: false
 nsfw: false
 images:
-  - id: orchy-car-bit
-    image_url: /art/characters/orchy/orchy-car-bit.png
+  - image_url: /art/characters/orchy/orchy-car-bit.png
     thumbnail_url: /art/characters/orchy/thumbnails/orchy-car-bit.webp
-description: drawn in the car
-character: orchy
+    id: orchy-car-bit
+sketch: false
