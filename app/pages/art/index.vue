@@ -53,7 +53,7 @@
         <div class="filter-controls">
           <div class="filter-column">
             <fieldset>
-              <legend>FILTERS</legend>
+              <legend>TYPE</legend>
               <label :class="{ selected: filters.generalArt }">
                 <input
                   type="checkbox"
