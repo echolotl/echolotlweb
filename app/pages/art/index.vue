@@ -7,7 +7,16 @@
         allArtworks?.length -
         allArtworks?.filter((art) => !isEcholotlArtwork(art)).length
       }}</b>
-      artworks over. Click on any piece to view details.
+      artworks over
+      <b>{{
+        Math.abs(
+          allArtworks?.reduce(
+            (min, art) => Math.min(min, new Date(art.created_at).getFullYear()),
+            new Date().getFullYear(),
+          ) - new Date().getFullYear(),
+        )
+      }}</b>
+      years. Click on any piece to view details.
     </p>
 
     <div v-if="allPinnedArtworks.length > 0" class="section-header">
