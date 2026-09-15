@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="character"
-    class="character-page"
-    :style="{ '--theme-color': themeColor }">
+  <div v-if="character" class="character-page" :style="{ '--theme-color': themeColor }">
     <CharacterBanner :character="character" />
     <div class="character-content">
       <div class="character-main-content">
@@ -15,17 +12,10 @@
     </div>
     <div class="character-images">
       <h2 class="section-title">
-        <Icon
-          icon="art_brush"
-          width="36px"
-          height="36px"
-          style="color: var(--theme-color)" />
+        <Icon icon="art_brush" width="36px" height="36px" style="color: var(--theme-color)" />
         <span class="lotl-font" style="font-size: 1.2em">Artwork</span>
       </h2>
-      <ArtGrid
-        v-if="characterArtworks && characterArtworks.length > 0"
-        :artworks="characterArtworks"
-        show-metadata />
+      <ArtGrid v-if="characterArtworks && characterArtworks.length > 0" :artworks="characterArtworks" show-metadata />
       <div v-else class="no-artwork">
         <p>No artwork found for this character yet.</p>
       </div>
@@ -137,6 +127,7 @@ useSeoMeta({
 
 <style lang="scss" scoped>
 @use "~/assets/styles/partials/mixins" as *;
+
 .character-page {
   position: relative;
   min-height: 100vh;
@@ -162,6 +153,7 @@ useSeoMeta({
     clear: both;
   }
 }
+
 .character-text {
   /* Text will naturally wrap around the floated infobox */
   text-align: left;
@@ -188,7 +180,7 @@ useSeoMeta({
     padding-bottom: 0.25rem;
     border-bottom: 1px solid var(--distant);
   }
-  
+
   > :deep(h1) {
     font-size: var(--xl-text);
   }
@@ -214,6 +206,7 @@ useSeoMeta({
     color: var(--text-secondary);
   }
 }
+
 .section-title {
   @include color-text-stroke(var(--theme-color), 6px);
   color: var(--background);

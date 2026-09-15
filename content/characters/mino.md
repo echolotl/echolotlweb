@@ -11,8 +11,8 @@ friends:
   - slug: chomb
     name: Chomb
 likes:
-  - Mint
-  - Weapons
+  - Rocks
+  - Heavy things
   - Townsfolk
 dislikes:
   - Water
