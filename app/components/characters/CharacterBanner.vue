@@ -71,6 +71,8 @@ const bannerVariant = computed(() => {
       return "character-banner--quiver";
     case "sesame":
       return "character-banner--sesame";
+    case "unyruu":
+      return "character-banner--unyruu";
     default:
       return null;
   }
@@ -242,6 +244,19 @@ const bannerVariant = computed(() => {
 }
 
 .character-banner--sesame .character-banner__texture-layer {
+  @include mask-gradient(to bottom, black, 0%, transparent, 100%);
+}
+
+.character-banner--unyruu .character-banner__underlay {
+  background: linear-gradient(to bottom, #f8c0ff, var(--theme-color) 50%);
+  opacity: 1;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+.character-banner--unyruu .character-banner__texture {
+  background: linear-gradient(to top, #f8c0ff, var(--theme-color) 75%);
+}
+
+.character-banner--unyruu .character-banner__texture-layer {
   @include mask-gradient(to bottom, black, 0%, transparent, 100%);
 }
 
