@@ -41,7 +41,7 @@ sitemap:
 
 **Glory** is a shark(y) girl who has many, many sets of eyes around her gray furred body. 
 ## Overview
-Glory lives in a small town, rooming with [Kitral](/chararacters/kitral). She is somewhat trapped in this location, as she is shunned based upon her appearance by the townsfolk in this and neighboring cities. In turn, she stays indoors most days, and tries to keep Kitral's house tidy in return for her long stay. She dreams of leaving one day. Maybe with Kitral.
+Glory lives in a small town, rooming with [Kitral](/characters/kitral). She is somewhat trapped in this location, as she is shunned based upon her appearance by the townsfolk in this and neighboring cities. In turn, she stays indoors most days, and tries to keep Kitral's house tidy in return for her long stay. She dreams of leaving one day. Maybe with Kitral.
 
 In the meanwhile, she spends time trying to create outfits that she likes, with whatever scraps blow by or Kitral brings home for her. She sits at a rickety desk in the home's attic and stitches these pieces of fabric together basically all day, every day. She's lost all sense of time, so it happens very inconsistently. If she isn't sewing, she's sleeping.
 
