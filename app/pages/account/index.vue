@@ -188,6 +188,7 @@ button.discord-login {
   left: 0;
   right: 0;
   height: 300px;
+  width: 1000px;
   background-color: var(--surface);
   background-image: var(--pfp);
   background-size: cover;
