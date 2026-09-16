@@ -9,7 +9,7 @@ modified_at: '2026-09-08T00:00:00.000Z'
 pronouns: any/they
 category: Other
 short_description: an axolotl. I jest
-theme_color: '#F9586C'
+theme_color: '#f95858'
 sitemap:
   changefreq: monthly
   priority: 0.5
