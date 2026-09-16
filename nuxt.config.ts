@@ -140,6 +140,10 @@ export default defineNuxtConfig({
     public: {
       underConstruction: true,
       backendUrl: process.env.BACKEND_URL || "",
+      backendEnabled:
+        process.env.BACKEND_ENABLED === "true" ||
+        (process.env.BACKEND_ENABLED !== "false" &&
+          Boolean(process.env.BACKEND_URL)),
     },
   },
   hooks: {

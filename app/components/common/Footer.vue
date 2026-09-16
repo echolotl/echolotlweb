@@ -13,7 +13,7 @@
               <span class="lotl-font">{{ getDisplayName(user) }}</span>
             </div>
             <div class="actions">
-              <nuxt-link to="/profile" class="link">Manage</nuxt-link>•
+              <nuxt-link to="/account" class="link">Manage</nuxt-link>•
               <a href="#" class="link" @click.prevent="logout">Logout</a>
             </div>
           </div>

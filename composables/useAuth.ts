@@ -39,6 +39,17 @@ const anonymousAvatars = [
   "ishes",
 ];
 
+const mockUser: AuthenticatedUser = {
+  id: "1234123412341234",
+  userId: "1234123412341234",
+  username: "account",
+  displayName: "Account",
+  avatarHash: null,
+  anonymous: false,
+  createdAt: 0,
+  updatedAt: 0,
+};
+
 function getAnonymousAvatarUrl(id: string) {
   let hash = 0;
   for (let i = 0; i < id.length; i++) {
@@ -88,7 +99,18 @@ function createAuth() {
     return useRuntimeConfig().public.backendUrl as string;
   }
 
+  function backendEnabled() {
+    return useRuntimeConfig().public.backendEnabled as boolean;
+  }
+
   async function fetchUser(): Promise<AuthenticatedUser | null> {
+    if (!backendEnabled()) {
+      user.value = null;
+      status.value = "unauthenticated";
+      error.value = null;
+      return null;
+    }
+
     status.value = "loading";
     error.value = null;
     try {
@@ -120,11 +142,24 @@ function createAuth() {
 
   function login() {
     if (import.meta.client) {
+      if (!backendEnabled()) {
+        user.value = { ...mockUser };
+        status.value = "authenticated";
+        error.value = null;
+        return;
+      }
+
       window.location.href = `${backendUrl()}/auth/discord/`;
     }
   }
 
   async function logout() {
+    if (!backendEnabled()) {
+      user.value = null;
+      status.value = "unauthenticated";
+      return;
+    }
+
     try {
       await fetch(`${backendUrl()}/auth/discord/logout`, {
         credentials: "include",
@@ -140,6 +175,12 @@ function createAuth() {
   async function setAnonymous(
     anonymous: boolean,
   ): Promise<AuthenticatedUser | null> {
+    if (!backendEnabled()) {
+      if (!user.value) return null;
+      user.value = { ...user.value, anonymous, updatedAt: Date.now() };
+      return user.value;
+    }
+
     const res = await fetch(`${backendUrl()}/auth/discord/me`, {
       method: "PATCH",
       credentials: "include",
@@ -155,6 +196,12 @@ function createAuth() {
   }
 
   async function deleteAccount() {
+    if (!backendEnabled()) {
+      user.value = null;
+      status.value = "unauthenticated";
+      return;
+    }
+
     const res = await fetch(`${backendUrl()}/auth/discord/me`, {
       method: "DELETE",
       credentials: "include",
@@ -167,6 +214,10 @@ function createAuth() {
   }
 
   async function getPublicUser(userId: string): Promise<PublicUser | null> {
+    if (!backendEnabled()) {
+      return userId === mockUser.userId ? toPublicUser(mockUser) : null;
+    }
+
     try {
       const res = await fetch(
         `${backendUrl()}/auth/discord/user/${encodeURIComponent(userId)}`,
