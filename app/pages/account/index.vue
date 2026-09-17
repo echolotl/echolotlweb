@@ -1,28 +1,31 @@
 <template>
   <div class="settings-page">
     <template v-if="user">
-      <div class="header" :style="{'--pfp': `url(${getAvatarUrl(user)})`}">
+      <div class="header" :style="{ '--pfp': `url(${getAvatarUrl(user)})` }">
         <UserAvatar :user="user" :size="128" />
         <div class="user-info">
-        <h1 class="display-name">{{ getDisplayName(user) }} <span v-if="user.anonymous" style="color: var(--text-secondary)"
-                >({{ getDisplayName(publicUser) }})</span
-              ></h1>
-        <h2 class="username">@{{ user.username }} <span v-if="user.anonymous" style="color: var(--text-secondary)"
-                >(@{{ publicUser?.username }})</span
-              ></h2>
-        <span class="date">
-          Created on <b>{{ new Date(user.createdAt).toLocaleDateString() }}</b>
-        </span>
+          <h1 class="display-name">
+            {{ getDisplayName(user) }}
+            <span v-if="user.anonymous" style="color: var(--text-secondary)"
+              >({{ getDisplayName(publicUser) }})</span
+            >
+          </h1>
+          <h2 class="username">
+            @{{ user.username }}
+            <span v-if="user.anonymous" style="color: var(--text-secondary)"
+              >(@{{ publicUser?.username }})</span
+            >
+          </h2>
+          <span class="date">
+            Created on
+            <b>{{ new Date(user.createdAt).toLocaleDateString() }}</b>
+          </span>
         </div>
       </div>
       <div class="actions">
         <button
-        class="round"
-          style="
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          "
+          class="round"
+          style="display: flex; align-items: center; gap: 8px"
           type="button"
           @click="logoutAndRedirect">
           <Icon icon="logout" width="24px" height="24px" />
@@ -30,11 +33,7 @@
         </button>
 
         <button
-          style="
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          "
+          style="display: flex; align-items: center; gap: 8px"
           type="button"
           :disabled="deletingAccount"
           @click="handleDeleteAccount"
@@ -53,14 +52,13 @@
               type="checkbox"
               :checked="user?.anonymous ?? false"
               @change="onToggleAnonymous"
-              :disabled="saving"
-            />
+              :disabled="saving" />
             <div>
-            <div><b>Post anonymously</b></div>
-            <div class="text-secondary">
-              Hide your username, avatar, and Discord ID from other visitors on
-              comments and throughout the backend.
-            </div>
+              <div><b>Post anonymously</b></div>
+              <div class="text-secondary">
+                Hide your username, avatar, and Discord ID from other visitors
+                on comments and throughout the backend.
+              </div>
             </div>
           </label>
         </div>
@@ -68,10 +66,7 @@
     </template>
     <div v-else class="not-logged-in">
       <p class="subtitle">You're not logged in.</p>
-      <button
-        type="button"
-        class="discord-login round"
-        @click="login">
+      <button type="button" class="discord-login round" @click="login">
         Login with
         <DiscordIcon :size="24" />
       </button>
@@ -100,7 +95,7 @@ const {
 const saving = ref(false);
 const deletingAccount = ref(false);
 const deleteError = ref<string | null>(null);
-  
+
 const logoutAndRedirect = () => {
   window.location.href = "/";
   logout();
@@ -185,8 +180,8 @@ button.discord-login {
   display: block;
   position: absolute;
   top: -32px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   height: 300px;
   width: 1000px;
   background-color: var(--surface);
@@ -200,22 +195,22 @@ button.discord-login {
   display: flex;
   flex-direction: column;
   justify-content: center;
-.display-name {
-  margin: 0;
-  margin-top: 0.5rem;
-  font-size: 2rem;
-  text-align: center;
-}
-.username {
-  margin: 0;
-  font-size: 1.25rem;
-  text-align: center;
-  color: var(--text-secondary);
-}
-.date {
-  padding: 0.25rem 0;
+  .display-name {
+    margin: 0;
+    margin-top: 0.5rem;
+    font-size: 2rem;
     text-align: center;
-}
+  }
+  .username {
+    margin: 0;
+    font-size: 1.25rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+  .date {
+    padding: 0.25rem 0;
+    text-align: center;
+  }
 }
 
 .actions {
@@ -233,31 +228,31 @@ button.discord-login {
     margin-bottom: 2rem;
     h2 {
       font-weight: 800;
-    line-height: 1.25;
-    margin-bottom: 1rem;
-    margin-top: 1.5rem;
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid var(--distant);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--distant);
     }
 
-  label {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  cursor: pointer;
+    label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
 
-  :not(input[type="checkbox"]) {
-    flex-direction: column;
-  }
+      :not(input[type="checkbox"]) {
+        flex-direction: column;
+      }
 
-  input[type="checkbox"] {
-    margin-top: 0.2rem;
-    width: 16px;
-    height: 16px;
-    accent-color: var(--primary);
-    cursor: pointer;
-  }
-}
+      input[type="checkbox"] {
+        margin-top: 0.2rem;
+        width: 16px;
+        height: 16px;
+        accent-color: var(--primary);
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -268,5 +263,4 @@ button.discord-login {
   justify-content: center;
   color: var(--text-secondary);
 }
-
 </style>
