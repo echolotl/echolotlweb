@@ -129,5 +129,9 @@ const color = computed(() => {
 
 .callout__body {
   color: var(--text);
+
+  > :deep(p) {
+    margin: 0;
+  }
 }
 </style>

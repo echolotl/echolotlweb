@@ -16,6 +16,10 @@ sitemap:
   lastmod: 2025-07-03T00:00:00.000Z
 ---
 
-<Callout type="info">
+::callout{type="info" title="Adopt" icon="character" color="var(--orange)"}
+This character was originally created by [Fi4estorm](https://www.instagram.com/fi4estorm).
+::
+
+::callout{type="info"}
 This character's description and page is currently a WIP. There will be something here eventually.
-</Callout>
+::

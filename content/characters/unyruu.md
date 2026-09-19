@@ -19,3 +19,7 @@ sitemap:
 <Callout type="info">
 This character's description and page is currently a WIP. There will be something here eventually.
 </Callout>
+
+## Inspiration
+
+I think their design is kind of what I had always truely wanted out of [Nautilus](/characters/nautilus), and specifically [before he became a protogen](/art/two-goo-too), with the two colors of contrasting hues going across the body.
