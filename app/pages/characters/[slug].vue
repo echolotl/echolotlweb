@@ -1,5 +1,8 @@
 <template>
-  <div v-if="character" class="character-page" :style="{ '--theme-color': themeColor }">
+  <div
+    v-if="character"
+    class="character-page"
+    :style="{ '--theme-color': themeColor }">
     <CharacterBanner :character="character" />
     <div class="character-content">
       <div class="character-main-content">
@@ -12,10 +15,17 @@
     </div>
     <div class="character-images">
       <h2 class="section-title">
-        <Icon icon="art_brush" width="36px" height="36px" style="color: var(--theme-color)" />
+        <Icon
+          icon="art_brush"
+          width="36px"
+          height="36px"
+          style="color: var(--theme-color)" />
         <span class="lotl-font" style="font-size: 1.2em">Artwork</span>
       </h2>
-      <ArtGrid v-if="characterArtworks && characterArtworks.length > 0" :artworks="characterArtworks" show-metadata />
+      <ArtGrid
+        v-if="characterArtworks && characterArtworks.length > 0"
+        :artworks="characterArtworks"
+        show-metadata />
       <div v-else class="no-artwork">
         <p>No artwork found for this character yet.</p>
       </div>
@@ -179,6 +189,7 @@ useSeoMeta({
     margin-top: 1.5rem;
     padding-bottom: 0.25rem;
     border-bottom: 1px solid var(--distant);
+    display: flow-root;
   }
 
   > :deep(h1) {
