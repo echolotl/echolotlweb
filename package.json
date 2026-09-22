@@ -9,7 +9,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
-    "art": "tsx scripts/artcli"
+    "art": "tsx scripts/artcli",
+    "start": "serve -s .output/public -l $PORT"
   },
   "dependencies": {
     "@nuxt/content": "^3.14.0",
