@@ -110,8 +110,6 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/eslint",
     "@nuxtjs/mdc",
-    "@vercel/analytics",
-    "@vercel/speed-insights",
   ],
   components: {
     global: true,

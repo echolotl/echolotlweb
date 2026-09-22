@@ -1,7 +1,0 @@
-# Ignore repo metadata
-README.md
-LICENSE
-# Ignore formatter/lint changes
-eslint.config.mjs
-.prettierignore
-.prettierrc
