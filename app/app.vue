@@ -19,8 +19,9 @@ onMounted(() => {
 useHead({
   script: [
     {
-      src: "https://umami.echolotl.lol/script.js",
+      src: "/script.js",
       "data-website-id": "77e4ea44-c716-4370-822b-c56b37406967",
+      "data-host-url": "https://umami.echolotl.lol",
       defer: true,
     },
   ],
