@@ -8,7 +8,7 @@ modified_at: '2026-09-27T00:00:00.000Z'
 pronouns: they/it
 category: Other
 short_description: plushie slushie
-theme_color: '#d339ac'
+theme_color: '#d4508e'
 sitemap:
   changefreq: monthly
   priority: 0.5
