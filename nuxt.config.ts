@@ -1,10 +1,9 @@
-import type { Art, ArtImage } from "./types";
-import { readdir, readFile } from "fs/promises";
+import type { ArtImage } from "./types";
 import { resolve } from "node:path";
-import { load } from "js-yaml";
 import { fixdata } from "./scripts/artcli/commands/fix-data";
 import { regenpalette } from "./scripts/artcli/commands/regenpalette";
 import { regenthumb } from "./scripts/artcli/commands/regenthumb";
+import { getAllArts } from "./scripts/artcli/utils/art";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -23,37 +22,20 @@ export default defineNuxtConfig({
       },
     },
   },
-  site: { url: "https://www.echolotl.lol", name: "echolotl" },
+  site: { url: "https://echolotl.lol", name: "echolotl" },
   sitemap: {
+    xsl: false,
     urls: async () => {
-      const artDir = resolve(__dirname, "content", "art");
-
-      async function getAllArtFiles(dir: string): Promise<string[]> {
-        const files = await readdir(dir, { withFileTypes: true });
-        let artFiles: string[] = [];
-        for (const file of files) {
-          const res = resolve(dir, file.name);
-          if (file.isDirectory()) {
-            artFiles = artFiles.concat(await getAllArtFiles(res));
-          } else if (file.name.endsWith(".yml")) {
-            artFiles.push(res);
-          }
-        }
-        return artFiles;
-      }
-
       try {
-        const artFiles = await getAllArtFiles(artDir);
+        const arts = getAllArts();
         const artUrls = [];
-        for (const filePath of artFiles) {
+        for (const data of arts) {
           try {
-            const fileContent = await readFile(filePath, "utf8");
-            const data = load(fileContent) as Art;
             if (data && data.slug) {
               artUrls.push({
                 loc: `/art/${data.slug}`,
                 priority: data.pinned ? (0.8 as const) : (0.6 as const),
-                changefreq: "monthly" as const,
+                changefreq: "never" as const,
                 lastmod: data.modified_at || new Date().toISOString(),
                 images: (() => {
                   const imgs: {
@@ -65,7 +47,7 @@ export default defineNuxtConfig({
                     for (const img of (data as any).images as ArtImage[]) {
                       if (img?.image_url) {
                         imgs.push({
-                          loc: `https://www.echolotl.lol${img.image_url}`,
+                          loc: img.image_url,
                           caption: (data as any).description,
                           title: img.title || (data as any).title,
                         });
@@ -74,7 +56,7 @@ export default defineNuxtConfig({
                         for (const v of img.variants) {
                           if (v?.image_url) {
                             imgs.push({
-                              loc: `https://www.echolotl.lol${v.image_url}`,
+                              loc: `https://echolotl.lol${v.image_url}`,
                               caption: (data as any).description,
                               title:
                                 v.label || img.title || (data as any).title,
@@ -89,7 +71,7 @@ export default defineNuxtConfig({
               });
             }
           } catch (e) {
-            console.warn(`Could not parse YAML for ${filePath}:`, e);
+            console.warn(`Could not generate sitemap URL for ${data.slug}:`, e);
           }
         }
         console.log(
