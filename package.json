@@ -45,6 +45,8 @@
   },
   "devDependencies": {
     "@types/bun": "^1.3.14",
+    "arpabet-and-ipa-convertor-ts": "^1.0.3",
+    "klattsch": "^0.8.0",
     "prettier": "^3.8.4"
   }
 }

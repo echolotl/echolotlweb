@@ -54,6 +54,11 @@ const usages: Record<"commands" | "flags", UsageEntry[]> = {
         "Regenerates palette images for all characters, or just for a specific character if a slug is provided.",
     },
     {
+      command: "regenipa <character-slug?>",
+      description:
+        "Regenerates the text to speech audio files for all characters, or just for a specific character if a slug is provided. Remember to set the ARTCLI_11LABS_API_KEY environment variable if you want to use the funny voice!",
+    },
+    {
       command: "fixdata",
       description: "Formats and validates all art and character metadata.",
     },
