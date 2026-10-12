@@ -7,6 +7,7 @@ height: 18' 9"
 created_at: '2022-03-09T00:00:00.000Z'
 modified_at: '2026-01-29T00:00:00.000Z'
 pronouns: it/they/them
+ipa: ʊərki
 friends:
   - slug: phosphor
     name: Phosphor
@@ -34,10 +35,6 @@ color_palette:
   - '#C4B7AC'
   - '#5C1A74'
   - '#FA52DF'
-title_image: /images/characters/orchy/title.png
-background_texture: /images/characters/orchy/texture.png
-icon_image: /images/no_image.png
-banner_image: /images/characters/orchy/banner.png
 sitemap:
   changefreq: monthly
   priority: 0.5

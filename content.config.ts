@@ -58,6 +58,7 @@ export default defineContentConfig({
         created_at: z.string().datetime(),
         modified_at: z.string().datetime(),
         pronouns: z.string(),
+        ipa: z.string().optional(),
         friends: z
           .array(
             z.object({
@@ -89,11 +90,6 @@ export default defineContentConfig({
           })
           .optional(),
         image_description: z.string().optional(),
-        title_image: z.string().optional(),
-        background_texture: z.string().optional(),
-        icon_image: z.string().optional(),
-        icon_image_hover: z.string().optional(),
-        banner_image: z.string().optional(),
       }),
     }),
 

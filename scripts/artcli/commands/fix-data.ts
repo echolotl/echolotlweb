@@ -121,6 +121,7 @@ const characterSchema = z.preprocess(
     created_at: dateTime,
     modified_at: dateTime,
     pronouns: z.string().min(1),
+    ipa: z.string().optional(),
     friends: relationships.optional(),
     likes: z.array(z.string()).optional(),
     dislikes: z.array(z.string()).optional(),
@@ -138,11 +139,6 @@ const characterSchema = z.preprocess(
       })
       .optional(),
     image_description: z.string().optional(),
-    title_image: z.string().optional(),
-    background_texture: z.string().optional(),
-    icon_image: z.string().optional(),
-    icon_image_hover: z.string().optional(),
-    banner_image: z.string().optional(),
     sitemap: z.unknown().optional(),
   }),
 );

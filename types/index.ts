@@ -7,6 +7,7 @@ export interface Character {
   created_at: string;
   modified_at: string;
   pronouns: string;
+  ipa?: string;
   friends?: { slug: string; name: string }[];
   likes?: string[];
   dislikes?: string[];

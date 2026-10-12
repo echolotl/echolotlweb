@@ -1,11 +1,27 @@
 <template>
   <div class="character-infobox">
-    <span class="character-infobox__label lotl-font" style="font-size: 1.4em">{{
-      character.name.toUpperCase()
-    }}</span>
+    <div class="character-infobox__label">
+      <span class="lotl-font" style="font-size: 1.4em; text-transform: uppercase">{{
+        character.name.toUpperCase()
+      }}</span>
+      <span class="character-infobox__pronunciation">
+        <span style="font-size: var(--very-small-text); color: var(--text-secondary)">
+          /{{ character.ipa }}/
+        </span>
+        <button
+          v-if="character.ipa"
+          type="button"
+          class="character-infobox__audio-button"
+          :title="`Play ${character.name}'s pronunciation`"
+          @click="playPronunciation">
+          <Icon icon="music-note" width="16px" height="16px" alt="" />
+        </button>
+      </span>
+    </div>
     <div class="character-infobox__details">
-      <hr />
-      <div class="character-infobox__header">
+      <hr v-if="character.image" />
+      <div v-if="character.image" class="character-infobox__header">
+        
         <figure
           style="text-align: center; margin: 0"
           v-if="characterImage[0] == false">
@@ -180,6 +196,7 @@ const props = defineProps<{
 const hoveredColor = ref<string | null>(null);
 const copiedColor = ref<string | null>(null);
 const isPaletteIconHovered = ref(false);
+const pronunciationAudio = ref<HTMLAudioElement | null>(null);
 
 const formatMetricLength = (feetString: string) => {
   const cm = feetStringToCm(feetString);
@@ -203,6 +220,26 @@ const paletteIcon = computed(() => {
 });
 
 const characterImage = ref<[boolean, string]>([true, ""]); // [loading, url]
+
+function playPronunciation(): void {
+  if (!props.character.ipa) return;
+
+  if (!pronunciationAudio.value) {
+    pronunciationAudio.value = new Audio(
+      `/sounds/pronunciations/${props.character.slug}.wav`,
+    );
+  }
+
+  pronunciationAudio.value.currentTime = 0;
+  void pronunciationAudio.value.play().catch((error: unknown) => {
+    console.error("Unable to play character pronunciation audio:", error);
+  });
+}
+
+onBeforeUnmount(() => {
+  pronunciationAudio.value?.pause();
+  pronunciationAudio.value = null;
+});
 
 onMounted(async () => {
   if (props.character.image) {
@@ -264,14 +301,37 @@ function copyColorToClipboard(color: string): void {
 .character-infobox__label {
   @include color-text-stroke(var(--background), 4px);
   color: var(--theme-color);
-  font-weight: bold;
   font-size: var(--base-text);
   padding: 0 0.75rem;
   margin-bottom: 5px;
-  text-transform: uppercase;
   max-width: 100%;
   display: inline-block;
   text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.character-infobox__pronunciation {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.character-infobox__audio-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--theme-color);
+  }
 }
 
 .character-infobox__item-label {

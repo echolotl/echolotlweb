@@ -23,9 +23,6 @@ category: Main
 short_description: a shapeshifting moth-like creature
 theme_color: '#8c78e6'
 theme_color_light: '#826CE4'
-title_image: /images/characters/phosphor/title.png
-background_texture: /images/characters/phosphor/texture.png
-icon_image: /images/no_image.png
 sitemap:
   changefreq: monthly
   priority: 0.5

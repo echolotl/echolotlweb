@@ -4,6 +4,7 @@ import { fixdata } from "./scripts/artcli/commands/fix-data";
 import { regenpalette } from "./scripts/artcli/commands/regenpalette";
 import { regenthumb } from "./scripts/artcli/commands/regenthumb";
 import { getAllArts } from "./scripts/artcli/utils/art";
+import { regenIPA } from "./scripts/artcli/commands/regenipa";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -130,7 +131,7 @@ export default defineNuxtConfig({
     "build:before": async () => {
       try {
         await fixdata();
-        await Promise.all([regenpalette([]), regenthumb([])]);
+        await Promise.all([regenpalette([]), regenIPA([]), regenthumb([])]);
       } catch (error) {
         console.error("Error during art build hooks:", error);
       }
