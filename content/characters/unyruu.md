@@ -1,6 +1,7 @@
 ---
 slug: unyruu
 name: Unyruu
+ipa: uːniruː
 species: Dragon/Slime
 age: 32
 height: 12' 3"

@@ -1,6 +1,7 @@
 ---
 slug: roune
 name: Roune & Juice
+ipa: roʊn ænd ʒuːs
 species: Racoon
 height: 3' 10"
 created_at: '2026-05-24T00:00:00.000Z'

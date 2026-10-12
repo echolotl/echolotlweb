@@ -1,6 +1,7 @@
 ---
 slug: echo
 name: Echo
+ipa: ɛkhoʊ
 species: Mimikyu
 age: 18
 height: 5' 1"

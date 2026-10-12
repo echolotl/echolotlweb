@@ -1,6 +1,7 @@
 ---
 slug: botan
 name: Botan
+ipa: boʊtæn
 species: Plushie
 height: 5' 5"
 created_at: '2026-09-27T00:00:00.000Z'

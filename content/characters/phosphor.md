@@ -1,6 +1,7 @@
 ---
 slug: phosphor
 name: Phosphor
+ipa: fɑːsfər
 species: '???'
 age: 23
 height: 4' 5"

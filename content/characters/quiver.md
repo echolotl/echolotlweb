@@ -1,6 +1,7 @@
 ---
 slug: quiver
 name: Quiver
+ipa: kwɪvər
 species: Plane
 age: 28
 height: 102' 5"

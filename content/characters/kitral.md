@@ -1,6 +1,7 @@
 ---
 slug: kitral
 name: Kitral
+ipa: kɪtrɑːl
 species: Fox
 age: 27
 height: 5' 11"

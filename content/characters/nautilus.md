@@ -1,6 +1,7 @@
 ---
 slug: nautilus
 name: Nautilus
+ipa: nɑːʌtɪlʌs
 species: Protogen
 age: 26
 height: 5' 10"

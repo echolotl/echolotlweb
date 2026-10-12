@@ -1,6 +1,7 @@
 ---
 slug: ishes
 name: Ishes
+ipa: ɪʃɛs
 species: Pooltoy
 height: 5' 0"
 created_at: '2026-05-27T00:00:00.000Z'

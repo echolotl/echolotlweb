@@ -1,6 +1,7 @@
 ---
 slug: glory
 name: Glory
+ipa: glɔːriː
 species: Shark/Dog
 age: 26
 height: 5' 8"

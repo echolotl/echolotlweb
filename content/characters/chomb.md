@@ -1,6 +1,7 @@
 ---
 slug: chomb
 name: Chomb
+ipa: tʃɑːmb
 species: Spider
 age: 22
 height: 5' 2"

@@ -1,6 +1,7 @@
 ---
 slug: nae
 name: Nae
+ipa: neɪ
 species: Axolotl(?)
 age: 27
 height: 5' 8"

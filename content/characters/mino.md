@@ -1,6 +1,7 @@
 ---
 slug: mino
 name: Mino
+ipa: miːnoʊ
 species: Sheep/Bunny
 age: 31
 height: 9' 10"

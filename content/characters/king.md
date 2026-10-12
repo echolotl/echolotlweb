@@ -1,6 +1,7 @@
 ---
 slug: king
 name: King
+ipa: kiːŋ
 species: Cat
 age: 18
 height: 6' 0"
