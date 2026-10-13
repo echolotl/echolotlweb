@@ -7,10 +7,15 @@
     <nuxt-link
       :to="`/art/${artwork.slug}`"
       class="art-item"
-      :aria-label="`View Artwork: ${artwork.title}`">
+      :aria-label="`View Artwork: ${artwork.title}`"
+      @click="onClick">
       <div
         class="art-item__image"
-        :style="`background-image: url(${artwork.images[0]?.thumbnail_url});`"
+        :class="{ 'art-item__image--locked': locked }"
+        :style="{
+          '--art-bg': `url(${artwork.images[0]?.thumbnail_url})`,
+          backgroundImage: locked ? 'none' : 'var(--art-bg)',
+        }"
         :title="artwork.title">
         <div v-if="showMetadata" class="art-item__metadata">
           <div
@@ -49,6 +54,12 @@
             title="Non-echolotl Artwork">
             <Icon icon="other" />
           </div>
+          <div
+            v-if="artwork.nsfw"
+            class="art-item__metadata-icon"
+            title="NSFW Content">
+            <Icon icon="r18" />
+          </div>
         </div>
       </div>
     </nuxt-link>
@@ -60,6 +71,7 @@ import type { Art } from "~~/types";
 import SketchFilter from "../common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
 import { isEcholotlArtwork } from "#imports";
+import { useAgeVerification } from "../../../composables/useAgeVerification";
 
 const props = defineProps<{
   artwork: Art;
@@ -67,6 +79,16 @@ const props = defineProps<{
   showCharacterBadge?: boolean;
 }>();
 
+const emit = defineEmits<{ (e: "age-gate"): void }>();
+
+const { verified } = useAgeVerification();
+const locked = computed(() => !!props.artwork.nsfw && !verified.value);
+
+function onClick(event: MouseEvent) {
+  if (!locked.value) return;
+  event.preventDefault();
+  emit("age-gate");
+}
 const filterId = ref(`outline-${props.artwork.slug}`);
 
 onMounted(() => {
@@ -115,6 +137,15 @@ const hasMultipleImages = computed(() => {
     z-index: -1;
     will-change: background-size;
     transition: background-size 0.3s ease-out;
+
+    // Blur only the artwork layer so the metadata badges stay sharp
+    &--locked::before {
+      content: "";
+      position: absolute;
+      inset: -20px;
+      background: var(--art-bg) center / cover no-repeat;
+      filter: blur(8px);
+    }
   }
 
   img {

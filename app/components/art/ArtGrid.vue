@@ -5,7 +5,12 @@
       :key="artwork.slug"
       :artwork="artwork"
       :show-metadata="showMetadata"
-      :show-character-badge="showCharacterBadge" />
+      :show-character-badge="showCharacterBadge"
+      @age-gate="openAgeGate(artwork.slug)" />
+    <AgeGateModal
+      v-model="ageGateOpen"
+      @confirm="onAgeConfirmed"
+      @deny="pendingSlug = null" />
   </div>
   <p
     v-else
@@ -17,10 +22,28 @@
 <script setup lang="ts">
 import type { Art } from "~~/types";
 import ArtItem from "~/components/art/ArtItem.vue";
+import AgeGateModal from "~/components/art/AgeGateModal.vue";
+import { useAgeVerification } from "../../../composables/useAgeVerification";
 
 defineProps<{
   artworks: Art[];
   showMetadata?: boolean;
   showCharacterBadge?: boolean;
 }>();
+
+const { init } = useAgeVerification();
+onMounted(init);
+
+const ageGateOpen = ref(false);
+const pendingSlug = ref<string | null>(null);
+
+function openAgeGate(slug: string) {
+  pendingSlug.value = slug;
+  ageGateOpen.value = true;
+}
+
+function onAgeConfirmed() {
+  if (pendingSlug.value) navigateTo(`/art/${pendingSlug.value}`);
+  pendingSlug.value = null;
+}
 </script>

@@ -45,9 +45,7 @@ button {
     filter: brightness(0.9);
   }
   &:not(.disabled):active {
-    border-bottom-width: 1px;
     transform: translateY(1px);
-    margin-top: 1px;
   }
   &.filled {
     background-color: var(--primary);

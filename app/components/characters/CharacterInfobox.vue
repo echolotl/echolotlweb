@@ -20,7 +20,7 @@
           class="character-infobox__audio-button"
           :title="`Play ${character.name}'s pronunciation`"
           @click="playPronunciation">
-          <Icon icon="music-note" width="16px" height="16px" alt="" />
+          <Icon icon="sound" width="16px" height="16px" alt="" />
         </button>
       </span>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="art" class="art-page">
-    <div class="art-header">
+    <div v-if="canView" class="art-header">
       <h1 class="large-title" style="margin-bottom: 0rem; line-height: 1.2">
         <span class="lotl-font" style="font-size: 3rem">{{ art.title }}</span>
       </h1>
@@ -73,11 +73,17 @@
     </div>
 
     <!-- Main Art Section -->
-    <ArtGallery :art="art" />
+    <template v-if="canView">
+      <ArtGallery :art="art" />
 
-    <h2>Comments</h2>
-    <CommentForm :slug="art.slug" />
-    <CommentSection :slug="art.slug" />
+      <h2>Comments</h2>
+      <CommentForm :slug="art.slug" />
+      <CommentSection :slug="art.slug" />
+    </template>
+    <AgeGateModal
+      :model-value="needsAgeGate"
+      @confirm="ageConfirmed = true"
+      @deny="leavePage" />
   </div>
 </template>
 
@@ -94,9 +100,28 @@ import rehypeExternalLinks from "rehype-external-links";
 import rehypeStringify from "rehype-stringify";
 import CommentForm from "~/components/comments/CommentForm.vue";
 import CommentSection from "~/components/comments/CommentSection.vue";
+import AgeGateModal from "~/components/art/AgeGateModal.vue";
+import { useAgeVerification } from "../../../composables/useAgeVerification";
 
 const route = useRoute();
 const router = useRouter();
+
+const { isVerified } = useAgeVerification();
+const ageChecked = ref(false);
+const ageConfirmed = ref(false);
+
+onMounted(() => {
+  ageConfirmed.value = isVerified();
+  ageChecked.value = true;
+});
+
+const canView = computed(() => !art.value?.nsfw || ageConfirmed.value);
+const needsAgeGate = computed(() => ageChecked.value && !canView.value);
+
+function leavePage() {
+  if (window.history.state?.back) router.back();
+  else router.replace("/art");
+}
 
 function goToArtWithTag(tag: string) {
   router.push({ path: "/art", query: { tags: tag } });

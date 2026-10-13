@@ -161,7 +161,10 @@
             <fieldset>
               <legend>TOGGLES</legend>
               <label>
-                <input type="checkbox" v-model="filters.nsfw" />
+                <input
+                  type="checkbox"
+                  :checked="filters.nsfw"
+                  @change="onNsfwToggle" />
                 Show NSFW
                 <Icon icon="r18" />
               </label>
@@ -201,6 +204,7 @@
 
     <ArtGrid :artworks="filteredArtworks" show-metadata show-character-badge />
     <SplashText />
+    <AgeGateModal v-model="ageGateOpen" @confirm="filters.nsfw = true" />
   </div>
 </template>
 
@@ -209,6 +213,8 @@ import { getArtworks, isEcholotlArtwork } from "#imports";
 import Icon from "~/components/common/Icon.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
+import AgeGateModal from "~/components/art/AgeGateModal.vue";
+import { useAgeVerification } from "../../../composables/useAgeVerification";
 type SortBy = "created" | "added" | "alphabetical" | "whatever";
 const METADATA_FILTERS = ["sketches", "gallery", "variants"] as const;
 type MetadataFilter = (typeof METADATA_FILTERS)[number];
@@ -315,6 +321,27 @@ watch(
 
 const tagInput = ref("");
 const tagDropdownOpen = ref(false);
+
+const ageGateOpen = ref(false);
+const { verified, init, isVerified } = useAgeVerification();
+
+// An NSFW filter restored from the URL must not bypass the age check
+const showNsfw = computed(() => filters.value.nsfw && verified.value);
+
+onMounted(() => {
+  init();
+  if (filters.value.nsfw && !verified.value) filters.value.nsfw = false;
+});
+
+function onNsfwToggle(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (!input.checked || isVerified()) {
+    filters.value.nsfw = input.checked;
+    return;
+  }
+  input.checked = false;
+  ageGateOpen.value = true;
+}
 
 function toggleArtworkTypeFilter(filter: ArtworkTypeFilter) {
   const otherFilter = filter === "generalArt" ? "characterArt" : "generalArt";
@@ -428,7 +455,7 @@ const allPinnedArtworks = computed(() =>
     (artwork) =>
       artwork.pinned &&
       isEcholotlArtwork(artwork) &&
-      (filters.value.nsfw || !artwork.nsfw),
+      (showNsfw.value || !artwork.nsfw),
   ),
 );
 
@@ -437,7 +464,7 @@ const filteredArtworks = computed(() => {
     if (
       artwork.pinned ||
       !isEcholotlArtwork(artwork) ||
-      (!filters.value.nsfw && artwork.nsfw)
+      (!showNsfw.value && artwork.nsfw)
     ) {
       return false;
     }
