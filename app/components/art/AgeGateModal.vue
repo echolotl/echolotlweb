@@ -19,7 +19,7 @@
         Don't ask again
       </label>
       <div class="age-gate__actions">
-        <button class="filled" @click="onYes">Yes</button>
+        <button class="filled orange" @click="onYes"><b>Yes</b></button>
         <button class="round" @click="onNo">No</button>
       </div>
     </div>

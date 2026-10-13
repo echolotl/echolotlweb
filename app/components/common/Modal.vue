@@ -15,6 +15,7 @@
         <div
           ref="boxRef"
           class="modal"
+          :class="{ 'modal--icon': props.icon }"
           role="dialog"
           aria-modal="true"
           :aria-label="ariaLabel"
@@ -148,6 +149,20 @@ onBeforeUnmount(() => {
     position: absolute;
     top: 8px;
     left: -32px;
+  }
+
+  // On narrow screens there's no room beside the box, so the icon
+  // sits centered over its top edge
+  @media (max-width: 768px) {
+    &__icon {
+      top: -24px;
+      right: 16px;
+      left: auto;
+    }
+
+    &--icon &__content {
+      padding-top: 16px;
+    }
   }
 }
 

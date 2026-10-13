@@ -56,6 +56,11 @@ button {
       border: 2px solid color.scale($red, $lightness: 20%);
       color: $foreground-light;
     }
+    &.orange {
+      background-color: var(--orange);
+      border: 2px solid color.scale($orange, $lightness: 20%);
+      color: $foreground-light;
+    }
   }
   &.round {
     border-radius: 8px;
