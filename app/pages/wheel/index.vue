@@ -270,7 +270,6 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
-import { queryCollection } from "#imports";
 import { type Character } from "~~/types";
 import Icon from "~/components/common/Icon.vue";
 import SketchFilter from "~/components/common/SketchFilter.vue";

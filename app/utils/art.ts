@@ -111,7 +111,9 @@ export async function getLatestArtworks(limit: number = 10) {
 export async function searchArtworks(searchTerm: string) {
   return await queryCollection("art")
     .where("title", "LIKE", `%${searchTerm}%`)
-    .orWhere("description", "LIKE", `%${searchTerm}%`)
+    .orWhere((group) =>
+      group.where("description", "LIKE", `%${searchTerm}%`),
+    )
     .all();
 }
 

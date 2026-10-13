@@ -1,4 +1,3 @@
-import { useRuntimeConfig, useState } from "#imports";
 import type { PublicUser } from "./useAuth";
 
 export interface CommentNode {

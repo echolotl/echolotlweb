@@ -46,8 +46,6 @@ import CharacterBanner from "~/components/characters/CharacterBanner.vue";
 import CharacterInfobox from "~/components/characters/CharacterInfobox.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 import Icon from "~/components/common/Icon.vue";
-import { getArtworksByCharacter } from "~/utils/art";
-
 import { useTheme } from "~~/composables/useTheme";
 import SplashText from "~/components/common/SplashText.vue";
 import CommentForm from "~/components/comments/CommentForm.vue";

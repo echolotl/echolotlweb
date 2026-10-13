@@ -209,7 +209,6 @@
 </template>
 
 <script setup lang="ts">
-import { getArtworks, isEcholotlArtwork } from "#imports";
 import Icon from "~/components/common/Icon.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";

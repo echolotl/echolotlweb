@@ -1,6 +1,3 @@
-import { ref, computed } from "vue";
-import { useRuntimeConfig } from "#imports";
-
 export interface AuthenticatedUser {
   id: string;
   userId: string;

@@ -1,5 +1,3 @@
-import { ref, watch } from "vue";
-
 let themeInstance: ReturnType<typeof createTheme> | null = null; // Weird singleton instance pattern
 
 function createTheme() {

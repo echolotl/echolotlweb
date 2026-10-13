@@ -190,9 +190,7 @@
 <script setup lang="ts">
 import CharacterLink from "~/components/common/CharacterLink.vue";
 import Icon from "~/components/common/Icon.vue";
-import { feetStringToCm, formatDate } from "~/utils";
 import type { Character } from "~~/types";
-import { passesContrast } from "~/utils/color";
 
 const props = defineProps<{
   character: Character;

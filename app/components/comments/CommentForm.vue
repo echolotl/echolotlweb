@@ -47,7 +47,6 @@ import { useComments } from "~~/composables/useComments";
 import { useAuth } from "~~/composables/useAuth";
 import UserAvatar from "~/components/common/UserAvatar.vue";
 import DiscordIcon from "~/components/common/DiscordIcon.vue";
-import { insertPlainText } from "~/utils";
 const props = defineProps<Props>();
 const { isLoggedIn, login, publicUser, getDisplayName } = useAuth();
 const { postComment, error } = useComments(props.slug);

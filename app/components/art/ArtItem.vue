@@ -70,7 +70,6 @@
 import type { Art } from "~~/types";
 import SketchFilter from "../common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
-import { isEcholotlArtwork } from "#imports";
 import { useAgeVerification } from "../../../composables/useAgeVerification";
 
 const props = defineProps<{
