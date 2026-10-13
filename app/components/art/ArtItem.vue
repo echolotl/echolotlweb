@@ -11,10 +11,10 @@
       @click="onClick">
       <div
         class="art-item__image"
-        :class="{ 'art-item__image--locked': locked }"
+        :class="{ 'art-item__image--blurred': artwork.nsfw }"
         :style="{
           '--art-bg': `url(${artwork.images[0]?.thumbnail_url})`,
-          backgroundImage: locked ? 'none' : 'var(--art-bg)',
+          backgroundImage: artwork.nsfw ? 'none' : 'var(--art-bg)',
         }"
         :title="artwork.title">
         <div v-if="showMetadata" class="art-item__metadata">
@@ -139,12 +139,12 @@ const hasMultipleImages = computed(() => {
     transition: background-size 0.3s ease-out;
 
     // Blur only the artwork layer so the metadata badges stay sharp
-    &--locked::before {
+    &--blurred::before {
       content: "";
       position: absolute;
       inset: -20px;
       background: var(--art-bg) center / cover no-repeat;
-      filter: blur(8px);
+      filter: blur(4px);
     }
   }
 
