@@ -3,14 +3,14 @@ slug: sesame
 name: Sesame
 species: Dog
 height: 5' 5"
-created_at: '2026-09-08T00:00:00.000Z'
-modified_at: '2026-09-08T00:00:00.000Z'
+created_at: "2026-09-08T00:00:00.000Z"
+modified_at: "2026-09-08T00:00:00.000Z"
 pronouns: she/he/they
 ipa: sɛsəmi
 category: Other
 short_description: what da dawg doin
-theme_color: '#ffda61'
-theme_color_light: '#d8ba0f'
+theme_color: "#ffda61"
+theme_color_light: "#d8ba0f"
 sitemap:
   changefreq: monthly
   priority: 0.5

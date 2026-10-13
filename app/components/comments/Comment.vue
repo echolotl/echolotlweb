@@ -140,7 +140,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, nextTick } from "vue";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";

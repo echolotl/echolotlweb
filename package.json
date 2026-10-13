@@ -8,13 +8,13 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "format": "prettier --write .",
+    "lint": "oxlint .",
+    "format": "oxfmt --write .",
     "art": "tsx scripts/artcli",
     "start": "serve .output/public -l $PORT"
   },
   "dependencies": {
     "@nuxt/content": "^3.14.0",
-    "@nuxt/eslint": "^1.16.0",
     "@nuxtjs/mdc": "^0.22.0",
     "@nuxtjs/robots": "^6.0.9",
     "@nuxtjs/sitemap": "^8.1.0",
@@ -23,7 +23,6 @@
     "better-sqlite3": "^12.10.0",
     "caniuse-lite": "^1.0.30001797",
     "dotenv": "^17.4.2",
-    "eslint": "^10.4.1",
     "espeak-ng": "^1.0.2",
     "js-yaml": "^4.2.0",
     "nuxt": "^4.4.8",
@@ -47,6 +46,7 @@
   "devDependencies": {
     "@types/bun": "^1.3.14",
     "arpabet-and-ipa-convertor-ts": "^1.0.3",
-    "prettier": "^3.8.4"
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0"
   }
 }

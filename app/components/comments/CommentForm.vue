@@ -51,7 +51,6 @@ import { insertPlainText } from "~/utils";
 const props = defineProps<Props>();
 const { isLoggedIn, login, publicUser, getDisplayName } = useAuth();
 const { postComment, error } = useComments(props.slug);
-import { ref } from "vue";
 import Icon from "../common/Icon.vue";
 const textboxSpan = ref<HTMLElement | null>(null);
 interface Props {

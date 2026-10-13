@@ -1,7 +1,7 @@
 slug: lemon-tree-oc-vote-1
-created_at: '2022-04-20T00:00:00.000Z'
-modified_at: '2026-09-07T02:59:07.351Z'
-title: 'Lemon Tree OC Vote #1'
+created_at: "2022-04-20T00:00:00.000Z"
+modified_at: "2026-09-07T02:59:07.351Z"
+title: "Lemon Tree OC Vote #1"
 description: OC I created for Lemon Tree's OC creation contest
 tags:
   - idea
@@ -12,5 +12,5 @@ images:
   - image_url: /art/general/lemon_treeoc.png
     thumbnail_url: /art/general/thumbnails/lemon_treeoc.webp
     thumbnail_anchor: top-left
-    alt: 'Lemon Tree OC Vote #1'
+    alt: "Lemon Tree OC Vote #1"
 sketch: false

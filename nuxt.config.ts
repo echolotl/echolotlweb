@@ -91,7 +91,6 @@ export default defineNuxtConfig({
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
     "@nuxt/content",
-    "@nuxt/eslint",
     "@nuxtjs/mdc",
   ],
   components: {
