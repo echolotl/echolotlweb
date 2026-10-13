@@ -1,13 +1,13 @@
 ---
 slug: nautilus
 name: Nautilus
-ipa: nɑːʌtɪlʌs
 species: Protogen
 age: 26
 height: 5' 10"
 created_at: '2022-02-04T00:00:00.000Z'
 modified_at: '2025-07-03T00:00:00.000Z'
 pronouns: they/them
+ipa: nɔːtɪlʌs
 friends:
   - slug: chomb
     name: Chomb

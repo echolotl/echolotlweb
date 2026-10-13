@@ -1,13 +1,13 @@
 ---
 slug: chomb
 name: Chomb
-ipa: tʃɑːmb
 species: Spider
 age: 22
 height: 5' 2"
 created_at: '2021-12-20T00:00:00.000Z'
 modified_at: '2026-01-29T00:00:00.000Z'
 pronouns: he/him
+ipa: tʃɑːmb
 friends:
   - slug: mino
     name: Mino

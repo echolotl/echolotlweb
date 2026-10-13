@@ -1,13 +1,13 @@
 ---
 slug: echo
 name: Echo
-ipa: ɛkhoʊ
 species: Mimikyu
 age: 18
 height: 5' 1"
 created_at: '2021-12-10T00:00:00.000Z'
 modified_at: '2026-01-29T00:00:00.000Z'
 pronouns: it/its
+ipa: ɛkhoʊ
 category: Sonas
 short_description: echolotl's mimikyu pokesona
 theme_color: '#e2c68a'

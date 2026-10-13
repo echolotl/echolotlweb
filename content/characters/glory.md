@@ -1,13 +1,13 @@
 ---
 slug: glory
 name: Glory
-ipa: glɔːriː
 species: Shark/Dog
 age: 26
 height: 5' 8"
 created_at: '2022-01-15T00:00:00.000Z'
 modified_at: '2026-01-29T00:00:00.000Z'
 pronouns: she/her
+ipa: glɔːriː
 friends:
   - slug: kitral
     name: Kitral

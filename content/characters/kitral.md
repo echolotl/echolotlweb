@@ -1,13 +1,13 @@
 ---
 slug: kitral
 name: Kitral
-ipa: kɪtrɑːl
 species: Fox
 age: 27
 height: 5' 11"
 created_at: '2022-01-31T00:00:00.000Z'
 modified_at: '2026-01-29T00:00:00.000Z'
 pronouns: she/they
+ipa: kɪtrʌl
 friends:
   - slug: glory
     name: Glory

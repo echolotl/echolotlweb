@@ -1,11 +1,17 @@
 <template>
   <div class="character-infobox">
     <div class="character-infobox__label">
-      <span class="lotl-font" style="font-size: 1.4em; text-transform: uppercase">{{
-        character.name.toUpperCase()
-      }}</span>
+      <span
+        class="lotl-font character-infobox__name"
+        style="font-size: 1.4em; text-transform: uppercase"
+        >{{ character.name.toUpperCase() }}</span
+      >
       <span class="character-infobox__pronunciation">
-        <span style="font-size: var(--very-small-text); color: var(--text-secondary)">
+        <span
+          style="
+            font-size: var(--very-small-text);
+            color: var(--text-secondary);
+          ">
           /{{ character.ipa }}/
         </span>
         <button
@@ -21,7 +27,6 @@
     <div class="character-infobox__details">
       <hr v-if="character.image" />
       <div v-if="character.image" class="character-infobox__header">
-        
         <figure
           style="text-align: center; margin: 0"
           v-if="characterImage[0] == false">
@@ -309,13 +314,22 @@ function copyColorToClipboard(color: string): void {
   text-align: right;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  position: relative;
+}
+
+.character-infobox__name {
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .character-infobox__pronunciation {
+  position: absolute;
+  bottom: 115%;
+  left: 0.75rem;
   display: inline-flex;
   align-items: center;
   gap: 0.2rem;
+  white-space: nowrap;
 }
 
 .character-infobox__audio-button {

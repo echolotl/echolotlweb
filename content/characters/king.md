@@ -1,13 +1,13 @@
 ---
 slug: king
 name: King
-ipa: kiːŋ
 species: Cat
 age: 18
 height: 6' 0"
 created_at: '2021-12-14T00:00:00.000Z'
 modified_at: '2026-01-29T00:00:00.000Z'
 pronouns: he/they
+ipa: kiːŋg
 friends:
   - slug: echo
     name: Echo

@@ -9,6 +9,7 @@ dist
 # Generated at build time (see build:before hook in nuxt.config.ts)
 public/art/**/thumbnails/
 public/images/palettes/
+public/sounds/pronunciations/
 
 # Node dependencies
 node_modules

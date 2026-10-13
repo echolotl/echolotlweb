@@ -1,12 +1,12 @@
 ---
 slug: roune
 name: Roune & Juice
-ipa: roʊn ænd ʒuːs
 species: Racoon
 height: 3' 10"
 created_at: '2026-05-24T00:00:00.000Z'
 modified_at: '2025-05-27T00:00:00.000Z'
 pronouns: he/him
+ipa: roʊn ænd ʒuːs
 category: Other
 short_description: its a big beetle for a small racoon
 theme_color: '#27b466'

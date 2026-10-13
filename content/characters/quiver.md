@@ -1,13 +1,13 @@
 ---
 slug: quiver
 name: Quiver
-ipa: kwɪvər
 species: Plane
 age: 28
 height: 102' 5"
 created_at: '2026-07-16T00:00:00.000Z'
 modified_at: '2026-07-16T00:00:00.000Z'
 pronouns: she/its
+ipa: kwɪvɜːr
 likes:
   - Sun
   - Laying down
