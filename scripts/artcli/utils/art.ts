@@ -20,6 +20,7 @@ export function formatYaml(data: object): string {
     indent: 2,
     lineWidth: -1,
     noRefs: true,
+    quotingType: "\"",
     sortKeys: false,
   });
 }

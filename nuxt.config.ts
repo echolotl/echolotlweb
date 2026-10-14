@@ -1,10 +1,12 @@
-import type { ArtImage } from "./types";
+import type { Art, ArtImage } from "./types";
 import { resolve } from "node:path";
 import { fixdata } from "./scripts/artcli/commands/fix-data";
 import { regenpalette } from "./scripts/artcli/commands/regenpalette";
 import { regenthumb } from "./scripts/artcli/commands/regenthumb";
 import { getAllArts } from "./scripts/artcli/utils/art";
 import { regenIPA } from "./scripts/artcli/commands/regenipa";
+import type { ImageEntry, SitemapUrlInput } from "@nuxtjs/sitemap";
+import { Logger } from "./scripts/logger";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -26,65 +28,47 @@ export default defineNuxtConfig({
   site: { url: "https://echolotl.lol", name: "echolotl" },
   sitemap: {
     xsl: false,
-    urls: async () => {
-      try {
-        const arts = getAllArts();
-        const artUrls = [];
-        for (const data of arts) {
-          try {
-            if (data && data.slug) {
-              artUrls.push({
-                loc: `/art/${data.slug}`,
-                priority: data.pinned ? (0.8 as const) : (0.6 as const),
-                changefreq: "never" as const,
-                lastmod: data.modified_at || new Date().toISOString(),
-                images: (() => {
-                  const imgs: {
-                    loc: string;
-                    caption?: string;
-                    title?: string;
-                  }[] = [];
-                  if (Array.isArray((data as any).images)) {
-                    for (const img of (data as any).images as ArtImage[]) {
-                      if (img?.image_url) {
-                        imgs.push({
-                          loc: img.image_url,
-                          caption: (data as any).description,
-                          title: img.title || (data as any).title,
-                        });
-                      }
-                      if (Array.isArray(img?.variants)) {
-                        for (const v of img.variants) {
-                          if (v?.image_url) {
-                            imgs.push({
-                              loc: `https://echolotl.lol${v.image_url}`,
-                              caption: (data as any).description,
-                              title:
-                                v.label || img.title || (data as any).title,
-                            });
-                          }
-                        }
-                      }
-                    }
-                  }
-                  return imgs;
-                })(),
+    urls: () => {
+      const allArt: Art[] = getAllArts();
+      const urls: SitemapUrlInput[] = [];
+      for (const art of allArt) {
+        if (art.nsfw) continue;
+        urls.push({
+          loc: `/art/${art.slug}`,
+          priority: art.pinned ? 0.8 : 0.5,
+          changefreq: "never",
+          lastmod: art.modified_at,
+          images: (() => {
+            const allImages: ImageEntry[] = [];
+
+            for (const artImage of art.images) {
+              const artCaption = artImage.alt ? artImage.alt : art.description;
+              allImages.push({
+                loc: `https://echolotl.lol${artImage.image_url}`,
+                caption: artCaption,
+                title: art.title + (artImage.title ? ` (${artImage.title})` : ""),
+                license: "CC BY-NC-SA 4.0 International"
               });
+
+              if (artImage.variants && artImage.variants.length && artImage.variants.length > 0) {
+                for (const variant of artImage.variants) {
+                  allImages.push({
+                    loc: `https://echolotl.lol${variant.image_url}`,
+                    caption: variant.alt ? variant.alt : artCaption,
+                    title: variant.label ? `${art.title} (${variant.label})` : art.title
+                  })
+                }
+              }
             }
-          } catch (e) {
-            console.warn(`Could not generate sitemap URL for ${data.slug}:`, e);
+
+            return allImages;
           }
-        }
-        console.log(
-          `[sitemap] Added ${artUrls.length} art item(s) to sitemap at ${new Date().toISOString()}`,
-        );
-        return artUrls;
-      } catch (error) {
-        console.error("Error generating art URLs for sitemap:", error);
-        return [];
+        )(),
+        })
       }
-    },
-    zeroRuntime: true,
+      Logger.noLogBypass(() => Logger.success('Sitemap art entries have been generated! ' + Logger.fmtDim(`(${urls.length} pages)`)))
+      return urls;
+    }
   },
   devtools: { enabled: true },
   modules: [
