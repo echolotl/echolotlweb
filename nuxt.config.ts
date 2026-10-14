@@ -28,6 +28,7 @@ export default defineNuxtConfig({
   site: { url: "https://echolotl.lol", name: "echolotl" },
   sitemap: {
     xsl: false,
+    zeroRuntime: true,
     urls: () => {
       const allArt: Art[] = getAllArts();
       const urls: SitemapUrlInput[] = [];
