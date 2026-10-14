@@ -29,6 +29,7 @@ export default defineNuxtConfig({
   sitemap: {
     xsl: false,
     zeroRuntime: true,
+    discoverImages: false,
     urls: () => {
       const allArt: Art[] = getAllArts();
       const urls: SitemapUrlInput[] = [];
