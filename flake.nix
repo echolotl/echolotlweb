@@ -19,9 +19,9 @@
       shellHook = ''
         echo "ECHOLOTL.LOL DEV SHELL --"
         echo "  Branch: `git rev-parse --abbrev-ref HEAD`"
-        echo "  Commit: `git rev-parse HEAD`"
-        echo "  Node: `node --version`"
-        echo "  PNPM: `pnpm -v`"
+        echo "  Commit: $(git rev-parse HEAD | cut -c1-7)"
+        echo "  Node:   `node --version`"
+        echo "  PNPM:   `pnpm -v`"
         pnpm i -s && echo "PNPM dependencies installed, ready to go!"
       '';
     };
