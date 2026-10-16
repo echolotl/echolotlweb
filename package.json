@@ -23,6 +23,7 @@
     "better-sqlite3": "^12.10.0",
     "caniuse-lite": "^1.0.30001797",
     "dotenv": "^17.4.2",
+    "esbuild": "^0.28.2",
     "espeak-ng": "^1.0.2",
     "js-yaml": "^4.2.0",
     "nuxt": "^4.4.8",
