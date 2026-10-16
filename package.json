@@ -2,13 +2,7 @@
   "name": "echolotlweb",
   "private": true,
   "type": "module",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "better-sqlite3",
-      "esbuild"
-    ]
-  },
+  "packageManager": "pnpm@12.9.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
