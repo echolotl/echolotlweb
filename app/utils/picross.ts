@@ -57,11 +57,19 @@ export function getHints(solution: PicrossSolution) {
   return { rows, columns };
 }
 
+// More filled tiles than the hints allow means the line is wrong, even if some runs still look solved
+export function isLineOverfilled(line: PicrossTileState[], hints: number[]) {
+  const filled = line.filter((tile) => tile === "filled").length;
+  return filled > hints.reduce((a, b) => a + b, 0);
+}
+
 // Determines which hints are solved based on the current line state
 export function getSolvedHints(line: PicrossTileState[], hints: number[]) {
   if (hints.length === 1 && hints[0] === 0) {
     return [line.every((tile) => tile === "marked")];
   }
+
+  if (isLineOverfilled(line, hints)) return hints.map(() => false);
 
   // With multiple hints, a run only counts once it's capped by an edge or an X on both sides
   const capped = (index: number) =>

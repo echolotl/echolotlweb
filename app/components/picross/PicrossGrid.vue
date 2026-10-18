@@ -45,6 +45,7 @@ import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 import {
   getSolvedHints,
   isBoardSolved,
+  isLineOverfilled,
   type PicrossGame,
   type PicrossTileState,
 } from "~/utils/picross";
@@ -83,8 +84,74 @@ const solvedHints = computed(() => {
   };
 });
 
-// Hints only need to be redrawn when a hint's solved state flips, not on every move
-const solvedHintsKey = computed(() => JSON.stringify(solvedHints.value));
+// A line whose hints are all solved but still has untouched tiles left to mark out
+const unmarkedLines = computed(() => {
+  const { board } = props.game;
+  const needsMarks = (
+    line: PicrossTileState[],
+    solved: boolean[] | undefined,
+  ) => !!solved?.length && solved.every(Boolean) && line.includes("empty");
+  return {
+    rows: solvedHints.value.rows.map((solved, row) =>
+      needsMarks(board[row] ?? [], solved),
+    ),
+    columns: solvedHints.value.columns.map((solved, column) =>
+      needsMarks(
+        board.map((row) => row[column] ?? "empty"),
+        solved,
+      ),
+    ),
+  };
+});
+
+const incorrectLines = computed(() => {
+  const { board, hints } = props.game;
+  return {
+    rows: hints.rows.map((rowHints, row) =>
+      isLineOverfilled(board[row] ?? [], rowHints),
+    ),
+    columns: hints.columns.map((columnHints, column) =>
+      isLineOverfilled(
+        board.map((row) => row[column] ?? "empty"),
+        columnHints,
+      ),
+    ),
+  };
+});
+
+// Hints only need to be redrawn when a hint's solved, outlined or incorrect state flips, not on every move
+const solvedHintsKey = computed(() =>
+  JSON.stringify([
+    solvedHints.value,
+    unmarkedLines.value,
+    incorrectLines.value,
+  ]),
+);
+
+function drawHint(
+  hintCtx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  solved: boolean | undefined,
+  outlined: boolean,
+  incorrect: boolean,
+) {
+  if (outlined) {
+    hintCtx.strokeStyle = incorrect ? colors!.incorrect : colors!.stripe;
+    hintCtx.lineWidth = 3;
+    hintCtx.lineJoin = "round";
+    hintCtx.globalAlpha = 0.5;
+    hintCtx.strokeText(text, x, y);
+    hintCtx.globalAlpha = 1;
+  }
+  hintCtx.fillStyle = incorrect
+    ? colors!.incorrect
+    : solved
+      ? colors!.solvedHint
+      : colors!.text;
+  hintCtx.fillText(text, x, y);
+}
 
 const columnHintsCanvas = shallowRef<HTMLCanvasElement | null>(null);
 const rowHintsCanvas = shallowRef<HTMLCanvasElement | null>(null);
@@ -112,9 +179,7 @@ function drawHints() {
   if (!columnCanvas || !rowCanvas) return;
 
   const { hints, size } = props.game;
-  const rootStyle = window.getComputedStyle(document.documentElement);
-  const textColor = rootStyle.getPropertyValue("--text");
-  const solvedColor = rootStyle.getPropertyValue("--text-secondary");
+  colors ??= readColors();
   const fontFamily = window.getComputedStyle(columnCanvas).fontFamily;
   const font = `${HINT_FONT_SIZE}px ${fontFamily}`;
 
@@ -131,17 +196,20 @@ function drawHints() {
     columnCtx.textAlign = "center";
     hints.columns.forEach((columnHints, column) => {
       columnHints.forEach((hint, index) => {
-        columnCtx.fillStyle = solvedHints.value.columns[column]?.[index]
-          ? solvedColor
-          : textColor;
         const fromBottom = columnHints.length - 1 - index;
-        columnCtx.fillText(
+        drawHint(
+          columnCtx,
           String(hint),
           column * TILE_SIZE + TILE_SIZE / 2,
           columnHeight -
             COLUMN_HINTS_PADDING -
             fromBottom * HINT_LINE_HEIGHT -
             HINT_LINE_HEIGHT / 2,
+          solvedHints.value.columns[column]?.[index],
+          ((unmarkedLines.value.columns[column] ?? false) ||
+            incorrectLines.value.columns[column]) ??
+            false,
+          incorrectLines.value.columns[column] ?? false,
         );
       });
     });
@@ -173,10 +241,15 @@ function drawHints() {
     let right = rowWidth - ROW_HINTS_PADDING;
     for (let index = rowHints.length - 1; index >= 0; index--) {
       const text = String(rowHints[index]);
-      rowCtx.fillStyle = solvedHints.value.rows[row]?.[index]
-        ? solvedColor
-        : textColor;
-      rowCtx.fillText(text, right, row * TILE_SIZE + TILE_SIZE / 2);
+      drawHint(
+        rowCtx,
+        text,
+        right,
+        row * TILE_SIZE + TILE_SIZE / 2,
+        solvedHints.value.rows[row]?.[index],
+        unmarkedLines.value.rows[row] ?? false,
+        incorrectLines.value.rows[row] ?? false,
+      );
       right -= rowCtx.measureText(text).width + ROW_HINT_GAP;
     }
   });
@@ -203,6 +276,9 @@ interface BoardColors {
   tile: string;
   stripe: string;
   completed: string;
+  text: string;
+  solvedHint: string;
+  incorrect: string;
 }
 
 // Cached so drawing doesn't hit getComputedStyle
@@ -210,11 +286,17 @@ let colors: BoardColors | null = null;
 
 function readColors(): BoardColors {
   const style = window.getComputedStyle(document.documentElement);
+  const invertedSolid = style.getPropertyValue("--inverted-solid").trim();
+  const solid = style.getPropertyValue("--solid").trim();
   return {
     line: style.getPropertyValue("--distant"),
     tile: style.getPropertyValue("--text"),
-    stripe: style.getPropertyValue("--inverted-solid"),
+    stripe: invertedSolid,
     completed: style.getPropertyValue("--primary"),
+    text: style.getPropertyValue("--text"),
+    // Canvas can't resolve var() inside color-mix, so substitute the values
+    solvedHint: `color-mix(in srgb, ${invertedSolid} 40%, ${solid})`,
+    incorrect: style.getPropertyValue("--red"),
   };
 }
 
@@ -450,7 +532,15 @@ watch(() => props.game.board, scheduleDrawBoard, {
   flush: "post",
 });
 
-watch([theme, () => props.game, solvedHintsKey], drawHints, { flush: "post" });
+watch(solvedHintsKey, drawHints, { flush: "post" });
+watch(
+  [theme, () => props.game],
+  () => {
+    colors = null;
+    drawHints();
+  },
+  { flush: "post" },
+);
 </script>
 
 <style scoped>
