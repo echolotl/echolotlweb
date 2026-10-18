@@ -195,6 +195,9 @@ function drawHints() {
     columnCtx.font = font;
     columnCtx.textAlign = "center";
     hints.columns.forEach((columnHints, column) => {
+      const columnSolvedHints = solvedHints.value.columns[column] ?? [];
+      const isColumnSolved =
+        columnSolvedHints.length > 0 && columnSolvedHints.every(Boolean);
       columnHints.forEach((hint, index) => {
         const fromBottom = columnHints.length - 1 - index;
         drawHint(
@@ -205,13 +208,26 @@ function drawHints() {
             COLUMN_HINTS_PADDING -
             fromBottom * HINT_LINE_HEIGHT -
             HINT_LINE_HEIGHT / 2,
-          solvedHints.value.columns[column]?.[index],
-          ((unmarkedLines.value.columns[column] ?? false) ||
+          columnSolvedHints[index],
+          (unmarkedLines.value.columns[column] ||
             incorrectLines.value.columns[column]) ??
             false,
           incorrectLines.value.columns[column] ?? false,
         );
       });
+      // if solved, draw a line through the column hints
+      if (isColumnSolved && !unmarkedLines.value.columns[column]) {
+        columnCtx.strokeStyle = colors?.solvedHint ?? "black";
+        columnCtx.lineWidth = 2;
+        columnCtx.beginPath();
+        const bottom = columnHeight - COLUMN_HINTS_PADDING;
+        columnCtx.moveTo(
+          column * TILE_SIZE + TILE_SIZE / 2,
+          bottom - columnHints.length * HINT_LINE_HEIGHT,
+        );
+        columnCtx.lineTo(column * TILE_SIZE + TILE_SIZE / 2, bottom);
+        columnCtx.stroke();
+      }
     });
   }
 
@@ -238,6 +254,9 @@ function drawHints() {
   rowCtx.font = font;
   rowCtx.textAlign = "right";
   hints.rows.forEach((rowHints, row) => {
+    const rowSolvedHints = solvedHints.value.rows[row] ?? [];
+    const isRowSolved =
+      rowSolvedHints.length > 0 && rowSolvedHints.every(Boolean);
     let right = rowWidth - ROW_HINTS_PADDING;
     for (let index = rowHints.length - 1; index >= 0; index--) {
       const text = String(rowHints[index]);
@@ -247,10 +266,26 @@ function drawHints() {
         right,
         row * TILE_SIZE + TILE_SIZE / 2,
         solvedHints.value.rows[row]?.[index],
-        unmarkedLines.value.rows[row] ?? false,
+        (unmarkedLines.value.rows[row] ||
+          incorrectLines.value.rows[row]) ??
+          false,
         incorrectLines.value.rows[row] ?? false,
       );
       right -= rowCtx.measureText(text).width + ROW_HINT_GAP;
+    }
+
+    // if solved, draw a line through the row hints
+    if (isRowSolved && !unmarkedLines.value.rows[row]) {
+      rowCtx.strokeStyle = colors?.solvedHint ?? "black";
+      rowCtx.lineWidth = 2;
+      rowCtx.beginPath();
+      const lineRight = rowWidth - ROW_HINTS_PADDING;
+      rowCtx.moveTo(
+        lineRight - (rowWidths[row] ?? 0),
+        row * TILE_SIZE + TILE_SIZE / 2,
+      );
+      rowCtx.lineTo(lineRight, row * TILE_SIZE + TILE_SIZE / 2);
+      rowCtx.stroke();
     }
   });
 }
