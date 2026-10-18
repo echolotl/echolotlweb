@@ -45,6 +45,7 @@
             height="300"
             @mousedown="handleMouseDown"
             @mousemove="handleMouseMove"
+            @mouseleave="handleMouseLeave"
             @contextmenu.prevent
           ></canvas>
         </div>
@@ -110,6 +111,29 @@ const MAX_SIZE = 50;
 const DEFAULT_SIZE = 10;
 const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
 let markImage: HTMLImageElement | null = null;
+let audioCtx: AudioContext | null = null;
+let placeBuffers: AudioBuffer[] = [];
+
+async function loadBuffer(url: string): Promise<AudioBuffer | null> {
+  if (!audioCtx) return null;
+  try {
+    const res = await fetch(url);
+    const raw = await res.arrayBuffer();
+    return await audioCtx.decodeAudioData(raw);
+  } catch {
+    return null;
+  }
+}
+
+function playBuffer(buffer: AudioBuffer | null | undefined) {
+  if (!audioCtx || !buffer) return;
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  const source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+  source.playbackRate.value = 0.85 + Math.random() * 0.3;
+  source.connect(audioCtx.destination);
+  source.start(0);
+}
 
 const gameBoard = ref<HTMLCanvasElement | null>(null);
 const game = ref<PicrossGame | null>(null);
@@ -339,10 +363,10 @@ function drawBoard() {
         case "filled":
           ctx.fillStyle = color;
           ctx.fillRect(
-            x * TILE_SIZE + 2,
-            y * TILE_SIZE + 2,
-            TILE_SIZE - 4,
-            TILE_SIZE - 4,
+            x * TILE_SIZE + 1,
+            y * TILE_SIZE + 1,
+            TILE_SIZE - 2,
+            TILE_SIZE - 2,
           );
           break;
         case "marked":
@@ -363,12 +387,25 @@ function drawBoard() {
           }
           break;
       }
+      if (
+        !game.value?.isCompleted &&
+        hoveredTile &&
+        hoveredTile.x === x &&
+        hoveredTile.y === y
+      ) {
+        ctx.globalAlpha = 0.25;
+        ctx.strokeStyle = STRIPE_COLOR;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        ctx.globalAlpha = 1;
+      }
     }
   }
 }
 
 let heldButton: number | null = null;
 let action: PicrossTileState | null = null;
+let hoveredTile: { x: number; y: number } | null = null;
 
 function checkIfCompleted() {
   if (!game.value || !game.value.board) return;
@@ -404,6 +441,9 @@ function applyAction(x: number, y: number) {
 
   // Check if the game is completed
   if (game.value && action === "filled") game.value.moves++;
+  if (placeBuffers.length > 0) {
+    playBuffer(placeBuffers[Math.floor(Math.random() * placeBuffers.length)]);
+  }
   checkIfCompleted();
 }
 
@@ -425,10 +465,21 @@ function handleMouseDown(event: MouseEvent) {
 
 function handleMouseMove(event: MouseEvent) {
   if (game.value?.isCompleted) return;
-  if (heldButton === null || !action) return;
   const tile = getTileAt(event);
-  if (!tile) return;
+  setHoveredTile(tile);
+  if (!tile || heldButton === null || !action) return;
   applyAction(tile.x, tile.y);
+}
+
+function handleMouseLeave() {
+  setHoveredTile(null);
+}
+
+// hoveredTile isn't reactive, so redraw manually when it changes
+function setHoveredTile(tile: { x: number; y: number } | null) {
+  if (hoveredTile?.x === tile?.x && hoveredTile?.y === tile?.y) return;
+  hoveredTile = tile;
+  drawBoard();
 }
 
 function stopHold() {
@@ -487,6 +538,13 @@ onMounted(() => {
   markImage = new Image();
   markImage.onload = drawBoard;
   markImage.src = "/images/icons/close.webp";
+
+  audioCtx = new AudioContext();
+  Promise.all(
+    [1, 3, 5].map((i) => loadBuffer(`/sounds/picross/click${i}.wav`)),
+  ).then((buffers) => {
+    placeBuffers = buffers.filter((b): b is AudioBuffer => b !== null);
+  });
   regeneratePuzzle();
   initializeCanvas();
   drawBoard();
@@ -495,6 +553,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener("mouseup", stopHold);
+  audioCtx?.close();
+  audioCtx = null;
 });
 
 watch([() => game.value?.size.height, () => game.value?.size.width], () => {});
