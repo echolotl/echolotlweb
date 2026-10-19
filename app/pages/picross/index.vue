@@ -1,15 +1,28 @@
 <template>
   <div class="picross-page">
-    <h1>Picross (WIP)</h1>
+    <h1 class="picross-header">Nautilus' Picross</h1>
+    <span class="header-games lotl-font">Free Play</span>
     <div class="game">
       <PicrossGrid v-if="game" :game="game" />
       <p v-if="game?.isCompleted" class="solved-message" role="status">
         The board is solved!
       </p>
       <div class="game-actions">
-        <button @click="clearBoard">Clear</button>
-        <button :disabled="game?.isCompleted" @click="solveGame">Solve</button>
-        <button :disabled="game?.isCompleted" @click="fillOne">Fill One</button>
+        <button @click="clearBoard" class="round">
+          <Icon icon="trash" width="20px" height="20px" />
+          Clear
+        </button>
+        <button
+          :disabled="game?.isCompleted"
+          @click="solveGame"
+          class="round filled"
+        >
+          Solve
+        </button>
+        <button :disabled="game?.isCompleted" @click="fillOne" class="round">
+          <Icon icon="tip" width="20px" height="20px" />
+          Hint
+        </button>
       </div>
       <div class="game-actions">
         <input
@@ -19,6 +32,7 @@
           max="50"
           aria-label="Board width"
         />
+        <span aria-hidden="true">x</span>
         <input
           v-model.number="sizeInput.height"
           type="number"
@@ -26,7 +40,9 @@
           max="50"
           aria-label="Board height"
         />
-        <button @click="regeneratePuzzle">Regenerate</button>
+        <button @click="regeneratePuzzle" class="round filled">
+          Regenerate
+        </button>
       </div>
     </div>
   </div>
@@ -34,7 +50,9 @@
 
 <script setup lang="ts">
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
+import Icon from "~/components/common/Icon.vue";
 import {
+  createTileColors,
   getHints,
   isBoardSolved,
   type PicrossBoard,
@@ -70,11 +88,13 @@ function regeneratePuzzle() {
   const solution = generateSolvableSolution(size, getHints);
   game.value = {
     board,
+    tileColors: createTileColors(size),
     solution,
     hints: getHints(solution),
     size,
     isCompleted: false,
     moves: 0,
+    hintsUsed: 0,
     secondsElapsed: 0,
   };
 }
@@ -88,6 +108,7 @@ function checkIfCompleted() {
 function clearBoard() {
   if (!game.value) return;
   for (const row of game.value.board) row.fill("empty");
+  game.value.tileColors = createTileColors(game.value.size);
   game.value.isCompleted = false;
 }
 
@@ -130,6 +151,24 @@ onMounted(regeneratePuzzle);
   align-items: center;
   min-height: 80vh; /* Ensure the page takes full viewport height */
 }
+.picross-header {
+  position: relative;
+  mask-image: url("/images/picross/daily.webp");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--text);
+  height: 100px;
+  width: 100%;
+}
+.header-games {
+  position: relative;
+  z-index: 1;
+  margin-top: -28px;
+  font-size: 1.25rem;
+  paint-order: stroke;
+  -webkit-text-stroke: 6px var(--background);
+}
 .game {
   width: 100%;
   height: 100%;
@@ -147,5 +186,26 @@ onMounted(regeneratePuzzle);
   display: flex;
   gap: 8px;
   justify-content: center;
+  > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px;
+  }
+  > input[type="number"] {
+    background: var(--surface);
+    color: var(--text);
+    border: none;
+    font-family: inherit;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 6px;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
 </style>

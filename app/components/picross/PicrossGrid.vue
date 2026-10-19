@@ -266,8 +266,7 @@ function drawHints() {
         right,
         row * TILE_SIZE + TILE_SIZE / 2,
         solvedHints.value.rows[row]?.[index],
-        (unmarkedLines.value.rows[row] ||
-          incorrectLines.value.rows[row]) ??
+        (unmarkedLines.value.rows[row] || incorrectLines.value.rows[row]) ??
           false,
         incorrectLines.value.rows[row] ?? false,
       );
@@ -337,6 +336,7 @@ function readColors(): BoardColors {
 
 // Redraws are coalesced to at most one per frame
 let boardFrame: number | null = null;
+
 function scheduleDrawBoard() {
   if (boardFrame !== null) return;
   boardFrame = requestAnimationFrame(() => {
@@ -347,7 +347,7 @@ function scheduleDrawBoard() {
 
 function drawBoard() {
   if (!ctx || !gameBoard.value) return;
-  const { board, size } = props.game;
+  const { board, size, tileColors } = props.game;
 
   const CANVAS_WIDTH = size.width * TILE_SIZE;
   const CANVAS_HEIGHT = size.height * TILE_SIZE;
@@ -406,7 +406,7 @@ function drawBoard() {
     for (let x = 0; x < size.width; x++) {
       switch (board[y]?.[x]) {
         case "filled":
-          ctx.fillStyle = color;
+          ctx.fillStyle = tileColors[y]?.[x] ?? color;
           ctx.fillRect(
             x * TILE_SIZE + 1,
             y * TILE_SIZE + 1,
@@ -563,6 +563,11 @@ watch(
 );
 
 watch(() => props.game.board, scheduleDrawBoard, {
+  deep: true,
+  flush: "post",
+});
+
+watch(() => props.game.tileColors, scheduleDrawBoard, {
   deep: true,
   flush: "post",
 });
