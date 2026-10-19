@@ -1,62 +1,28 @@
 <template>
   <div class="picross-page">
-    <SketchFilter id="picross-sketch" flood-color="var(--surface)" />
-    <h1>Picross (WIP)</h1>
+    <h1 class="picross-header">Nautilus' Picross</h1>
+    <span class="header-games lotl-font">Free Play</span>
     <div class="game">
-      <div class="picross-layout">
-        <div
-          class="column-hints"
-          aria-label="Column hints"
-          :style="{
-            gridTemplateColumns: `repeat(${game?.size.width ?? 10}, ${TILE_SIZE}px)`,
-          }"
-        >
-          <div
-            v-for="(hints, column) in game?.hints.columns"
-            :key="`column-${column}`"
-            class="column-hint lotl-font"
-          >
-            <span
-              v-for="(hint, index) in hints"
-              :key="index"
-              :class="{ solved: solvedHints.columns[column]?.[index] }"
-              >{{ hint }}</span
-            >
-          </div>
-        </div>
-        <div class="row-hints" aria-label="Row hints">
-          <div
-            v-for="(hints, row) in game?.hints.rows"
-            :key="`row-${row}`"
-            class="row-hint lotl-font"
-          >
-            <span
-              v-for="(hint, index) in hints"
-              :key="index"
-              :class="{ solved: solvedHints.rows[row]?.[index] }"
-              >{{ hint }}</span
-            >
-          </div>
-        </div>
-        <div class="game-board">
-          <canvas
-            ref="gameBoard"
-            width="300"
-            height="300"
-            @mousedown="handleMouseDown"
-            @mousemove="handleMouseMove"
-            @mouseleave="handleMouseLeave"
-            @contextmenu.prevent
-          ></canvas>
-        </div>
-      </div>
+      <PicrossGrid v-if="game" :game="game" />
       <p v-if="game?.isCompleted" class="solved-message" role="status">
         The board is solved!
       </p>
       <div class="game-actions">
-        <button @click="clearBoard">Clear</button>
-        <button :disabled="game?.isCompleted" @click="solveGame">Solve</button>
-        <button :disabled="game?.isCompleted" @click="fillOne">Fill One</button>
+        <button @click="clearBoard" class="round">
+          <Icon icon="trash" width="20px" height="20px" />
+          Clear
+        </button>
+        <button
+          :disabled="game?.isCompleted"
+          @click="solveGame"
+          class="round filled"
+        >
+          Solve
+        </button>
+        <button :disabled="game?.isCompleted" @click="fillOne" class="round">
+          <Icon icon="tip" width="20px" height="20px" />
+          Hint
+        </button>
       </div>
       <div class="game-actions">
         <input
@@ -66,6 +32,7 @@
           max="50"
           aria-label="Board width"
         />
+        <span aria-hidden="true">x</span>
         <input
           v-model.number="sizeInput.height"
           type="number"
@@ -73,167 +40,32 @@
           max="50"
           aria-label="Board height"
         />
-        <button @click="regeneratePuzzle">Regenerate</button>
+        <button @click="regeneratePuzzle" class="round filled">
+          Regenerate
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SketchFilter from "~/components/common/SketchFilter.vue";
-import { useTheme } from "~~/composables/useTheme";
+import PicrossGrid from "~/components/picross/PicrossGrid.vue";
+import Icon from "~/components/common/Icon.vue";
+import {
+  createTileColors,
+  getHints,
+  isBoardSolved,
+  type PicrossBoard,
+  type PicrossGame,
+  type PicrossTileState,
+} from "~/utils/picross";
 
-const { theme } = useTheme();
-
-type PicrossTileState = "empty" | "filled" | "marked";
-
-type PicrossBoard = PicrossTileState[][];
-
-type PicrossGame = {
-  board: PicrossBoard;
-  solution: Exclude<PicrossTileState, "marked">[][]; // The correct solution without any marked tiles
-  hints: {
-    rows: number[][];
-    columns: number[][];
-  };
-  size: {
-    width: number;
-    height: number;
-  };
-  isCompleted: boolean;
-  moves: number;
-  secondsElapsed: number;
-};
-
-const TILE_SIZE = 30;
 const MIN_SIZE = 1;
 const MAX_SIZE = 50;
 const DEFAULT_SIZE = 10;
 const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
-let markImage: HTMLImageElement | null = null;
-let audioCtx: AudioContext | null = null;
-let placeBuffers: AudioBuffer[] = [];
 
-async function loadBuffer(url: string): Promise<AudioBuffer | null> {
-  if (!audioCtx) return null;
-  try {
-    const res = await fetch(url);
-    const raw = await res.arrayBuffer();
-    return await audioCtx.decodeAudioData(raw);
-  } catch {
-    return null;
-  }
-}
-
-function playBuffer(buffer: AudioBuffer | null | undefined) {
-  if (!audioCtx || !buffer) return;
-  if (audioCtx.state === "suspended") audioCtx.resume();
-  const source = audioCtx.createBufferSource();
-  source.buffer = buffer;
-  source.playbackRate.value = 0.85 + Math.random() * 0.3;
-  source.connect(audioCtx.destination);
-  source.start(0);
-}
-
-const gameBoard = ref<HTMLCanvasElement | null>(null);
 const game = ref<PicrossGame | null>(null);
-let ctx: CanvasRenderingContext2D | null = null;
-let markCanvas: OffscreenCanvas | null = null;
-let markCtx: OffscreenCanvasRenderingContext2D | null = null;
-
-// #region HINTS FUNCTIONS
-
-// Gets the runs of filled tiles in a line
-function getLineRuns(
-  line: PicrossTileState[],
-): { length: number; start: number }[] {
-  const runs: { length: number; start: number }[] = [];
-  let start = -1;
-
-  line.forEach((tile, index) => {
-    if (tile === "filled") {
-      if (start === -1) start = index;
-    } else if (start !== -1) {
-      runs.push({ length: index - start, start });
-      start = -1;
-    }
-  });
-
-  if (start !== -1) runs.push({ length: line.length - start, start });
-  return runs;
-}
-
-function getLineHints(line: PicrossTileState[]) {
-  const runs = getLineRuns(line).map((run) => run.length);
-  return runs.length > 0 ? runs : [0];
-}
-
-// Gets the hints for the entire solution board based on the filled runs
-function getHints(solution: PicrossBoard) {
-  const rows = solution.map(getLineHints);
-  const columns =
-    solution[0]?.map((_, column) =>
-      getLineHints(solution.map((row) => row[column] ?? "empty")),
-    ) ?? [];
-
-  return { rows, columns };
-}
-
-// Determines which hints are solved based on the current line state
-function getSolvedHints(line: PicrossTileState[], hints: number[]) {
-  const runs = getLineRuns(line);
-  if (hints.length === 1 && hints[0] === 0) return [runs.length === 0];
-
-  const count = hints.length;
-  const sum = (values: number[]) => values.reduce((a, b) => a + b, 0);
-  const minStart = (k: number) => sum(hints.slice(0, k)) + k;
-  const minTail = (k: number) => sum(hints.slice(k + 1)) + (count - k - 1);
-
-  let agreed: boolean[] | null = null;
-
-  function assign(j: number, previous: number, chosen: number[]) {
-    if (j === runs.length) {
-      agreed = hints.map(
-        (_, i) => chosen.includes(i) && (agreed ? agreed[i]! : true),
-      );
-      return;
-    }
-
-    const run = runs[j]!;
-    for (let k = previous + 1; k < count; k++) {
-      if (hints[k] !== run.length) continue;
-      if (run.start < minStart(k)) continue;
-      if (run.start + run.length > line.length - minTail(k)) continue;
-      if (j > 0) {
-        const prev = runs[j - 1]!;
-        const between = hints.slice(previous + 1, k);
-        const needed = 1 + sum(between) + between.length;
-        if (run.start - (prev.start + prev.length) < needed) continue;
-      }
-      assign(j + 1, k, [...chosen, k]);
-    }
-  }
-
-  assign(0, -1, []);
-  return agreed ?? hints.map(() => false);
-}
-// #endregion HINTS
-
-const solvedHints = computed(() => {
-  if (!game.value) return { rows: [], columns: [] };
-  const { board, hints } = game.value;
-  return {
-    rows: hints.rows.map((rowHints, row) =>
-      getSolvedHints(board[row] ?? [], rowHints),
-    ),
-    columns: hints.columns.map((columnHints, column) =>
-      getSolvedHints(
-        board.map((row) => row[column] ?? "empty"),
-        columnHints,
-      ),
-    ),
-  };
-});
 
 // #region GAME INIT
 function clampSize(value: number) {
@@ -250,322 +82,65 @@ function regeneratePuzzle() {
   };
   sizeInput.width = size.width;
   sizeInput.height = size.height;
-  stopHold();
   const board: PicrossBoard = Array.from({ length: size.height }, () =>
     Array.from({ length: size.width }, () => "empty" as PicrossTileState),
   );
-  const solution = generateRandomSolution(size);
+  const solution = generateSolvableSolution(size, getHints);
   game.value = {
     board,
+    tileColors: createTileColors(size),
     solution,
     hints: getHints(solution),
     size,
     isCompleted: false,
     moves: 0,
+    hintsUsed: 0,
     secondsElapsed: 0,
   };
 }
 
-function generateRandomSolution(size: {
-  width: number;
-  height: number;
-}): Exclude<PicrossTileState, "marked">[][] {
-  const solution = generateSolvableSolution(size, (filled) =>
-    getHints(filled.map((row) => row.map(toTileState))),
-  );
-  return solution.map((row) => row.map(toTileState));
-}
-
-function toTileState(filled: boolean): Exclude<PicrossTileState, "marked"> {
-  return filled ? "filled" : "empty";
-}
-
-function initializeCanvas() {
-  if (gameBoard.value) {
-    ctx = gameBoard.value.getContext("2d");
-    markCanvas = new OffscreenCanvas(TILE_SIZE, TILE_SIZE);
-    markCtx = markCanvas.getContext("2d");
-  }
-}
 // #endregion GAME INIT
 
-function drawBoard() {
-  if (!ctx || !game.value || !gameBoard.value) return;
-  const { board, size } = game.value;
-
-  const CANVAS_WIDTH = size.width * TILE_SIZE;
-  const CANVAS_HEIGHT = size.height * TILE_SIZE;
-  const DPR = window.devicePixelRatio || 1;
-  const LINE_COLOR = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue("--distant");
-  const TILE_COLOR = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue("--text");
-  const STRIPE_COLOR = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue("--inverted-solid");
-  const COMPLETED_TILE_COLOR = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue("--primary");
-
-  gameBoard.value.width = CANVAS_WIDTH * DPR;
-  gameBoard.value.height = CANVAS_HEIGHT * DPR;
-  gameBoard.value.style.width = `${CANVAS_WIDTH}px`;
-  gameBoard.value.style.height = `${CANVAS_HEIGHT}px`;
-
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  ctx.strokeStyle = LINE_COLOR;
-  ctx.lineCap = "round";
-
-  // Draw checkered background for the grid
-  ctx.fillStyle = STRIPE_COLOR;
-  ctx.globalAlpha = 0.05;
-  for (let y = 0; y < size.height; y++) {
-    for (let x = 0; x < size.width; x++) {
-      if ((x + y) % 2 === 0) {
-        ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-      }
-    }
-  }
-  ctx.globalAlpha = 1;
-
-  // Draw dividing lines
-  for (let y = 1; y < size.height; y++) {
-    if (y % 5 === 0) {
-      ctx.lineWidth = 2;
-    } else {
-      ctx.lineWidth = 1;
-    }
-    ctx.beginPath();
-    ctx.moveTo(0, y * TILE_SIZE);
-    ctx.lineTo(CANVAS_WIDTH, y * TILE_SIZE);
-    ctx.stroke();
-  }
-  for (let x = 1; x < size.width; x++) {
-    if (x % 5 === 0) {
-      ctx.lineWidth = 2;
-    } else {
-      ctx.lineWidth = 1;
-    }
-    ctx.beginPath();
-    ctx.moveTo(x * TILE_SIZE, 0);
-    ctx.lineTo(x * TILE_SIZE, CANVAS_HEIGHT);
-    ctx.stroke();
-  }
-
-  // Draw tiles
-  const color = game.value?.isCompleted ? COMPLETED_TILE_COLOR : TILE_COLOR;
-  for (let y = 0; y < size.height; y++) {
-    for (let x = 0; x < size.width; x++) {
-      switch (board[y]?.[x]) {
-        case "filled":
-          ctx.fillStyle = color;
-          ctx.fillRect(
-            x * TILE_SIZE + 1,
-            y * TILE_SIZE + 1,
-            TILE_SIZE - 2,
-            TILE_SIZE - 2,
-          );
-          break;
-        case "marked":
-          if (
-            markImage?.complete &&
-            markImage.naturalWidth > 0 &&
-            markCtx &&
-            markCanvas
-          ) {
-            markCtx.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
-            markCtx.globalCompositeOperation = "source-over";
-            markCtx.drawImage(markImage, 0, 0, TILE_SIZE, TILE_SIZE);
-            markCtx.globalCompositeOperation = "source-in";
-            markCtx.fillStyle = color;
-            markCtx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
-            markCtx.globalCompositeOperation = "source-over";
-            ctx.drawImage(markCanvas, x * TILE_SIZE, y * TILE_SIZE);
-          }
-          break;
-      }
-      if (
-        !game.value?.isCompleted &&
-        hoveredTile &&
-        hoveredTile.x === x &&
-        hoveredTile.y === y
-      ) {
-        ctx.globalAlpha = 0.25;
-        ctx.strokeStyle = STRIPE_COLOR;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        ctx.globalAlpha = 1;
-      }
-    }
-  }
-}
-
-let heldButton: number | null = null;
-let action: PicrossTileState | null = null;
-let hoveredTile: { x: number; y: number } | null = null;
-
 function checkIfCompleted() {
-  if (!game.value || !game.value.board) return;
-  const { board, solution } = game.value;
-  // Solved when the filled tiles match the solution; marks and empties are equivalent
-  for (let y = 0; y < solution.length; y++) {
-    const row = solution[y];
-    if (!row) continue;
-    for (let x = 0; x < row.length; x++) {
-      if ((board[y]?.[x] === "filled") !== (row[x] === "filled")) return;
-    }
-  }
-  game.value.isCompleted = true;
-  stopHold();
-}
-
-function getTileAt(event: MouseEvent) {
-  if (!game.value || !gameBoard.value) return null;
-  const rect = gameBoard.value.getBoundingClientRect();
-  const x = Math.floor(
-    ((event.clientX - rect.left) / rect.width) * game.value.size.width,
-  );
-  const y = Math.floor(
-    ((event.clientY - rect.top) / rect.height) * game.value.size.height,
-  );
-  return game.value.board[y]?.[x] ? { x, y } : null;
-}
-
-function applyAction(x: number, y: number) {
-  const row = game.value?.board[y];
-  if (!row || !action || row[x] === action) return;
-  row[x] = action;
-
-  // Check if the game is completed
-  if (game.value && action === "filled") game.value.moves++;
-  if (placeBuffers.length > 0) {
-    playBuffer(placeBuffers[Math.floor(Math.random() * placeBuffers.length)]);
-  }
-  checkIfCompleted();
-}
-
-function handleMouseDown(event: MouseEvent) {
-  if (game.value?.isCompleted) return;
-  if (event.button !== 0 && event.button !== 2) return;
-  const tile = getTileAt(event);
-  if (!tile) return;
-  event.preventDefault();
-  heldButton = event.button;
-  action =
-    game.value?.board[tile.y]?.[tile.x] !== "empty"
-      ? "empty"
-      : heldButton === 0
-        ? "filled"
-        : "marked";
-  applyAction(tile.x, tile.y);
-}
-
-function handleMouseMove(event: MouseEvent) {
-  if (game.value?.isCompleted) return;
-  const tile = getTileAt(event);
-  setHoveredTile(tile);
-  if (!tile || heldButton === null || !action) return;
-  applyAction(tile.x, tile.y);
-}
-
-function handleMouseLeave() {
-  setHoveredTile(null);
-}
-
-// hoveredTile isn't reactive, so redraw manually when it changes
-function setHoveredTile(tile: { x: number; y: number } | null) {
-  if (hoveredTile?.x === tile?.x && hoveredTile?.y === tile?.y) return;
-  hoveredTile = tile;
-  drawBoard();
-}
-
-function stopHold() {
-  heldButton = null;
-  action = null;
+  if (game.value && isBoardSolved(game.value)) game.value.isCompleted = true;
 }
 
 function clearBoard() {
-  if (!game.value || !game.value.board) return;
-  const board = game.value.board;
-  for (let y = 0; y < board.length; y++) {
-    const row = board[y];
-    if (!row) continue;
-    for (let x = 0; x < row.length; x++) {
-      row[x] = "empty";
-    }
-  }
+  if (!game.value) return;
+  for (const row of game.value.board) row.fill("empty");
+  game.value.tileColors = createTileColors(game.value.size);
   game.value.isCompleted = false;
 }
 
 function solveGame() {
-  if (!game.value || !game.value.board || !game.value.solution) return;
-  if (game.value.isCompleted) return;
+  if (!game.value || game.value.isCompleted) return;
   // Copy so clearing the board later doesn't mutate the solution
-  game.value.board = game.value.solution.map((row) => [...row]);
+  game.value.board = game.value.solution.map((row) =>
+    row.map((filled): PicrossTileState => (filled ? "filled" : "empty")),
+  );
   checkIfCompleted();
 }
 
+// Fills one random tile with the correct value from the solution
+// (empty from the solution will result in a marked being placed)
 function fillOne() {
-  // Fills one random tile with the correct value from the solution
-  // (empty from the solution will result in a marked being placed)
-
-  if (!game.value || !game.value.board || !game.value.solution) return;
-  if (game.value.isCompleted) return;
-  const board = game.value.board;
-  const solution = game.value.solution;
+  if (!game.value || game.value.isCompleted) return;
+  const { board, solution } = game.value;
   const emptyTiles: { x: number; y: number }[] = [];
-  for (let y = 0; y < board.length; y++) {
-    const row = board[y];
-    if (!row) continue;
-    for (let x = 0; x < row.length; x++) {
-      if (row[x] === "empty") emptyTiles.push({ x, y });
-    }
-  }
-  if (emptyTiles.length === 0) return;
+  board.forEach((row, y) =>
+    row.forEach((tile, x) => {
+      if (tile === "empty") emptyTiles.push({ x, y });
+    }),
+  );
   const randomTile = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
-  if (!randomTile) return;
-  const boardRow = board[randomTile.y];
-  if (!boardRow) return;
+  const boardRow = randomTile && board[randomTile.y];
+  if (!randomTile || !boardRow) return;
   const correctValue = solution[randomTile.y]?.[randomTile.x];
-  boardRow[randomTile.x] = correctValue === "filled" ? "filled" : "marked";
+  boardRow[randomTile.x] = correctValue ? "filled" : "marked";
   checkIfCompleted();
 }
 
-onMounted(() => {
-  markImage = new Image();
-  markImage.onload = drawBoard;
-  markImage.src = "/images/icons/close.webp";
-
-  audioCtx = new AudioContext();
-  Promise.all(
-    [1, 3, 5].map((i) => loadBuffer(`/sounds/picross/click${i}.wav`)),
-  ).then((buffers) => {
-    placeBuffers = buffers.filter((b): b is AudioBuffer => b !== null);
-  });
-  regeneratePuzzle();
-  initializeCanvas();
-  drawBoard();
-  window.addEventListener("mouseup", stopHold);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("mouseup", stopHold);
-  audioCtx?.close();
-  audioCtx = null;
-});
-
-watch([() => game.value?.size.height, () => game.value?.size.width], () => {});
-
-watch(
-  [theme, () => game.value?.board],
-  () => {
-    drawBoard();
-  },
-  { deep: true },
-);
+onMounted(regeneratePuzzle);
 </script>
 
 <style scoped>
@@ -576,6 +151,24 @@ watch(
   align-items: center;
   min-height: 80vh; /* Ensure the page takes full viewport height */
 }
+.picross-header {
+  position: relative;
+  mask-image: url("/images/picross/daily.webp");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--text);
+  height: 100px;
+  width: 100%;
+}
+.header-games {
+  position: relative;
+  z-index: 1;
+  margin-top: -28px;
+  font-size: 1.25rem;
+  paint-order: stroke;
+  -webkit-text-stroke: 6px var(--background);
+}
 .game {
   width: 100%;
   height: 100%;
@@ -585,68 +178,34 @@ watch(
   flex-direction: column;
   gap: 16px;
 }
-.picross-layout {
-  position: relative;
-  width: fit-content;
-  margin-top: 6rem; /* room for the absolutely positioned column hints */
-}
-.column-hints {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  display: grid;
-  grid-template-columns: repeat(10, 30px);
-  padding-bottom: 8px;
-  text-align: center;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-.column-hint {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-.row-hints {
-  position: absolute;
-  top: 0;
-  right: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-right: 16px;
-  text-align: right;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-.row-hint {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-}
-.row-hint .solved,
-.column-hint .solved {
-  color: var(--text-secondary);
-}
 .solved-message {
   margin: 0;
   font-weight: bold;
-}
-.game-board {
-  width: fit-content;
-  height: auto;
-  background-color: var(--surface);
-  filter: url(#picross-sketch) drop-shadow(0 0 6px rgba(0, 0, 0, 0.2));
-  box-sizing: border-box;
-  border-radius: 8px;
-  canvas {
-    display: block;
-    border-radius: 12px;
-  }
 }
 .game-actions {
   display: flex;
   gap: 8px;
   justify-content: center;
+  > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px;
+  }
+  > input[type="number"] {
+    background: var(--surface);
+    color: var(--text);
+    border: none;
+    font-family: inherit;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 6px;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
 </style>

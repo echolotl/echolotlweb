@@ -273,7 +273,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { type Character } from "~~/types";
 import Icon from "~/components/common/Icon.vue";
 import SketchFilter from "~/components/common/SketchFilter.vue";
-
+import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 // Types
 type Slice = {
   title: string;
@@ -324,29 +324,9 @@ const sliceAtTop = computed(() => {
 
   return found ?? null;
 });
-let audioCtx: AudioContext | null = null;
+let sound: SoundPlayer | null = null;
 let clickBuffer: AudioBuffer | null = null;
 let spinishedBuffer: AudioBuffer | null = null;
-
-async function loadBuffer(url: string): Promise<AudioBuffer | null> {
-  if (!audioCtx) return null;
-  try {
-    const res = await fetch(url);
-    const raw = await res.arrayBuffer();
-    return await audioCtx.decodeAudioData(raw);
-  } catch {
-    return null;
-  }
-}
-
-function playBuffer(buffer: AudioBuffer | null) {
-  if (!audioCtx || !buffer) return;
-  if (audioCtx.state === "suspended") audioCtx.resume();
-  const source = audioCtx.createBufferSource();
-  source.buffer = buffer;
-  source.connect(audioCtx.destination);
-  source.start(0);
-}
 const SPINNING_SPLASH_TEXTS = [
   "Did you know? Pizza thinking",
   "Some would say this wheel is spinning",
@@ -777,7 +757,7 @@ async function spinToSlice() {
 
   skipSpinRequested.value = false;
   wheelRotation.value = normalizeAngle(endRotation);
-  playBuffer(spinishedBuffer);
+  sound?.play(spinishedBuffer);
 
   wheelState.value = "waiting";
   flashBackground();
@@ -801,7 +781,7 @@ watch(
   () => sliceAtTop.value,
   (newSlice, oldSlice) => {
     if (newSlice && oldSlice && newSlice.startAngle !== oldSlice.startAngle) {
-      playBuffer(clickBuffer);
+      sound?.play(clickBuffer);
     }
   },
   { immediate: true },
@@ -809,10 +789,11 @@ watch(
 
 onMounted(async () => {
   useWheelSketchFilter.value = window.matchMedia("(pointer: fine)").matches;
-  audioCtx = new AudioContext();
+  const player = createSoundPlayer();
+  sound = player;
   [clickBuffer, spinishedBuffer] = await Promise.all([
-    loadBuffer("/sounds/wheel/click.wav"),
-    loadBuffer("/sounds/wheel/spinished.wav"),
+    player.load("/sounds/wheel/click.wav"),
+    player.load("/sounds/wheel/spinished.wav"),
   ]);
 
   // Load whatever preset was specified in the query params on initial load
@@ -842,8 +823,8 @@ onBeforeUnmount(() => {
   if (backgroundFlashTimeout !== null) {
     clearTimeout(backgroundFlashTimeout);
   }
-  audioCtx?.close();
-  audioCtx = null;
+  sound?.close();
+  sound = null;
 });
 
 useSeoMeta({

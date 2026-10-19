@@ -218,6 +218,7 @@ export function generateSolvableSolution(
   getHints: (solution: boolean[][]) => PicrossHints,
   maxAttempts = 300,
   timeBudgetMs = 750,
+  random: () => number = Math.random,
 ): boolean[][] {
   const deadline = Date.now() + timeBudgetMs;
   let best: boolean[][] | null = null;
@@ -241,9 +242,9 @@ export function generateSolvableSolution(
   };
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const density = 0.45 + Math.random() * 0.15;
+    const density = 0.45 + random() * 0.15;
     const candidate = Array.from({ length: size.height }, () =>
-      Array.from({ length: size.width }, () => Math.random() < density),
+      Array.from({ length: size.width }, () => random() < density),
     );
     const result = solvePicross(getHints(candidate), size, undefined, {
       logicOnly: true,
