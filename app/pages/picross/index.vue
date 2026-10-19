@@ -141,6 +141,14 @@ function fillOne() {
 }
 
 onMounted(regeneratePuzzle);
+
+useSeoMeta({
+  title: "echolotl - Nautilus' Picross (Free Play)",
+  description: "Play an unlimited number of Nautilus' picross puzzles.",
+  ogDescription: "Play an unlimited number of Nautilus' picross puzzles.",
+  ogTitle: "Nautilus' Picross (Free Play)",
+  ogUrl: "https://echolotl.lol/picross",
+});
 </script>
 
 <style scoped>

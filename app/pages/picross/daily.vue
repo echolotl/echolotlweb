@@ -351,6 +351,16 @@ onMounted(() => {
 onBeforeUnmount(() => clearInterval(timer));
 
 watch(game, persist, { deep: true });
+
+useSeoMeta({
+  title: "echolotl - Nautilus' Picross",
+  description:
+    "Play Nautilus' daily picross puzzle! Figure out the pattern the best you can every day.",
+  ogDescription:
+    "Play Nautilus' daily picross puzzle! (They are fed by puzzles)",
+  ogTitle: "Nautilus' Picross",
+  ogUrl: "https://echolotl.lol/picross/daily",
+});
 </script>
 
 <style scoped>
