@@ -129,6 +129,10 @@ export function oklchToRgb({ l, c, h }: OKLCHColor): RGBColor {
   return { r, g, b };
 }
 
+export function rgbToNumber(rgb: RGBColor): number {
+  return (rgb.r << 16) + (rgb.g << 8) + rgb.b;
+}
+
 export function passesContrast(
   color1: string | RGBColor,
   color2: string | RGBColor,
@@ -183,4 +187,12 @@ export function rgbColorToHex(rgb: RGBColor): string {
     return hex.length === 1 ? "0" + hex : hex;
   };
   return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+}
+
+export function randomColor(): RGBColor {
+  return {
+    r: Math.floor(Math.random() * 256),
+    g: Math.floor(Math.random() * 256),
+    b: Math.floor(Math.random() * 256),
+  };
 }

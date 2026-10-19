@@ -48,64 +48,7 @@ export function createPicrossGame(
     secondsElapsed: 0,
   };
 }
-
-// The daily puzzle changes at midnight in this timezone, regardless of the player's own
-export const DAILY_TIME_ZONE = "America/Chicago";
-
-const dateKeyFormatter = new Intl.DateTimeFormat("en-US", {
-  timeZone: DAILY_TIME_ZONE,
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-});
-
-// Calendar date in DAILY_TIME_ZONE as YYYY-MM-DD, used to key the daily puzzle
-export function getDateKey(date = new Date()) {
-  const parts = Object.fromEntries(
-    dateKeyFormatter.formatToParts(date).map((p) => [p.type, p.value]),
-  );
-  return `${parts.year}-${parts.month}-${parts.day}`;
-}
-
-// Seconds until the date in DAILY_TIME_ZONE next changes. Found by search so
-// 23 and 25 hour days (daylight saving changes) are handled correctly.
-export function getSecondsUntilNextDay(now = new Date()) {
-  const today = getDateKey(now);
-  let low = 0;
-  let high = 26 * 3600;
-  while (high - low > 1) {
-    const mid = Math.floor((low + high) / 2);
-    if (getDateKey(new Date(now.getTime() + mid * 1000)) === today) low = mid;
-    else high = mid;
-  }
-  return high;
-}
-
-// Whole calendar days from one YYYY-MM-DD key to another
-export function daysBetweenDateKeys(from: string, to: string) {
-  const toUtcDay = (key: string) => {
-    const [y = 0, m = 1, d = 1] = key.split("-").map(Number);
-    return Date.UTC(y, m - 1, d);
-  };
-  return Math.round((toUtcDay(to) - toUtcDay(from)) / 86_400_000);
-}
-
-// mulberry32-like deterministic PRNG seeded from a string
-export function createSeededRandom(seed: string) {
-  let hash = 2166136261;
-  for (let i = 0; i < seed.length; i++) {
-    hash ^= seed.charCodeAt(i);
-    hash = Math.imul(hash, 16777619);
-  }
-  let state = hash >>> 0;
-  return () => {
-    state = (state + 0x6d2b79f5) >>> 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+//#region HINTS UTILS
 
 // Gets the runs of filled tiles in a line
 function getLineRuns(
@@ -202,6 +145,8 @@ export function getSolvedHints(line: PicrossTileState[], hints: number[]) {
   return agreed ?? hints.map(() => false);
 }
 
+//#endregion HINTS UTILS
+
 // Solved when the filled tiles match the solution; marks and empties are equivalent
 export function isBoardSolved({ board, solution }: PicrossGame) {
   for (let y = 0; y < solution.length; y++) {
@@ -211,5 +156,41 @@ export function isBoardSolved({ board, solution }: PicrossGame) {
       if ((board[y]?.[x] === "filled") !== (row[x] ?? false)) return false;
     }
   }
+  return true;
+}
+
+export function clearBoard(game: PicrossGame): void {
+  for (const row of game.board) row.fill("empty");
+  game.tileColors = createTileColors(game.size);
+  game.isCompleted = false;
+}
+
+export function solveGame(game: PicrossGame): void {
+  for (let y = 0; y < game.solution.length; y++) {
+    const [row, boardRow] = [game.solution[y], game.board[y]];
+    if (!row || !boardRow) continue;
+    // Fill the board row with the solution
+    for (let x = 0; x < row.length; x++) {
+      boardRow[x] = row[x] ? "filled" : "marked";
+    }
+  }
+  game.isCompleted = true;
+}
+
+export function fillRandomTile(game: PicrossGame, random = Math.random): boolean {
+  if (game.isCompleted) return false;
+  const { board, solution } = game;
+  const emptyTiles: { x: number; y: number }[] = [];
+  board.forEach((row, y) =>
+    row.forEach((tile, x) => {
+      if (tile === "empty") emptyTiles.push({ x, y });
+    }),
+  );
+  const randomTile = emptyTiles[Math.floor(random() * emptyTiles.length)];
+  const boardRow = randomTile && board[randomTile.y];
+  if (!randomTile || !boardRow) return false;
+  const correctValue = solution[randomTile.y]?.[randomTile.x];
+  boardRow[randomTile.x] = correctValue ? "filled" : "marked";
+  game.isCompleted = isBoardSolved(game);
   return true;
 }

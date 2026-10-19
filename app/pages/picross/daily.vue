@@ -10,15 +10,13 @@
       <p
         v-if="game"
         class="daily-info text-secondary lotl-font"
-        :style="{ color: game.isCompleted ? 'var(--primary)' : undefined }"
-      >
+        :style="{ color: game.isCompleted ? 'var(--primary)' : undefined }">
         <span v-if="game.isCompleted && !gaveUp">
           <Icon
             icon="crown"
             width="16px"
             height="16px"
-            :style="{ color: 'var(--orange)' }"
-          ></Icon>
+            :style="{ color: 'var(--orange)' }"></Icon>
         </span>
         <span>
           <Icon icon="time" width="16px" height="16px" />
@@ -28,15 +26,13 @@
           <Icon icon="moves" width="16px" height="16px" />
           <SlotText
             :text="String(game?.moves ?? 0)"
-            :options="{ skipUnchanged: true }"
-          />
+            :options="{ skipUnchanged: true }" />
         </span>
         <span>
           <Icon icon="tip" width="16px" height="16px" />
           <SlotText
             :text="String(game?.hintsUsed ?? 0)"
-            :options="{ skipUnchanged: true }"
-          />
+            :options="{ skipUnchanged: true }" />
         </span>
         <span>
           <Icon icon="size" width="16px" height="16px" />
@@ -54,23 +50,21 @@
         <b>
           <SlotText
             :text="`${timeTillNextGameDisplay}`"
-            :options="{ skipUnchanged: true }"
-          />
+            :options="{ skipUnchanged: true }" />
         </b>
       </p>
       <div v-if="game && !started" class="game-actions">
         <button @click="beginGame" class="round filled">Start</button>
       </div>
       <div v-else class="game-actions">
-        <button :disabled="game?.isCompleted" @click="clearBoard" class="round">
+        <button :disabled="!game || game.isCompleted" @click="game && clearBoard(game)" class="round">
           <Icon icon="trash" width="20px" height="20px" />
           Clear
         </button>
         <button
           :disabled="game?.isCompleted"
           @click="giveUp"
-          class="round filled red"
-        >
+          class="round filled red">
           Give Up
         </button>
         <button :disabled="game?.isCompleted" @click="useHint" class="round">
@@ -92,17 +86,22 @@ import Icon from "~/components/common/Icon.vue";
 import { SlotText } from "slot-text/vue";
 import "slot-text/style.css";
 import {
-  createSeededRandom,
   createPicrossGame,
-  daysBetweenDateKeys,
-  getDateKey,
   getHints,
-  getSecondsUntilNextDay,
   type PicrossBoard,
   type PicrossGame,
+  fillRandomTile,
+  isBoardSolved,
+  clearBoard,
+  solveGame,
 } from "~/utils/picross";
+import {
+  getSecondsUntilNextDay,
+  daysBetweenDateKeys,
+  getDateKey,
+  mulberry32,
+} from "~/utils/picross/daily";
 import { generateSolvableSolution } from "~/utils/picross/solver";
-import { usePicrossGame } from "~/composables/usePicrossGame";
 
 type PicrossGameStats = Omit<PicrossGame, "tileColors" | "solution"> & {
   gaveUp?: boolean;
@@ -121,8 +120,7 @@ const MAX_SIZE = 20;
 const LOCAL_STORAGE_KEY = "picross:stats:v1";
 const FIRST_GAME_DATE = "2026-10-18";
 
-const { game, checkIfCompleted, clearBoard, solveGame, fillOne } =
-  usePicrossGame();
+const game = ref<PicrossGame | null>(null);
 const dateKey = ref("");
 const gaveUp = ref(false);
 const started = ref(false);
@@ -138,18 +136,7 @@ let countedMoves = 0;
 let countedHints = 0;
 let countedWin = false;
 
-function formatTime(total: number) {
-  const minutes = Math.floor(total / 60);
-  const seconds = String(total % 60).padStart(2, "0");
-  return `${minutes}:${seconds}`;
-}
 
-function formatCountdown(total: number) {
-  const hours = Math.floor(total / 3600);
-  const minutes = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
-  const seconds = String(total % 60).padStart(2, "0");
-  return `${hours}:${minutes}:${seconds}`;
-}
 
 // Reactive clock so the countdown updates every tick
 const now = ref(new Date());
@@ -157,7 +144,7 @@ const now = ref(new Date());
 const timeDisplay = computed(() => formatTime(game.value?.secondsElapsed ?? 0));
 const timeTillNextGameDisplay = computed(() => {
   if (!game.value?.isCompleted) return "";
-  return formatCountdown(getSecondsUntilNextDay(now.value));
+  return formatTime(getSecondsUntilNextDay(now.value));
 });
 
 const puzzleNumber = computed(() =>
@@ -219,7 +206,7 @@ function persist() {
 // #region GAME INIT
 // The same date always produces the same size and puzzle
 function createDailyGame(key: string): PicrossGame {
-  const random = createSeededRandom(`echolotl-picross-${key}`);
+  const random = mulberry32(`echolotl-picross-${key}`);
   const randomSide = () =>
     MIN_SIZE + Math.floor(random() * (MAX_SIZE - MIN_SIZE + 1));
   const size = { width: randomSide(), height: randomSide() };
@@ -273,7 +260,7 @@ function startDailyGame() {
   }
 
   game.value = created;
-  checkIfCompleted();
+  game.value.isCompleted = isBoardSolved(game.value);
 }
 // #endregion GAME INIT
 
@@ -285,11 +272,11 @@ function beginGame() {
 function giveUp() {
   if (!game.value || game.value.isCompleted) return;
   gaveUp.value = true;
-  solveGame();
+  solveGame(game.value);
 }
 
 function useHint() {
-  if (fillOne()) game.value!.hintsUsed++;
+  if (fillRandomTile(game.value!)) game.value!.hintsUsed++;
 }
 
 function copyWin() {
@@ -342,8 +329,10 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80vh; /* Ensure the page takes full viewport height */
+  min-height: 80vh;
+  /* Ensure the page takes full viewport height */
 }
+
 .picross-header {
   position: relative;
   mask-image: url("/images/picross/daily.webp");
@@ -354,6 +343,7 @@ useSeoMeta({
   height: 100px;
   width: 100%;
 }
+
 .game {
   width: 100%;
   height: 100%;
@@ -363,6 +353,7 @@ useSeoMeta({
   flex-direction: column;
   gap: 16px;
 }
+
 .header-games {
   position: relative;
   z-index: 1;
@@ -371,24 +362,29 @@ useSeoMeta({
   paint-order: stroke;
   -webkit-text-stroke: 6px var(--background);
 }
+
 .daily-info {
   display: flex;
   align-items: center;
   gap: 8px;
+
   > span {
     display: flex;
     align-items: center;
     gap: 4px;
   }
 }
+
 .solved-message {
   margin: 0;
   font-weight: bold;
 }
+
 .game-actions {
   display: flex;
   gap: 8px;
   justify-content: center;
+
   > button {
     display: flex;
     align-items: center;

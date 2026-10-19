@@ -8,20 +8,20 @@
         The board is solved!
       </p>
       <div class="game-actions">
-        <button @click="clearBoard" class="round">
+        <button @click="clearBoard(game!)" class="round">
           <Icon icon="trash" width="20px" height="20px" />
           Clear
         </button>
         <button
           :disabled="game?.isCompleted"
-          @click="solveGame"
+          @click="solveGame(game!)"
           class="round filled"
         >
           Solve
         </button>
         <button
           :disabled="game?.isCompleted"
-          @click="() => fillOne()"
+          @click="() => fillRandomTile(game!)"
           class="round"
         >
           <Icon icon="tip" width="20px" height="20px" />
@@ -53,17 +53,19 @@
 </template>
 
 <script setup lang="ts">
+import { createPicrossGame, clearBoard, solveGame, fillRandomTile } from "~/utils/picross";
+import { randomColor, rgbToNumber } from "~/utils/color";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
 import { getHints, type PicrossSize } from "~/utils/picross";
 import { generateSolvableSolution } from "~/utils/picross/solver";
+import type { PicrossGame } from "~/utils/picross";
 
 const MIN_SIZE = 1;
 const MAX_SIZE = 50;
 const DEFAULT_SIZE = 10;
 const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
-
-const { game, startGame, clearBoard, solveGame, fillOne } = usePicrossGame();
+const game = ref<PicrossGame | null>(null);
 
 // #region GAME INIT
 function clampSize(value: number) {
@@ -81,7 +83,12 @@ function regeneratePuzzle() {
   sizeInput.width = size.width;
   sizeInput.height = size.height;
   const solution = generateSolvableSolution(size, getHints);
-  startGame(size, solution);
+  game.value = createPicrossGame(size, solution);
+
+  // fill with random colors
+  game.value.tileColors = Array.from({ length: size.height }, () =>
+    Array.from({ length: size.width }, () => rgbColorToHex(randomColor()))
+  );
 }
 
 // #endregion GAME INIT

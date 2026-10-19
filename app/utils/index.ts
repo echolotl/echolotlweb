@@ -17,6 +17,23 @@ export function formatDateTime(date: Date) {
   }).format(date);
 }
 
+export function formatTime(total: number) { // in seconds
+  const parts = [];
+  const days = Math.floor(total / 86400);
+  if (days > 0) parts.push(String(days));
+  total %= 86400;
+  const hours = Math.floor(total / 3600);
+  if (hours > 0 || parts.length > 0) parts.push(String(hours).padStart(2, "0"));
+  total %= 3600;
+  const minutes = Math.floor(total / 60);
+  parts.push(String(minutes).padStart(2, "0"));
+  const seconds = total % 60;
+  parts.push(String(seconds).padStart(2, "0"));
+  return parts.join(":");
+}
+
+
+
 export function feetStringToCm(feetString: string): number {
   const parts = feetString.split("'");
   if (parts.length !== 2) {

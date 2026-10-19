@@ -17,7 +17,7 @@
       ];
 
       shellHook = ''
-        echo "ECHOLOTL.LOL DEV SHELL --"
+        printf "\x1b[0;95m\x1b[1mecholotl.lol [FRONTEND]\x1b[0m --\n"
         echo "  Branch: `git rev-parse --abbrev-ref HEAD`"
         echo "  Commit: $(git rev-parse HEAD | cut -c1-7)"
         echo "  Node:   `node --version`"

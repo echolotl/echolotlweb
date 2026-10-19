@@ -421,7 +421,9 @@ function drawBoard() {
     for (let x = 0; x < size.width; x++) {
       switch (board[y]?.[x]) {
         case "filled":
-          ctx.fillStyle = tileColors[y]?.[x] ?? color;
+          ctx.fillStyle = props.game.isCompleted
+            ? tileColors[y]?.[x] ?? color
+            : color;
           ctx.fillRect(
             x * TILE_SIZE + 1,
             y * TILE_SIZE + 1,
