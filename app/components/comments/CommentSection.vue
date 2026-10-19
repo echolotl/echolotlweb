@@ -10,7 +10,8 @@
     </div>
     <div
       v-else-if="error && comments.length === 0"
-      class="comments-status comments-error">
+      class="comments-status comments-error"
+    >
       Failed to load comments: {{ error }}
       <button type="button" class="comments-retry" @click="fetchComments(true)">
         Retry
@@ -19,7 +20,8 @@
     <Comment v-for="comment in comments" :key="comment.id" :comment="comment" />
     <div
       v-if="error && comments.length > 0"
-      class="comments-status comments-error">
+      class="comments-status comments-error"
+    >
       Failed to load more comments: {{ error }}
       <button type="button" class="comments-retry" @click="fetchComments()">
         Retry
@@ -30,7 +32,8 @@
       type="button"
       class="load-more-comments"
       :disabled="loading"
-      @click="fetchComments()">
+      @click="fetchComments()"
+    >
       {{ loading ? "Loading..." : "Load more comments" }}
     </button>
   </div>
@@ -38,7 +41,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import Comment from "~/components/comments/Comment.vue";
-import { useComments } from "~~/composables/useComments";
+import { useComments } from "~/composables/useComments";
 
 interface Props {
   slug: string;

@@ -15,12 +15,14 @@
             v-if="art.tags && art.tags.length > 0"
             icon="tag"
             :items="art.tags"
-            class="art-meta__tag-list">
+            class="art-meta__tag-list"
+          >
             <Tag
               v-for="tag in art.tags"
               :key="tag"
               clickable
-              @click="goToArtWithTag(tag)">
+              @click="goToArtWithTag(tag)"
+            >
               {{ tag }}
             </Tag>
           </TagList>
@@ -31,12 +33,14 @@
               art.character
             "
             icon="character"
-            :items="art.related_characters || [art.character].filter(Boolean)">
+            :items="art.related_characters || [art.character].filter(Boolean)"
+          >
             <CharacterTag v-if="art.character" :slug="art.character" />
             <CharacterTag
               v-for="character in art.related_characters"
               :key="character"
-              :slug="character" />
+              :slug="character"
+            />
           </TagList>
           <div v-if="art.created_at" class="art-meta__section">
             <Icon icon="date" color="var(--text-secondary)" />
@@ -53,7 +57,8 @@
               class="art-meta__date"
               :href="art.artist.link"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               by {{ art.artist.name }}
             </a>
             <span v-else class="art-meta__date">by {{ art.artist.name }}</span>
@@ -66,7 +71,8 @@
           <Icon
             v-if="art.images.length > 1"
             icon="images"
-            color="var(--primary)" />
+            color="var(--primary)"
+          />
         </div>
       </div>
       <hr style="margin-top: 0.5rem" />
@@ -83,7 +89,8 @@
     <AgeGateModal
       :model-value="needsAgeGate"
       @confirm="ageConfirmed = true"
-      @deny="leavePage" />
+      @deny="leavePage"
+    />
   </div>
 </template>
 
@@ -101,7 +108,7 @@ import rehypeStringify from "rehype-stringify";
 import CommentForm from "~/components/comments/CommentForm.vue";
 import CommentSection from "~/components/comments/CommentSection.vue";
 import AgeGateModal from "~/components/art/AgeGateModal.vue";
-import { useAgeVerification } from "../../../composables/useAgeVerification";
+import { useAgeVerification } from "../../composables/useAgeVerification";
 
 const route = useRoute();
 const router = useRouter();

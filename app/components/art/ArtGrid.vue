@@ -6,15 +6,18 @@
       :artwork="artwork"
       :show-metadata="showMetadata"
       :show-character-badge="showCharacterBadge"
-      @age-gate="openAgeGate(artwork.slug)" />
+      @age-gate="openAgeGate(artwork.slug)"
+    />
     <AgeGateModal
       v-model="ageGateOpen"
       @confirm="onAgeConfirmed"
-      @deny="pendingSlug = null" />
+      @deny="pendingSlug = null"
+    />
   </div>
   <p
     v-else
-    style="color: var(--text-secondary); text-align: center; width: 100%">
+    style="color: var(--text-secondary); text-align: center; width: 100%"
+  >
     No artworks found! Try adjusting your filters?
   </p>
 </template>
@@ -23,7 +26,7 @@
 import type { Art } from "~~/types";
 import ArtItem from "~/components/art/ArtItem.vue";
 import AgeGateModal from "~/components/art/AgeGateModal.vue";
-import { useAgeVerification } from "../../../composables/useAgeVerification";
+import { useAgeVerification } from "../../composables/useAgeVerification";
 
 defineProps<{
   artworks: Art[];

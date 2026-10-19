@@ -2,12 +2,14 @@
   <div class="picross-layout">
     <SketchFilter id="picross-sketch" flood-color="var(--surface)" />
     <canvas
+      v-if="!locked"
       ref="columnHintsCanvas"
       class="column-hints lotl-font"
       role="img"
       :aria-label="`Column hints: ${game.hints.columns.map((h) => h.join(' ')).join(', ')}`"
     ></canvas>
     <canvas
+      v-if="!locked"
       ref="rowHintsCanvas"
       class="row-hints lotl-font"
       role="img"
@@ -16,7 +18,7 @@
     <div class="game-board">
       <div class="board-backdrop" aria-hidden="true"></div>
       <div
-        v-if="hoveredTile && !game.isCompleted"
+        v-if="hoveredTile && !game.isCompleted && !locked"
         class="hover-tile"
         aria-hidden="true"
         :style="{
@@ -40,9 +42,10 @@
 
 <script setup lang="ts">
 import SketchFilter from "~/components/common/SketchFilter.vue";
-import { useTheme } from "~~/composables/useTheme";
+import { useTheme } from "~/composables/useTheme";
 import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 import {
+  getHints,
   getSolvedHints,
   isBoardSolved,
   isLineOverfilled,
@@ -51,8 +54,12 @@ import {
 } from "~/utils/picross";
 
 // The grid mutates the game it is given (board, moves, isCompleted)
+// While locked the board is shown without hints and can't be played
+// While editable, tiles edit the solution directly and the hints follow it
 const props = defineProps<{
   game: PicrossGame;
+  locked?: boolean;
+  editable?: boolean;
 }>();
 
 const { theme } = useTheme();
@@ -71,6 +78,13 @@ let placeSounds: AudioBuffer[] = [];
 // #region HINT CANVASES
 const solvedHints = computed(() => {
   const { board, hints } = props.game;
+  // The board always matches the solution when editing, so nothing is "solved"
+  if (props.editable) {
+    return {
+      rows: hints.rows.map((rowHints) => rowHints.map(() => false)),
+      columns: hints.columns.map((columnHints) => columnHints.map(() => false)),
+    };
+  }
   return {
     rows: hints.rows.map((rowHints, row) =>
       getSolvedHints(board[row] ?? [], rowHints),
@@ -122,6 +136,7 @@ const incorrectLines = computed(() => {
 // Hints only need to be redrawn when a hint's solved, outlined or incorrect state flips, not on every move
 const solvedHintsKey = computed(() =>
   JSON.stringify([
+    props.game.hints,
     solvedHints.value,
     unmarkedLines.value,
     incorrectLines.value,
@@ -445,7 +460,7 @@ const hoveredTile = ref<{ x: number; y: number } | null>(null);
 
 // #region GAME LOGIC
 function checkIfCompleted() {
-  if (!isBoardSolved(props.game)) return;
+  if (props.editable || !isBoardSolved(props.game)) return;
   props.game.isCompleted = true;
   stopHold();
 }
@@ -467,7 +482,13 @@ function applyAction(x: number, y: number) {
   if (!row || !action || row[x] === action) return;
   row[x] = action;
 
-  if (action === "filled") props.game.moves++;
+  if (props.editable) {
+    const solutionRow = props.game.solution[y];
+    if (solutionRow) solutionRow[x] = action === "filled";
+    props.game.hints = getHints(props.game.solution);
+  } else if (action === "filled") {
+    props.game.moves++;
+  }
   if (placeSounds.length > 0) {
     sound?.play(
       placeSounds[Math.floor(Math.random() * placeSounds.length)],
@@ -478,23 +499,25 @@ function applyAction(x: number, y: number) {
 }
 
 function handleMouseDown(event: MouseEvent) {
-  if (props.game.isCompleted) return;
+  if (props.game.isCompleted || props.locked) return;
   if (event.button !== 0 && event.button !== 2) return;
   const tile = getTileAt(event);
   if (!tile) return;
   event.preventDefault();
   heldButton = event.button;
-  action =
-    props.game.board[tile.y]?.[tile.x] !== "empty"
-      ? "empty"
-      : heldButton === 0
-        ? "filled"
-        : "marked";
+  const current = props.game.board[tile.y]?.[tile.x];
+  if (props.editable) {
+    // Right click always erases; left click toggles based on the first tile
+    action = heldButton === 0 && current !== "filled" ? "filled" : "empty";
+  } else {
+    action =
+      current !== "empty" ? "empty" : heldButton === 0 ? "filled" : "marked";
+  }
   applyAction(tile.x, tile.y);
 }
 
 function handleMouseMove(event: MouseEvent) {
-  if (props.game.isCompleted) return;
+  if (props.game.isCompleted || props.locked) return;
   const tile = getTileAt(event);
   setHoveredTile(tile);
   if (!tile || heldButton === null || !action) return;
@@ -573,6 +596,8 @@ watch(() => props.game.tileColors, scheduleDrawBoard, {
 });
 
 watch(solvedHintsKey, drawHints, { flush: "post" });
+// The hint canvases are recreated when unlocking, so they need a fresh draw
+watch(() => props.locked, drawHints, { flush: "post" });
 watch(
   [theme, () => props.game],
   () => {

@@ -27,7 +27,8 @@
           class="round"
           style="display: flex; align-items: center; gap: 8px"
           type="button"
-          @click="logoutAndRedirect">
+          @click="logoutAndRedirect"
+        >
           <Icon icon="logout" width="24px" height="24px" />
           Log Out
         </button>
@@ -37,7 +38,8 @@
           type="button"
           :disabled="deletingAccount"
           @click="handleDeleteAccount"
-          class="filled red round">
+          class="filled red round"
+        >
           <Icon icon="trash" width="24px" height="24px" />
           {{ deletingAccount ? "Deleting..." : "Delete Account" }}
         </button>
@@ -52,7 +54,8 @@
               type="checkbox"
               :checked="user?.anonymous ?? false"
               @change="onToggleAnonymous"
-              :disabled="saving" />
+              :disabled="saving"
+            />
             <div>
               <div><b>Post anonymously</b></div>
               <div class="text-secondary">
@@ -76,7 +79,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useAuth } from "~~/composables/useAuth";
+import { useAuth } from "~/composables/useAuth";
 import UserAvatar from "~/components/common/UserAvatar.vue";
 import Icon from "~/components/common/Icon.vue";
 import DiscordIcon from "~/components/common/DiscordIcon.vue";

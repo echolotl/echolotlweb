@@ -2,13 +2,15 @@
   <div
     style="position: relative; display: flex; justify-content: center"
     class="art-item-container"
-    :style="{ '--filter-url': `url(#${filterId})` }">
+    :style="{ '--filter-url': `url(#${filterId})` }"
+  >
     <SketchFilter :id="filterId" />
     <nuxt-link
       :to="`/art/${artwork.slug}`"
       class="art-item"
       :aria-label="`View Artwork: ${artwork.title}`"
-      @click="onClick">
+      @click="onClick"
+    >
       <div
         class="art-item__image"
         :class="{ 'art-item__image--blurred': artwork.nsfw }"
@@ -16,48 +18,56 @@
           '--art-bg': `url(${artwork.images[0]?.thumbnail_url})`,
           backgroundImage: artwork.nsfw ? 'none' : 'var(--art-bg)',
         }"
-        :title="artwork.title">
+        :title="artwork.title"
+      >
         <div v-if="showMetadata" class="art-item__metadata">
           <div
             v-if="artwork.character && showCharacterBadge"
             class="art-item__metadata-icon"
-            title="Character">
+            title="Character"
+          >
             <Icon icon="character" />
           </div>
           <div
             v-if="artwork.pinned"
             class="art-item__metadata-icon"
-            title="Pinned">
+            title="Pinned"
+          >
             <Icon icon="pin" />
           </div>
           <div
             v-if="artwork.sketch"
             class="art-item__metadata-icon"
-            title="Sketch">
+            title="Sketch"
+          >
             <Icon icon="sketch" />
           </div>
           <div
             v-if="hasVariants"
             class="art-item__metadata-icon"
-            title="Has Variants">
+            title="Has Variants"
+          >
             <Icon icon="layers" />
           </div>
           <div
             v-if="hasMultipleImages"
             class="art-item__metadata-icon"
-            title="Multiple Images">
+            title="Multiple Images"
+          >
             <Icon icon="images" />
           </div>
           <div
             v-if="!isEcholotlArtwork(props.artwork)"
             class="art-item__metadata-icon"
-            title="Non-echolotl Artwork">
+            title="Non-echolotl Artwork"
+          >
             <Icon icon="other" />
           </div>
           <div
             v-if="artwork.nsfw"
             class="art-item__metadata-icon"
-            title="NSFW Content">
+            title="NSFW Content"
+          >
             <Icon icon="r18" />
           </div>
         </div>
@@ -70,7 +80,7 @@
 import type { Art } from "~~/types";
 import SketchFilter from "../common/SketchFilter.vue";
 import Icon from "~/components/common/Icon.vue";
-import { useAgeVerification } from "../../../composables/useAgeVerification";
+import { useAgeVerification } from "../../composables/useAgeVerification.js";
 
 const props = defineProps<{
   artwork: Art;

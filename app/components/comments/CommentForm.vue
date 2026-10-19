@@ -10,12 +10,14 @@
         @input="onInput"
         @paste="onPaste"
         @drop="onDrop"
-        ref="textboxSpan"></span>
+        ref="textboxSpan"
+      ></span>
       <div v-if="isLoggedIn" class="comment-actions">
         <button
           type="submit"
           :disabled="submitting || !(commentText.length > 0)"
-          class="filled round">
+          class="filled round"
+        >
           Post Comment</button
         ><Icon v-if="submitting" icon="loading" width="40px" height="40px" />
         <span
@@ -34,7 +36,8 @@
         v-if="!isLoggedIn"
         type="button"
         class="discord-login round"
-        @click="login">
+        @click="login"
+      >
         Login with
         <DiscordIcon :size="24" style="margin-left: 6px" />
       </button>
@@ -43,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { useComments } from "~~/composables/useComments";
-import { useAuth } from "~~/composables/useAuth";
+import { useComments } from "~/composables/useComments.js";
+import { useAuth } from "~/composables/useAuth.js";
 import UserAvatar from "~/components/common/UserAvatar.vue";
 import DiscordIcon from "~/components/common/DiscordIcon.vue";
 const props = defineProps<Props>();

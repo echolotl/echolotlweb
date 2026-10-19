@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import Tag from "./Tag.vue";
 import CharacterLink from "./CharacterLink.vue";
-import { useTheme } from "~~/composables/useTheme";
+import { useTheme } from "~/composables/useTheme.js";
 
 interface Props {
   slug: string;

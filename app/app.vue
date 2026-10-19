@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth } from "~~/composables/useAuth";
+import { useAuth } from "~/composables/useAuth";
 
 const { fetchUser } = useAuth();
 

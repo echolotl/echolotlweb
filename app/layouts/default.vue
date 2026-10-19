@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import Navbar from "~/components/common/Navbar.vue";
 import Footer from "~/components/common/Footer.vue";
-import { useTheme } from "~~/composables/useTheme";
+import { useTheme } from "~/composables/useTheme";
 
 const { theme, toggleTheme, initializeTheme, cleanupTheme } = useTheme();
 

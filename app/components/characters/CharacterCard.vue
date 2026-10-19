@@ -2,19 +2,23 @@
   <div
     :to="`/characters/${props.character.slug}`"
     class="character-card"
-    :style="{ '--filter-url': `url(#${filterId})` }">
+    :style="{ '--filter-url': `url(#${filterId})` }"
+  >
     <SketchFilter :id="filterId" :std-deviation="1.5" :intercept="-6" />
     <NuxtLink
       :to="`/characters/${props.character.slug}`"
-      class="character-card__image">
+      class="character-card__image"
+    >
       <div class="character-card__image-bg"></div>
 
       <div
         class="character-card__image-icon"
-        :style="{ backgroundImage: characterImage }"></div>
+        :style="{ backgroundImage: characterImage }"
+      ></div>
       <div
         class="character-card__image-icon-hover"
-        :style="{ backgroundImage: characterHoverImage }"></div>
+        :style="{ backgroundImage: characterHoverImage }"
+      ></div>
     </NuxtLink>
     <span class="character-card__name lotl-font" style="font-size: 1.5rem">{{
       props.character.name
@@ -25,7 +29,7 @@
 <script setup lang="ts">
 import type { Character } from "~~/types";
 import SketchFilter from "../common/SketchFilter.vue";
-import { useTheme } from "~~/composables/useTheme";
+import { useTheme } from "~/composables/useTheme.js";
 
 const props = defineProps({
   character: {

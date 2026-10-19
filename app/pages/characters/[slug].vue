@@ -2,7 +2,8 @@
   <div
     v-if="character"
     class="character-page"
-    :style="{ '--theme-color': themeColor }">
+    :style="{ '--theme-color': themeColor }"
+  >
     <CharacterBanner :character="character" />
     <div class="character-content">
       <div class="character-main-content">
@@ -19,13 +20,15 @@
           icon="art_brush"
           width="36px"
           height="36px"
-          style="color: var(--theme-color)" />
+          style="color: var(--theme-color)"
+        />
         <span class="lotl-font" style="font-size: 1.2em">Artwork</span>
       </h2>
       <ArtGrid
         v-if="characterArtworks && characterArtworks.length > 0"
         :artworks="characterArtworks"
-        show-metadata />
+        show-metadata
+      />
       <div v-else class="no-artwork">
         <p>No artwork found for this character yet.</p>
       </div>
@@ -46,7 +49,7 @@ import CharacterBanner from "~/components/characters/CharacterBanner.vue";
 import CharacterInfobox from "~/components/characters/CharacterInfobox.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 import Icon from "~/components/common/Icon.vue";
-import { useTheme } from "~~/composables/useTheme";
+import { useTheme } from "~/composables/useTheme";
 import SplashText from "~/components/common/SplashText.vue";
 import CommentForm from "~/components/comments/CommentForm.vue";
 import CommentSection from "~/components/comments/CommentSection.vue";

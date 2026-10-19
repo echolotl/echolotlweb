@@ -25,7 +25,8 @@
           icon="pin"
           style="color: var(--text)"
           width="30px"
-          height="30px" />
+          height="30px"
+        />
         <span class="lotl-font" style="font-size: 1.2em">Pinned</span>
       </h2>
     </div>
@@ -51,11 +52,13 @@
             tagInput.trim() !== '' ||
             filters.tags.length > 0 ||
             excludedMetadataFilters.length > 0,
-        }">
+        }"
+      >
         <Icon
           :icon="
             filters.title && activeFilters.length === 1 ? 'search' : 'filter'
-          " />
+          "
+        />
         {{ filtersToText || "Filters" }}
       </button>
       <div id="filter-popover" popover="auto" anchor="filter-button">
@@ -67,7 +70,8 @@
                 <input
                   type="checkbox"
                   :checked="filters.generalArt"
-                  @click.prevent="toggleArtworkTypeFilter('generalArt')" />
+                  @click.prevent="toggleArtworkTypeFilter('generalArt')"
+                />
                 General
                 <Icon icon="art" />
               </label>
@@ -75,7 +79,8 @@
                 <input
                   type="checkbox"
                   :checked="filters.characterArt"
-                  @click.prevent="toggleArtworkTypeFilter('characterArt')" />
+                  @click.prevent="toggleArtworkTypeFilter('characterArt')"
+                />
                 Character
                 <Icon icon="character" />
               </label>
@@ -87,12 +92,14 @@
                 :class="{
                   selected: filters.sketches,
                   'anti-filter': isMetadataFilterExcluded('sketches'),
-                }">
+                }"
+              >
                 <input
                   type="checkbox"
                   :checked="filters.sketches"
                   :indeterminate="isMetadataFilterExcluded('sketches')"
-                  @click.prevent="cycleMetadataFilter('sketches')" />
+                  @click.prevent="cycleMetadataFilter('sketches')"
+                />
                 Sketches
                 <Icon icon="sketch" />
               </label>
@@ -100,12 +107,14 @@
                 :class="{
                   selected: filters.gallery,
                   'anti-filter': isMetadataFilterExcluded('gallery'),
-                }">
+                }"
+              >
                 <input
                   type="checkbox"
                   :checked="filters.gallery"
                   :indeterminate="isMetadataFilterExcluded('gallery')"
-                  @click.prevent="cycleMetadataFilter('gallery')" />
+                  @click.prevent="cycleMetadataFilter('gallery')"
+                />
                 Has Gallery
                 <Icon icon="images" />
               </label>
@@ -113,12 +122,14 @@
                 :class="{
                   selected: filters.variants,
                   'anti-filter': isMetadataFilterExcluded('variants'),
-                }">
+                }"
+              >
                 <input
                   type="checkbox"
                   :checked="filters.variants"
                   :indeterminate="isMetadataFilterExcluded('variants')"
-                  @click.prevent="cycleMetadataFilter('variants')" />
+                  @click.prevent="cycleMetadataFilter('variants')"
+                />
                 Has Variants
                 <Icon icon="layers" />
               </label>
@@ -133,7 +144,8 @@
                     type="text"
                     v-model="filters.title"
                     placeholder="Search by name..."
-                    autocomplete="off" />
+                    autocomplete="off"
+                  />
                   <Icon icon="search" style="margin-right: 0.5rem" />
                 </div>
                 <div class="search-wrapper">
@@ -143,7 +155,8 @@
                     placeholder="Search by tag..."
                     @focus="tagDropdownOpen = true"
                     @blur="onTagInputBlur"
-                    autocomplete="off" />
+                    autocomplete="off"
+                  />
                   <Icon icon="tag" style="margin-right: 0.5rem" />
                 </div>
                 <div v-if="filters.tags.length > 0" class="tag-filter-chips">
@@ -164,7 +177,8 @@
                 <input
                   type="checkbox"
                   :checked="filters.nsfw"
-                  @change="onNsfwToggle" />
+                  @change="onNsfwToggle"
+                />
                 Show NSFW
                 <Icon icon="r18" />
               </label>
@@ -188,14 +202,16 @@
             <li
               v-for="tag in tagSuggestions"
               :key="tag"
-              @mousedown.prevent="addTag(tag)">
+              @mousedown.prevent="addTag(tag)"
+            >
               {{ tag }}
             </li>
           </ul>
           <div
             v-else
             v-if="tagInput.trim() !== ''"
-            style="color: var(--text-secondary); font-size: var(--small-text)">
+            style="color: var(--text-secondary); font-size: var(--small-text)"
+          >
             No matching tags found.
           </div>
         </div>
@@ -213,7 +229,7 @@ import Icon from "~/components/common/Icon.vue";
 import SplashText from "~/components/common/SplashText.vue";
 import ArtGrid from "~/components/art/ArtGrid.vue";
 import AgeGateModal from "~/components/art/AgeGateModal.vue";
-import { useAgeVerification } from "../../../composables/useAgeVerification";
+import { useAgeVerification } from "../../composables/useAgeVerification";
 type SortBy = "created" | "added" | "alphabetical" | "whatever";
 const METADATA_FILTERS = ["sketches", "gallery", "variants"] as const;
 type MetadataFilter = (typeof METADATA_FILTERS)[number];

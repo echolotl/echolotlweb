@@ -8,14 +8,15 @@
       height: `${size}px`,
       filter: `url(#${filterId})`,
     }"
-    :alt="`${displayName || 'User'} Avatar`" />
+    :alt="`${displayName || 'User'} Avatar`"
+  />
 </template>
 
 <script setup lang="ts">
 import { computed, useId } from "vue";
-import { useAuth } from "~~/composables/useAuth";
+import { useAuth } from "~/composables/useAuth";
 import SketchFilter from "~/components/common/SketchFilter.vue";
-import { type PublicUser } from "~~/composables/useAuth";
+import { type PublicUser } from "~/composables/useAuth";
 
 const props = withDefaults(
   defineProps<{

@@ -4,10 +4,12 @@ export type PicrossBoard = PicrossTileState[][];
 export type PicrossSolution = boolean[][];
 export type PicrossTileColors = (string | null)[][]; // Per-tile CSS color overrides for filled tiles; null uses the default color
 
-export function createTileColors(size: {
+export type PicrossSize = {
   width: number;
   height: number;
-}): PicrossTileColors {
+};
+
+export function createTileColors(size: PicrossSize): PicrossTileColors {
   return Array.from({ length: size.height }, () =>
     Array.from({ length: size.width }, () => null),
   );
@@ -21,15 +23,31 @@ export type PicrossGame = {
     rows: number[][];
     columns: number[][];
   };
-  size: {
-    width: number;
-    height: number;
-  };
+  size: PicrossSize;
   isCompleted: boolean;
   moves: number;
   hintsUsed: number;
   secondsElapsed: number;
 };
+
+export function createPicrossGame(
+  size: PicrossSize,
+  solution: PicrossSolution,
+): PicrossGame {
+  return {
+    board: Array.from({ length: size.height }, () =>
+      Array.from({ length: size.width }, () => "empty" as PicrossTileState),
+    ),
+    tileColors: createTileColors(size),
+    solution,
+    hints: getHints(solution),
+    size,
+    isCompleted: false,
+    moves: 0,
+    hintsUsed: 0,
+    secondsElapsed: 0,
+  };
+}
 
 // The daily puzzle changes at midnight in this timezone, regardless of the player's own
 export const DAILY_TIME_ZONE = "America/Chicago";

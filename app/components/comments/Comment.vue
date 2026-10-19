@@ -29,7 +29,8 @@
           v-if="isLoggedIn"
           type="button"
           class="comment-reply-button"
-          @click="toggleReplyForm">
+          @click="toggleReplyForm"
+        >
           Reply <Icon icon="comment" width="18px" height="18px" />
         </button>
         <template v-if="props.comment.author?.userId == user?.userId">
@@ -38,7 +39,8 @@
             class="comment-action-button"
             title="Edit comment"
             :disabled="deleting"
-            @click="startEditing">
+            @click="startEditing"
+          >
             <Icon icon="pencil" width="18px" height="18px" />
           </button>
           <button
@@ -46,7 +48,8 @@
             class="comment-action-button"
             title="Delete comment"
             :disabled="deleting"
-            @click="handleDelete">
+            @click="handleDelete"
+          >
             <Icon v-if="deleting" icon="loading" width="18px" height="18px" />
             <Icon v-else icon="trash" width="18px" height="18px" />
           </button>
@@ -65,12 +68,14 @@
         @input="onEditInput"
         @paste="onEditPaste"
         @drop="onEditDrop"
-        ref="editSpan"></span>
+        ref="editSpan"
+      ></span>
       <div class="comment-edit-actions">
         <button
           type="button"
           :disabled="saving || !(editText.length > 0)"
-          @click="saveEdit">
+          @click="saveEdit"
+        >
           Save
         </button>
         <button type="button" :disabled="saving" @click="cancelEdit">
@@ -81,11 +86,13 @@
     </div>
     <div
       v-if="!props.comment.deletedAt && !isEditing && replyCount > 0"
-      class="comment-footer">
+      class="comment-footer"
+    >
       <button
         type="button"
         class="comment-replies-toggle"
-        @click="toggleReplies">
+        @click="toggleReplies"
+      >
         {{
           repliesVisible
             ? "Hide replies"
@@ -102,13 +109,15 @@
         @input="onReplyInput"
         @paste="onReplyPaste"
         @drop="onReplyDrop"
-        ref="replySpan"></span>
+        ref="replySpan"
+      ></span>
       <div class="comment-edit-actions">
         <button
           type="button"
           :disabled="submittingReply || !(replyText.length > 0)"
           @click="submitReply"
-          class="filled round">
+          class="filled round"
+        >
           Post Reply
         </button>
         <button type="button" :disabled="submittingReply" @click="cancelReply">
@@ -118,13 +127,15 @@
           v-if="submittingReply"
           icon="loading"
           width="24px"
-          height="24px" />
+          height="24px"
+        />
       </div>
     </div>
     <div v-if="repliesVisible" class="comment-replies">
       <div
         v-if="repliesLoading && replies.length === 0"
-        class="comment-replies-loading">
+        class="comment-replies-loading"
+      >
         Loading replies...
       </div>
       <Comment v-for="reply in replies" :key="reply.id" :comment="reply" />
@@ -133,7 +144,8 @@
         type="button"
         class="load-more-replies"
         :disabled="repliesLoading"
-        @click="loadMoreReplies">
+        @click="loadMoreReplies"
+      >
         {{ repliesLoading ? "Loading..." : "Load more replies" }}
       </button>
     </div>
@@ -148,13 +160,13 @@ import rehypeExternalLinks from "rehype-external-links";
 import rehypeStringify from "rehype-stringify";
 import UserAvatar from "~/components/common/UserAvatar.vue";
 import Icon from "~/components/common/Icon.vue";
-import { useAuth } from "~~/composables/useAuth";
+import { useAuth } from "~/composables/useAuth";
 const { user, isLoggedIn, login, getDisplayName } = useAuth();
 import {
   type CommentNode,
   useComments,
   useReplies,
-} from "~~/composables/useComments";
+} from "~/composables/useComments";
 interface Props {
   comment: CommentNode;
 }

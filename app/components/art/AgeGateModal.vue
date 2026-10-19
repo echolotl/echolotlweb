@@ -5,7 +5,8 @@
     aria-label="Age verification"
     icon="warning"
     icon-color="var(--orange)"
-    @update:model-value="onUpdate">
+    @update:model-value="onUpdate"
+  >
     <div class="age-gate">
       <h2 class="age-gate__title lotl-font">Hang on...</h2>
       <p class="age-gate__text">
@@ -28,7 +29,7 @@
 
 <script setup lang="ts">
 import Modal from "../common/Modal.vue";
-import { useAgeVerification } from "../../../composables/useAgeVerification";
+import { useAgeVerification } from "../../composables/useAgeVerification.js";
 import Icon from "../common/Icon.vue";
 
 defineProps<{ modelValue: boolean }>();

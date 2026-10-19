@@ -6,7 +6,7 @@
       >Puzzle #{{ puzzleNumber }}
     </span>
     <div class="game">
-      <PicrossGrid v-if="game" :game="game" />
+      <PicrossGrid v-if="game" :game="game" :locked="!started" />
       <p
         v-if="game"
         class="daily-info text-secondary lotl-font"
@@ -58,19 +58,22 @@
           />
         </b>
       </p>
-      <div class="game-actions">
+      <div v-if="game && !started" class="game-actions">
+        <button @click="beginGame" class="round filled">Start</button>
+      </div>
+      <div v-else class="game-actions">
         <button :disabled="game?.isCompleted" @click="clearBoard" class="round">
           <Icon icon="trash" width="20px" height="20px" />
           Clear
         </button>
         <button
           :disabled="game?.isCompleted"
-          @click="solveGame"
+          @click="giveUp"
           class="round filled red"
         >
           Give Up
         </button>
-        <button :disabled="game?.isCompleted" @click="fillOne" class="round">
+        <button :disabled="game?.isCompleted" @click="useHint" class="round">
           <Icon icon="tip" width="20px" height="20px" />
           Hint
         </button>
@@ -90,17 +93,16 @@ import { SlotText } from "slot-text/vue";
 import "slot-text/style.css";
 import {
   createSeededRandom,
-  createTileColors,
+  createPicrossGame,
   daysBetweenDateKeys,
   getDateKey,
   getHints,
   getSecondsUntilNextDay,
-  isBoardSolved,
   type PicrossBoard,
   type PicrossGame,
-  type PicrossTileState,
 } from "~/utils/picross";
-import { generateSolvableSolution } from "~/utils/picrossSolver";
+import { generateSolvableSolution } from "~/utils/picross/solver";
+import { usePicrossGame } from "~/composables/usePicrossGame";
 
 type PicrossGameStats = Omit<PicrossGame, "tileColors" | "solution"> & {
   gaveUp?: boolean;
@@ -119,9 +121,11 @@ const MAX_SIZE = 20;
 const LOCAL_STORAGE_KEY = "picross:stats:v1";
 const FIRST_GAME_DATE = "2026-10-18";
 
-const game = ref<PicrossGame | null>(null);
+const { game, checkIfCompleted, clearBoard, solveGame, fillOne } =
+  usePicrossGame();
 const dateKey = ref("");
 const gaveUp = ref(false);
+const started = ref(false);
 const save = ref<PicrossSave>({
   history: {},
   totalMoves: 0,
@@ -180,7 +184,7 @@ function loadSave() {
 
 function persist() {
   const current = game.value;
-  if (!current) return;
+  if (!current || !started.value) return;
 
   // Totals are only credited with progress made since the last persist
   save.value.totalMoves += current.moves - countedMoves;
@@ -226,19 +230,7 @@ function createDailyGame(key: string): PicrossGame {
     Infinity,
     random,
   );
-  return {
-    board: Array.from({ length: size.height }, () =>
-      Array.from({ length: size.width }, () => "empty" as PicrossTileState),
-    ),
-    tileColors: createTileColors(size),
-    solution,
-    hints: getHints(solution),
-    size,
-    isCompleted: false,
-    moves: 0,
-    hintsUsed: 0,
-    secondsElapsed: 0,
-  };
+  return createPicrossGame(size, solution);
 }
 
 function isValidBoard(
@@ -261,6 +253,7 @@ function startDailyGame() {
   dateKey.value = getDateKey();
   const created = createDailyGame(dateKey.value);
   gaveUp.value = false;
+  started.value = false;
   countedMoves = 0;
   countedHints = 0;
   countedWin = false;
@@ -273,6 +266,7 @@ function startDailyGame() {
     created.secondsElapsed = saved.secondsElapsed ?? 0;
     created.isCompleted = saved.isCompleted ?? false;
     gaveUp.value = saved.gaveUp ?? false;
+    started.value = true;
     countedMoves = created.moves;
     countedHints = created.hintsUsed;
     countedWin = created.isCompleted;
@@ -283,45 +277,19 @@ function startDailyGame() {
 }
 // #endregion GAME INIT
 
-function checkIfCompleted() {
-  if (game.value && isBoardSolved(game.value)) game.value.isCompleted = true;
+function beginGame() {
+  started.value = true;
+  persist();
 }
 
-function clearBoard() {
-  if (!game.value) return;
-  for (const row of game.value.board) row.fill("empty");
-  game.value.tileColors = createTileColors(game.value.size);
-  game.value.isCompleted = false;
-}
-
-function solveGame() {
+function giveUp() {
   if (!game.value || game.value.isCompleted) return;
   gaveUp.value = true;
-  // Copy so clearing the board later doesn't mutate the solution
-  game.value.board = game.value.solution.map((row) =>
-    row.map((filled): PicrossTileState => (filled ? "filled" : "empty")),
-  );
-  checkIfCompleted();
+  solveGame();
 }
 
-// Fills one random tile with the correct value from the solution
-// (empty from the solution will result in a marked being placed)
-function fillOne() {
-  if (!game.value || game.value.isCompleted) return;
-  const { board, solution } = game.value;
-  const emptyTiles: { x: number; y: number }[] = [];
-  board.forEach((row, y) =>
-    row.forEach((tile, x) => {
-      if (tile === "empty") emptyTiles.push({ x, y });
-    }),
-  );
-  const randomTile = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
-  const boardRow = randomTile && board[randomTile.y];
-  if (!randomTile || !boardRow) return;
-  const correctValue = solution[randomTile.y]?.[randomTile.x];
-  boardRow[randomTile.x] = correctValue ? "filled" : "marked";
-  game.value.hintsUsed++;
-  checkIfCompleted();
+function useHint() {
+  if (fillOne()) game.value!.hintsUsed++;
 }
 
 function copyWin() {
@@ -342,7 +310,12 @@ onMounted(() => {
       startDailyGame();
       return;
     }
-    if (game.value && !game.value.isCompleted && !document.hidden) {
+    if (
+      game.value &&
+      started.value &&
+      !game.value.isCompleted &&
+      !document.hidden
+    ) {
       game.value.secondsElapsed++;
     }
   }, 1000);

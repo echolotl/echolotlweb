@@ -62,14 +62,15 @@
       <img
         class="under-construction-text"
         src="/images/underconstructiontxt.png"
-        alt="Under Construction" />
+        alt="Under Construction"
+      />
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
 import Icon from "~/components/common/Icon.vue";
-import { useAuth } from "~~/composables/useAuth";
+import { useAuth } from "~/composables/useAuth";
 import SocialIcons from "~/components/common/SocialIcons.vue";
 import UserAvatar from "~/components/common/UserAvatar.vue";
 

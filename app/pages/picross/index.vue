@@ -19,7 +19,11 @@
         >
           Solve
         </button>
-        <button :disabled="game?.isCompleted" @click="fillOne" class="round">
+        <button
+          :disabled="game?.isCompleted"
+          @click="() => fillOne()"
+          class="round"
+        >
           <Icon icon="tip" width="20px" height="20px" />
           Hint
         </button>
@@ -51,21 +55,15 @@
 <script setup lang="ts">
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
-import {
-  createTileColors,
-  getHints,
-  isBoardSolved,
-  type PicrossBoard,
-  type PicrossGame,
-  type PicrossTileState,
-} from "~/utils/picross";
+import { getHints, type PicrossSize } from "~/utils/picross";
+import { generateSolvableSolution } from "~/utils/picross/solver";
 
 const MIN_SIZE = 1;
 const MAX_SIZE = 50;
 const DEFAULT_SIZE = 10;
 const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
 
-const game = ref<PicrossGame | null>(null);
+const { game, startGame, clearBoard, solveGame, fillOne } = usePicrossGame();
 
 // #region GAME INIT
 function clampSize(value: number) {
@@ -76,69 +74,17 @@ function clampSize(value: number) {
 
 // Builds a fresh puzzle using the size from the inputs
 function regeneratePuzzle() {
-  const size = {
+  const size: PicrossSize = {
     width: clampSize(sizeInput.width),
     height: clampSize(sizeInput.height),
   };
   sizeInput.width = size.width;
   sizeInput.height = size.height;
-  const board: PicrossBoard = Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => "empty" as PicrossTileState),
-  );
   const solution = generateSolvableSolution(size, getHints);
-  game.value = {
-    board,
-    tileColors: createTileColors(size),
-    solution,
-    hints: getHints(solution),
-    size,
-    isCompleted: false,
-    moves: 0,
-    hintsUsed: 0,
-    secondsElapsed: 0,
-  };
+  startGame(size, solution);
 }
 
 // #endregion GAME INIT
-
-function checkIfCompleted() {
-  if (game.value && isBoardSolved(game.value)) game.value.isCompleted = true;
-}
-
-function clearBoard() {
-  if (!game.value) return;
-  for (const row of game.value.board) row.fill("empty");
-  game.value.tileColors = createTileColors(game.value.size);
-  game.value.isCompleted = false;
-}
-
-function solveGame() {
-  if (!game.value || game.value.isCompleted) return;
-  // Copy so clearing the board later doesn't mutate the solution
-  game.value.board = game.value.solution.map((row) =>
-    row.map((filled): PicrossTileState => (filled ? "filled" : "empty")),
-  );
-  checkIfCompleted();
-}
-
-// Fills one random tile with the correct value from the solution
-// (empty from the solution will result in a marked being placed)
-function fillOne() {
-  if (!game.value || game.value.isCompleted) return;
-  const { board, solution } = game.value;
-  const emptyTiles: { x: number; y: number }[] = [];
-  board.forEach((row, y) =>
-    row.forEach((tile, x) => {
-      if (tile === "empty") emptyTiles.push({ x, y });
-    }),
-  );
-  const randomTile = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
-  const boardRow = randomTile && board[randomTile.y];
-  if (!randomTile || !boardRow) return;
-  const correctValue = solution[randomTile.y]?.[randomTile.x];
-  boardRow[randomTile.x] = correctValue ? "filled" : "marked";
-  checkIfCompleted();
-}
 
 onMounted(regeneratePuzzle);
 
