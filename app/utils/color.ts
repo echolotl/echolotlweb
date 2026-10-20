@@ -1,5 +1,6 @@
 type RGBColor = { r: number; g: number; b: number };
 type OKLCHColor = { l: number; c: number; h: number };
+type HSLColor = { h: number; s: number; l: number};
 
 // I lost the gist from where some of these functions were taken from... but credit to those who made them
 
@@ -27,36 +28,6 @@ export function hexToRgb(hex: string): RGBColor {
  */
 export function parseColor(color: string | RGBColor): RGBColor {
   return typeof color === "string" ? hexToRgb(color) : color;
-}
-
-/**
- * Calculate the relative luminance of a color.
- * @param rgb - The RGB object.
- * @returns The relative luminance value.
- */
-function luminance({ r, g, b }: RGBColor): number {
-  let a = [r, g, b].map((v) => {
-    v /= 255;
-    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-  });
-  return a[0]! * 0.2126 + a[1]! * 0.7152 + a[2]! * 0.0722;
-}
-
-/**
- * Calculate the contrast ratio between two colors.
- * @param color1 - The first color (HEX string or RGB object).
- * @param color2 - The second color (HEX string or RGB object).
- * @returns The contrast ratio.
- */
-export function contrastRatio(
-  color1: string | RGBColor,
-  color2: string | RGBColor,
-): number {
-  let lum1 = luminance(parseColor(color1));
-  let lum2 = luminance(parseColor(color2));
-  let brightest = Math.max(lum1, lum2);
-  let darkest = Math.min(lum1, lum2);
-  return parseFloat(((brightest + 0.05) / (darkest + 0.05)).toFixed(2));
 }
 
 export function rgbToOklch({ r, g, b }: RGBColor): OKLCHColor {
@@ -129,8 +100,26 @@ export function oklchToRgb({ l, c, h }: OKLCHColor): RGBColor {
   return { r, g, b };
 }
 
+function hslToRgb({h, s, l}: HSLColor): RGBColor {
+  let a= s*Math.min(l,1-l);
+  let f = (n: number,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
+  return {r: f(0), g: f(8), b: f(4)};
+}
+
+function hslToHex({h, s, l}: HSLColor): string {
+  return rgbToHex(hslToRgb({h, s, l}))
+}
+
 export function rgbToNumber(rgb: RGBColor): number {
   return (rgb.r << 16) + (rgb.g << 8) + rgb.b;
+}
+
+export function rgbToHex(rgb: RGBColor): string {
+  const toHex = (v: number) => {
+    const hex = v.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  };
+  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
 }
 
 export function passesContrast(
@@ -155,7 +144,7 @@ export function autoContrastColor(
   let maxIterations = 100;
   let iterations = 0;
 
-  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+  const restrict = (v: number) => clamp(v, 0, 1);
 
   while (
     !passesContrast(oklchToRgb(oklch), rgbBgColor, threshold) &&
@@ -164,8 +153,8 @@ export function autoContrastColor(
     const currentRgb = oklchToRgb(oklch);
     const currentRatio = contrastRatio(currentRgb, rgbBgColor);
 
-    const lighter = { ...oklch, l: clamp01(oklch.l + step) };
-    const darker = { ...oklch, l: clamp01(oklch.l - step) };
+    const lighter = { ...oklch, l: restrict(oklch.l + step) };
+    const darker = { ...oklch, l: restrict(oklch.l - step) };
     const lighterRatio = contrastRatio(oklchToRgb(lighter), rgbBgColor);
     const darkerRatio = contrastRatio(oklchToRgb(darker), rgbBgColor);
 
@@ -181,18 +170,40 @@ export function autoContrastColor(
   return oklchToRgb(oklch);
 }
 
-export function rgbColorToHex(rgb: RGBColor): string {
-  const toHex = (v: number) => {
-    const hex = v.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  };
-  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+/**
+ * Calculate the relative luminance of a color.
+ * @param rgb - The RGB object.
+ * @returns The relative luminance value.
+ */
+function luminance({ r, g, b }: RGBColor): number {
+  let a = [r, g, b].map((v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return a[0]! * 0.2126 + a[1]! * 0.7152 + a[2]! * 0.0722;
 }
 
-export function randomColor(): RGBColor {
-  return {
-    r: Math.floor(Math.random() * 256),
-    g: Math.floor(Math.random() * 256),
-    b: Math.floor(Math.random() * 256),
-  };
+/**
+ * Calculate the contrast ratio between two colors.
+ * @param color1 - The first color (HEX string or RGB object).
+ * @param color2 - The second color (HEX string or RGB object).
+ * @returns The contrast ratio.
+ */
+export function contrastRatio(
+  color1: string | RGBColor,
+  color2: string | RGBColor,
+): number {
+  let lum1 = luminance(parseColor(color1));
+  let lum2 = luminance(parseColor(color2));
+  let brightest = Math.max(lum1, lum2);
+  let darkest = Math.min(lum1, lum2);
+  return parseFloat(((brightest + 0.05) / (darkest + 0.05)).toFixed(2));
+}
+
+
+export function randomColor(saturation = Math.random() * 100, luminance = Math.random() * 100): RGBColor {
+  saturation = clamp(saturation, 0, 100);
+  luminance = clamp(luminance, 0, 100);
+  const hue = Math.random() * 360;
+  return hslToRgb({h: hue, s: saturation, l: luminance});
 }

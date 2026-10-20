@@ -9,6 +9,14 @@ export type PicrossSize = {
   height: number;
 };
 
+export type PicrossMetadata = {
+  title?: string;
+  author?: string | { userId: string, placeholder: string };
+  source?: string | { name: string, url: string | URL};
+  created_at: string;
+  modified_at: string;
+}
+
 export function createTileColors(size: PicrossSize): PicrossTileColors {
   return Array.from({ length: size.height }, () =>
     Array.from({ length: size.width }, () => null),
@@ -28,7 +36,10 @@ export type PicrossGame = {
   moves: number;
   hintsUsed: number;
   secondsElapsed: number;
+  metadata?: PicrossMetadata;
 };
+
+export type InputMode = "fill" | "mark" | "erase";
 
 export function createPicrossGame(
   size: PicrossSize,

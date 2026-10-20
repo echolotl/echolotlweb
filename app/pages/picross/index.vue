@@ -3,11 +3,34 @@
     <h1 class="picross-header">Nautilus' Picross</h1>
     <span class="header-games lotl-font">Free Play</span>
     <div class="game">
-      <PicrossGrid v-if="game" :game="game" />
+      <PicrossGrid v-if="game" :game="game" :input-mode="inputMode" @mode-request="inputMode = $event" />
       <p v-if="game?.isCompleted" class="solved-message" role="status">
         The board is solved!
       </p>
       <div class="game-actions">
+        <div class="input-modes">
+          <button
+            :class="{ active: inputMode === 'fill' }"
+            @click="inputMode = 'fill'"
+            class="round"
+          >
+            <Icon icon="edit" width="20px" height="20px" />
+          </button>
+          <button
+            :class="{ active: inputMode === 'mark' }"
+            @click="inputMode = 'mark'"
+            class="round"
+          >
+            <Icon icon="close" width="20px" height="20px" />
+          </button>
+          <button
+            :class="{ active: inputMode === 'erase' }"
+            @click="inputMode = 'erase'"
+            class="round"
+          >
+            <Icon icon="trash" width="20px" height="20px" />
+          </button>
+        </div>
         <button @click="clearBoard(game!)" class="round">
           <Icon icon="trash" width="20px" height="20px" />
           Clear
@@ -54,31 +77,26 @@
 
 <script setup lang="ts">
 import { createPicrossGame, clearBoard, solveGame, fillRandomTile } from "~/utils/picross";
-import { randomColor, rgbToNumber } from "~/utils/color";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
 import { getHints, type PicrossSize } from "~/utils/picross";
 import { generateSolvableSolution } from "~/utils/picross/solver";
-import type { PicrossGame } from "~/utils/picross";
+import type { PicrossGame, InputMode } from "~/utils/picross";
 
 const MIN_SIZE = 1;
 const MAX_SIZE = 50;
 const DEFAULT_SIZE = 10;
 const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
 const game = ref<PicrossGame | null>(null);
+const inputMode = ref<InputMode>("fill");
 
 // #region GAME INIT
-function clampSize(value: number) {
-  return Number.isFinite(value)
-    ? Math.min(MAX_SIZE, Math.max(MIN_SIZE, Math.round(value)))
-    : DEFAULT_SIZE;
-}
 
 // Builds a fresh puzzle using the size from the inputs
 function regeneratePuzzle() {
   const size: PicrossSize = {
-    width: clampSize(sizeInput.width),
-    height: clampSize(sizeInput.height),
+    width: clamp(sizeInput.width, MIN_SIZE, MAX_SIZE),
+    height: clamp(sizeInput.height, MIN_SIZE, MAX_SIZE),
   };
   sizeInput.width = size.width;
   sizeInput.height = size.height;
@@ -87,7 +105,7 @@ function regeneratePuzzle() {
 
   // fill with random colors
   game.value.tileColors = Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => rgbColorToHex(randomColor()))
+    Array.from({ length: size.width }, () => rgbToHex(randomColor(0.7, 0.7)))
   );
 }
 
@@ -147,6 +165,23 @@ useSeoMeta({
   display: flex;
   gap: 8px;
   justify-content: center;
+  .input-modes {
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+    background: var(--surface);
+    border-radius: 8px;
+    > button {
+      background: none;
+      border: none;
+      padding: 2px;
+      
+      &.active {
+        background: var(--foreground);
+        color: var(--on-primary);
+      }
+    }
+  }
   > button {
     display: flex;
     align-items: center;

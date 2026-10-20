@@ -20,6 +20,7 @@
       <div
         v-if="hoveredTile && !game.isCompleted && !locked"
         class="hover-tile"
+        :class="inputMode"
         aria-hidden="true"
         :style="{
           width: `${TILE_SIZE}px`,
@@ -31,9 +32,9 @@
         ref="gameBoard"
         width="300"
         height="300"
-        @mousedown="handleMouseDown"
-        @mousemove="handleMouseMove"
-        @mouseleave="handleMouseLeave"
+        @pointerdown="handlePointerDown"
+        @pointermove="handlePointerMove"
+        @pointerleave="handlePointerLeave"
         @contextmenu.prevent
       ></canvas>
     </div>
@@ -49,9 +50,12 @@ import {
   getSolvedHints,
   isBoardSolved,
   isLineOverfilled,
+  type InputMode,
   type PicrossGame,
   type PicrossTileState,
 } from "~/utils/picross";
+
+
 
 // The grid mutates the game it is given (board, moves, isCompleted)
 // While locked the board is shown without hints and can't be played
@@ -60,7 +64,10 @@ const props = defineProps<{
   game: PicrossGame;
   locked?: boolean;
   editable?: boolean;
+  inputMode?: InputMode;
 }>();
+
+const emit = defineEmits<{modeRequest: [mode: InputMode]}>()
 
 const { theme } = useTheme();
 
@@ -453,7 +460,7 @@ function drawBoard() {
   }
 }
 
-let heldButton: number | null = null;
+let heldPointer: number | null = null;
 let action: PicrossTileState | null = null;
 // The hover outline is a DOM overlay so moving the cursor never redraws the canvas
 const hoveredTile = ref<{ x: number; y: number } | null>(null);
@@ -467,7 +474,7 @@ function checkIfCompleted() {
   stopHold();
 }
 
-function getTileAt(event: MouseEvent) {
+function getTileAt(event: PointerEvent) {
   if (!gameBoard.value) return null;
   const rect = gameBoard.value.getBoundingClientRect();
   const x = Math.floor(
@@ -500,34 +507,82 @@ function applyAction(x: number, y: number) {
   checkIfCompleted();
 }
 
-function handleMouseDown(event: MouseEvent) {
+function getToggledState(
+  current: PicrossTileState | undefined,
+  button: number,
+): PicrossTileState {
+  const mode = props.inputMode ?? "fill";
+  if (mode === "erase") return "empty"; // Erase mode always returns empty
+  const swapped = button === 2;
+  const target: PicrossTileState =
+    (mode === "fill") !== swapped ? "filled" : "marked";
+  return current === target ? "empty" : target;
+}
+
+function handlePointerDown(event: PointerEvent) {
   if (props.game.isCompleted || props.locked) return;
   if (event.button !== 0 && event.button !== 2) return;
   const tile = getTileAt(event);
   if (!tile) return;
   event.preventDefault();
-  heldButton = event.button;
+  heldPointer = event.pointerId;
+  gameBoard.value?.setPointerCapture(event.pointerId);
   const current = props.game.board[tile.y]?.[tile.x];
   if (props.editable) {
-    // Right click always erases; left click toggles based on the first tile
-    action = heldButton === 0 && current !== "filled" ? "filled" : "empty";
+    // Editing ignores the input mode and only toggles between filled and empty
+    action = event.button === 0 && current !== "filled" ? "filled" : "empty";
   } else {
-    action =
-      current !== "empty" ? "empty" : heldButton === 0 ? "filled" : "marked";
+    action = getToggledState(current, event.button);
   }
   applyAction(tile.x, tile.y);
 }
 
-function handleMouseMove(event: MouseEvent) {
+function handlePointerMove(event: PointerEvent) {
   if (props.game.isCompleted || props.locked) return;
   const tile = getTileAt(event);
-  setHoveredTile(tile);
-  if (!tile || heldButton === null || !action) return;
+  setHoveredTile(event.pointerType === "touch" ? null : tile);
+  if (!tile || heldPointer !== event.pointerId || !action) return;
   applyAction(tile.x, tile.y);
 }
 
-function handleMouseLeave() {
+function handlePointerLeave() {
   setHoveredTile(null);
+}
+
+function handleKeys(event: KeyboardEvent) {
+  switch (event.code) {
+    case "KeyB":
+    case "Key1":
+      emit("modeRequest", "fill");
+      break;
+    case "KeyM":
+    case "Key2":
+      emit("modeRequest", "mark");
+      break;
+    case "KeyE":
+    case "Key3":
+      emit("modeRequest", "erase");
+    case "KeyZ":
+      if (event.ctrlKey) {
+        if (event.shiftKey) {
+          handleRedo();
+        } else {
+          handleUndo();
+        }
+      };
+    default:
+      break;
+      
+  }
+
+}
+
+function handleRedo() {
+  throw new Error("Not implemented yet");
+}
+
+function handleUndo() {
+  throw new Error("Not implemented yet");
 }
 
 function setHoveredTile(tile: { x: number; y: number } | null) {
@@ -537,7 +592,7 @@ function setHoveredTile(tile: { x: number; y: number } | null) {
 }
 
 function stopHold() {
-  heldButton = null;
+  heldPointer = null;
   action = null;
 }
 // #endregion GAME LOGIC
@@ -558,11 +613,14 @@ onMounted(() => {
   drawBoard();
   drawHints();
   document.fonts?.load(`${HINT_FONT_SIZE}px Lotl`).then(drawHints);
-  window.addEventListener("mouseup", stopHold);
+  window.addEventListener("pointerup", stopHold);
+  window.addEventListener("pointercancel", stopHold);
+  window.addEventListener("keydown", handleKeys)
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("mouseup", stopHold);
+  window.removeEventListener("pointerup", stopHold);
+  window.removeEventListener("pointercancel", stopHold);
   if (boardFrame !== null) cancelAnimationFrame(boardFrame);
   boardFrame = null;
   sound?.close();
@@ -638,6 +696,7 @@ watch(
     position: relative;
     display: block;
     border-radius: 12px;
+    touch-action: none; /* keep touch drags from scrolling the page */
   }
 }
 /* The sketch filter lives here so canvas redraws never re-run it */
@@ -650,12 +709,27 @@ watch(
   pointer-events: none;
 }
 .hover-tile {
+  --color: color-mix(var(--inverted-solid) 40%, var(--solid));
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
   box-sizing: border-box;
-  box-shadow: inset 0 0 0 2px color-mix(var(--inverted-solid) 40%, var(--solid));
+  box-shadow: inset 0 0 0 2px var(--color);
   pointer-events: none;
+  &.mark::after {
+    content: "";
+    position:absolute;
+    left: 0;
+    top: 0;
+    background: var(--color);
+    width: 30px;
+    height: 30px;
+    mask-image: url("/images/icons/close.webp");
+    mask-size: 30px;
+  }
+  &.erase {
+    box-shadow: inset 0 0 0 2px var(--red);
+  }
 }
 </style>

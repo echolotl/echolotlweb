@@ -1,4 +1,5 @@
 import type {
+  PicrossMetadata,
   PicrossSize,
   PicrossSolution,
   PicrossTileColors,
@@ -9,6 +10,7 @@ export const FILE_EXTENSION = "epcp"; // "echolotl Picross Puzzle"
 
 // What a saved puzzle file holds. Hints are derived from the solution on load, never stored.
 export type PicrossPuzzleData = {
+  metadata: PicrossMetadata;
   size: PicrossSize;
   solution: PicrossSolution;
   tileColors: PicrossTileColors;
