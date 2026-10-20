@@ -55,8 +55,6 @@ import {
   type PicrossTileState,
 } from "~/utils/picross";
 
-
-
 // The grid mutates the game it is given (board, moves, isCompleted)
 // While locked the board is shown without hints and can't be played
 // While editable, tiles edit the solution directly and the hints follow it
@@ -64,10 +62,10 @@ const props = defineProps<{
   game: PicrossGame;
   locked?: boolean;
   editable?: boolean;
-  inputMode?: InputMode;
 }>();
 
-const emit = defineEmits<{modeRequest: [mode: InputMode]}>()
+// The grid owns the input mode; parents read and set it through the exposed API
+const inputMode = ref<InputMode>("fill");
 
 const { theme } = useTheme();
 
@@ -77,10 +75,47 @@ const HINT_LINE_HEIGHT = 20;
 const COLUMN_HINTS_PADDING = 8;
 const ROW_HINTS_PADDING = 16;
 const ROW_HINT_GAP = 8;
+const UNDO_HISTORY_LIMIT = 100;
 
 let markImage: HTMLImageElement | null = null;
 let sound: SoundPlayer | null = null;
 let placeSounds: AudioBuffer[] = [];
+
+// Each history entry is one pointer stroke, so a drag undoes in a single step
+interface TileChange {
+  x: number;
+  y: number;
+  prev: PicrossTileState;
+  next: PicrossTileState;
+}
+let undoStack: TileChange[][] = [];
+let redoStack: TileChange[][] = [];
+let stroke: TileChange[] | null = null;
+// The stacks aren't reactive, so these mirror their sizes for the buttons
+const undoCount = ref(0);
+const redoCount = ref(0);
+
+function syncHistoryCounts() {
+  undoCount.value = undoStack.length;
+  redoCount.value = redoStack.length;
+}
+
+function commitStroke() {
+  if (stroke?.length) {
+    undoStack.push(stroke);
+    if (undoStack.length > UNDO_HISTORY_LIMIT) undoStack.shift();
+    redoStack = [];
+    syncHistoryCounts();
+  }
+  stroke = null;
+}
+
+function clearHistory() {
+  undoStack = [];
+  redoStack = [];
+  stroke = null;
+  syncHistoryCounts();
+}
 
 // #region HINT CANVASES
 const solvedHints = computed(() => {
@@ -429,7 +464,7 @@ function drawBoard() {
       switch (board[y]?.[x]) {
         case "filled":
           ctx.fillStyle = props.game.isCompleted
-            ? tileColors[y]?.[x] ?? color
+            ? (tileColors[y]?.[x] ?? color)
             : color;
           ctx.fillRect(
             x * TILE_SIZE + 1,
@@ -449,8 +484,10 @@ function drawBoard() {
             markCtx.globalCompositeOperation = "source-over";
             markCtx.drawImage(markImage, 0, 0, TILE_SIZE, TILE_SIZE);
             markCtx.globalCompositeOperation = "source-in";
-            markCtx.fillStyle = color;
+            markCtx.fillStyle = colors.tile;
+            markCtx.globalAlpha = props.game.isCompleted ? 0.25 : 1;
             markCtx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+            markCtx.globalAlpha = 1;
             markCtx.globalCompositeOperation = "source-over";
             ctx.drawImage(markCanvas, x * TILE_SIZE, y * TILE_SIZE);
           }
@@ -486,16 +523,25 @@ function getTileAt(event: PointerEvent) {
   return props.game.board[y]?.[x] ? { x, y } : null;
 }
 
+// Shared by player input, undo and redo; the board is the source of truth
+function setTile(x: number, y: number, state: PicrossTileState) {
+  const row = props.game.board[y];
+  if (!row) return;
+  row[x] = state;
+  if (props.editable) {
+    const solutionRow = props.game.solution[y];
+    if (solutionRow) solutionRow[x] = state === "filled";
+    props.game.hints = getHints(props.game.solution);
+  }
+}
+
 function applyAction(x: number, y: number) {
   const row = props.game.board[y];
   if (!row || !action || row[x] === action) return;
-  row[x] = action;
+  stroke?.push({ x, y, prev: row[x] ?? "empty", next: action });
+  setTile(x, y, action);
 
-  if (props.editable) {
-    const solutionRow = props.game.solution[y];
-    if (solutionRow) solutionRow[x] = action === "filled";
-    props.game.hints = getHints(props.game.solution);
-  } else if (action === "filled") {
+  if (!props.editable && action === "filled") {
     props.game.moves++;
   }
   if (placeSounds.length > 0) {
@@ -511,7 +557,7 @@ function getToggledState(
   current: PicrossTileState | undefined,
   button: number,
 ): PicrossTileState {
-  const mode = props.inputMode ?? "fill";
+  const mode = inputMode.value;
   if (mode === "erase") return "empty"; // Erase mode always returns empty
   const swapped = button === 2;
   const target: PicrossTileState =
@@ -526,6 +572,7 @@ function handlePointerDown(event: PointerEvent) {
   if (!tile) return;
   event.preventDefault();
   heldPointer = event.pointerId;
+  stroke = [];
   gameBoard.value?.setPointerCapture(event.pointerId);
   const current = props.game.board[tile.y]?.[tile.x];
   if (props.editable) {
@@ -553,37 +600,69 @@ function handleKeys(event: KeyboardEvent) {
   switch (event.code) {
     case "KeyB":
     case "Key1":
-      emit("modeRequest", "fill");
+      inputMode.value = "fill";
       break;
     case "KeyM":
     case "Key2":
-      emit("modeRequest", "mark");
+      inputMode.value = "mark";
       break;
     case "KeyE":
     case "Key3":
-      emit("modeRequest", "erase");
+      inputMode.value = "erase";
+      break;
     case "KeyZ":
-      if (event.ctrlKey) {
-        if (event.shiftKey) {
-          handleRedo();
-        } else {
-          handleUndo();
-        }
-      };
+    case "KeyY":
+      if (!(event.ctrlKey || event.metaKey)) {
+        break;
+      }
+      event.preventDefault();
+      if (event.code === "KeyY" || event.shiftKey) {
+        handleRedo();
+      } else {
+        handleUndo();
+      }
+      break;
     default:
       break;
-      
   }
-
 }
 
-function handleRedo() {
-  throw new Error("Not implemented yet");
+function canEditHistory() {
+  return !props.game.isCompleted && !props.locked && heldPointer === null;
 }
 
 function handleUndo() {
-  throw new Error("Not implemented yet");
+  if (!canEditHistory()) return;
+  const changes = undoStack.pop();
+  if (!changes) return;
+  for (let i = changes.length - 1; i >= 0; i--) {
+    const { x, y, prev } = changes[i]!;
+    setTile(x, y, prev);
+  }
+  redoStack.push(changes);
+  syncHistoryCounts();
 }
+
+function handleRedo() {
+  if (!canEditHistory()) return;
+  const changes = redoStack.pop();
+  if (!changes) return;
+  for (const { x, y, next } of changes) setTile(x, y, next);
+  undoStack.push(changes);
+  syncHistoryCounts();
+}
+
+defineExpose({
+  inputMode,
+  setInputMode: (mode: InputMode) => {
+    inputMode.value = mode;
+  },
+  undo: handleUndo,
+  redo: handleRedo,
+  clearHistory,
+  canUndo: computed(() => undoCount.value > 0 && canEditHistory()),
+  canRedo: computed(() => redoCount.value > 0 && canEditHistory()),
+});
 
 function setHoveredTile(tile: { x: number; y: number } | null) {
   if (hoveredTile.value?.x === tile?.x && hoveredTile.value?.y === tile?.y)
@@ -594,6 +673,7 @@ function setHoveredTile(tile: { x: number; y: number } | null) {
 function stopHold() {
   heldPointer = null;
   action = null;
+  commitStroke();
 }
 // #endregion GAME LOGIC
 
@@ -615,12 +695,13 @@ onMounted(() => {
   document.fonts?.load(`${HINT_FONT_SIZE}px Lotl`).then(drawHints);
   window.addEventListener("pointerup", stopHold);
   window.addEventListener("pointercancel", stopHold);
-  window.addEventListener("keydown", handleKeys)
+  window.addEventListener("keydown", handleKeys);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("pointerup", stopHold);
   window.removeEventListener("pointercancel", stopHold);
+  window.removeEventListener("keydown", handleKeys);
   if (boardFrame !== null) cancelAnimationFrame(boardFrame);
   boardFrame = null;
   sound?.close();
@@ -632,6 +713,7 @@ watch(
   () => props.game,
   () => {
     stopHold();
+    clearHistory();
     hoveredTile.value = null;
   },
 );
@@ -719,7 +801,7 @@ watch(
   pointer-events: none;
   &.mark::after {
     content: "";
-    position:absolute;
+    position: absolute;
     left: 0;
     top: 0;
     background: var(--color);

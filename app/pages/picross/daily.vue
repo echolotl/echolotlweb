@@ -1,22 +1,31 @@
 <template>
   <div class="picross-page">
-    <div class="decoration"></div>
-    <h1 class="picross-header">Nautilus' Picross</h1>
-    <span v-if="puzzleNumber !== null" class="header-games lotl-font"
-      >Puzzle #{{ puzzleNumber }}
+    <SketchFilter id="picross-sketch-filter" flood-color="var(--background)" />
+    <div class="picross-header-container">
+      <h1 class="picross-header">Nautilus' Picross</h1>
+    </div>
+    <span v-if="puzzleNumber !== null" class="header-games lotl-font">
+      Puzzle #{{ puzzleNumber }}
     </span>
+
     <div class="game">
-      <PicrossGrid v-if="game" :game="game" :locked="!started" />
+      <PicrossGrid v-if="game" ref="grid" :game="game" :locked="!started" />
+      <p v-else class="lotl-font loading" role="status">
+        <Icon icon="loading" width="20px" height="20px" />
+        Loading puzzle...
+      </p>
       <p
         v-if="game"
         class="daily-info text-secondary lotl-font"
-        :style="{ color: game.isCompleted ? 'var(--primary)' : undefined }">
+        :style="{ color: game.isCompleted ? 'var(--primary)' : undefined }"
+      >
         <span v-if="game.isCompleted && !gaveUp">
           <Icon
             icon="crown"
             width="16px"
             height="16px"
-            :style="{ color: 'var(--orange)' }"></Icon>
+            :style="{ color: 'var(--orange)' }"
+          ></Icon>
         </span>
         <span>
           <Icon icon="time" width="16px" height="16px" />
@@ -26,13 +35,15 @@
           <Icon icon="moves" width="16px" height="16px" />
           <SlotText
             :text="String(game?.moves ?? 0)"
-            :options="{ skipUnchanged: true }" />
+            :options="{ skipUnchanged: true }"
+          />
         </span>
         <span>
           <Icon icon="tip" width="16px" height="16px" />
           <SlotText
             :text="String(game?.hintsUsed ?? 0)"
-            :options="{ skipUnchanged: true }" />
+            :options="{ skipUnchanged: true }"
+          />
         </span>
         <span>
           <Icon icon="size" width="16px" height="16px" />
@@ -50,21 +61,71 @@
         <b>
           <SlotText
             :text="`${timeTillNextGameDisplay}`"
-            :options="{ skipUnchanged: true }" />
+            :options="{ skipUnchanged: true }"
+          />
         </b>
       </p>
       <div v-if="game && !started" class="game-actions">
         <button @click="beginGame" class="round filled">Start</button>
       </div>
       <div v-else class="game-actions">
-        <button :disabled="!game || game.isCompleted" @click="game && clearBoard(game)" class="round">
+        <div class="input-modes">
+          <button
+            :class="{ active: grid?.inputMode === 'fill' }"
+            :disabled="!game || game.isCompleted"
+            @click="grid?.setInputMode('fill')"
+            class="round"
+          >
+            <Icon icon="edit" width="20px" height="20px" />
+          </button>
+          <button
+            :class="{ active: grid?.inputMode === 'mark' }"
+            :disabled="!game || game.isCompleted"
+            @click="grid?.setInputMode('mark')"
+            class="round"
+          >
+            <Icon icon="close" width="20px" height="20px" />
+          </button>
+          <button
+            :class="{ active: grid?.inputMode === 'erase' }"
+            :disabled="!game || game.isCompleted"
+            @click="grid?.setInputMode('erase')"
+            class="round"
+          >
+            <Icon icon="trash" width="20px" height="20px" />
+          </button>
+        </div>
+        <div class="input-modes">
+          <button
+            :disabled="!grid?.canUndo"
+            @click="grid?.undo()"
+            class="round"
+            aria-label="Undo"
+          >
+            <Icon icon="undo" width="20px" height="20px" />
+          </button>
+          <button
+            :disabled="!grid?.canRedo"
+            @click="grid?.redo()"
+            class="round"
+            aria-label="Redo"
+          >
+            <Icon icon="redo" width="20px" height="20px" />
+          </button>
+        </div>
+        <button
+          :disabled="!game || game.isCompleted"
+          @click="game && clearBoard(game)"
+          class="round"
+        >
           <Icon icon="trash" width="20px" height="20px" />
           Clear
         </button>
         <button
           :disabled="game?.isCompleted"
           @click="giveUp"
-          class="round filled red">
+          class="round filled red"
+        >
           Give Up
         </button>
         <button :disabled="game?.isCompleted" @click="useHint" class="round">
@@ -102,6 +163,7 @@ import {
   mulberry32,
 } from "~/utils/picross/daily";
 import { generateSolvableSolution } from "~/utils/picross/solver";
+import SketchFilter from "~/components/common/SketchFilter.vue";
 
 type PicrossGameStats = Omit<PicrossGame, "tileColors" | "solution"> & {
   gaveUp?: boolean;
@@ -124,6 +186,7 @@ const game = ref<PicrossGame | null>(null);
 const dateKey = ref("");
 const gaveUp = ref(false);
 const started = ref(false);
+const grid = ref<typeof PicrossGrid | null>(null);
 const save = ref<PicrossSave>({
   history: {},
   totalMoves: 0,
@@ -135,8 +198,6 @@ let timer: ReturnType<typeof setInterval> | undefined;
 let countedMoves = 0;
 let countedHints = 0;
 let countedWin = false;
-
-
 
 // Reactive clock so the countdown updates every tick
 const now = ref(new Date());
@@ -330,7 +391,23 @@ useSeoMeta({
   flex-direction: column;
   align-items: center;
   min-height: 80vh;
-  /* Ensure the page takes full viewport height */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 500px;
+    width: 100%;
+    opacity: 0.5;
+    background: radial-gradient(circle 400px at 50% -10%, #38d9e4, transparent);
+  }
+}
+
+.picross-header-container {
+  position: relative;
+  width: 100%;
+  filter: url(#picross-sketch-filter);
 }
 
 .picross-header {
@@ -385,6 +462,24 @@ useSeoMeta({
   gap: 8px;
   justify-content: center;
 
+  .input-modes {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    background: var(--surface);
+    border-radius: 8px;
+    > button {
+      background: none;
+      border: none;
+      padding: 2px;
+      border-radius: 4px;
+
+      &.active {
+        background: var(--foreground);
+      }
+    }
+  }
+
   > button {
     display: flex;
     align-items: center;
@@ -392,5 +487,15 @@ useSeoMeta({
     gap: 4px;
     padding: 4px 8px;
   }
+}
+
+.loading {
+  font-size: 1rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 400px;
+  justify-content: center;
 }
 </style>

@@ -103,7 +103,11 @@ export function oklchToRgb({ l, c, h }: OKLCHColor): RGBColor {
 function hslToRgb({h, s, l}: HSLColor): RGBColor {
   let a= s*Math.min(l,1-l);
   let f = (n: number,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
-  return {r: f(0), g: f(8), b: f(4)};
+  return {
+    r: Math.round(f(0) * 255),
+    g: Math.round(f(8) * 255),
+    b: Math.round(f(4) * 255),
+  };
 }
 
 function hslToHex({h, s, l}: HSLColor): string {
@@ -201,9 +205,10 @@ export function contrastRatio(
 }
 
 
-export function randomColor(saturation = Math.random() * 100, luminance = Math.random() * 100): RGBColor {
-  saturation = clamp(saturation, 0, 100);
-  luminance = clamp(luminance, 0, 100);
+// saturation and luminance are fractions from 0 to 1
+export function randomColor(saturation = Math.random(), luminance = Math.random()): RGBColor {
+  saturation = clamp(saturation, 0, 1);
+  luminance = clamp(luminance, 0, 1);
   const hue = Math.random() * 360;
   return hslToRgb({h: hue, s: saturation, l: luminance});
 }

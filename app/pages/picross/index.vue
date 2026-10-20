@@ -1,37 +1,62 @@
 <template>
   <div class="picross-page">
-    <h1 class="picross-header">Nautilus' Picross</h1>
+    <SketchFilter id="picross-sketch-filter" flood-color="var(--background)" />
+    <div class="picross-header-container">
+      <h1 class="picross-header">Nautilus' Picross</h1>
+    </div>
     <span class="header-games lotl-font">Free Play</span>
     <div class="game">
-      <PicrossGrid v-if="game" :game="game" :input-mode="inputMode" @mode-request="inputMode = $event" />
+      <PicrossGrid v-if="game" ref="grid" :game="game" />
+      <p v-else class="lotl-font loading" role="status">
+        <Icon icon="loading" width="20px" height="20px" />
+        Loading puzzle...
+      </p>
       <p v-if="game?.isCompleted" class="solved-message" role="status">
         The board is solved!
       </p>
       <div class="game-actions">
         <div class="input-modes">
           <button
-            :class="{ active: inputMode === 'fill' }"
-            @click="inputMode = 'fill'"
+            :class="{ active: grid?.inputMode === 'fill' }"
+            @click="grid?.setInputMode('fill')"
             class="round"
           >
             <Icon icon="edit" width="20px" height="20px" />
           </button>
           <button
-            :class="{ active: inputMode === 'mark' }"
-            @click="inputMode = 'mark'"
+            :class="{ active: grid?.inputMode === 'mark' }"
+            @click="grid?.setInputMode('mark')"
             class="round"
           >
             <Icon icon="close" width="20px" height="20px" />
           </button>
           <button
-            :class="{ active: inputMode === 'erase' }"
-            @click="inputMode = 'erase'"
+            :class="{ active: grid?.inputMode === 'erase' }"
+            @click="grid?.setInputMode('erase')"
             class="round"
           >
             <Icon icon="trash" width="20px" height="20px" />
           </button>
         </div>
-        <button @click="clearBoard(game!)" class="round">
+        <div class="input-modes">
+          <button
+            :disabled="!grid?.canUndo"
+            @click="grid?.undo()"
+            class="round"
+            aria-label="Undo"
+          >
+            <Icon icon="undo" width="20px" height="20px" />
+          </button>
+          <button
+            :disabled="!grid?.canRedo"
+            @click="grid?.redo()"
+            class="round"
+            aria-label="Redo"
+          >
+            <Icon icon="redo" width="20px" height="20px" />
+          </button>
+        </div>
+        <button @click="handleClear" class="round">
           <Icon icon="trash" width="20px" height="20px" />
           Clear
         </button>
@@ -76,21 +101,31 @@
 </template>
 
 <script setup lang="ts">
-import { createPicrossGame, clearBoard, solveGame, fillRandomTile } from "~/utils/picross";
+import {
+  createPicrossGame,
+  clearBoard,
+  solveGame,
+  fillRandomTile,
+} from "~/utils/picross";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
+import SketchFilter from "~/components/common/SketchFilter.vue";
 import { getHints, type PicrossSize } from "~/utils/picross";
 import { generateSolvableSolution } from "~/utils/picross/solver";
-import type { PicrossGame, InputMode } from "~/utils/picross";
+import type { PicrossGame } from "~/utils/picross";
 
 const MIN_SIZE = 1;
 const MAX_SIZE = 50;
 const DEFAULT_SIZE = 10;
 const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
 const game = ref<PicrossGame | null>(null);
-const inputMode = ref<InputMode>("fill");
+const grid = ref<typeof PicrossGrid | null>(null);
 
-// #region GAME INIT
+function handleClear() {
+  if (!game.value) return;
+  clearBoard(game.value);
+  grid.value?.clearHistory();
+}
 
 // Builds a fresh puzzle using the size from the inputs
 function regeneratePuzzle() {
@@ -105,11 +140,9 @@ function regeneratePuzzle() {
 
   // fill with random colors
   game.value.tileColors = Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => rgbToHex(randomColor(0.7, 0.7)))
+    Array.from({ length: size.width }, () => rgbToHex(randomColor(0.4, 0.5))),
   );
 }
-
-// #endregion GAME INIT
 
 onMounted(regeneratePuzzle);
 
@@ -129,6 +162,22 @@ useSeoMeta({
   flex-direction: column;
   align-items: center;
   min-height: 80vh; /* Ensure the page takes full viewport height */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 500px;
+    width: 100%;
+    opacity: 0.5;
+    background: radial-gradient(circle 400px at 50% -10%, #e438e4, transparent);
+  }
+}
+.picross-header-container {
+  position: relative;
+  width: 100%;
+  filter: url(#picross-sketch-filter);
 }
 .picross-header {
   position: relative;
@@ -165,9 +214,12 @@ useSeoMeta({
   display: flex;
   gap: 8px;
   justify-content: center;
-  .input-modes {
+  .input-modes,
+  .history-actions {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+  }
+  .input-modes {
     padding: 4px;
     background: var(--surface);
     border-radius: 8px;
@@ -175,10 +227,10 @@ useSeoMeta({
       background: none;
       border: none;
       padding: 2px;
-      
+      border-radius: 4px;
+
       &.active {
         background: var(--foreground);
-        color: var(--on-primary);
       }
     }
   }
@@ -203,5 +255,15 @@ useSeoMeta({
       margin: 0;
     }
   }
+}
+
+.loading {
+  font-size: 1rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 400px;
+  justify-content: center;
 }
 </style>

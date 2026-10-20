@@ -180,7 +180,7 @@ export function solveGame(game: PicrossGame): void {
   for (let y = 0; y < game.solution.length; y++) {
     const [row, boardRow] = [game.solution[y], game.board[y]];
     if (!row || !boardRow) continue;
-    // Fill the board row with the solution
+    // Fill the board row with the solution.
     for (let x = 0; x < row.length; x++) {
       boardRow[x] = row[x] ? "filled" : "marked";
     }
