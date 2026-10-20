@@ -1,147 +1,87 @@
 <template>
-  <div class="picross-page">
-    <SketchFilter id="picross-sketch-filter" flood-color="var(--background)" />
-    <div class="picross-header-container">
-      <h1 class="picross-header">Nautilus' Picross</h1>
-    </div>
-    <span v-if="puzzleNumber !== null" class="header-games lotl-font">
-      Puzzle #{{ puzzleNumber }}
-    </span>
-
-    <div class="game">
-      <PicrossGrid v-if="game" ref="grid" :game="game" :locked="!started" />
-      <p v-else class="lotl-font loading" role="status">
-        <Icon icon="loading" width="20px" height="20px" />
-        Loading puzzle...
-      </p>
-      <p
-        v-if="game"
-        class="daily-info text-secondary lotl-font"
-        :style="{ color: game.isCompleted ? 'var(--primary)' : undefined }"
-      >
-        <span v-if="game.isCompleted && !gaveUp">
-          <Icon
-            icon="crown"
-            width="16px"
-            height="16px"
-            :style="{ color: 'var(--orange)' }"
-          ></Icon>
-        </span>
-        <span>
-          <Icon icon="time" width="16px" height="16px" />
-          <SlotText :text="timeDisplay" :options="{ skipUnchanged: true }" />
-        </span>
-        <span>
-          <Icon icon="moves" width="16px" height="16px" />
-          <SlotText
-            :text="String(game?.moves ?? 0)"
-            :options="{ skipUnchanged: true }"
-          />
-        </span>
-        <span>
-          <Icon icon="tip" width="16px" height="16px" />
-          <SlotText
-            :text="String(game?.hintsUsed ?? 0)"
-            :options="{ skipUnchanged: true }"
-          />
-        </span>
-        <span>
-          <Icon icon="size" width="16px" height="16px" />
-          {{ game?.size.width ?? 0 }}x{{ game?.size.height ?? 0 }}
-        </span>
-      </p>
-      <div v-if="game?.isCompleted" class="game-actions">
-        <button @click="copyWin" class="round filled">
-          <Icon icon="copy" width="16px" height="16px" />
-          Copy Result
-        </button>
-      </div>
-      <p v-if="game?.isCompleted" class="time-till-next-game text-secondary">
-        Next game in:
-        <b>
-          <SlotText
-            :text="`${timeTillNextGameDisplay}`"
-            :options="{ skipUnchanged: true }"
-          />
-        </b>
-      </p>
-      <div v-if="game && !started" class="game-actions">
+  <PicrossPage :subtitle="subtitle" :accent="theme ? '#26a4ad' : '#38d9e4'">
+    <div v-if="game" class="grid-wrapper">
+      <PicrossGrid ref="grid" :game="game" :locked="!started" />
+      <div v-if="!started" class="start-overlay">
         <button @click="beginGame" class="round filled">Start</button>
       </div>
-      <div v-else class="game-actions">
-        <div class="input-modes">
-          <button
-            :class="{ active: grid?.inputMode === 'fill' }"
-            :disabled="!game || game.isCompleted"
-            @click="grid?.setInputMode('fill')"
-            class="round"
-          >
-            <Icon icon="edit" width="20px" height="20px" />
-          </button>
-          <button
-            :class="{ active: grid?.inputMode === 'mark' }"
-            :disabled="!game || game.isCompleted"
-            @click="grid?.setInputMode('mark')"
-            class="round"
-          >
-            <Icon icon="close" width="20px" height="20px" />
-          </button>
-          <button
-            :class="{ active: grid?.inputMode === 'erase' }"
-            :disabled="!game || game.isCompleted"
-            @click="grid?.setInputMode('erase')"
-            class="round"
-          >
-            <Icon icon="trash" width="20px" height="20px" />
-          </button>
-        </div>
-        <div class="input-modes">
-          <button
-            :disabled="!grid?.canUndo"
-            @click="grid?.undo()"
-            class="round"
-            aria-label="Undo"
-          >
-            <Icon icon="undo" width="20px" height="20px" />
-          </button>
-          <button
-            :disabled="!grid?.canRedo"
-            @click="grid?.redo()"
-            class="round"
-            aria-label="Redo"
-          >
-            <Icon icon="redo" width="20px" height="20px" />
-          </button>
-        </div>
-        <button
-          :disabled="!game || game.isCompleted"
-          @click="game && clearBoard(game)"
-          class="round"
-        >
-          <Icon icon="trash" width="20px" height="20px" />
-          Clear
-        </button>
-        <button
-          :disabled="game?.isCompleted"
-          @click="giveUp"
-          class="round filled red"
-        >
-          Give Up
-        </button>
-        <button :disabled="game?.isCompleted" @click="useHint" class="round">
-          <Icon icon="tip" width="20px" height="20px" />
-          Hint
-        </button>
-      </div>
-      <p>
-        Want to keep playing? Go to
-        <NuxtLink to="/picross" class="link">free play</NuxtLink>!
-      </p>
     </div>
-  </div>
+    <p v-else class="lotl-font loading" role="status">
+      <Icon icon="loading" width="20px" height="20px" />
+      Loading puzzle...
+    </p>
+    <p
+      v-if="game"
+      class="daily-info text-secondary lotl-font"
+      :style="{ color: game.isCompleted ? 'var(--primary)' : undefined }"
+    >
+      <span v-if="game.isCompleted && !gaveUp">
+        <Icon
+          icon="crown"
+          width="16px"
+          height="16px"
+          :style="{ color: 'var(--orange)' }"
+        ></Icon>
+      </span>
+      <span>
+        <Icon icon="time" width="16px" height="16px" />
+        <SlotText :text="timeDisplay" :options="{ skipUnchanged: true }" />
+      </span>
+      <span>
+        <Icon icon="moves" width="16px" height="16px" />
+        <SlotText
+          :text="String(game?.moves ?? 0)"
+          :options="{ skipUnchanged: true }"
+        />
+      </span>
+      <span>
+        <Icon icon="tip" width="16px" height="16px" />
+        <SlotText
+          :text="String(game?.hintsUsed ?? 0)"
+          :options="{ skipUnchanged: true }"
+        />
+      </span>
+      <span>
+        <Icon icon="size" width="16px" height="16px" />
+        {{ game?.size.width ?? 0 }}x{{ game?.size.height ?? 0 }}
+      </span>
+    </p>
+    <div v-if="game?.isCompleted" class="game-actions">
+      <button @click="copyWin" class="round filled">
+        <Icon icon="copy" width="16px" height="16px" />
+        Copy Result
+      </button>
+    </div>
+    <p v-if="game?.isCompleted" class="time-till-next-game text-secondary">
+      Next game in:
+      <b>
+        <SlotText
+          :text="`${timeTillNextGameDisplay}`"
+          :options="{ skipUnchanged: true }"
+        />
+      </b>
+    </p>
+    <div v-if="game && started && !game.isCompleted" class="game-actions">
+      <PicrossInputControls
+        :grid="grid"
+        :disabled="!game || game.isCompleted"
+      />
+      <button @click="game && clearBoard(game)" class="round">
+        <Icon icon="trash" width="20px" height="20px" />
+        Clear
+      </button>
+      <button @click="giveUp" class="round filled red">Give Up</button>
+      <button @click="useHint" class="round">
+        <Icon icon="tip" width="20px" height="20px" />
+        Hint
+      </button>
+    </div>
+  </PicrossPage>
 </template>
 
 <script setup lang="ts">
+import PicrossPage from "~/components/picross/PicrossPage.vue";
+import PicrossInputControls from "~/components/picross/PicrossInputControls.vue";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
 import { SlotText } from "slot-text/vue";
@@ -163,7 +103,8 @@ import {
   mulberry32,
 } from "~/utils/picross/daily";
 import { generateSolvableSolution } from "~/utils/picross/solver";
-import SketchFilter from "~/components/common/SketchFilter.vue";
+
+const { theme } = useTheme();
 
 type PicrossGameStats = Omit<PicrossGame, "tileColors" | "solution"> & {
   gaveUp?: boolean;
@@ -212,6 +153,10 @@ const puzzleNumber = computed(() =>
   dateKey.value ? daysBetweenDateKeys(FIRST_GAME_DATE, dateKey.value) : null,
 );
 
+const subtitle = computed(() =>
+  puzzleNumber.value !== null ? `Puzzle #${puzzleNumber.value}` : null,
+);
+
 // #region SAVE DATA
 function loadSave() {
   try {
@@ -225,8 +170,16 @@ function loadSave() {
       totalWins: parsed.totalWins ?? 0,
       lastPlayed: parsed.lastPlayed ?? null,
     };
-  } catch {
-    // Corrupt or unavailable storage: start fresh
+  } catch (e) {
+    console.error("Failed to load save data:", e);
+  }
+}
+
+function writeSave() {
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(save.value));
+  } catch (e) {
+    console.error("Failed to write save data:", e);
   }
 }
 
@@ -256,11 +209,7 @@ function persist() {
     gaveUp: gaveUp.value,
   };
 
-  try {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(save.value));
-  } catch {
-    // Storage full or unavailable; progress just won't persist
-  }
+  writeSave();
 }
 // #endregion SAVE DATA
 
@@ -381,63 +330,31 @@ useSeoMeta({
     "Play Nautilus' daily picross puzzle! (They are fed by puzzles)",
   ogTitle: "Nautilus' Picross",
   ogUrl: "https://echolotl.lol/picross/daily",
+  ogImage: "https://echolotl.lol/images/picross/og.webp",
 });
 </script>
 
 <style scoped>
-.picross-page {
-  margin-top: 64px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 80vh;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    height: 500px;
-    width: 100%;
-    opacity: 0.5;
-    background: radial-gradient(circle 400px at 50% -10%, #38d9e4, transparent);
-  }
-}
-
-.picross-header-container {
+.grid-wrapper {
   position: relative;
-  width: 100%;
-  filter: url(#picross-sketch-filter);
-}
-
-.picross-header {
-  position: relative;
-  mask-image: url("/images/picross/daily.webp");
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  background-color: var(--text);
-  height: 100px;
-  width: 100%;
-}
-
-.game {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 16px;
 }
 
-.header-games {
-  position: relative;
-  z-index: 1;
-  margin-top: -28px;
-  font-size: 1.25rem;
-  paint-order: stroke;
-  -webkit-text-stroke: 6px var(--background);
+.start-overlay {
+  position: absolute;
+  inset: 4rem;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  > button {
+    padding: 8px 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 0 0 4px var(--surface);
+  }
 }
 
 .daily-info {
@@ -450,52 +367,5 @@ useSeoMeta({
     align-items: center;
     gap: 4px;
   }
-}
-
-.solved-message {
-  margin: 0;
-  font-weight: bold;
-}
-
-.game-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-
-  .input-modes {
-    display: flex;
-    gap: 6px;
-    padding: 4px;
-    background: var(--surface);
-    border-radius: 8px;
-    > button {
-      background: none;
-      border: none;
-      padding: 2px;
-      border-radius: 4px;
-
-      &.active {
-        background: var(--foreground);
-      }
-    }
-  }
-
-  > button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 4px 8px;
-  }
-}
-
-.loading {
-  font-size: 1rem;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 400px;
-  justify-content: center;
 }
 </style>

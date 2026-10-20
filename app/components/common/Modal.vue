@@ -6,12 +6,14 @@
         ref="overlayRef"
         class="modal-overlay"
         popover="manual"
-        @click.self="closeOnBackdrop && close()">
+        @click.self="closeOnBackdrop && close()"
+      >
         <SketchFilter
           :id="filterId"
           :std-deviation="1.5"
           :intercept="-6"
-          :flood-color="outlineColor" />
+          :flood-color="outlineColor"
+        />
         <div
           ref="boxRef"
           class="modal"
@@ -20,14 +22,23 @@
           aria-modal="true"
           :aria-label="ariaLabel"
           tabindex="-1"
-          :style="{ '--filter-url': `url(#${filterId})`, maxWidth }">
+          :style="{ '--filter-url': `url(#${filterId})`, maxWidth }"
+        >
           <Icon
             v-if="props.icon"
             :icon="props.icon"
             class="modal__icon"
             :color="props.iconColor"
             width="48px"
-            height="48px" />
+            height="48px"
+          />
+          <button
+            v-if="props.closeButton"
+            class="modal__close"
+            @click="close()"
+          >
+            <Icon icon="close" width="28px" height="28px" />
+          </button>
           <div class="modal__content">
             <slot />
           </div>
@@ -46,6 +57,7 @@ const props = withDefaults(
     modelValue: boolean;
     closeOnBackdrop?: boolean;
     closeOnEscape?: boolean;
+    closeButton?: boolean;
     ariaLabel?: string;
     maxWidth?: string;
     outlineColor?: string;
@@ -60,6 +72,7 @@ const props = withDefaults(
     outlineColor: "var(--surface)",
     icon: undefined,
     iconColor: undefined,
+    closeButton: true,
   },
 );
 
@@ -128,6 +141,20 @@ onBeforeUnmount(() => {
 }
 
 .modal {
+  &__close {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    background: none;
+    border: none;
+    border-radius: 9999px;
+    aspect-ratio: 1 / 1;
+    padding: 4px;
+    cursor: pointer;
+    &:hover {
+      background: var(--surface);
+    }
+  }
   position: relative;
   width: 100%;
   max-height: 100%;
@@ -156,7 +183,7 @@ onBeforeUnmount(() => {
   @media (max-width: 768px) {
     &__icon {
       top: -24px;
-      right: 16px;
+      right: 24px;
       left: auto;
     }
 

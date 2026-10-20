@@ -5,6 +5,7 @@
     aria-label="Age verification"
     icon="warning"
     icon-color="var(--orange)"
+    :close-button="false"
     @update:model-value="onUpdate"
   >
     <div class="age-gate">
