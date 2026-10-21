@@ -51,10 +51,11 @@ const showHowToPlay = ref(false);
   flex-direction: column;
   align-items: center;
   min-height: 80vh;
+  position: relative;
   &::before {
     content: "";
     position: absolute;
-    top: 0;
+    top: -64px;
     left: 0;
     display: block;
     height: 500px;
@@ -97,6 +98,8 @@ const showHowToPlay = ref(false);
 .header-links {
   text-transform: uppercase;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   margin-top: 8px;
   z-index: 1;
@@ -132,6 +135,7 @@ const showHowToPlay = ref(false);
 
 .game :deep(.game-actions) {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
 
