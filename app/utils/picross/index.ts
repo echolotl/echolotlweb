@@ -109,6 +109,7 @@ export const INPUT_MODES = {
   paint: {
     icon: "palette",
     keys: ["KeyP", "Key4"],
+    optIn: true,
     resolve: (current, secondary, editor) =>
       toggleTo(secondary ? "marked" : "filled")(current),
   },

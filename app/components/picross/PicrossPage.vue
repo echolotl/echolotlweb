@@ -50,12 +50,15 @@ const showHowToPlay = ref(false);
 
 <style scoped>
 .picross-page {
+  margin: 0 auto;
   margin-top: 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 80vh;
   position: relative;
+  max-width: 1200px;
+
   &::before {
     content: "";
     position: absolute;

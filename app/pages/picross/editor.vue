@@ -2,7 +2,11 @@
   <PicrossPage subtitle="Editor" accent="var(--orange)">
     <PicrossGrid v-if="game" ref="grid" :game="game" :editable="true" />
     <div class="game-actions">
-      <PicrossInputControls :grid="grid" :remove-modes="['mark']" />
+      <PicrossInputControls
+        :grid="grid"
+        :remove-modes="['mark']"
+        :add-modes="['paint']"
+      />
       <button @click="handleClear" class="round">
         <Icon icon="trash" width="20px" height="20px" />
         Clear
@@ -22,37 +26,32 @@
         hidden
         @change="handleLoad"
       />
-      <div class="solve-result">
-        <Icon
-          v-if="solving"
-          icon="loading"
-          alt="Checking solvability"
-          width="20px"
-          height="20px"
-        />
-        <Icon
-          v-else-if="
-            solveResult?.logicSolvable && solveResult?.solutionCount === 1
-          "
-          style="color: var(--green)"
-          icon="check"
-          width="20px"
-          height="20px"
-        />
-        <Icon
-          v-else-if="solveResult && solveResult.solutionCount > 0"
-          style="color: var(--orange)"
-          icon="warning"
-          width="20px"
-          height="20px"
-        />
-        <Icon
-          v-else
-          style="color: var(--red)"
-          icon="danger"
-          width="20px"
-          height="20px"
-        />
+    </div>
+
+    <div class="solve-result">
+      <div class="solve-result-header text-secondary lotl-font">
+        SOLVABILITY
+      </div>
+      <div v-if="solving" style="color: var(--text-secondary)">Checking...</div>
+      <div
+        v-else-if="
+          solveResult?.logicSolvable && solveResult?.solutionCount === 1
+        "
+        style="color: var(--green)"
+      >
+        <Icon icon="check" width="20px" height="20px" />
+        Solvable
+      </div>
+      <div
+        v-else-if="solveResult && solveResult.solutionCount > 1"
+        style="color: var(--orange)"
+      >
+        <Icon icon="warning" width="20px" height="20px" />
+        Multiple solutions
+      </div>
+      <div v-else style="color: var(--red)">
+        <Icon icon="danger" width="20px" height="20px" />
+        Unsolvable...
       </div>
     </div>
     <div class="settings">
@@ -60,35 +59,58 @@
         <legend>Board Settings</legend>
         <label>
           Size
-          <input
-            v-model.number="sizeInput.width"
-            type="number"
-            :min="MIN_BOARD_SIZE"
-            :max="MAX_BOARD_SIZE"
-            aria-label="Board width"
-            @change="applySizeInput"
-          />
-          <span aria-hidden="true">x</span>
-          <input
-            v-model.number="sizeInput.height"
-            type="number"
-            :min="MIN_BOARD_SIZE"
-            :max="MAX_BOARD_SIZE"
-            aria-label="Board height"
-            @change="applySizeInput"
-          />
+          <div class="size-inputs">
+            <input
+              v-model.number="sizeInput.width"
+              type="number"
+              :min="MIN_BOARD_SIZE"
+              :max="MAX_BOARD_SIZE"
+              aria-label="Board width"
+              @change="applySizeInput"
+            />
+            <span aria-hidden="true">⨯</span>
+            <input
+              v-model.number="sizeInput.height"
+              type="number"
+              :min="MIN_BOARD_SIZE"
+              :max="MAX_BOARD_SIZE"
+              aria-label="Board height"
+              @change="applySizeInput"
+            />
+          </div>
         </label>
       </fieldset>
       <fieldset>
-        <legend>Puzzle Info</legend>
+        <legend>Metadata</legend>
         <label>
           Title
-          <input v-model="metadata.title" type="text" maxlength="100" />
+          <input
+            v-model="metadata.title"
+            placeholder="Untitled"
+            type="text"
+            maxlength="100"
+          />
         </label>
-        <label>
-          Author
-          <input v-model="metadata.author" type="text" maxlength="100" />
-        </label>
+        <div class="row">
+          <label>
+            Author
+            <input
+              v-model="metadata.author"
+              placeholder="echolotl"
+              type="text"
+              maxlength="100"
+            />
+          </label>
+          <label>
+            Source
+            <input
+              v-model="metadata.source"
+              placeholder="Some picross game"
+              type="text"
+              maxlength="100"
+            />
+          </label>
+        </div>
       </fieldset>
       <p v-if="fileError" class="file-error" role="alert">{{ fileError }}</p>
     </div>
@@ -110,6 +132,7 @@ import {
   MIN_BOARD_SIZE,
   type PicrossGame,
   type PicrossSize,
+  type PicrossMetadata,
 } from "~/utils/picross";
 import {
   FILE_EXTENSION,
@@ -121,7 +144,13 @@ const sizeInput = reactive<PicrossSize>({
   width: DEFAULT_BOARD_SIZE,
   height: DEFAULT_BOARD_SIZE,
 });
-const metadata = reactive({ title: "", author: "", createdAt: "" });
+const metadata = reactive<Omit<PicrossMetadata, "created_at" | "modified_at">>({
+  title: "",
+  author: "",
+  source: "",
+});
+
+let createdAt: string | null = null;
 const game = ref<PicrossGame | null>(null);
 const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -158,13 +187,6 @@ function applySizeInput() {
   const size = clampPicrossSize(sizeInput);
   sizeInput.width = size.width;
   sizeInput.height = size.height;
-  if (
-    game.value &&
-    size.width === game.value.size.width &&
-    size.height === game.value.size.height
-  ) {
-    return;
-  }
   game.value = buildGame(size, game.value);
 }
 
@@ -181,18 +203,15 @@ onMounted(init);
 function handleSave() {
   if (!game.value) return;
   fileError.value = "";
-  const now = new Date().toISOString();
-  metadata.createdAt ||= now;
-  const title = metadata.title.trim();
-  const author = metadata.author.trim();
+  const created_at = createdAt || new Date().toISOString();
   let contents: string;
   try {
     contents = savePicrossPuzzle({
       metadata: {
-        title: title || undefined,
-        author: author || undefined,
-        created_at: metadata.createdAt,
-        modified_at: now,
+        title: metadata.title,
+        author: metadata.author,
+        created_at,
+        modified_at: new Date().toISOString(),
       },
       size: game.value.size,
       solution: game.value.solution,
@@ -202,9 +221,10 @@ function handleSave() {
     fileError.value = error instanceof Error ? error.message : "Couldn't save";
     return;
   }
+  createdAt = created_at;
 
   const filename =
-    (title || "puzzle")
+    (metadata.title || "puzzle")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "") || "puzzle";
@@ -213,6 +233,7 @@ function handleSave() {
   link.href = url;
   link.download = `${filename}.${FILE_EXTENSION}`;
   link.click();
+  link.remove();
   URL.revokeObjectURL(url);
 }
 
@@ -228,11 +249,11 @@ async function handleLoad(event: Event) {
     game.value = buildGame(puzzle.size, puzzle);
     sizeInput.width = puzzle.size.width;
     sizeInput.height = puzzle.size.height;
-    const { title, author, created_at } = puzzle.metadata;
-    metadata.title = typeof title === "string" ? title : "";
-    metadata.author =
-      typeof author === "string" ? author : (author?.placeholder ?? "");
-    metadata.createdAt = typeof created_at === "string" ? created_at : "";
+    const { title, author, source, created_at } = puzzle.metadata;
+    metadata.title = title;
+    metadata.author = author;
+    metadata.source = source;
+    createdAt = created_at;
   } catch (error) {
     fileError.value =
       error instanceof Error ? error.message : "Couldn't load that file";
@@ -256,20 +277,10 @@ useSeoMeta({
 </script>
 
 <style scoped>
-.settings > fieldset > label > input[type="number"],
-.settings > fieldset > label > input[type="text"] {
-  background: var(--surface);
-  color: var(--text);
-  border: none;
-  font-family: inherit;
-  text-align: center;
-  font-weight: bold;
-  border-radius: 6px;
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+.size-inputs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .file-error {
@@ -277,7 +288,83 @@ useSeoMeta({
 }
 
 .solve-result {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+
+  gap: 4px;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  gap: 1rem;
+
+  fieldset {
+    border: none;
+    padding: 0;
+    > legend {
+      margin: 1rem 0 0.5rem;
+      font-size: var(--small-text);
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      font-family: "Lotl";
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      padding: 0.25rem 0.5rem;
+      font-size: var(--small-text);
+      text-transform: uppercase;
+      color: var(--text-secondary);
+
+      input {
+        margin-top: 4px;
+        &[type="number"] {
+          background: var(--surface);
+          color: var(--text);
+          border: none;
+          padding: 4px;
+          font-family: inherit;
+          text-align: center;
+          font-weight: bold;
+          border-radius: 6px;
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+        &[type="text"] {
+          background: none;
+          color: var(--text);
+          border: none;
+          font-family: inherit;
+          box-shadow: inset 0 -2px 0 var(--surface);
+          outline: none;
+          padding: 6px 4px;
+        }
+      }
+    }
+    > .row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      > label {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  }
 }
 </style>

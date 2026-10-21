@@ -96,6 +96,7 @@ import {
   clearBoard,
   solveGame,
   type PicrossSize,
+  isValidBoard,
 } from "~/utils/picross";
 import {
   getSecondsUntilNextDay,

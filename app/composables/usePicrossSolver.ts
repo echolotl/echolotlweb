@@ -1,7 +1,4 @@
-import type {
-  PicrossHints,
-  PicrossSolveResult,
-} from "~/utils/picross/solver";
+import type { PicrossHints, PicrossSolveResult } from "~/utils/picross/solver";
 import type { SolverWorkerRequest } from "~/utils/picross/solver.worker";
 
 const DEBOUNCE_MS = 150;
@@ -17,8 +14,8 @@ const TIMED_OUT: PicrossSolveResult = {
   timedOut: true,
 };
 
-// Solves puzzles off the main thread. Only the latest request matters: a new
-// one discards any solve still running, so stale results never show up.
+// This exists so that we can use a worker to solve Picross puzzles off the main thread.
+// As a bonus, it also comes with a loading state and stuff
 export function usePicrossSolver() {
   const result = ref<PicrossSolveResult | null>(null);
   const solving = ref(false);
