@@ -1,6 +1,13 @@
 <template>
   <PicrossPage subtitle="Editor" accent="var(--orange)">
-    <PicrossGrid v-if="game" ref="grid" :game="game" :editable="true" />
+    <PicrossGrid
+      v-if="game"
+      ref="grid"
+      :game="game"
+      :editable="true"
+      :paint-color="curPaintColor"
+      :style="curPaintColor ? { '--paint-color': curPaintColor } : {}"
+    />
     <div class="game-actions">
       <PicrossInputControls
         :grid="grid"
@@ -26,6 +33,20 @@
         hidden
         @change="handleLoad"
       />
+    </div>
+    <div v-if="grid?.inputMode === 'paint'" class="palette">
+      <input type="color" v-model="newColor" />
+      <button @click="addColor()">
+        <Icon icon="add" width="16px" height="16px" />
+      </button>
+      <div
+        v-for="(color, index) in palette"
+        :key="index"
+        class="color-swatch"
+        :class="{ selected: selectedColor === color }"
+        :style="{ '--paint-color': color }"
+        @click="selectedColor = color"
+      ></div>
     </div>
 
     <div class="solve-result">
@@ -56,7 +77,7 @@
     </div>
     <div class="settings">
       <fieldset>
-        <legend>Board Settings</legend>
+        <legend>Board</legend>
         <label>
           Size
           <div class="size-inputs">
@@ -155,6 +176,24 @@ const game = ref<PicrossGame | null>(null);
 const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
 const fileError = ref("");
+const palette = ref<string[]>([]);
+const selectedColor = ref("");
+const newColor = ref("#000000");
+const curPaintColor = computed(() => selectedColor.value || null);
+
+function addColor() {
+  const color = newColor.value.toLowerCase();
+  if (!palette.value.includes(color)) palette.value.push(color);
+  selectedColor.value = color;
+}
+
+function removeColor() {
+  const index = palette.value.indexOf(selectedColor.value);
+  if (index === -1) return;
+  palette.value.splice(index, 1);
+  selectedColor.value =
+    palette.value[Math.min(index, palette.value.length - 1)] ?? "";
+}
 const { result: solveResult, solving, solve } = usePicrossSolver();
 
 // Builds a game of the given size, keeping any tiles that still fit
@@ -204,7 +243,7 @@ function handleSave() {
   if (!game.value) return;
   fileError.value = "";
   const created_at = createdAt || new Date().toISOString();
-  let contents: string;
+  let contents: Uint8Array;
   try {
     contents = savePicrossPuzzle({
       metadata: {
@@ -228,7 +267,9 @@ function handleSave() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "") || "puzzle";
-  const url = URL.createObjectURL(new Blob([contents], { type: "text/plain" }));
+  const url = URL.createObjectURL(
+    new Blob([contents as BlobPart], { type: "application/octet-stream" }),
+  );
   const link = document.createElement("a");
   link.href = url;
   link.download = `${filename}.${FILE_EXTENSION}`;
@@ -245,7 +286,9 @@ async function handleLoad(event: Event) {
   if (!file) return;
   fileError.value = "";
   try {
-    const puzzle = loadPicrossPuzzle(await file.text());
+    const puzzle = loadPicrossPuzzle(
+      new Uint8Array(await file.arrayBuffer()),
+    );
     game.value = buildGame(puzzle.size, puzzle);
     sizeInput.width = puzzle.size.width;
     sizeInput.height = puzzle.size.height;
@@ -364,6 +407,27 @@ useSeoMeta({
         flex: 1;
         min-width: 0;
       }
+    }
+  }
+}
+
+.palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  button {
+    padding: 0;
+    background: none;
+    border: none;
+  }
+  .color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background-color: var(--paint-color);
+    cursor: pointer;
+    &.selected {
+      outline: 2px solid var(--text);
     }
   }
 }

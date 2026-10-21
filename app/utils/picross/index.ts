@@ -68,20 +68,50 @@ export type PicrossGame = {
   metadata?: PicrossMetadata;
 };
 
+// A tile's state plus its color; only filled tiles keep a color
+export type PicrossTile = {
+  state: PicrossTileState;
+  color: string | null;
+};
+
+// What an input does to a tile; an omitted state or color leaves it as is
+export type PicrossTileChange = {
+  state?: PicrossTileState;
+  color?: string | null;
+};
+
+// Applies a change to a tile, dropping the color of anything that isn't filled
+export function applyTileChange(
+  tile: PicrossTile,
+  change: PicrossTileChange,
+): PicrossTile {
+  const state = change.state ?? tile.state;
+  if (state !== "filled") return { state, color: null };
+  return {
+    state,
+    color: change.color === undefined ? tile.color : change.color,
+  };
+}
+
 export type InputModeDefinition = {
   icon: string;
   keys: string[]; // KeyboardEvent.code values that select this mode
   optIn?: true; // Hidden from the controls unless a parent lists it in `addModes`
-  // The state a tile should become when clicked; secondary is a right click
+  // What a tile should become when clicked; secondary is a right click.
+  // Colors only matter in the editor, where they are written to the solution.
   resolve: (
-    current: PicrossTileState,
+    current: PicrossTile,
     secondary: boolean,
     editor?: boolean,
-  ) => PicrossTileState;
+    paintColor?: string | null,
+  ) => PicrossTileChange;
 };
 
-function toggleTo(target: PicrossTileState) {
-  return (current: PicrossTileState) => (current === target ? "empty" : target);
+function toggleTo(
+  current: PicrossTile,
+  target: PicrossTileState,
+): PicrossTileChange {
+  return { state: current.state === target ? "empty" : target };
 }
 
 export const INPUT_MODES = {
@@ -89,29 +119,31 @@ export const INPUT_MODES = {
     icon: "edit",
     keys: ["KeyB", "Key1"],
     resolve: (current, secondary, editor) => {
-      if (editor) return toggleTo(secondary ? "empty" : "filled")(current);
-      return toggleTo(secondary ? "marked" : "filled")(current);
+      if (editor) return toggleTo(current, secondary ? "empty" : "filled");
+      return toggleTo(current, secondary ? "marked" : "filled");
     },
   },
   mark: {
     icon: "close",
     keys: ["KeyM", "Key2"],
     resolve: (current, secondary, editor) => {
-      if (editor) return current;
-      return toggleTo(secondary ? "filled" : "marked")(current);
+      if (editor) return {};
+      return toggleTo(current, secondary ? "filled" : "marked");
     },
   },
   erase: {
     icon: "trash",
     keys: ["KeyE", "Key3"],
-    resolve: (current, secondary, editor) => "empty",
+    resolve: () => ({ state: "empty" }),
   },
   paint: {
     icon: "palette",
     keys: ["KeyP", "Key4"],
     optIn: true,
-    resolve: (current, secondary, editor) =>
-      toggleTo(secondary ? "marked" : "filled")(current),
+    resolve: (current, secondary, editor, paintColor) => {
+      if (!editor || (!secondary && !paintColor)) return {};
+      return { color: secondary ? null : paintColor };
+    },
   },
 } as const satisfies Record<string, InputModeDefinition>;
 

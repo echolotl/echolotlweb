@@ -25,9 +25,15 @@ export type PicrossPuzzleData = {
   tileColors: PicrossTileColors;
 };
 
-// V1: [[magic, major, minor, width, height, solution,
-// color count, length-prefixed colors, color indexes per tile, metadata
-// as length-prefixed (u32, big endian) UTF-8 JSON.
+// V1: [magic, major, minor, width, height, solution,
+// color count, length-prefixed colors, color indexes per tile, metadata]
+// Metadata runs to the end of the file as UTF-8 text fields separated by null bytes:
+// title, author, source, created_at, modified_at. Empty means unset.
+// An author or source object is stored as its two parts joined by a unit separator.
+
+const FIELD_SEPARATOR = "\0";
+const PART_SEPARATOR = "\x1f";
+const METADATA_FIELD_COUNT = 5;
 
 function invalidFile(reason?: string): never {
   throw new Error(
@@ -35,27 +41,60 @@ function invalidFile(reason?: string): never {
   );
 }
 
-function bytesToBase64(bytes: Uint8Array) {
-  // fromCharCode EXPLODES on large arrays, so we do it in chunks
-  let binary = "";
-  for (let i = 0; i < bytes.length; i += 0x8000) {
-    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+function checkText(text: string) {
+  if (text.includes(FIELD_SEPARATOR) || text.includes(PART_SEPARATOR)) {
+    throw new Error("Puzzle details contain unsupported control characters");
   }
-  return btoa(binary);
+  return text;
 }
 
-function base64ToBytes(contents: string) {
-  try {
-    return Uint8Array.from(atob(contents.trim()), (c) => c.charCodeAt(0));
-  } catch {
-    return invalidFile("not valid base64");
+function encodePair(a: string, b: string) {
+  return checkText(a) + PART_SEPARATOR + checkText(b);
+}
+
+function encodeMetadata(metadata: PicrossMetadata) {
+  const { title, author, source, created_at, modified_at } = metadata;
+  return [
+    checkText(title ?? ""),
+    typeof author === "object"
+      ? encodePair(author.userId, author.placeholder)
+      : checkText(author ?? ""),
+    typeof source === "object"
+      ? encodePair(source.name, String(source.url))
+      : checkText(source ?? ""),
+    checkText(created_at),
+    checkText(modified_at),
+  ];
+}
+
+function decodeMetadata(fields: string[]): PicrossMetadata {
+  if (fields.length !== METADATA_FIELD_COUNT) invalidFile("corrupt metadata");
+  const [title, author, source, created_at, modified_at] = fields as [
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
+
+  const metadata: PicrossMetadata = { created_at, modified_at };
+  if (title) metadata.title = title;
+  if (author) {
+    const [userId, placeholder] = author.split(PART_SEPARATOR);
+    metadata.author =
+      placeholder === undefined ? author : { userId: userId!, placeholder };
   }
+  if (source) {
+    const [name, url] = source.split(PART_SEPARATOR);
+    metadata.source = url === undefined ? source : { name: name!, url };
+  }
+  return metadata;
 }
 
 // Serializes a puzzle into the custom file format
 export function savePicrossPuzzle(
   puzzle: Omit<PicrossPuzzleData, "majorVersion" | "minorVersion">,
-): string {
+): Uint8Array {
   const { size, solution, tileColors, metadata } = puzzle;
   const textEncoder = new TextEncoder();
 
@@ -86,22 +125,16 @@ export function savePicrossPuzzle(
     bytes.push(color === null ? 0 : palette.indexOf(color) + 1);
   }
 
-  const metadataBytes = textEncoder.encode(JSON.stringify(metadata));
-  const length = metadataBytes.length;
-  bytes.push(
-    (length >>> 24) & 0xff,
-    (length >>> 16) & 0xff,
-    (length >>> 8) & 0xff,
-    length & 0xff,
+  const metadataBytes = textEncoder.encode(
+    encodeMetadata(metadata).join(FIELD_SEPARATOR),
   );
   for (const byte of metadataBytes) bytes.push(byte);
 
-  return bytesToBase64(Uint8Array.from(bytes));
+  return Uint8Array.from(bytes);
 }
 
 // Parses the custom file format back into a puzzle
-export function loadPicrossPuzzle(_contents: string): PicrossPuzzleData {
-  const buffer = base64ToBytes(_contents);
+export function loadPicrossPuzzle(buffer: Uint8Array): PicrossPuzzleData {
   if (buffer.length < MAGIC_HEADER.length + 4) invalidFile();
   for (let i = 0; i < MAGIC_HEADER.length; i++) {
     if (buffer[i] !== MAGIC_HEADER[i]) invalidFile();
@@ -169,21 +202,11 @@ export function loadPicrossPuzzle(_contents: string): PicrossPuzzleData {
     tileColors.push(row);
   }
 
-  const metadataLength =
-    ((read("metadata length") << 24) |
-      (read("metadata length") << 16) |
-      (read("metadata length") << 8) |
-      read("metadata length")) >>>
-    0;
-  let metadata: PicrossMetadata;
-  try {
-    metadata = JSON.parse(decode(readBytes(metadataLength, "metadata")));
-  } catch {
-    return invalidFile("corrupt metadata");
-  }
-  if (typeof metadata !== "object" || metadata === null) {
-    invalidFile("corrupt metadata");
-  }
+  const metadata = decodeMetadata(
+    decode(readBytes(buffer.length - offset, "metadata")).split(
+      FIELD_SEPARATOR,
+    ),
+  );
 
   if (!isValidBoard(solution, size)) {
     invalidFile("corrupt solution");

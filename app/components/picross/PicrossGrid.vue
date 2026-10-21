@@ -46,6 +46,7 @@ import SketchFilter from "~/components/common/SketchFilter.vue";
 import { useTheme } from "~/composables/useTheme";
 import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 import {
+  applyTileChange,
   DEFAULT_INPUT_MODE,
   getHints,
   getInputModeDefinition,
@@ -55,6 +56,8 @@ import {
   isLineOverfilled,
   type InputMode,
   type PicrossGame,
+  type PicrossTile,
+  type PicrossTileChange,
   type PicrossTileState,
 } from "~/utils/picross";
 
@@ -65,6 +68,7 @@ const props = defineProps<{
   game: PicrossGame;
   locked?: boolean;
   editable?: boolean;
+  paintColor?: string | null; // Color applied by the paint mode while editable
 }>();
 
 // The grid owns the input mode; parents read and set it through the exposed API
@@ -106,8 +110,8 @@ let placeSounds: AudioBuffer[] = [];
 interface TileChange {
   x: number;
   y: number;
-  prev: PicrossTileState;
-  next: PicrossTileState;
+  prev: PicrossTile;
+  next: PicrossTile;
 }
 let undoStack: TileChange[][] = [];
 let redoStack: TileChange[][] = [];
@@ -484,9 +488,10 @@ function drawBoard() {
     for (let x = 0; x < size.width; x++) {
       switch (board[y]?.[x]) {
         case "filled":
-          ctx.fillStyle = props.game.isCompleted
-            ? (tileColors[y]?.[x] ?? color)
-            : color;
+          ctx.fillStyle =
+            props.game.isCompleted || props.editable
+              ? (tileColors[y]?.[x] ?? color)
+              : color;
           ctx.fillRect(
             x * TILE_SIZE + 1,
             y * TILE_SIZE + 1,
@@ -519,7 +524,7 @@ function drawBoard() {
 }
 
 let heldPointer: number | null = null;
-let action: PicrossTileState | null = null;
+let action: PicrossTileChange | null = null;
 // The hover outline is a DOM overlay so moving the cursor never redraws the canvas
 const hoveredTile = ref<{ x: number; y: number } | null>(null);
 
@@ -544,25 +549,42 @@ function getTileAt(event: PointerEvent) {
   return props.game.board[y]?.[x] ? { x, y } : null;
 }
 
-// Shared by player input, undo and redo; the board is the source of truth
-function setTile(x: number, y: number, state: PicrossTileState) {
+function getTile(x: number, y: number): PicrossTile {
+  return {
+    state: props.game.board[y]?.[x] ?? "empty",
+    color: props.game.tileColors[y]?.[x] ?? null,
+  };
+}
+
+// Shared by player input, undo and redo; the board is the source of truth.
+// Colors are only written while editing, since in play they belong to the solution.
+function setTile(x: number, y: number, tile: PicrossTile) {
   const row = props.game.board[y];
   if (!row) return;
-  row[x] = state;
+  row[x] = tile.state;
   if (props.editable) {
+    const colorRow = props.game.tileColors[y];
+    if (colorRow) colorRow[x] = tile.state === "filled" ? tile.color : null;
     const solutionRow = props.game.solution[y];
-    if (solutionRow) solutionRow[x] = state === "filled";
+    if (solutionRow) solutionRow[x] = tile.state === "filled";
     props.game.hints = getHints(props.game.solution);
   }
 }
 
 function applyAction(x: number, y: number) {
-  const row = props.game.board[y];
-  if (!row || !action || row[x] === action) return;
-  stroke?.push({ x, y, prev: row[x] ?? "empty", next: action });
-  setTile(x, y, action);
+  if (!action) return;
+  const prev = getTile(x, y);
+  const next = applyTileChange(prev, action);
+  if (
+    prev.state === next.state &&
+    (!props.editable || prev.color === next.color)
+  ) {
+    return;
+  }
+  stroke?.push({ x, y, prev, next });
+  setTile(x, y, next);
 
-  if (!props.editable && action === "filled") {
+  if (!props.editable && next.state === "filled") {
     props.game.moves++;
   }
   if (placeSounds.length > 0) {
@@ -574,14 +596,12 @@ function applyAction(x: number, y: number) {
   checkIfCompleted();
 }
 
-function getToggledState(
-  current: PicrossTileState | undefined,
-  button: number,
-): PicrossTileState {
+function resolveTile(current: PicrossTile, button: number): PicrossTileChange {
   return getInputModeDefinition(inputMode.value).resolve(
-    current ?? "empty",
+    current,
     button === 2,
     props.editable,
+    props.paintColor,
   );
 }
 
@@ -595,8 +615,7 @@ function handlePointerDown(event: PointerEvent) {
   stroke = [];
   strokeActive.value = true;
   gameBoard.value?.setPointerCapture(event.pointerId);
-  const current = props.game.board[tile.y]?.[tile.x];
-  action = getToggledState(current, event.button);
+  action = resolveTile(getTile(tile.x, tile.y), event.button);
   applyAction(tile.x, tile.y);
 }
 
@@ -812,13 +831,13 @@ watch(
   pointer-events: none;
 }
 .hover-tile {
-  --color: color-mix(var(--inverted-solid) 40%, var(--solid));
+  --hover-tile-color: color-mix(var(--inverted-solid) 40%, var(--solid));
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
   box-sizing: border-box;
-  box-shadow: inset 0 0 0 2px var(--color);
+  box-shadow: inset 0 0 0 2px var(--hover-tile-color);
   pointer-events: none;
   &.mark::after {
     content: "";
@@ -832,7 +851,10 @@ watch(
     mask-size: 30px;
   }
   &.erase {
-    box-shadow: inset 0 0 0 2px var(--red);
+    --hover-tile-color: var(--red);
+  }
+  &.paint {
+    --hover-tile-color: var(--paint-color);
   }
 }
 </style>
