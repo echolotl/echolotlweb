@@ -1,5 +1,5 @@
 <template>
-  <div class="picross-layout">
+  <div class="picross-layout" :style="{ marginTop: `${columnHintsHeight}px` }">
     <SketchFilter id="picross-sketch" flood-color="var(--surface)" />
     <canvas
       v-if="!locked"
@@ -73,6 +73,24 @@ const TILE_SIZE = 30;
 const HINT_FONT_SIZE = 14;
 const HINT_LINE_HEIGHT = 20;
 const COLUMN_HINTS_PADDING = 8;
+
+const targetColumnHintsHeight = computed(
+  () =>
+    Math.max(0, ...props.game.hints.columns.map((h) => h.length)) *
+      HINT_LINE_HEIGHT +
+    COLUMN_HINTS_PADDING * 2,
+);
+// Matches the height of the column hints canvas that sits above the board.
+// It's frozen mid-stroke so the board doesn't shift under the pointer.
+const strokeActive = ref(false);
+const columnHintsHeight = ref(targetColumnHintsHeight.value);
+watch(
+  [targetColumnHintsHeight, strokeActive],
+  ([height, active]) => {
+    if (!active) columnHintsHeight.value = height;
+  },
+  { flush: "sync" },
+);
 const ROW_HINTS_PADDING = 16;
 const ROW_HINT_GAP = 8;
 const UNDO_HISTORY_LIMIT = 100;
@@ -108,12 +126,14 @@ function commitStroke() {
     syncHistoryCounts();
   }
   stroke = null;
+  strokeActive.value = false;
 }
 
 function clearHistory() {
   undoStack = [];
   redoStack = [];
   stroke = null;
+  strokeActive.value = false;
   syncHistoryCounts();
 }
 
@@ -240,9 +260,7 @@ function drawHints() {
   const fontFamily = window.getComputedStyle(columnCanvas).fontFamily;
   const font = `${HINT_FONT_SIZE}px ${fontFamily}`;
 
-  const columnHeight =
-    Math.max(0, ...hints.columns.map((h) => h.length)) * HINT_LINE_HEIGHT +
-    COLUMN_HINTS_PADDING;
+  const columnHeight = columnHintsHeight.value;
   const columnCtx = prepareHintCanvas(
     columnCanvas,
     size.width * TILE_SIZE,
@@ -573,6 +591,7 @@ function handlePointerDown(event: PointerEvent) {
   event.preventDefault();
   heldPointer = event.pointerId;
   stroke = [];
+  strokeActive.value = true;
   gameBoard.value?.setPointerCapture(event.pointerId);
   const current = props.game.board[tile.y]?.[tile.x];
   if (props.editable) {
@@ -738,6 +757,8 @@ watch(() => props.game.tileColors, scheduleDrawBoard, {
 });
 
 watch(solvedHintsKey, drawHints, { flush: "post" });
+// Redraw once the frozen height catches up after a stroke
+watch(columnHintsHeight, drawHints, { flush: "post" });
 // The hint canvases are recreated when unlocking, so they need a fresh draw
 watch(() => props.locked, drawHints, { flush: "post" });
 watch(
@@ -754,7 +775,7 @@ watch(
 .picross-layout {
   position: relative;
   width: fit-content;
-  margin-top: 6rem; /* room for the absolutely positioned column hints */
+  transition: margin-top 0.3s ease;
 }
 .column-hints {
   position: absolute;
