@@ -20,6 +20,8 @@ export type PicrossSolveResult = {
   solution: boolean[][] | null;
   // Cells still undetermined after line logic
   unknownCount: number;
+  // True when the search hit its deadline, so the counts above are inconclusive
+  timedOut?: boolean;
 };
 
 /**
@@ -205,6 +207,7 @@ export function solvePicross(
     logicSolvable,
     solution: timedOut ? null : solution,
     unknownCount,
+    timedOut,
   };
 }
 

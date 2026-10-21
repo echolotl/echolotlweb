@@ -15,6 +15,10 @@
         <Icon icon="date" width="20px" height="20px" /> Daily
       </NuxtLink>
       •
+      <NuxtLink to="/picross/editor" class="link" exact-active-class="active">
+        <Icon icon="art" width="20px" height="20px" /> Editor
+      </NuxtLink>
+      •
       <div class="link" @click="showHowToPlay = true">
         <Icon icon="help" width="20px" height="20px" />How To Play
       </div>

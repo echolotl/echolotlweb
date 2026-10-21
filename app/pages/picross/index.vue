@@ -1,5 +1,5 @@
 <template>
-  <PicrossPage subtitle="Free Play" accent="#e438e4">
+  <PicrossPage subtitle="Free Play" accent="var(--primary)">
     <PicrossGrid v-if="game" ref="grid" :game="game" />
     <p v-else class="lotl-font loading" role="status">
       <Icon icon="loading" width="20px" height="20px" />
@@ -11,45 +11,43 @@
     <div class="game-actions">
       <PicrossInputControls :grid="grid" />
       <button @click="handleClear" class="round">
-          <Icon icon="trash" width="20px" height="20px" />
-          Clear
-        </button>
-        <button
-          :disabled="game?.isCompleted"
-          @click="solveGame(game!)"
-          class="round filled"
-        >
-          Solve
-        </button>
-        <button
-          :disabled="game?.isCompleted"
-          @click="() => fillRandomTile(game!)"
-          class="round"
-        >
-          <Icon icon="tip" width="20px" height="20px" />
-          Hint
-        </button>
-      </div>
-      <div class="game-actions">
-        <input
-          v-model.number="sizeInput.width"
-          type="number"
-          min="1"
-          max="50"
-          aria-label="Board width"
-        />
-        <span aria-hidden="true">x</span>
-        <input
-          v-model.number="sizeInput.height"
-          type="number"
-          min="1"
-          max="50"
-          aria-label="Board height"
-        />
-        <button @click="regeneratePuzzle" class="round filled">
-          Regenerate
-        </button>
-      </div>
+        <Icon icon="trash" width="20px" height="20px" />
+        Clear
+      </button>
+      <button
+        :disabled="game?.isCompleted"
+        @click="solveGame(game!)"
+        class="round filled"
+      >
+        Solve
+      </button>
+      <button
+        :disabled="game?.isCompleted"
+        @click="() => fillRandomTile(game!)"
+        class="round"
+      >
+        <Icon icon="tip" width="20px" height="20px" />
+        Hint
+      </button>
+    </div>
+    <div class="game-actions">
+      <input
+        v-model.number="sizeInput.width"
+        type="number"
+        :min="MIN_BOARD_SIZE"
+        :max="MAX_BOARD_SIZE"
+        aria-label="Board width"
+      />
+      <span aria-hidden="true">x</span>
+      <input
+        v-model.number="sizeInput.height"
+        type="number"
+        :min="MIN_BOARD_SIZE"
+        :max="MAX_BOARD_SIZE"
+        aria-label="Board height"
+      />
+      <button @click="regeneratePuzzle" class="round filled">Regenerate</button>
+    </div>
   </PicrossPage>
 </template>
 
@@ -57,23 +55,27 @@
 import {
   createPicrossGame,
   clearBoard,
+  clampPicrossSize,
   solveGame,
   fillRandomTile,
+  DEFAULT_BOARD_SIZE,
+  MAX_BOARD_SIZE,
+  MIN_BOARD_SIZE,
 } from "~/utils/picross";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
 import PicrossPage from "~/components/picross/PicrossPage.vue";
 import PicrossInputControls from "~/components/picross/PicrossInputControls.vue";
-import { getHints, type PicrossSize } from "~/utils/picross";
+import { getHints } from "~/utils/picross";
 import { generateSolvableSolution } from "~/utils/picross/solver";
 import type { PicrossGame } from "~/utils/picross";
 
-const MIN_SIZE = 1;
-const MAX_SIZE = 50;
-const DEFAULT_SIZE = 10;
-const sizeInput = reactive({ width: DEFAULT_SIZE, height: DEFAULT_SIZE });
+const sizeInput = reactive({
+  width: DEFAULT_BOARD_SIZE,
+  height: DEFAULT_BOARD_SIZE,
+});
 const game = ref<PicrossGame | null>(null);
-const grid = ref<typeof PicrossGrid | null>(null);
+const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
 
 function handleClear() {
   if (!game.value) return;
@@ -83,10 +85,7 @@ function handleClear() {
 
 // Builds a fresh puzzle using the size from the inputs
 function regeneratePuzzle() {
-  const size: PicrossSize = {
-    width: clamp(sizeInput.width, MIN_SIZE, MAX_SIZE),
-    height: clamp(sizeInput.height, MIN_SIZE, MAX_SIZE),
-  };
+  const size = clampPicrossSize(sizeInput);
   sizeInput.width = size.width;
   sizeInput.height = size.height;
   const solution = generateSolvableSolution(size, getHints);

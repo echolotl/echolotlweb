@@ -1,3 +1,5 @@
+import { clamp } from "~/utils";
+
 export type PicrossTileState = "empty" | "filled" | "marked";
 
 export type PicrossBoard = PicrossTileState[][];
@@ -9,13 +11,40 @@ export type PicrossSize = {
   height: number;
 };
 
+export const MIN_BOARD_SIZE = 1;
+export const MAX_BOARD_SIZE = 50;
+export const DEFAULT_BOARD_SIZE = 10;
+
+export function clampPicrossSize(size: PicrossSize): PicrossSize {
+  return {
+    width: clamp(size.width, MIN_BOARD_SIZE, MAX_BOARD_SIZE),
+    height: clamp(size.height, MIN_BOARD_SIZE, MAX_BOARD_SIZE),
+  };
+}
+
+export function isValidBoard(
+  board: unknown,
+  size: PicrossSize,
+): board is PicrossBoard {
+  return (
+    Array.isArray(board) &&
+    board.length === size.height &&
+    board.every(
+      (row) =>
+        Array.isArray(row) &&
+        row.length === size.width &&
+        row.every((tile) => ["empty", "filled", "marked"].includes(tile)),
+    )
+  );
+}
+
 export type PicrossMetadata = {
   title?: string;
-  author?: string | { userId: string, placeholder: string };
-  source?: string | { name: string, url: string | URL};
+  author?: string | { userId: string; placeholder: string };
+  source?: string | { name: string; url: string | URL };
   created_at: string;
   modified_at: string;
-}
+};
 
 export function createTileColors(size: PicrossSize): PicrossTileColors {
   return Array.from({ length: size.height }, () =>
@@ -39,7 +68,81 @@ export type PicrossGame = {
   metadata?: PicrossMetadata;
 };
 
-export type InputMode = "fill" | "mark" | "erase";
+export type InputModeDefinition = {
+  icon: string;
+  keys: string[]; // KeyboardEvent.code values that select this mode
+  optIn?: true; // Hidden from the controls unless a parent lists it in `addModes`
+  // The state a tile should become when clicked; secondary is a right click
+  resolve: (
+    current: PicrossTileState,
+    secondary: boolean,
+    editor?: boolean,
+  ) => PicrossTileState;
+};
+
+function toggleTo(target: PicrossTileState) {
+  return (current: PicrossTileState) => (current === target ? "empty" : target);
+}
+
+export const INPUT_MODES = {
+  fill: {
+    icon: "edit",
+    keys: ["KeyB", "Key1"],
+    resolve: (current, secondary, editor) => {
+      if (editor) return toggleTo(secondary ? "empty" : "filled")(current);
+      return toggleTo(secondary ? "marked" : "filled")(current);
+    },
+  },
+  mark: {
+    icon: "close",
+    keys: ["KeyM", "Key2"],
+    resolve: (current, secondary, editor) => {
+      if (editor) return current;
+      return toggleTo(secondary ? "filled" : "marked")(current);
+    },
+  },
+  erase: {
+    icon: "trash",
+    keys: ["KeyE", "Key3"],
+    resolve: (current, secondary, editor) => "empty",
+  },
+  paint: {
+    icon: "palette",
+    keys: ["KeyP", "Key4"],
+    resolve: (current, secondary, editor) =>
+      toggleTo(secondary ? "marked" : "filled")(current),
+  },
+} as const satisfies Record<string, InputModeDefinition>;
+
+export type InputMode = keyof typeof INPUT_MODES;
+
+export const DEFAULT_INPUT_MODE = Object.keys(INPUT_MODES)[0] as InputMode;
+
+const inputModeDefinitions: Record<InputMode, InputModeDefinition> =
+  INPUT_MODES;
+
+export function getInputModeDefinition(mode: InputMode): InputModeDefinition {
+  return inputModeDefinitions[mode];
+}
+
+// Modes shown in the controls: every non-opt-in mode plus `add`, minus `remove`
+export function getInputModes(
+  remove: readonly InputMode[] = [],
+  add: readonly InputMode[] = [],
+): { mode: InputMode; definition: InputModeDefinition }[] {
+  return (Object.keys(INPUT_MODES) as InputMode[])
+    .map((mode) => ({ mode, definition: inputModeDefinitions[mode] }))
+    .filter(
+      ({ mode, definition }) =>
+        !remove.includes(mode) && (!definition.optIn || add.includes(mode)),
+    );
+}
+
+export function getInputModeForKey(code: string): InputMode | undefined {
+  return getInputModes().find(({ definition }) =>
+    definition.keys.includes(code),
+  )?.mode;
+}
 
 export function createPicrossGame(
   size: PicrossSize,
@@ -188,7 +291,10 @@ export function solveGame(game: PicrossGame): void {
   game.isCompleted = true;
 }
 
-export function fillRandomTile(game: PicrossGame, random = Math.random): boolean {
+export function fillRandomTile(
+  game: PicrossGame,
+  random = Math.random,
+): boolean {
   if (game.isCompleted) return false;
   const { board, solution } = game;
   const emptyTiles: { x: number; y: number }[] = [];

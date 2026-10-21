@@ -95,6 +95,7 @@ import {
   isBoardSolved,
   clearBoard,
   solveGame,
+  type PicrossSize,
 } from "~/utils/picross";
 import {
   getSecondsUntilNextDay,
@@ -127,7 +128,7 @@ const game = ref<PicrossGame | null>(null);
 const dateKey = ref("");
 const gaveUp = ref(false);
 const started = ref(false);
-const grid = ref<typeof PicrossGrid | null>(null);
+const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
 const save = ref<PicrossSave>({
   history: {},
   totalMoves: 0,
@@ -228,22 +229,6 @@ function createDailyGame(key: string): PicrossGame {
     random,
   );
   return createPicrossGame(size, solution);
-}
-
-function isValidBoard(
-  board: unknown,
-  size: PicrossGame["size"],
-): board is PicrossBoard {
-  return (
-    Array.isArray(board) &&
-    board.length === size.height &&
-    board.every(
-      (row) =>
-        Array.isArray(row) &&
-        row.length === size.width &&
-        row.every((tile) => ["empty", "filled", "marked"].includes(tile)),
-    )
-  );
 }
 
 function startDailyGame() {

@@ -46,7 +46,10 @@ import SketchFilter from "~/components/common/SketchFilter.vue";
 import { useTheme } from "~/composables/useTheme";
 import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 import {
+  DEFAULT_INPUT_MODE,
   getHints,
+  getInputModeDefinition,
+  getInputModeForKey,
   getSolvedHints,
   isBoardSolved,
   isLineOverfilled,
@@ -65,7 +68,7 @@ const props = defineProps<{
 }>();
 
 // The grid owns the input mode; parents read and set it through the exposed API
-const inputMode = ref<InputMode>("fill");
+const inputMode = ref<InputMode>(DEFAULT_INPUT_MODE);
 
 const { theme } = useTheme();
 
@@ -575,12 +578,11 @@ function getToggledState(
   current: PicrossTileState | undefined,
   button: number,
 ): PicrossTileState {
-  const mode = inputMode.value;
-  if (mode === "erase") return "empty"; // Erase mode always returns empty
-  const swapped = button === 2;
-  const target: PicrossTileState =
-    (mode === "fill") !== swapped ? "filled" : "marked";
-  return current === target ? "empty" : target;
+  return getInputModeDefinition(inputMode.value).resolve(
+    current ?? "empty",
+    button === 2,
+    props.editable,
+  );
 }
 
 function handlePointerDown(event: PointerEvent) {
@@ -594,12 +596,7 @@ function handlePointerDown(event: PointerEvent) {
   strokeActive.value = true;
   gameBoard.value?.setPointerCapture(event.pointerId);
   const current = props.game.board[tile.y]?.[tile.x];
-  if (props.editable) {
-    // Editing ignores the input mode and only toggles between filled and empty
-    action = event.button === 0 && current !== "filled" ? "filled" : "empty";
-  } else {
-    action = getToggledState(current, event.button);
-  }
+  action = getToggledState(current, event.button);
   applyAction(tile.x, tile.y);
 }
 
@@ -616,26 +613,29 @@ function handlePointerLeave() {
 }
 
 function handleKeys(event: KeyboardEvent) {
+  // Don't hijack typing or native undo inside form fields
+  const target = event.target;
+  if (
+    target instanceof HTMLElement &&
+    (target.isContentEditable ||
+      ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
+  ) {
+    return;
+  }
+  const mode = getInputModeForKey(event.code);
+  if (mode) {
+    inputMode.value = mode;
+    return;
+  }
+  if (!(event.ctrlKey || event.metaKey)) return;
   switch (event.code) {
-    case "KeyB":
-    case "Key1":
-      inputMode.value = "fill";
-      break;
-    case "KeyM":
-    case "Key2":
-      inputMode.value = "mark";
-      break;
-    case "KeyE":
-    case "Key3":
-      inputMode.value = "erase";
+    case "KeyY":
+      event.preventDefault();
+      handleRedo();
       break;
     case "KeyZ":
-    case "KeyY":
-      if (!(event.ctrlKey || event.metaKey)) {
-        break;
-      }
       event.preventDefault();
-      if (event.code === "KeyY" || event.shiftKey) {
+      if (event.shiftKey) {
         handleRedo();
       } else {
         handleUndo();

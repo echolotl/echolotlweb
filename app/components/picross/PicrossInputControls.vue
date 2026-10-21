@@ -1,14 +1,14 @@
 <template>
   <div class="input-modes">
     <button
-      v-for="mode in modes"
-      :key="mode.mode"
-      :class="{ active: grid?.inputMode === mode.mode }"
+      v-for="{ mode, definition } in modes"
+      :key="mode"
+      :class="{ active: grid?.inputMode === mode }"
       :disabled="disabled"
-      @click="grid?.setInputMode(mode.mode)"
+      @click="grid?.setInputMode(mode)"
       class="round"
     >
-      <Icon :icon="mode.icon" width="20px" height="20px" />
+      <Icon :icon="definition.icon" width="20px" height="20px" />
     </button>
   </div>
   <div class="input-modes">
@@ -34,17 +34,18 @@
 <script setup lang="ts">
 import Icon from "~/components/common/Icon.vue";
 import type PicrossGrid from "~/components/picross/PicrossGrid.vue";
+import { getInputModes, type InputMode } from "~/utils/picross";
 
-defineProps<{
+const props = defineProps<{
   grid: InstanceType<typeof PicrossGrid> | null;
   disabled?: boolean;
+  removeModes?: InputMode[];
+  addModes?: InputMode[];
 }>();
 
-const modes = [
-  { mode: "fill", icon: "edit" },
-  { mode: "mark", icon: "close" },
-  { mode: "erase", icon: "trash" },
-] as const;
+const modes = computed(() =>
+  getInputModes(props.removeModes, props.addModes),
+);
 </script>
 
 <style scoped>
