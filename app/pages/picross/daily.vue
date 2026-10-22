@@ -108,6 +108,11 @@ import { generateSolvableSolution } from "~/utils/picross/solver";
 
 const { theme } = useTheme();
 
+definePageMeta({
+  pageTransition: false,
+  viewTransition: true,
+});
+
 type PicrossGameStats = Omit<PicrossGame, "tileColors" | "solution"> & {
   gaveUp?: boolean;
 };

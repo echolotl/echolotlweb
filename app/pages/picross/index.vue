@@ -77,6 +77,11 @@ const sizeInput = reactive({
 const game = ref<PicrossGame | null>(null);
 const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
 
+definePageMeta({
+  pageTransition: false,
+  viewTransition: true,
+});
+
 function handleClear() {
   if (!game.value) return;
   clearBoard(game.value);

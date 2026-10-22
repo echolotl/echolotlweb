@@ -181,6 +181,11 @@ const selectedColor = ref("");
 const newColor = ref("#000000");
 const curPaintColor = computed(() => selectedColor.value || null);
 
+definePageMeta({
+  pageTransition: false,
+  viewTransition: true,
+});
+
 function addColor() {
   const color = newColor.value.toLowerCase();
   if (!palette.value.includes(color)) palette.value.push(color);

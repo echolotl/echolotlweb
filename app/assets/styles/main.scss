@@ -252,6 +252,14 @@ hr {
   transform: translateY(1rem);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 * {
   @include full-transition;
 }

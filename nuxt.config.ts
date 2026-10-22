@@ -102,6 +102,9 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 5,
   },
+  experimental: {
+    viewTransition: true,
+  },
   runtimeConfig: {
     public: {
       underConstruction: true,

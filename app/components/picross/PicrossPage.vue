@@ -80,6 +80,7 @@ const showHowToPlay = ref(false);
   position: relative;
   width: 100%;
   filter: url(#picross-sketch-filter);
+  view-transition-name: picross-title;
 }
 
 .picross-header {
@@ -100,6 +101,8 @@ const showHowToPlay = ref(false);
   font-size: 1.25rem;
   paint-order: stroke;
   -webkit-text-stroke: 6px var(--background);
+  width: fit-content;
+  view-transition-name: picross-subtitle;
 }
 
 .header-links {
@@ -110,6 +113,7 @@ const showHowToPlay = ref(false);
   gap: 10px;
   margin-top: 8px;
   z-index: 1;
+  view-transition-name: picross-navigation;
 
   .link {
     display: flex;
@@ -134,7 +138,6 @@ const showHowToPlay = ref(false);
   gap: 16px;
 }
 
-/* Slotted content is rendered by the pages, so these shared classes need :deep */
 .game :deep(.solved-message) {
   margin: 0;
   font-weight: bold;
