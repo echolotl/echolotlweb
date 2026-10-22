@@ -111,11 +111,11 @@ function regeneratePuzzle() {
   game.value = createPicrossGame(size, solution);
 
   // fill with random colors
-  game.value.palette.colors = Array.from({ length: 8 }, () =>
+  game.value.palette.colors = Array.from({ length: 4 }, () =>
     rgbToHex(randomColor(0.5, 0.5)),
   );
   game.value.palette.indices = Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => Math.floor(Math.random() * 8)),
+    Array.from({ length: size.width }, () => Math.floor(Math.random() * 4)),
   );
 }
 
