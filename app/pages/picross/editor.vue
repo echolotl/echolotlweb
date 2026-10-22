@@ -90,7 +90,7 @@
     </div>
     <div class="settings">
       <fieldset>
-        <legend>Metadata</legend>
+        <legend>Metadata (optional)</legend>
         <label>
           Title
           <input
@@ -104,7 +104,7 @@
           <label>
             Author
             <input
-              v-model="metadata.author"
+              v-model="metadata.author.name"
               placeholder="echolotl"
               type="text"
               maxlength="100"
@@ -113,7 +113,7 @@
           <label>
             Source
             <input
-              v-model="metadata.source"
+              v-model="metadata.source.name"
               placeholder="Some picross game"
               type="text"
               maxlength="100"
@@ -169,10 +169,10 @@ const sizeInput = reactive<PicrossSize>({
   width: DEFAULT_BOARD_SIZE,
   height: DEFAULT_BOARD_SIZE,
 });
-const metadata = reactive<Omit<PicrossMetadata, "created_at" | "modified_at">>({
+const metadata = reactive({
   title: "",
-  author: "",
-  source: "",
+  author: { name: "" },
+  source: { name: "" },
 });
 
 let createdAt: string | null = null;
@@ -320,9 +320,9 @@ async function handleLoad(event: Event) {
     sizeInput.width = puzzle.size.width;
     sizeInput.height = puzzle.size.height;
     const { title, author, source, created_at } = puzzle.metadata;
-    metadata.title = title;
-    metadata.author = author;
-    metadata.source = source;
+    metadata.title = title ?? "";
+    metadata.author = author ?? { name: "" };
+    metadata.source = source ?? { name: "" };
     createdAt = created_at;
   } catch (error) {
     fileError.value =

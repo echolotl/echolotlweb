@@ -56,8 +56,8 @@ export function isValidSolution(
 
 export type PicrossMetadata = {
   title?: string;
-  author?: string | { userId: string; placeholder: string };
-  source?: string | { name: string; url: string | URL };
+  author?: { name: string; id?: string };
+  source?: { name: string; url?: string | URL };
   created_at: string;
   modified_at: string;
 };

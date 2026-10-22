@@ -4,7 +4,11 @@ import type {
   PicrossSolution,
   PicrossTileColors,
 } from "~/utils/picross";
-import { isValidSolution, MAX_BOARD_SIZE, MIN_BOARD_SIZE } from "~/utils/picross";
+import {
+  isValidSolution,
+  MAX_BOARD_SIZE,
+  MIN_BOARD_SIZE,
+} from "~/utils/picross";
 
 const MAGIC_HEADER = new Uint8Array([
   0x45, 0x43, 0x48, 0x4f, 0x4c, 0x4f, 0x54, 0x4c,
@@ -57,7 +61,7 @@ function encodeMetadata(metadata: PicrossMetadata) {
   return [
     checkText(title ?? ""),
     typeof author === "object"
-      ? encodePair(author.userId, author.placeholder)
+      ? encodePair(author.name, author.id ?? "")
       : checkText(author ?? ""),
     typeof source === "object"
       ? encodePair(source.name, String(source.url))
@@ -80,13 +84,13 @@ function decodeMetadata(fields: string[]): PicrossMetadata {
   const metadata: PicrossMetadata = { created_at, modified_at };
   if (title) metadata.title = title;
   if (author) {
-    const [userId, placeholder] = author.split(PART_SEPARATOR);
-    metadata.author =
-      placeholder === undefined ? author : { userId: userId!, placeholder };
+    const [name, id] = author.split(PART_SEPARATOR);
+    metadata.author = id === undefined ? { name: author } : { name: name!, id };
   }
   if (source) {
     const [name, url] = source.split(PART_SEPARATOR);
-    metadata.source = url === undefined ? source : { name: name!, url };
+    metadata.source =
+      url === undefined ? { name: source } : { name: name!, url };
   }
   return metadata;
 }
