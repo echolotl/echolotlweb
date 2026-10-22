@@ -38,6 +38,26 @@
         @contextmenu.prevent
       ></canvas>
     </div>
+    <div v-if="metadataInfo" class="metadata text-secondary">
+      <span v-if="metadataInfo.title"
+        >"<b>{{ metadataInfo.title }}</b
+        >"</span
+      >
+      <template v-if="metadataInfo.author">
+        by <strong class="lotl-font">{{ metadataInfo.author }}</strong>
+      </template>
+      <template v-if="metadataInfo.source">
+        - from
+        <a
+          v-if="metadataInfo.source.url"
+          :href="metadataInfo.source.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><strong>{{ metadataInfo.source.name }}</strong></a
+        >
+        <strong v-else>{{ metadataInfo.source.name }}</strong>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -70,6 +90,33 @@ const props = defineProps<{
   editable?: boolean;
   paintColor?: string | null; // Color applied by the paint mode while editable
 }>();
+
+// Only http(s) links are allowed since metadata comes from user-loaded files
+function toSafeUrl(value: string | URL): string | null {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:"
+      ? url.href
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+const metadataInfo = computed(() => {
+  const metadata = props.game.metadata;
+  if (!metadata) return null;
+  const { title, author, source } = metadata;
+  const authorName = typeof author === "object" ? author.placeholder : author;
+  const sourceInfo =
+    typeof source === "object"
+      ? { name: source.name, url: toSafeUrl(source.url) }
+      : source
+        ? { name: source, url: toSafeUrl(source) }
+        : null;
+  if (!title && !authorName && !sourceInfo) return null;
+  return { title, author: authorName, source: sourceInfo };
+});
 
 // The grid owns the input mode; parents read and set it through the exposed API
 const inputMode = ref<InputMode>(DEFAULT_INPUT_MODE);
@@ -566,8 +613,11 @@ function setTile(x: number, y: number, tile: PicrossTile) {
     const colorRow = props.game.tileColors[y];
     if (colorRow) colorRow[x] = tile.state === "filled" ? tile.color : null;
     const solutionRow = props.game.solution[y];
-    if (solutionRow) solutionRow[x] = tile.state === "filled";
-    props.game.hints = getHints(props.game.solution);
+    const filled = tile.state === "filled";
+    if (solutionRow && solutionRow[x] !== filled) {
+      solutionRow[x] = filled;
+      props.game.hints = getHints(props.game.solution);
+    }
   }
 }
 
@@ -698,6 +748,7 @@ defineExpose({
   undo: handleUndo,
   redo: handleRedo,
   clearHistory,
+  strokeActive,
   canUndo: computed(() => undoCount.value > 0 && canEditHistory()),
   canRedo: computed(() => redoCount.value > 0 && canEditHistory()),
 });
@@ -833,11 +884,11 @@ watch(
 .hover-tile {
   --hover-tile-color: color-mix(var(--inverted-solid) 40%, var(--solid));
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -2px;
+  left: -2px;
   z-index: 1;
-  box-sizing: border-box;
-  box-shadow: inset 0 0 0 2px var(--hover-tile-color);
+  box-sizing: content-box;
+  border: 2px solid var(--hover-tile-color);
   pointer-events: none;
   &.mark::after {
     content: "";
@@ -852,9 +903,15 @@ watch(
   }
   &.erase {
     --hover-tile-color: var(--red);
+    border-style: dashed;
   }
   &.paint {
     --hover-tile-color: var(--paint-color);
   }
+}
+
+.metadata {
+  margin-top: 12px;
+  text-align: center;
 }
 </style>

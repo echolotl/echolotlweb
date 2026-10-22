@@ -38,6 +38,22 @@ export function isValidBoard(
   );
 }
 
+export function isValidSolution(
+  solution: unknown,
+  size: PicrossSize,
+): solution is PicrossSolution {
+  return (
+    Array.isArray(solution) &&
+    solution.length === size.height &&
+    solution.every(
+      (row) =>
+        Array.isArray(row) &&
+        row.length === size.width &&
+        row.every((tile) => typeof tile === "boolean"),
+    )
+  );
+}
+
 export type PicrossMetadata = {
   title?: string;
   author?: string | { userId: string; placeholder: string };
@@ -141,8 +157,9 @@ export const INPUT_MODES = {
     keys: ["KeyP", "Key4"],
     optIn: true,
     resolve: (current, secondary, editor, paintColor) => {
-      if (!editor || (!secondary && !paintColor)) return {};
-      return { color: secondary ? null : paintColor };
+      if (!editor) return {};
+      // No paint color means the default tile color
+      return { color: secondary ? null : (paintColor ?? null) };
     },
   },
 } as const satisfies Record<string, InputModeDefinition>;

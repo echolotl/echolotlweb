@@ -322,6 +322,7 @@ useSeoMeta({
   ogTitle: "Nautilus' Picross",
   ogUrl: "https://echolotl.lol/picross/daily",
   ogImage: "https://echolotl.lol/images/picross/og.webp",
+  twitterCard: "summary_large_image",
 });
 </script>
 

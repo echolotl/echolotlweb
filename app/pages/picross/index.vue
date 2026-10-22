@@ -6,7 +6,10 @@
       Loading puzzle...
     </p>
     <p v-if="game?.isCompleted" class="solved-message" role="status">
-      The board is solved!
+      <Icon icon="crown" width="20px" height="20px" />
+      {{
+        WIN_SPLASH_TEXTS[Math.floor(Math.random() * WIN_SPLASH_TEXTS.length)]
+      }}
     </p>
     <div class="game-actions">
       <PicrossInputControls :grid="grid" />
@@ -31,23 +34,21 @@
       </button>
     </div>
     <div class="game-actions">
-      <input
-        v-model.number="sizeInput.width"
-        type="number"
-        :min="MIN_BOARD_SIZE"
-        :max="MAX_BOARD_SIZE"
-        aria-label="Board width"
-      />
-      <span aria-hidden="true">x</span>
-      <input
-        v-model.number="sizeInput.height"
-        type="number"
-        :min="MIN_BOARD_SIZE"
-        :max="MAX_BOARD_SIZE"
-        aria-label="Board height"
-      />
+      <PicrossSizeInput v-model="sizeInput" />
       <button @click="regeneratePuzzle" class="round filled">Regenerate</button>
+      <button @click="fileInput?.click()" class="round">
+        <Icon icon="upload" width="20px" height="20px" />
+        Load
+      </button>
+      <input
+        ref="fileInput"
+        type="file"
+        :accept="`.${FILE_EXTENSION}`"
+        hidden
+        @change="handleLoad"
+      />
     </div>
+    <p v-if="fileError" class="file-error" role="alert">{{ fileError }}</p>
   </PicrossPage>
 </template>
 
@@ -59,23 +60,37 @@ import {
   solveGame,
   fillRandomTile,
   DEFAULT_BOARD_SIZE,
-  MAX_BOARD_SIZE,
-  MIN_BOARD_SIZE,
+  type PicrossSize,
 } from "~/utils/picross";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
+import PicrossSizeInput from "~/components/picross/PicrossSizeInput.vue";
 import Icon from "~/components/common/Icon.vue";
 import PicrossPage from "~/components/picross/PicrossPage.vue";
 import PicrossInputControls from "~/components/picross/PicrossInputControls.vue";
 import { getHints } from "~/utils/picross";
 import { generateSolvableSolution } from "~/utils/picross/solver";
 import type { PicrossGame } from "~/utils/picross";
+import { FILE_EXTENSION, loadPicrossPuzzle } from "~/utils/picross/file";
 
-const sizeInput = reactive({
+const fileInput = ref<HTMLInputElement | null>(null);
+const fileError = ref("");
+const sizeInput = ref<PicrossSize>({
   width: DEFAULT_BOARD_SIZE,
   height: DEFAULT_BOARD_SIZE,
 });
 const game = ref<PicrossGame | null>(null);
 const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
+
+const WIN_SPLASH_TEXTS = [
+  "In the future, all picross will be randomly generated!",
+  "You're telling me a pih crossed this puzzle?",
+  "Good job! Please don't report copyright infringement to Nintendo",
+  "Nautilus looooooves finished picross puzzles",
+  "How puzzling... my picross",
+  "Thanks, I didn't want to solve it myself...",
+  "Yummy yummy in Nautilus tummy",
+  "It's colorful which means you solved it",
+];
 
 definePageMeta({
   pageTransition: false,
@@ -90,9 +105,8 @@ function handleClear() {
 
 // Builds a fresh puzzle using the size from the inputs
 function regeneratePuzzle() {
-  const size = clampPicrossSize(sizeInput);
-  sizeInput.width = size.width;
-  sizeInput.height = size.height;
+  const size = clampPicrossSize(sizeInput.value);
+  sizeInput.value = size;
   const solution = generateSolvableSolution(size, getHints);
   game.value = createPicrossGame(size, solution);
 
@@ -100,6 +114,27 @@ function regeneratePuzzle() {
   game.value.tileColors = Array.from({ length: size.height }, () =>
     Array.from({ length: size.width }, () => rgbToHex(randomColor(0.4, 0.5))),
   );
+}
+
+async function handleLoad(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  // Clearing the value lets the same file be picked again
+  input.value = "";
+  if (!file) return;
+  fileError.value = "";
+  try {
+    const puzzle = loadPicrossPuzzle(new Uint8Array(await file.arrayBuffer()));
+    const next = createPicrossGame(puzzle.size, puzzle.solution);
+    next.tileColors = puzzle.tileColors;
+    next.metadata = puzzle.metadata;
+    game.value = next;
+    sizeInput.value = puzzle.size;
+    grid.value?.clearHistory();
+  } catch (error) {
+    fileError.value =
+      error instanceof Error ? error.message : "Couldn't load that file";
+  }
 }
 
 onMounted(regeneratePuzzle);
@@ -114,18 +149,14 @@ useSeoMeta({
 </script>
 
 <style scoped>
-.game-actions > input[type="number"] {
-  background: var(--surface);
-  color: var(--text);
-  border: none;
-  font-family: inherit;
-  text-align: center;
-  font-weight: bold;
-  border-radius: 6px;
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+.file-error {
+  color: var(--red);
+}
+.solved-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--orange);
 }
 </style>

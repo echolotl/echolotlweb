@@ -1,12 +1,12 @@
 <template>
-  <PicrossPage subtitle="Editor" accent="var(--orange)">
+  <PicrossPage subtitle="Editor (WIP!!)" accent="var(--orange)">
     <PicrossGrid
       v-if="game"
       ref="grid"
       :game="game"
       :editable="true"
       :paint-color="curPaintColor"
-      :style="curPaintColor ? { '--paint-color': curPaintColor } : {}"
+      :style="{ '--paint-color': curPaintColor ?? 'var(--text)' }"
     />
     <div class="game-actions">
       <PicrossInputControls
@@ -18,36 +18,49 @@
         <Icon icon="trash" width="20px" height="20px" />
         Clear
       </button>
-      <button @click="handleSave" class="round">
-        <Icon icon="download" width="20px" height="20px" />
-        Save
-      </button>
-      <button @click="fileInput?.click()" class="round">
-        <Icon icon="upload" width="20px" height="20px" />
-        Load
-      </button>
-      <input
-        ref="fileInput"
-        type="file"
-        :accept="`.${FILE_EXTENSION}`"
-        hidden
-        @change="handleLoad"
+      <PicrossSizeInput
+        :model-value="sizeInput"
+        @update:model-value="applySizeInput"
       />
     </div>
-    <div v-if="grid?.inputMode === 'paint'" class="palette">
-      <input type="color" v-model="newColor" />
-      <button @click="addColor()">
-        <Icon icon="add" width="16px" height="16px" />
-      </button>
-      <div
-        v-for="(color, index) in palette"
-        :key="index"
-        class="color-swatch"
-        :class="{ selected: selectedColor === color }"
-        :style="{ '--paint-color': color }"
-        @click="selectedColor = color"
-      ></div>
-    </div>
+    <template v-if="grid?.inputMode === 'paint'">
+      <div class="palette">
+        <div class="new-color">
+          <input type="color" v-model="newColor" />
+          <button @click="addColor()">
+            <Icon icon="add" width="16px" height="16px" />
+          </button>
+        </div>
+        <div class="swatches">
+          <button
+            type="button"
+            class="color-swatch default-swatch"
+            :class="{ selected: !selectedColor }"
+            title="Default color"
+            aria-label="Default color"
+            :aria-pressed="!selectedColor"
+            @click="selectedColor = ''"
+          ></button>
+        </div>
+        <div v-if="palette.length" class="swatches">
+          <div
+            v-for="(color, index) in palette"
+            :key="index"
+            class="color-swatch"
+            :class="{ selected: selectedColor === color }"
+            :style="{ '--paint-color': color }"
+            @click="selectedColor = color"
+          ></div>
+        </div>
+        <button
+          v-if="selectedColor"
+          class="filled red round"
+          @click="deleteColor()"
+        >
+          <Icon icon="trash" width="20px" height="20px" />
+        </button>
+      </div>
+    </template>
 
     <div class="solve-result">
       <div class="solve-result-header text-secondary lotl-font">
@@ -76,31 +89,6 @@
       </div>
     </div>
     <div class="settings">
-      <fieldset>
-        <legend>Board</legend>
-        <label>
-          Size
-          <div class="size-inputs">
-            <input
-              v-model.number="sizeInput.width"
-              type="number"
-              :min="MIN_BOARD_SIZE"
-              :max="MAX_BOARD_SIZE"
-              aria-label="Board width"
-              @change="applySizeInput"
-            />
-            <span aria-hidden="true">⨯</span>
-            <input
-              v-model.number="sizeInput.height"
-              type="number"
-              :min="MIN_BOARD_SIZE"
-              :max="MAX_BOARD_SIZE"
-              aria-label="Board height"
-              @change="applySizeInput"
-            />
-          </div>
-        </label>
-      </fieldset>
       <fieldset>
         <legend>Metadata</legend>
         <label>
@@ -132,6 +120,23 @@
             />
           </label>
         </div>
+        <div class="file-actions">
+          <button @click="handleSave" class="round">
+            <Icon icon="download" width="20px" height="20px" />
+            Save
+          </button>
+          <button @click="fileInput?.click()" class="round">
+            <Icon icon="upload" width="20px" height="20px" />
+            Load
+          </button>
+          <input
+            ref="fileInput"
+            type="file"
+            :accept="`.${FILE_EXTENSION}`"
+            hidden
+            @change="handleLoad"
+          />
+        </div>
       </fieldset>
       <p v-if="fileError" class="file-error" role="alert">{{ fileError }}</p>
     </div>
@@ -143,14 +148,13 @@ import PicrossGrid from "~/components/picross/PicrossGrid.vue";
 import Icon from "~/components/common/Icon.vue";
 import PicrossPage from "~/components/picross/PicrossPage.vue";
 import PicrossInputControls from "~/components/picross/PicrossInputControls.vue";
+import PicrossSizeInput from "~/components/picross/PicrossSizeInput.vue";
 import {
   createPicrossGame,
   clearBoard,
   clampPicrossSize,
   getHints,
   DEFAULT_BOARD_SIZE,
-  MAX_BOARD_SIZE,
-  MIN_BOARD_SIZE,
   type PicrossGame,
   type PicrossSize,
   type PicrossMetadata,
@@ -192,10 +196,26 @@ function addColor() {
   selectedColor.value = color;
 }
 
+function eraseColor(color: string) {
+  const current = game.value;
+  if (!current) return;
+  let changed = false;
+  current.tileColors.forEach((row) =>
+    row.forEach((tileColor, x) => {
+      if (tileColor !== color) return;
+      row[x] = null;
+      changed = true;
+    }),
+  );
+  if (changed) grid.value?.clearHistory();
+}
+
 function removeColor() {
   const index = palette.value.indexOf(selectedColor.value);
   if (index === -1) return;
+  const removed = selectedColor.value;
   palette.value.splice(index, 1);
+  eraseColor(removed);
   selectedColor.value =
     palette.value[Math.min(index, palette.value.length - 1)] ?? "";
 }
@@ -226,9 +246,7 @@ function init() {
   game.value = buildGame(clampPicrossSize(sizeInput));
 }
 
-// Resizes once the user commits a value, so typing never wipes tiles midway
-function applySizeInput() {
-  const size = clampPicrossSize(sizeInput);
+function applySizeInput(size: PicrossSize) {
   sizeInput.width = size.width;
   sizeInput.height = size.height;
   game.value = buildGame(size, game.value);
@@ -240,6 +258,11 @@ function handleClear() {
   game.value.solution.forEach((row) => row.fill(false));
   game.value.hints = getHints(game.value.solution);
   grid.value?.clearHistory();
+}
+
+function deleteColor() {
+  if (!selectedColor.value) return;
+  removeColor();
 }
 
 onMounted(init);
@@ -254,6 +277,7 @@ function handleSave() {
       metadata: {
         title: metadata.title,
         author: metadata.author,
+        source: metadata.source,
         created_at,
         modified_at: new Date().toISOString(),
       },
@@ -291,9 +315,7 @@ async function handleLoad(event: Event) {
   if (!file) return;
   fileError.value = "";
   try {
-    const puzzle = loadPicrossPuzzle(
-      new Uint8Array(await file.arrayBuffer()),
-    );
+    const puzzle = loadPicrossPuzzle(new Uint8Array(await file.arrayBuffer()));
     game.value = buildGame(puzzle.size, puzzle);
     sizeInput.width = puzzle.size.width;
     sizeInput.height = puzzle.size.height;
@@ -308,27 +330,50 @@ async function handleLoad(event: Event) {
   }
 }
 
+// Solvability is only checked once a stroke finishes, not on every tile painted
+let solvePending = false;
+
+function solveIfIdle() {
+  if (!solvePending || grid.value?.strokeActive) return;
+  const current = game.value;
+  if (!current) return;
+  solvePending = false;
+  solve(current.hints, current.size);
+}
+
 watch(
   () => game.value?.hints,
   (hints) => {
-    if (game.value && hints) solve(hints, game.value.size);
+    if (!hints) return;
+    solvePending = true;
+    solveIfIdle();
   },
 );
 
+watch(() => grid.value?.strokeActive, solveIfIdle);
+
 useSeoMeta({
-  title: "echolotl - Nautilus' Picross (Free Play)",
-  description: "Play an unlimited number of Nautilus' picross puzzles.",
-  ogDescription: "Play an unlimited number of Nautilus' picross puzzles.",
-  ogTitle: "Nautilus' Picross (Free Play)",
-  ogUrl: "https://echolotl.lol/picross",
+  title: "echolotl - Nautilus' Picross (Editor)",
+  description: "Make your own picross puzzle for Nautilus to eat!",
+  ogDescription: "Make your own picross puzzle for Nautilus to eat!",
+  ogTitle: "Nautilus' Picross (Editor)",
+  ogUrl: "https://echolotl.lol/picross/editor",
 });
 </script>
 
 <style scoped>
-.size-inputs {
+.file-actions {
   display: flex;
-  align-items: center;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0.5rem 0.5rem 0;
+
+  > button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+  }
 }
 
 .file-error {
@@ -419,20 +464,81 @@ useSeoMeta({
 .palette {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 16px;
+
   button {
     padding: 0;
     background: none;
     border: none;
   }
-  .color-swatch {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    background-color: var(--paint-color);
-    cursor: pointer;
-    &.selected {
-      outline: 2px solid var(--text);
+  input[type="color"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 48px;
+    padding: 0;
+    border: 0;
+    background: none;
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    &::-webkit-color-swatch {
+      border: 1px solid var(--distant);
+      border-radius: 0;
+    }
+
+    &::-moz-color-swatch,
+    & ::-moz-focus-inner {
+      border: 1px solid var(--distant);
+    }
+
+    &::-moz-focus-inner {
+      padding: 0;
+    }
+  }
+  .new-color {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatches {
+    align-self: flex-start;
+    border: 1px solid var(--foreground);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1px;
+    background: var(--surface);
+
+    .color-swatch {
+      width: 24px;
+      height: 24px;
+      background-color: var(--paint-color);
+      cursor: pointer;
+      display: block;
+
+      &.selected {
+        outline: 2px solid
+          color-mix(in srgb, var(--paint-color) 33%, var(--inverted-solid));
+        z-index: 1;
+      }
+
+      &.default-swatch {
+        padding: 0;
+        border: none;
+        background: repeating-conic-gradient(
+            var(--distant) 0% 25%,
+            transparent 0% 50%
+          )
+          50% / 24px 24px;
+
+        &.selected {
+          outline: 2px solid var(--inverted-solid);
+          z-index: 1;
+        }
+      }
     }
   }
 }

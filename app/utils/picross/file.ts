@@ -4,7 +4,7 @@ import type {
   PicrossSolution,
   PicrossTileColors,
 } from "~/utils/picross";
-import { isValidBoard, MAX_BOARD_SIZE, MIN_BOARD_SIZE } from "~/utils/picross";
+import { isValidSolution, MAX_BOARD_SIZE, MIN_BOARD_SIZE } from "~/utils/picross";
 
 const MAGIC_HEADER = new Uint8Array([
   0x45, 0x43, 0x48, 0x4f, 0x4c, 0x4f, 0x54, 0x4c,
@@ -208,7 +208,7 @@ export function loadPicrossPuzzle(buffer: Uint8Array): PicrossPuzzleData {
     ),
   );
 
-  if (!isValidBoard(solution, size)) {
+  if (!isValidSolution(solution, size)) {
     invalidFile("corrupt solution");
   }
 
