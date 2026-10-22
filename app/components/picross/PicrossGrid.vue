@@ -71,6 +71,7 @@ import {
   getHints,
   getInputModeDefinition,
   getInputModeForKey,
+  getPaletteColor,
   getSolvedHints,
   isBoardSolved,
   isLineOverfilled,
@@ -88,7 +89,7 @@ const props = defineProps<{
   game: PicrossGame;
   locked?: boolean;
   editable?: boolean;
-  paintColor?: string | null; // Color applied by the paint mode while editable
+  paintIndex?: number | null; // Palette index applied by the paint mode while editable
 }>();
 
 // Only http(s) links are allowed since metadata comes from user-loaded files
@@ -476,7 +477,7 @@ function scheduleDrawBoard() {
 
 function drawBoard() {
   if (!ctx || !gameBoard.value) return;
-  const { board, size, tileColors } = props.game;
+  const { board, size, palette } = props.game;
 
   const CANVAS_WIDTH = size.width * TILE_SIZE;
   const CANVAS_HEIGHT = size.height * TILE_SIZE;
@@ -537,7 +538,7 @@ function drawBoard() {
         case "filled":
           ctx.fillStyle =
             props.game.isCompleted || props.editable
-              ? (tileColors[y]?.[x] ?? color)
+              ? (getPaletteColor(palette, palette.indices[y]?.[x]) ?? color)
               : color;
           ctx.fillRect(
             x * TILE_SIZE + 1,
@@ -599,7 +600,7 @@ function getTileAt(event: PointerEvent) {
 function getTile(x: number, y: number): PicrossTile {
   return {
     state: props.game.board[y]?.[x] ?? "empty",
-    color: props.game.tileColors[y]?.[x] ?? null,
+    color: props.game.palette.indices[y]?.[x] ?? null,
   };
 }
 
@@ -610,7 +611,7 @@ function setTile(x: number, y: number, tile: PicrossTile) {
   if (!row) return;
   row[x] = tile.state;
   if (props.editable) {
-    const colorRow = props.game.tileColors[y];
+    const colorRow = props.game.palette.indices[y];
     if (colorRow) colorRow[x] = tile.state === "filled" ? tile.color : null;
     const solutionRow = props.game.solution[y];
     const filled = tile.state === "filled";
@@ -651,7 +652,7 @@ function resolveTile(current: PicrossTile, button: number): PicrossTileChange {
     current,
     button === 2,
     props.editable,
-    props.paintColor,
+    props.paintIndex,
   );
 }
 
@@ -821,7 +822,7 @@ watch(() => props.game.board, scheduleDrawBoard, {
   flush: "post",
 });
 
-watch(() => props.game.tileColors, scheduleDrawBoard, {
+watch(() => props.game.palette, scheduleDrawBoard, {
   deep: true,
   flush: "post",
 });

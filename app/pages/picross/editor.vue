@@ -5,8 +5,8 @@
       ref="grid"
       :game="game"
       :editable="true"
-      :paint-color="curPaintColor"
-      :style="{ '--paint-color': curPaintColor ?? 'var(--text)' }"
+      :paint-index="selectedIndex"
+      :style="{ '--paint-color': selectedColor ?? 'var(--text)' }"
     />
     <div class="game-actions">
       <PicrossInputControls
@@ -25,40 +25,45 @@
     </div>
     <template v-if="grid?.inputMode === 'paint'">
       <div class="palette">
-        <div class="new-color">
-          <input type="color" v-model="newColor" />
-          <button @click="addColor()">
-            <Icon icon="add" width="16px" height="16px" />
-          </button>
+        <div class="new-color-container">
+          <Icon icon="palette" width="24px" height="24px" />
+          <div class="new-color">
+            <input type="color" v-model="newColor" />
+            <button @click="addColor()" title="Add to pallete">
+              <Icon icon="small-arrow" width="20px" height="20px" />
+            </button>
+          </div>
         </div>
         <div class="swatches">
           <button
             type="button"
             class="color-swatch default-swatch"
-            :class="{ selected: !selectedColor }"
+            :class="{ selected: selectedIndex === null }"
             title="Default color"
             aria-label="Default color"
-            :aria-pressed="!selectedColor"
-            @click="selectedColor = ''"
+            :aria-pressed="selectedIndex === null"
+            @click="selectedIndex = null"
           ></button>
         </div>
         <div v-if="palette.length" class="swatches">
-          <div
-            v-for="(color, index) in palette"
-            :key="index"
-            class="color-swatch"
-            :class="{ selected: selectedColor === color }"
-            :style="{ '--paint-color': color }"
-            @click="selectedColor = color"
-          ></div>
+          <Tooltip v-for="(color, index) in palette" :key="index">
+            <div
+              class="color-swatch"
+              :class="{ selected: selectedIndex === index }"
+              :style="{ '--paint-color': color }"
+              @click="selectedIndex = index"
+            ></div>
+            <template #text
+              ><div class="tooltip">
+                <input
+                  type="color"
+                  v-model="game!.palette.colors[index]"
+                /><button class="filled red round" @click="deleteColor(index)">
+                  <Icon icon="trash" width="20px" height="20px" />
+                </button></div
+            ></template>
+          </Tooltip>
         </div>
-        <button
-          v-if="selectedColor"
-          class="filled red round"
-          @click="deleteColor()"
-        >
-          <Icon icon="trash" width="20px" height="20px" />
-        </button>
       </div>
     </template>
 
@@ -154,6 +159,7 @@ import {
   clearBoard,
   clampPicrossSize,
   getHints,
+  getPaletteColor,
   DEFAULT_BOARD_SIZE,
   type PicrossGame,
   type PicrossSize,
@@ -164,6 +170,7 @@ import {
   loadPicrossPuzzle,
   savePicrossPuzzle,
 } from "~/utils/picross/file";
+import Tooltip from "~/components/common/Tooltip.vue";
 
 const sizeInput = reactive<PicrossSize>({
   width: DEFAULT_BOARD_SIZE,
@@ -180,10 +187,12 @@ const game = ref<PicrossGame | null>(null);
 const grid = ref<InstanceType<typeof PicrossGrid> | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
 const fileError = ref("");
-const palette = ref<string[]>([]);
-const selectedColor = ref("");
+const selectedIndex = ref<number | null>(null);
 const newColor = ref("#000000");
-const curPaintColor = computed(() => selectedColor.value || null);
+const palette = computed(() => game.value?.palette.colors ?? []);
+const selectedColor = computed(() =>
+  game.value ? getPaletteColor(game.value.palette, selectedIndex.value) : null,
+);
 
 definePageMeta({
   pageTransition: false,
@@ -191,40 +200,39 @@ definePageMeta({
 });
 
 function addColor() {
-  const color = newColor.value.toLowerCase();
-  if (!palette.value.includes(color)) palette.value.push(color);
-  selectedColor.value = color;
-}
-
-function eraseColor(color: string) {
   const current = game.value;
   if (!current) return;
-  let changed = false;
-  current.tileColors.forEach((row) =>
-    row.forEach((tileColor, x) => {
-      if (tileColor !== color) return;
-      row[x] = null;
-      changed = true;
-    }),
-  );
-  if (changed) grid.value?.clearHistory();
+  const color = newColor.value.toLowerCase();
+  let index = current.palette.colors.indexOf(color);
+  if (index === -1) index = current.palette.colors.push(color) - 1;
+  selectedIndex.value = index;
 }
 
-function removeColor() {
-  const index = palette.value.indexOf(selectedColor.value);
-  if (index === -1) return;
-  const removed = selectedColor.value;
-  palette.value.splice(index, 1);
-  eraseColor(removed);
-  selectedColor.value =
-    palette.value[Math.min(index, palette.value.length - 1)] ?? "";
+function deleteColor(index: number) {
+  const palette = game.value?.palette;
+  if (!palette?.colors[index]) return;
+  const shift = (i: number | null) =>
+    i === null || i === index ? null : i > index ? i - 1 : i;
+  palette.colors.splice(index, 1);
+  palette.indices.forEach((row) =>
+    row.forEach((tileIndex, x) => (row[x] = shift(tileIndex))),
+  );
+  grid.value?.clearHistory();
+  if (selectedIndex.value === index) {
+    // Fall to the neighboring swatch, or the default color if none are left
+    const next = Math.min(index, palette.colors.length - 1);
+    selectedIndex.value = next < 0 ? null : next;
+  } else {
+    selectedIndex.value = shift(selectedIndex.value);
+  }
 }
+
 const { result: solveResult, solving, solve } = usePicrossSolver();
 
 // Builds a game of the given size, keeping any tiles that still fit
 function buildGame(
   size: PicrossSize,
-  previous?: Pick<PicrossGame, "solution" | "tileColors"> | null,
+  previous?: Pick<PicrossGame, "solution" | "palette"> | null,
 ) {
   const solution = Array.from({ length: size.height }, (_, y) =>
     Array.from(
@@ -233,10 +241,11 @@ function buildGame(
     ),
   );
   const next = createPicrossGame(size, solution);
+  next.palette.colors = [...(previous?.palette.colors ?? [])];
   next.board.forEach((row, y) =>
     row.forEach((_, x) => {
       if (solution[y]?.[x]) row[x] = "filled";
-      next.tileColors[y]![x] = previous?.tileColors[y]?.[x] ?? null;
+      next.palette.indices[y]![x] = previous?.palette.indices[y]?.[x] ?? null;
     }),
   );
   return next;
@@ -260,11 +269,6 @@ function handleClear() {
   grid.value?.clearHistory();
 }
 
-function deleteColor() {
-  if (!selectedColor.value) return;
-  removeColor();
-}
-
 onMounted(init);
 
 function handleSave() {
@@ -283,7 +287,7 @@ function handleSave() {
       },
       size: game.value.size,
       solution: game.value.solution,
-      tileColors: game.value.tileColors,
+      palette: game.value.palette,
     });
   } catch (error) {
     fileError.value = error instanceof Error ? error.message : "Couldn't save";
@@ -317,6 +321,7 @@ async function handleLoad(event: Event) {
   try {
     const puzzle = loadPicrossPuzzle(new Uint8Array(await file.arrayBuffer()));
     game.value = buildGame(puzzle.size, puzzle);
+    selectedIndex.value = null;
     sizeInput.width = puzzle.size.width;
     sizeInput.height = puzzle.size.height;
     const { title, author, source, created_at } = puzzle.metadata;
@@ -465,6 +470,14 @@ useSeoMeta({
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  align-items: center;
+  color: var(--text-secondary);
+
+  .new-color-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
 
   button {
     padding: 0;
@@ -512,6 +525,38 @@ useSeoMeta({
     gap: 1px;
     background: var(--surface);
 
+    .tooltip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
+
+    input {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 0;
+      background: none;
+
+      mask-image: url("/images/icons/edit.webp");
+      -webkit-mask-image: url("/images/icons/edit.webp");
+
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+
+      mask-size: cover;
+
+      &::-webkit-color-swatch {
+        border: none;
+      }
+
+      &::-moz-color-swatch,
+      & ::-moz-focus-inner {
+        border: none;
+      }
+    }
+
     .color-swatch {
       width: 24px;
       height: 24px;
@@ -529,8 +574,8 @@ useSeoMeta({
         padding: 0;
         border: none;
         background: repeating-conic-gradient(
-            var(--distant) 0% 25%,
-            transparent 0% 50%
+            var(--foreground) 0% 25%,
+            var(--solid) 0% 50%
           )
           50% / 24px 24px;
 

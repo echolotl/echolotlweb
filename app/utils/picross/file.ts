@@ -1,8 +1,8 @@
 import type {
   PicrossMetadata,
+  PicrossPalette,
   PicrossSize,
   PicrossSolution,
-  PicrossTileColors,
 } from "~/utils/picross";
 import {
   isValidSolution,
@@ -26,7 +26,7 @@ export type PicrossPuzzleData = {
   metadata: PicrossMetadata;
   size: PicrossSize;
   solution: PicrossSolution;
-  tileColors: PicrossTileColors;
+  palette: PicrossPalette;
 };
 
 // V1: [magic, major, minor, width, height, solution,
@@ -99,7 +99,7 @@ function decodeMetadata(fields: string[]): PicrossMetadata {
 export function savePicrossPuzzle(
   puzzle: Omit<PicrossPuzzleData, "majorVersion" | "minorVersion">,
 ): Uint8Array {
-  const { size, solution, tileColors, metadata } = puzzle;
+  const { size, solution, palette, metadata } = puzzle;
   const textEncoder = new TextEncoder();
 
   const bytes: number[] = [
@@ -111,22 +111,19 @@ export function savePicrossPuzzle(
   ];
   for (const cell of solution.flat()) bytes.push(cell ? 1 : 0);
 
-  const palette = [
-    ...new Set(tileColors.flat().filter((c): c is string => c !== null)),
-  ];
-  if (palette.length > MAX_PALETTE_SIZE) {
+  if (palette.colors.length > MAX_PALETTE_SIZE) {
     throw new Error(`Puzzles can use at most ${MAX_PALETTE_SIZE} colors`);
   }
-  bytes.push(palette.length);
-  for (const color of palette) {
+  bytes.push(palette.colors.length);
+  for (const color of palette.colors) {
     const encoded = textEncoder.encode(color);
     if (encoded.length > MAX_COLOR_BYTES) {
       throw new Error("A tile color is too long to save");
     }
     bytes.push(encoded.length, ...encoded);
   }
-  for (const color of tileColors.flat()) {
-    bytes.push(color === null ? 0 : palette.indexOf(color) + 1);
+  for (const index of palette.indices.flat()) {
+    bytes.push(index === null ? 0 : index + 1);
   }
 
   const metadataBytes = textEncoder.encode(
@@ -190,21 +187,22 @@ export function loadPicrossPuzzle(buffer: Uint8Array): PicrossPuzzleData {
   }
 
   const paletteLength = read("palette length");
-  const palette: string[] = [];
+  const colors: string[] = [];
   for (let i = 0; i < paletteLength; i++) {
-    palette.push(decode(readBytes(read("color length"), "color")));
+    colors.push(decode(readBytes(read("color length"), "color")));
   }
 
-  const tileColors: PicrossTileColors = [];
+  const indices: (number | null)[][] = [];
   for (let y = 0; y < size.height; y++) {
-    const row: (string | null)[] = [];
+    const row: (number | null)[] = [];
     for (let x = 0; x < size.width; x++) {
       const index = read("tile color");
-      if (index > palette.length) invalidFile("corrupt tile colors");
-      row.push(index === 0 ? null : (palette[index - 1] ?? null));
+      if (index > colors.length) invalidFile("corrupt tile colors");
+      row.push(index === 0 ? null : index - 1);
     }
-    tileColors.push(row);
+    indices.push(row);
   }
+  const palette: PicrossPalette = { indices, colors };
 
   const metadata = decodeMetadata(
     decode(readBytes(buffer.length - offset, "metadata")).split(
@@ -216,5 +214,5 @@ export function loadPicrossPuzzle(buffer: Uint8Array): PicrossPuzzleData {
     invalidFile("corrupt solution");
   }
 
-  return { majorVersion, minorVersion, metadata, size, solution, tileColors };
+  return { majorVersion, minorVersion, metadata, size, solution, palette };
 }

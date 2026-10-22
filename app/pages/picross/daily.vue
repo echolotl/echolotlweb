@@ -113,7 +113,7 @@ definePageMeta({
   viewTransition: true,
 });
 
-type PicrossGameStats = Omit<PicrossGame, "tileColors" | "solution"> & {
+type PicrossGameStats = Omit<PicrossGame, "palette" | "solution"> & {
   gaveUp?: boolean;
 };
 

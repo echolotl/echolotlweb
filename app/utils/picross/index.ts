@@ -4,7 +4,10 @@ export type PicrossTileState = "empty" | "filled" | "marked";
 
 export type PicrossBoard = PicrossTileState[][];
 export type PicrossSolution = boolean[][];
-export type PicrossTileColors = (string | null)[][]; // Per-tile CSS color overrides for filled tiles; null uses the default color
+export type PicrossPalette = {
+  indices: (number | null)[][]; // Per-tile index into `colors` for filled tiles; null uses the default color
+  colors: string[]; // CSS colors the tiles pull from
+};
 
 export type PicrossSize = {
   width: number;
@@ -62,15 +65,29 @@ export type PicrossMetadata = {
   modified_at: string;
 };
 
-export function createTileColors(size: PicrossSize): PicrossTileColors {
-  return Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => null),
-  );
+export function createPalette(
+  size: PicrossSize,
+  colors: string[] = [],
+): PicrossPalette {
+  return {
+    indices: Array.from({ length: size.height }, () =>
+      Array.from({ length: size.width }, () => null),
+    ),
+    colors,
+  };
+}
+
+// The CSS color a palette index points at, or null for the default color
+export function getPaletteColor(
+  palette: PicrossPalette,
+  index: number | null | undefined,
+): string | null {
+  return index == null ? null : (palette.colors[index] ?? null);
 }
 
 export type PicrossGame = {
   board: PicrossBoard;
-  tileColors: PicrossTileColors;
+  palette: PicrossPalette;
   solution: PicrossSolution; // The correct solution without any marked tiles
   hints: {
     rows: number[][];
@@ -87,13 +104,13 @@ export type PicrossGame = {
 // A tile's state plus its color; only filled tiles keep a color
 export type PicrossTile = {
   state: PicrossTileState;
-  color: string | null;
+  color: number | null; // Palette index
 };
 
 // What an input does to a tile; an omitted state or color leaves it as is
 export type PicrossTileChange = {
   state?: PicrossTileState;
-  color?: string | null;
+  color?: number | null;
 };
 
 // Applies a change to a tile, dropping the color of anything that isn't filled
@@ -119,7 +136,7 @@ export type InputModeDefinition = {
     current: PicrossTile,
     secondary: boolean,
     editor?: boolean,
-    paintColor?: string | null,
+    paintIndex?: number | null,
   ) => PicrossTileChange;
 };
 
@@ -156,10 +173,10 @@ export const INPUT_MODES = {
     icon: "palette",
     keys: ["KeyP", "Key4"],
     optIn: true,
-    resolve: (current, secondary, editor, paintColor) => {
+    resolve: (current, secondary, editor, paintIndex) => {
       if (!editor) return {};
-      // No paint color means the default tile color
-      return { color: secondary ? null : (paintColor ?? null) };
+      // No paint index means the default tile color
+      return { color: secondary ? null : (paintIndex ?? null) };
     },
   },
 } as const satisfies Record<string, InputModeDefinition>;
@@ -202,7 +219,7 @@ export function createPicrossGame(
     board: Array.from({ length: size.height }, () =>
       Array.from({ length: size.width }, () => "empty" as PicrossTileState),
     ),
-    tileColors: createTileColors(size),
+    palette: createPalette(size),
     solution,
     hints: getHints(solution),
     size,
@@ -325,7 +342,7 @@ export function isBoardSolved({ board, solution }: PicrossGame) {
 
 export function clearBoard(game: PicrossGame): void {
   for (const row of game.board) row.fill("empty");
-  game.tileColors = createTileColors(game.size);
+  game.palette = createPalette(game.size, game.palette.colors);
   game.isCompleted = false;
 }
 
