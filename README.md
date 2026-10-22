@@ -1,5 +1,3 @@
 # echolotlweb
 
-echolotl's personal website, created with Nuxt!
-
-Currently working on migrating it from previous setup
+echolotl's personal website, made with Nuxt! You can run it yourself, but I don't know why you would...
