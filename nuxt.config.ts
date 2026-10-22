@@ -100,7 +100,7 @@ export default defineNuxtConfig({
     pageTransition: { name: "page", mode: "out-in" },
   },
   future: {
-    compatibilityVersion: 5,
+    compatibilityVersion: 4,
   },
   experimental: {
     viewTransition: true,
