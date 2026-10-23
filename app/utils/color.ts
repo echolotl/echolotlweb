@@ -1,6 +1,6 @@
 type RGBColor = { r: number; g: number; b: number };
 type OKLCHColor = { l: number; c: number; h: number };
-type HSLColor = { h: number; s: number; l: number};
+type HSLColor = { h: number; s: number; l: number };
 
 // I lost the gist from where some of these functions were taken from... but credit to those who made them
 
@@ -100,9 +100,10 @@ export function oklchToRgb({ l, c, h }: OKLCHColor): RGBColor {
   return { r, g, b };
 }
 
-function hslToRgb({h, s, l}: HSLColor): RGBColor {
-  let a= s*Math.min(l,1-l);
-  let f = (n: number,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
+function hslToRgb({ h, s, l }: HSLColor): RGBColor {
+  let a = s * Math.min(l, 1 - l);
+  let f = (n: number, k = (n + h / 30) % 12) =>
+    l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
   return {
     r: Math.round(f(0) * 255),
     g: Math.round(f(8) * 255),
@@ -110,8 +111,8 @@ function hslToRgb({h, s, l}: HSLColor): RGBColor {
   };
 }
 
-function hslToHex({h, s, l}: HSLColor): string {
-  return rgbToHex(hslToRgb({h, s, l}))
+function hslToHex({ h, s, l }: HSLColor): string {
+  return rgbToHex(hslToRgb({ h, s, l }));
 }
 
 export function rgbToNumber(rgb: RGBColor): number {
@@ -174,6 +175,15 @@ export function autoContrastColor(
   return oklchToRgb(oklch);
 }
 
+// Returns black or white depending on which has better contrast against the given color
+export function getContrastColor(color: string | RGBColor): RGBColor {
+  const black = { r: 0, g: 0, b: 0 };
+  const white = { r: 255, g: 255, b: 255 };
+  const contrastWithBlack = contrastRatio(color, black);
+  const contrastWithWhite = contrastRatio(color, white);
+  return contrastWithBlack >= contrastWithWhite ? black : white;
+}
+
 /**
  * Calculate the relative luminance of a color.
  * @param rgb - The RGB object.
@@ -204,11 +214,13 @@ export function contrastRatio(
   return parseFloat(((brightest + 0.05) / (darkest + 0.05)).toFixed(2));
 }
 
-
 // saturation and luminance are fractions from 0 to 1
-export function randomColor(saturation = Math.random(), luminance = Math.random()): RGBColor {
+export function randomColor(
+  saturation = Math.random(),
+  luminance = Math.random(),
+): RGBColor {
   saturation = clamp(saturation, 0, 1);
   luminance = clamp(luminance, 0, 1);
   const hue = Math.random() * 360;
-  return hslToRgb({h: hue, s: saturation, l: luminance});
+  return hslToRgb({ h: hue, s: saturation, l: luminance });
 }

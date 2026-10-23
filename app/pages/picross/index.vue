@@ -111,8 +111,11 @@ function regeneratePuzzle() {
   game.value = createPicrossGame(size, solution);
 
   // fill with random colors
-  game.value.tileColors = Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => rgbToHex(randomColor(0.4, 0.5))),
+  game.value.palette.colors = Array.from({ length: 4 }, () =>
+    rgbToHex(randomColor(0.5, 0.5)),
+  );
+  game.value.palette.indices = Array.from({ length: size.height }, () =>
+    Array.from({ length: size.width }, () => Math.floor(Math.random() * 4)),
   );
 }
 
@@ -126,7 +129,7 @@ async function handleLoad(event: Event) {
   try {
     const puzzle = loadPicrossPuzzle(new Uint8Array(await file.arrayBuffer()));
     const next = createPicrossGame(puzzle.size, puzzle.solution);
-    next.tileColors = puzzle.tileColors;
+    next.palette = puzzle.palette;
     next.metadata = puzzle.metadata;
     game.value = next;
     sizeInput.value = puzzle.size;
