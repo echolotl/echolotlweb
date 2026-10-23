@@ -93,7 +93,8 @@ const props = defineProps<{
 }>();
 
 // Only http(s) links are allowed since metadata comes from user-loaded files
-function toSafeUrl(value: string | URL): string | null {
+function toSafeUrl(value: string | URL | undefined): string | null {
+  if (!value) return null;
   try {
     const url = new URL(value);
     return url.protocol === "http:" || url.protocol === "https:"
@@ -108,13 +109,10 @@ const metadataInfo = computed(() => {
   const metadata = props.game.metadata;
   if (!metadata) return null;
   const { title, author, source } = metadata;
-  const authorName = typeof author === "object" ? author.placeholder : author;
-  const sourceInfo =
-    typeof source === "object"
-      ? { name: source.name, url: toSafeUrl(source.url) }
-      : source
-        ? { name: source, url: toSafeUrl(source) }
-        : null;
+  const authorName = author?.name;
+  const sourceInfo = source?.name
+    ? { name: source.name, url: toSafeUrl(source.url) }
+    : null;
   if (!title && !authorName && !sourceInfo) return null;
   return { title, author: authorName, source: sourceInfo };
 });
@@ -125,6 +123,7 @@ const inputMode = ref<InputMode>(DEFAULT_INPUT_MODE);
 const { theme } = useTheme();
 
 const TILE_SIZE = 30;
+const PAINT_DOT_SIZE = 10;
 const HINT_FONT_SIZE = 14;
 const HINT_LINE_HEIGHT = 20;
 const COLUMN_HINTS_PADDING = 8;
@@ -530,45 +529,95 @@ function drawBoard() {
     ctx.stroke();
   }
 
-  // Draw tiles
-  const color = props.game.isCompleted ? colors.completed : colors.tile;
+  // Draw tiles. Once completed, colored tiles reveal their color underneath,
+  // and the placed tiles and marks on top of them pulse in and out.
+  const completed = props.game.isCompleted;
+  if (!completed) revealStart = null;
+  const overlayAlpha = completed ? getRevealAlpha() : 1;
+  let pulsing = false;
+  const hovered = hoveredTile.value;
+  const markReady =
+    markImage?.complete && markImage.naturalWidth > 0 && markCtx && markCanvas;
+  if (markReady) {
+    markCtx!.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
+    markCtx!.globalCompositeOperation = "source-over";
+    markCtx!.drawImage(markImage!, 0, 0, TILE_SIZE, TILE_SIZE);
+    markCtx!.globalCompositeOperation = "source-in";
+    markCtx!.fillStyle = colors.tile;
+    markCtx!.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+    markCtx!.globalCompositeOperation = "source-over";
+  }
+
   for (let y = 0; y < size.height; y++) {
     for (let x = 0; x < size.width; x++) {
-      switch (board[y]?.[x]) {
-        case "filled":
-          ctx.fillStyle =
-            props.game.isCompleted || props.editable
-              ? (getPaletteColor(palette, palette.indices[y]?.[x]) ?? color)
-              : color;
-          ctx.fillRect(
-            x * TILE_SIZE + 1,
-            y * TILE_SIZE + 1,
-            TILE_SIZE - 2,
-            TILE_SIZE - 2,
-          );
-          break;
-        case "marked":
-          if (
-            markImage?.complete &&
-            markImage.naturalWidth > 0 &&
-            markCtx &&
-            markCanvas
-          ) {
-            markCtx.clearRect(0, 0, TILE_SIZE, TILE_SIZE);
-            markCtx.globalCompositeOperation = "source-over";
-            markCtx.drawImage(markImage, 0, 0, TILE_SIZE, TILE_SIZE);
-            markCtx.globalCompositeOperation = "source-in";
-            markCtx.fillStyle = colors.tile;
-            markCtx.globalAlpha = props.game.isCompleted ? 0.25 : 1;
-            markCtx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
-            markCtx.globalAlpha = 1;
-            markCtx.globalCompositeOperation = "source-over";
-            ctx.drawImage(markCanvas, x * TILE_SIZE, y * TILE_SIZE);
-          }
-          break;
+      const state = board[y]?.[x];
+      const tileColor = getPaletteColor(palette, palette.indices[y]?.[x]);
+      const left = x * TILE_SIZE;
+      const top = y * TILE_SIZE;
+      const revealed = completed && tileColor !== null;
+      if (revealed) pulsing ||= state !== "empty";
+
+      if (revealed) {
+        ctx.fillStyle = tileColor;
+        ctx.fillRect(left, top, TILE_SIZE, TILE_SIZE);
+      } else if (props.editable && tileColor && state !== "filled") {
+        // Painted but not part of the solution; solid while hovered
+        const isHovered = hovered?.x === x && hovered.y === y;
+        const inset = (TILE_SIZE - PAINT_DOT_SIZE) / 2;
+        ctx.globalAlpha = isHovered ? 1 : 0.5;
+        ctx.fillStyle = tileColor;
+        ctx.fillRect(left + inset, top + inset, PAINT_DOT_SIZE, PAINT_DOT_SIZE);
+        ctx.globalAlpha = 1;
+      }
+
+      if (state === "filled") {
+        if (props.editable) {
+          ctx.fillStyle = tileColor ?? colors.tile;
+        } else if (pulsing) {
+          ctx.fillStyle = rgbToHex(getContrastColor(tileColor ?? colors.tile));
+        } else {
+          ctx.fillStyle = tileColor ?? colors.tile;
+        }
+        const TILE_INSET = pulsing ? 4 : 1;
+        ctx.globalAlpha = revealed ? overlayAlpha : 1;
+        ctx.fillRect(
+          left + TILE_INSET,
+          top + TILE_INSET,
+          TILE_SIZE - 2 * TILE_INSET,
+          TILE_SIZE - 2 * TILE_INSET,
+        );
+        ctx.globalAlpha = 1;
+      } else if (state === "marked" && markReady) {
+        ctx.globalAlpha =
+          (completed ? 0.25 : 1) * (revealed ? overlayAlpha : 1);
+        ctx.drawImage(markCanvas!, left, top);
+        ctx.globalAlpha = 1;
       }
     }
   }
+
+  if (pulsing && !prefersReducedMotion()) scheduleDrawBoard();
+}
+
+// The completed image rests fully revealed, and every so often the placed tiles
+// fade back in and out over it on a cosine wave so the player can see their placed tiles clearly
+const REVEAL_PAUSE_MS = 8000;
+const REVEAL_PULSE_MS = 3000;
+let revealStart: number | null = null;
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getRevealAlpha() {
+  if (prefersReducedMotion()) return 0;
+  const now = performance.now();
+  revealStart ??= now;
+  const cycle = REVEAL_PAUSE_MS + REVEAL_PULSE_MS;
+  const time = (now - revealStart) % cycle;
+  if (time < REVEAL_PAUSE_MS) return 0;
+  const progress = (time - REVEAL_PAUSE_MS) / REVEAL_PULSE_MS;
+  return 0.5 - 0.5 * Math.cos(progress * 2 * Math.PI);
 }
 
 let heldPointer: number | null = null;
@@ -604,15 +653,13 @@ function getTile(x: number, y: number): PicrossTile {
   };
 }
 
-// Shared by player input, undo and redo; the board is the source of truth.
-// Colors are only written while editing, since in play they belong to the solution.
 function setTile(x: number, y: number, tile: PicrossTile) {
   const row = props.game.board[y];
   if (!row) return;
   row[x] = tile.state;
   if (props.editable) {
     const colorRow = props.game.palette.indices[y];
-    if (colorRow) colorRow[x] = tile.state === "filled" ? tile.color : null;
+    if (colorRow) colorRow[x] = tile.color;
     const solutionRow = props.game.solution[y];
     const filled = tile.state === "filled";
     if (solutionRow && solutionRow[x] !== filled) {
@@ -825,6 +872,11 @@ watch(() => props.game.board, scheduleDrawBoard, {
 watch(() => props.game.palette, scheduleDrawBoard, {
   deep: true,
   flush: "post",
+});
+
+// Painted tiles in the editor react to hover
+watch(hoveredTile, () => {
+  if (props.editable) scheduleDrawBoard();
 });
 
 watch(solvedHintsKey, drawHints, { flush: "post" });

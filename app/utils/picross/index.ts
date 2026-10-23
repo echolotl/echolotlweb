@@ -5,7 +5,8 @@ export type PicrossTileState = "empty" | "filled" | "marked";
 export type PicrossBoard = PicrossTileState[][];
 export type PicrossSolution = boolean[][];
 export type PicrossPalette = {
-  indices: (number | null)[][]; // Per-tile index into `colors` for filled tiles; null uses the default color
+  // Per-tile index into `colors`, whatever the tile's solution state; null means no color
+  indices: (number | null)[][];
   colors: string[]; // CSS colors the tiles pull from
 };
 
@@ -101,7 +102,7 @@ export type PicrossGame = {
   metadata?: PicrossMetadata;
 };
 
-// A tile's state plus its color; only filled tiles keep a color
+// A tile's state plus its color; the color is independent of the state
 export type PicrossTile = {
   state: PicrossTileState;
   color: number | null; // Palette index
@@ -113,15 +114,13 @@ export type PicrossTileChange = {
   color?: number | null;
 };
 
-// Applies a change to a tile, dropping the color of anything that isn't filled
+// Applies a change to a tile; an omitted state or color is kept
 export function applyTileChange(
   tile: PicrossTile,
   change: PicrossTileChange,
 ): PicrossTile {
-  const state = change.state ?? tile.state;
-  if (state !== "filled") return { state, color: null };
   return {
-    state,
+    state: change.state ?? tile.state,
     color: change.color === undefined ? tile.color : change.color,
   };
 }
@@ -167,7 +166,8 @@ export const INPUT_MODES = {
   erase: {
     icon: "trash",
     keys: ["KeyE", "Key3"],
-    resolve: () => ({ state: "empty" }),
+    resolve: (current, secondary, editor) =>
+      editor ? { state: "empty", color: null } : { state: "empty" },
   },
   paint: {
     icon: "palette",
