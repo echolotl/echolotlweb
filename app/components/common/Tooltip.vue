@@ -17,7 +17,6 @@ const anchorName = `--tooltip-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   visibility: hidden;
   position: absolute;
   z-index: 1;
-
   position-area: bottom center;
   margin: 8px;
   background: var(--foreground);

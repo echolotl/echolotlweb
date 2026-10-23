@@ -58,7 +58,7 @@
                 <input
                   type="color"
                   v-model="game!.palette.colors[index]"
-                /><button class="filled red round" @click="deleteColor(index)">
+                /><button @click="deleteColor(index)">
                   <Icon icon="trash" width="20px" height="20px" />
                 </button></div
             ></template>
