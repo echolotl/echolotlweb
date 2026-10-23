@@ -563,10 +563,14 @@ function drawBoard() {
       } else if (props.editable && tileColor && state !== "filled") {
         // Painted but not part of the solution; solid while hovered
         const isHovered = hovered?.x === x && hovered.y === y;
-        const inset = (TILE_SIZE - PAINT_DOT_SIZE) / 2;
-        ctx.globalAlpha = isHovered ? 1 : 0.5;
+        const inset = (TILE_SIZE - PAINT_DOT_SIZE - (isHovered ? 6 : 0)) / 2;
         ctx.fillStyle = tileColor;
-        ctx.fillRect(left + inset, top + inset, PAINT_DOT_SIZE, PAINT_DOT_SIZE);
+        ctx.fillRect(
+          left + inset,
+          top + inset,
+          PAINT_DOT_SIZE + (isHovered ? 6 : 0),
+          PAINT_DOT_SIZE + (isHovered ? 6 : 0),
+        );
         ctx.globalAlpha = 1;
       }
 
