@@ -76,6 +76,15 @@
         Hint
       </button>
     </div>
+    <p
+      class="text-secondary"
+      style="display: flex; align-items: center; gap: 2px"
+    >
+      <Icon icon="info" />
+      Right now, every puzzle is generated randomly <b>on your device</b>. I'm
+      currently working on making it so that each day has a custom-made puzzle,
+      so it actually makes a fun picture!
+    </p>
   </PicrossPage>
 </template>
 
