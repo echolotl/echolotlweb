@@ -1,63 +1,27 @@
 import { clamp } from "~/utils";
+import { MIN_BOARD_SIZE, MAX_BOARD_SIZE } from "~/utils/constants";
 
+/** The state of a single Picross tile. */
 export type PicrossTileState = "empty" | "filled" | "marked";
-
+/** A board of Picross tiles, represented as a 2D array of tile states */
 export type PicrossBoard = PicrossTileState[][];
+/** The solution of a Picross puzzle, represented as a 2D array of booleans */
 export type PicrossSolution = boolean[][];
+/** A palette of colors for a Picross board. Referenced by tile indices */
 export type PicrossPalette = {
-  // Per-tile index into `colors`, whatever the tile's solution state; null means no color
-  indices: (number | null)[][];
-  colors: string[]; // CSS colors the tiles pull from
+  indices: (number | null)[][]; // Per-tile index into `colors`, whatever the tile's solution state; null means no color
+  colors: string[];
 };
 
+/** Rectangle size, basically */
 export type PicrossSize = {
   width: number;
   height: number;
 };
 
-export const MIN_BOARD_SIZE = 1;
-export const MAX_BOARD_SIZE = 50;
-export const DEFAULT_BOARD_SIZE = 10;
-
-export function clampPicrossSize(size: PicrossSize): PicrossSize {
-  return {
-    width: clamp(size.width, MIN_BOARD_SIZE, MAX_BOARD_SIZE),
-    height: clamp(size.height, MIN_BOARD_SIZE, MAX_BOARD_SIZE),
-  };
-}
-
-export function isValidBoard(
-  board: unknown,
-  size: PicrossSize,
-): board is PicrossBoard {
-  return (
-    Array.isArray(board) &&
-    board.length === size.height &&
-    board.every(
-      (row) =>
-        Array.isArray(row) &&
-        row.length === size.width &&
-        row.every((tile) => ["empty", "filled", "marked"].includes(tile)),
-    )
-  );
-}
-
-export function isValidSolution(
-  solution: unknown,
-  size: PicrossSize,
-): solution is PicrossSolution {
-  return (
-    Array.isArray(solution) &&
-    solution.length === size.height &&
-    solution.every(
-      (row) =>
-        Array.isArray(row) &&
-        row.length === size.width &&
-        row.every((tile) => typeof tile === "boolean"),
-    )
-  );
-}
-
+/**
+ * Metadata for a Picross puzzle.
+ */
 export type PicrossMetadata = {
   title?: string;
   author?: { name: string; id?: string };
@@ -66,26 +30,7 @@ export type PicrossMetadata = {
   modified_at: string;
 };
 
-export function createPalette(
-  size: PicrossSize,
-  colors: string[] = [],
-): PicrossPalette {
-  return {
-    indices: Array.from({ length: size.height }, () =>
-      Array.from({ length: size.width }, () => null),
-    ),
-    colors,
-  };
-}
-
-// The CSS color a palette index points at, or null for the default color
-export function getPaletteColor(
-  palette: PicrossPalette,
-  index: number | null | undefined,
-): string | null {
-  return index == null ? null : (palette.colors[index] ?? null);
-}
-
+/** The full state of a Picross game, including the board, palette, solution, hints, and game metadata. */
 export type PicrossGame = {
   board: PicrossBoard;
   palette: PicrossPalette;
@@ -102,19 +47,133 @@ export type PicrossGame = {
   metadata?: PicrossMetadata;
 };
 
-// A tile's state plus its color; the color is independent of the state
+/** A single Picross tile, including its state and color. */
 export type PicrossTile = {
   state: PicrossTileState;
   color: number | null; // Palette index
 };
 
-// What an input does to a tile; an omitted state or color leaves it as is
+/**
+ * What an input does to a tile; an omitted state or color leaves it as is.
+ */
 export type PicrossTileChange = {
   state?: PicrossTileState;
   color?: number | null;
 };
 
-// Applies a change to a tile; an omitted state or color is kept
+/**
+ * Definition of an input mode for interacting with Picross tiles.
+ */
+export type InputModeDefinition = {
+  icon: string;
+  keys: KeyboardEvent["code"][];
+  optIn?: true; // Hidden from the controls unless a parent lists it in `addModes`
+  resolve: (
+    current: PicrossTile,
+    button: PointerEvent["button"],
+    editor?: boolean,
+    paintIndex?: number | null,
+  ) => PicrossTileChange;
+};
+
+/**
+ * Type representing the input modes available for the Picross game.
+ */
+export type InputMode = keyof typeof INPUT_MODES;
+
+/**
+ * Clamps a Picross size to the allowed board size range.
+ * @param size The size to clamp.
+ * @returns The clamped size.
+ */
+export function clampPicrossSize(size: PicrossSize): PicrossSize {
+  return {
+    width: clamp(size.width, MIN_BOARD_SIZE, MAX_BOARD_SIZE),
+    height: clamp(size.height, MIN_BOARD_SIZE, MAX_BOARD_SIZE),
+  };
+}
+
+/**
+ * Checks if a given board is valid for the specified size.
+ * @param board The board to check.
+ * @param size The expected size of the board.
+ * @returns True if the board is valid, false otherwise. (the type is narrowed to `PicrossBoard` if true)
+ */
+export function isValidBoard(
+  board: unknown,
+  size: PicrossSize,
+): board is PicrossBoard {
+  return (
+    Array.isArray(board) &&
+    board.length === size.height &&
+    board.every(
+      (row) =>
+        Array.isArray(row) &&
+        row.length === size.width &&
+        row.every((tile) => ["empty", "filled", "marked"].includes(tile)),
+    )
+  );
+}
+
+/**
+ * Checks if a given solution is valid for the specified size.
+ * @param solution The solution to check.
+ * @param size The expected size of the solution.
+ * @returns True if the solution is valid, false otherwise. (the type is narrowed to `PicrossSolution` if true)
+ */
+export function isValidSolution(
+  solution: unknown,
+  size: PicrossSize,
+): solution is PicrossSolution {
+  return (
+    Array.isArray(solution) &&
+    solution.length === size.height &&
+    solution.every(
+      (row) =>
+        Array.isArray(row) &&
+        row.length === size.width &&
+        row.every((tile) => typeof tile === "boolean"),
+    )
+  );
+}
+
+/**
+ * Creates a new Picross palette with the specified size and colors.
+ * @param size The size of the Picross board.
+ * @param colors The colors to use in the palette.
+ * @returns A new Picross palette with the specified size and colors.
+ */
+export function createPalette(
+  size: PicrossSize,
+  colors: string[] = [],
+): PicrossPalette {
+  return {
+    indices: Array.from({ length: size.height }, () =>
+      Array.from({ length: size.width }, () => null),
+    ),
+    colors,
+  };
+}
+
+/**
+ * Gets the color a palette index points at, or null for the default color.
+ * @param palette The Picross palette.
+ * @param index The palette index.
+ * @returns The color corresponding to the palette index, or null if the index is null or invalid.
+ */
+export function getPaletteColor(
+  palette: PicrossPalette,
+  index: number | null | undefined,
+): string | null {
+  return index == null ? null : (palette.colors[index] ?? null);
+}
+
+/**
+ * Applies a change to a Picross tile.
+ * @param tile The tile to apply the change to.
+ * @param change The change to apply.
+ * @returns The updated tile with the change applied.
+ */
 export function applyTileChange(
   tile: PicrossTile,
   change: PicrossTileChange,
@@ -125,92 +184,54 @@ export function applyTileChange(
   };
 }
 
-export type InputModeDefinition = {
-  icon: string;
-  keys: string[]; // KeyboardEvent.code values that select this mode
-  optIn?: true; // Hidden from the controls unless a parent lists it in `addModes`
-  // What a tile should become when clicked; secondary is a right click.
-  // Colors only matter in the editor, where they are written to the solution.
-  resolve: (
-    current: PicrossTile,
-    secondary: boolean,
-    editor?: boolean,
-    paintIndex?: number | null,
-  ) => PicrossTileChange;
-};
-
-function toggleTo(
+/**
+ * Helper function to toggle a Picross tile to a target state.
+ * @param current The current state of the Picross tile.
+ * @param target The target state to toggle to.
+ * @returns The change to apply to the tile to achieve the target state.
+ */
+export function toggleTo(
   current: PicrossTile,
   target: PicrossTileState,
 ): PicrossTileChange {
   return { state: current.state === target ? "empty" : target };
 }
 
-export const INPUT_MODES = {
-  fill: {
-    icon: "edit",
-    keys: ["KeyB", "Key1"],
-    resolve: (current, secondary, editor) => {
-      if (editor) return toggleTo(current, secondary ? "empty" : "filled");
-      return toggleTo(current, secondary ? "marked" : "filled");
-    },
-  },
-  mark: {
-    icon: "close",
-    keys: ["KeyM", "Key2"],
-    resolve: (current, secondary, editor) => {
-      if (editor) return {};
-      return toggleTo(current, secondary ? "filled" : "marked");
-    },
-  },
-  erase: {
-    icon: "trash",
-    keys: ["KeyE", "Key3"],
-    resolve: (current, secondary, editor) =>
-      editor ? { state: "empty", color: null } : { state: "empty" },
-  },
-  paint: {
-    icon: "palette",
-    keys: ["KeyP", "Key4"],
-    optIn: true,
-    resolve: (current, secondary, editor, paintIndex) => {
-      if (!editor) return {};
-      // No paint index means the default tile color
-      return { color: secondary ? null : (paintIndex ?? null) };
-    },
-  },
-} as const satisfies Record<string, InputModeDefinition>;
-
-export type InputMode = keyof typeof INPUT_MODES;
-
-export const DEFAULT_INPUT_MODE = Object.keys(INPUT_MODES)[0] as InputMode;
-
-const inputModeDefinitions: Record<InputMode, InputModeDefinition> =
-  INPUT_MODES;
-
-export function getInputModeDefinition(mode: InputMode): InputModeDefinition {
-  return inputModeDefinitions[mode];
-}
-
-// Modes shown in the controls: every non-opt-in mode plus `add`, minus `remove`
+/**
+ * Gets the input modes to display in the controls, considering opt-in and opt-out modes.
+ * @param remove The input modes to remove from the controls.
+ * @param add The input modes to add to the controls.
+ * @returns The list of input modes to display in the controls, with their definitions.
+ */
 export function getInputModes(
   remove: readonly InputMode[] = [],
   add: readonly InputMode[] = [],
 ): { mode: InputMode; definition: InputModeDefinition }[] {
   return (Object.keys(INPUT_MODES) as InputMode[])
-    .map((mode) => ({ mode, definition: inputModeDefinitions[mode] }))
+    .map((mode) => ({ mode, definition: INPUT_MODE_DEFINITIONS[mode] }))
     .filter(
       ({ mode, definition }) =>
         !remove.includes(mode) && (!definition.optIn || add.includes(mode)),
     );
 }
 
+/**
+ * Gets the input mode corresponding to a given key code.
+ * @param code The key code to check.
+ * @returns The input mode associated with the key code, or undefined if none match.
+ */
 export function getInputModeForKey(code: string): InputMode | undefined {
   return getInputModes().find(({ definition }) =>
     definition.keys.includes(code),
   )?.mode;
 }
 
+/**
+ * Creates a new Picross game with the given size and solution.
+ * @param size The size of the Picross board.
+ * @param solution The solution for the Picross board.
+ * @returns The initialized Picross game.
+ */
 export function createPicrossGame(
   size: PicrossSize,
   solution: PicrossSolution,
@@ -231,7 +252,11 @@ export function createPicrossGame(
 }
 //#region HINTS UTILS
 
-// Gets the runs of filled tiles in a line
+/**
+ * Gets the runs of filled tiles in a line.
+ * @param line The line of tiles to check.
+ * @returns An array of objects representing the runs, each with a length and start index.
+ */
 function getLineRuns(
   line: PicrossTileState[],
 ): { length: number; start: number }[] {
@@ -251,6 +276,11 @@ function getLineRuns(
   return runs;
 }
 
+/**
+ * Gets the hints for a single line of the solution.
+ * @param line The line of the solution to analyze.
+ * @returns An array of numbers representing the lengths of filled runs.
+ */
 export function getLineHints(line: PicrossSolution[number]) {
   const runs = getLineRuns(
     line.map((filled): PicrossTileState => (filled ? "filled" : "empty")),
@@ -258,7 +288,11 @@ export function getLineHints(line: PicrossSolution[number]) {
   return runs.length > 0 ? runs : [0];
 }
 
-// Gets the hints for the entire solution board based on the filled runs
+/**
+ * Gets the hints for the entire solution board based on the filled runs.
+ * @param solution The solution board to analyze.
+ * @returns An object containing row and column hints.
+ */
 export function getHints(solution: PicrossSolution) {
   const rows = solution.map((row) => getLineHints(row));
   const columns =
@@ -269,13 +303,23 @@ export function getHints(solution: PicrossSolution) {
   return { rows, columns };
 }
 
-// More filled tiles than the hints allow means the line is wrong, even if some runs still look solved
+/**
+ * Determines if a line has more filled tiles than the hints allow.
+ * @param line The line of tiles to check.
+ * @param hints The hints for the line.
+ * @returns True if the line is overfilled, false otherwise.
+ */
 export function isLineOverfilled(line: PicrossTileState[], hints: number[]) {
   const filled = line.filter((tile) => tile === "filled").length;
   return filled > hints.reduce((a, b) => a + b, 0);
 }
 
-// Determines which hints are solved based on the current line state
+/**
+ * Determines which hints are solved based on the current line state.
+ * @param line The line of tiles to check.
+ * @param hints The hints for the line.
+ * @returns An array of booleans indicating which hints are solved.
+ */
 export function getSolvedHints(line: PicrossTileState[], hints: number[]) {
   if (hints.length === 1 && hints[0] === 0) {
     return [line.every((tile) => tile === "marked")];
@@ -328,7 +372,11 @@ export function getSolvedHints(line: PicrossTileState[], hints: number[]) {
 
 //#endregion HINTS UTILS
 
-// Solved when the filled tiles match the solution; marks and empties are equivalent
+/**
+ * Checks if the board is solved by comparing it to the solution.
+ * @param game The Picross game to check.
+ * @returns True if the board matches the solution, false otherwise.
+ */
 export function isBoardSolved({ board, solution }: PicrossGame) {
   for (let y = 0; y < solution.length; y++) {
     const row = solution[y];
@@ -340,12 +388,20 @@ export function isBoardSolved({ board, solution }: PicrossGame) {
   return true;
 }
 
+/**
+ * Clears the board, resetting all tiles to empty and reinitializing the palette.
+ * @param game The Picross game to clear.
+ */
 export function clearBoard(game: PicrossGame): void {
   for (const row of game.board) row.fill("empty");
   game.palette = createPalette(game.size, game.palette.colors);
   game.isCompleted = false;
 }
 
+/**
+ * Solves the game by filling the board with the solution.
+ * @param game The Picross game to solve.
+ */
 export function solveGame(game: PicrossGame): void {
   for (let y = 0; y < game.solution.length; y++) {
     const [row, boardRow] = [game.solution[y], game.board[y]];
@@ -358,6 +414,12 @@ export function solveGame(game: PicrossGame): void {
   game.isCompleted = true;
 }
 
+/**
+ * Fills a random empty tile with the correct value from the solution.
+ * @param game The Picross game to modify.
+ * @param random Optional random number generator function.
+ * @returns True if a tile was filled, false otherwise.
+ */
 export function fillRandomTile(
   game: PicrossGame,
   random = Math.random,

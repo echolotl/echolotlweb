@@ -4,20 +4,7 @@ import type {
   PicrossSize,
   PicrossSolution,
 } from "~/utils/picross";
-import {
-  isValidSolution,
-  MAX_BOARD_SIZE,
-  MIN_BOARD_SIZE,
-} from "~/utils/picross";
-
-const MAGIC_HEADER = new Uint8Array([
-  0x45, 0x43, 0x48, 0x4f, 0x4c, 0x4f, 0x54, 0x4c,
-]); // "ECHOLOTL"
-const CURRENT_MAJOR_VERSION = 1;
-const CURRENT_MINOR_VERSION = 0;
-const MAX_PALETTE_SIZE = 255; // Tile color indexes are one byte, with 0 meaning "no color"
-const MAX_COLOR_BYTES = 255; // Colors are length-prefixed with a single byte
-export const FILE_EXTENSION = "epcp"; // "echolotl Picross Puzzle"
+import { isValidSolution } from "~/utils/picross";
 
 // What a saved puzzle file holds. Hints are derived from the solution on load, never stored.
 export type PicrossPuzzleData = {

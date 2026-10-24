@@ -23,12 +23,7 @@
 
 <script setup lang="ts">
 import Icon from "~/components/common/Icon.vue";
-import {
-  clampPicrossSize,
-  MAX_BOARD_SIZE,
-  MIN_BOARD_SIZE,
-  type PicrossSize,
-} from "~/utils/picross";
+import { clampPicrossSize, type PicrossSize } from "~/utils/picross";
 
 const props = defineProps<{ modelValue: PicrossSize }>();
 const emit = defineEmits<{ "update:modelValue": [size: PicrossSize] }>();

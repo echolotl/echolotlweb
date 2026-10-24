@@ -59,7 +59,6 @@ import {
   clampPicrossSize,
   solveGame,
   fillRandomTile,
-  DEFAULT_BOARD_SIZE,
   type PicrossSize,
 } from "~/utils/picross";
 import PicrossGrid from "~/components/picross/PicrossGrid.vue";
@@ -70,7 +69,7 @@ import PicrossInputControls from "~/components/picross/PicrossInputControls.vue"
 import { getHints } from "~/utils/picross";
 import { generateSolvableSolution } from "~/utils/picross/solver";
 import type { PicrossGame } from "~/utils/picross";
-import { FILE_EXTENSION, loadPicrossPuzzle } from "~/utils/picross/file";
+import { loadPicrossPuzzle } from "~/utils/picross/file";
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const fileError = ref("");

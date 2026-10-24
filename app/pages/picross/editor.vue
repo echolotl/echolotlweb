@@ -160,16 +160,10 @@ import {
   clampPicrossSize,
   getHints,
   getPaletteColor,
-  DEFAULT_BOARD_SIZE,
   type PicrossGame,
   type PicrossSize,
-  type PicrossMetadata,
 } from "~/utils/picross";
-import {
-  FILE_EXTENSION,
-  loadPicrossPuzzle,
-  savePicrossPuzzle,
-} from "~/utils/picross/file";
+import { loadPicrossPuzzle, savePicrossPuzzle } from "~/utils/picross/file";
 import Tooltip from "~/components/common/Tooltip.vue";
 
 const sizeInput = reactive<PicrossSize>({
@@ -339,7 +333,7 @@ async function handleLoad(event: Event) {
 let solvePending = false;
 
 function solveIfIdle() {
-  if (!solvePending || grid.value?.strokeActive) return;
+  if (!solvePending || grid.value?.stroke) return;
   const current = game.value;
   if (!current) return;
   solvePending = false;
@@ -355,7 +349,7 @@ watch(
   },
 );
 
-watch(() => grid.value?.strokeActive, solveIfIdle);
+watch(() => grid.value?.stroke, solveIfIdle);
 
 useSeoMeta({
   title: "echolotl - Nautilus' Picross (Editor)",

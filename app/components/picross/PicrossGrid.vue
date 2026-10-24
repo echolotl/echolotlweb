@@ -65,11 +65,10 @@
 import SketchFilter from "~/components/common/SketchFilter.vue";
 import { useTheme } from "~/composables/useTheme";
 import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
+import { toSafeHTTPUrl } from "~/utils/index";
 import {
   applyTileChange,
-  DEFAULT_INPUT_MODE,
   getHints,
-  getInputModeDefinition,
   getInputModeForKey,
   getPaletteColor,
   getSolvedHints,
@@ -82,96 +81,108 @@ import {
   type PicrossTileState,
 } from "~/utils/picross";
 
-// The grid mutates the game it is given (board, moves, isCompleted)
-// While locked the board is shown without hints and can't be played
-// While editable, tiles edit the solution directly and the hints follow it
+/**
+ * PICROSS GRID THINGS TO BE KNOWN:
+ * - The grid mutates the game it is given.
+ * - While locked, the board is shown without hints and can't be played.
+ * - While editable, tiles edit the solution directly and the hints follow it.
+ */
+
 const props = defineProps<{
   game: PicrossGame;
   locked?: boolean;
   editable?: boolean;
-  paintIndex?: number | null; // Palette index applied by the paint mode while editable
+  paintIndex?: number | null;
 }>();
 
-// Only http(s) links are allowed since metadata comes from user-loaded files
-function toSafeUrl(value: string | URL | undefined): string | null {
-  if (!value) return null;
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:"
-      ? url.href
-      : null;
-  } catch {
-    return null;
-  }
-}
+const { theme } = useTheme();
 
+/**
+ * A computed property that formats the metadata information for display.
+ */
 const metadataInfo = computed(() => {
   const metadata = props.game.metadata;
   if (!metadata) return null;
   const { title, author, source } = metadata;
   const authorName = author?.name;
   const sourceInfo = source?.name
-    ? { name: source.name, url: toSafeUrl(source.url) }
+    ? { name: source.name, url: toSafeHTTPUrl(source.url) }
     : null;
   if (!title && !authorName && !sourceInfo) return null;
   return { title, author: authorName, source: sourceInfo };
 });
 
-// The grid owns the input mode; parents read and set it through the exposed API
+/**
+ * The currently selected input mode for the Picross grid.
+ */
 const inputMode = ref<InputMode>(DEFAULT_INPUT_MODE);
 
-const { theme } = useTheme();
-
-const TILE_SIZE = 30;
-const PAINT_DOT_SIZE = 10;
-const HINT_FONT_SIZE = 14;
-const HINT_LINE_HEIGHT = 20;
-const COLUMN_HINTS_PADDING = 8;
-
+/**
+ * The target height of the column hints area, including padding.
+ * This is not applied immediately if `stroke` is not null.
+ */
 const targetColumnHintsHeight = computed(
   () =>
     Math.max(0, ...props.game.hints.columns.map((h) => h.length)) *
       HINT_LINE_HEIGHT +
     COLUMN_HINTS_PADDING * 2,
 );
-// Matches the height of the column hints canvas that sits above the board.
-// It's frozen mid-stroke so the board doesn't shift under the pointer.
-const strokeActive = ref(false);
-const columnHintsHeight = ref(targetColumnHintsHeight.value);
-watch(
-  [targetColumnHintsHeight, strokeActive],
-  ([height, active]) => {
-    if (!active) columnHintsHeight.value = height;
-  },
-  { flush: "sync" },
-);
-const ROW_HINTS_PADDING = 16;
-const ROW_HINT_GAP = 8;
-const UNDO_HISTORY_LIMIT = 100;
 
+/**
+ * The actual height of the column hints area, which may lag behind the target height while `stroke` is not null.
+ */
+const columnHintsHeight = ref(targetColumnHintsHeight.value);
+
+/**
+ * The image used for the mark tile.
+ */
 let markImage: HTMLImageElement | null = null;
+
+/**
+ * The sound player instance.
+ * @see {@link SoundPlayer}
+ */
 let sound: SoundPlayer | null = null;
+/**
+ * The individual sounds for placing tiles.
+ */
 let placeSounds: AudioBuffer[] = [];
 
-// Each history entry is one pointer stroke, so a drag undoes in a single step
+/**
+ * A single change to a tile, used for undo/redo history.
+ */
 interface TileChange {
   x: number;
   y: number;
   prev: PicrossTile;
   next: PicrossTile;
 }
+/**
+ * The undo history stack, each entry representing a pointer stroke.
+ */
 let undoStack: TileChange[][] = [];
+const undoCount = ref(0); // for the undo button display
+/**
+ * The redo history stack, each entry representing a pointer stroke.
+ */
 let redoStack: TileChange[][] = [];
+const redoCount = ref(0); // for the redo button display
+/**
+ * The current pointer stroke being recorded.
+ */
 let stroke: TileChange[] | null = null;
-// The stacks aren't reactive, so these mirror their sizes for the buttons
-const undoCount = ref(0);
-const redoCount = ref(0);
 
+/**
+ * Helper function to synchronize the undo and redo counts with their respective stacks.
+ */
 function syncHistoryCounts() {
   undoCount.value = undoStack.length;
   redoCount.value = redoStack.length;
 }
 
+/**
+ * Commits the current pointer stroke to the undo stack and clears the redo stack.
+ */
 function commitStroke() {
   if (stroke?.length) {
     undoStack.push(stroke);
@@ -180,18 +191,34 @@ function commitStroke() {
     syncHistoryCounts();
   }
   stroke = null;
-  strokeActive.value = false;
 }
 
+/**
+ * Clears the undo and redo history stacks and resets the current stroke.
+ */
 function clearHistory() {
   undoStack = [];
   redoStack = [];
   stroke = null;
-  strokeActive.value = false;
   syncHistoryCounts();
 }
 
 // #region HINT CANVASES
+
+/**
+ * The column hints canvas element.
+ * TODO: Make it so the context is only created initially, and reused
+ */
+const columnHintsCanvas = shallowRef<HTMLCanvasElement | null>(null);
+/**
+ * The row hints canvas element.
+ * TODO: Make it so the context is only created initially, and reused
+ */
+const rowHintsCanvas = shallowRef<HTMLCanvasElement | null>(null);
+
+/**
+ * A computed property that tracks which hints are solved. (grayed out)
+ */
 const solvedHints = computed(() => {
   const { board, hints } = props.game;
   // The board always matches the solution when editing, so nothing is "solved"
@@ -214,7 +241,9 @@ const solvedHints = computed(() => {
   };
 });
 
-// A line whose hints are all solved but still has untouched tiles left to mark out
+/**
+ * A computed property that tracks which lines have all their hints solved but still have unmarked tiles. (gray but outlined)
+ */
 const unmarkedLines = computed(() => {
   const { board } = props.game;
   const needsMarks = (
@@ -234,6 +263,9 @@ const unmarkedLines = computed(() => {
   };
 });
 
+/**
+ * A computed property that tracks which lines are overfilled and thus incorrect. (red)
+ */
 const incorrectLines = computed(() => {
   const { board, hints } = props.game;
   return {
@@ -249,7 +281,10 @@ const incorrectLines = computed(() => {
   };
 });
 
-// Hints only need to be redrawn when a hint's solved, outlined or incorrect state flips, not on every move
+/**
+ * A computed property that generates a unique key based on the current state of solved hints, unmarked lines, and incorrect lines.
+ * This determines when the hint canvases need to be redrawn.
+ */
 const solvedHintsKey = computed(() =>
   JSON.stringify([
     props.game.hints,
@@ -259,6 +294,16 @@ const solvedHintsKey = computed(() =>
   ]),
 );
 
+/**
+ * Helper function to draw a hint on the canvas with appropriate styling based on its state.
+ * @param hintCtx The canvas rendering context to draw on.
+ * @param text The text of the hint to draw.
+ * @param x The x-coordinate to draw the hint at.
+ * @param y The y-coordinate to draw the hint at.
+ * @param solved Whether the hint is solved.
+ * @param outlined Whether the hint should be outlined.
+ * @param incorrect Whether the hint is incorrect.
+ */
 function drawHint(
   hintCtx: CanvasRenderingContext2D,
   text: string,
@@ -269,7 +314,9 @@ function drawHint(
   incorrect: boolean,
 ) {
   if (outlined) {
-    hintCtx.strokeStyle = incorrect ? colors!.incorrect : colors!.stripe;
+    hintCtx.strokeStyle = incorrect
+      ? BOARD_COLORS!.incorrect
+      : BOARD_COLORS!.stripe;
     hintCtx.lineWidth = 3;
     hintCtx.lineJoin = "round";
     hintCtx.globalAlpha = 0.5;
@@ -277,21 +324,25 @@ function drawHint(
     hintCtx.globalAlpha = 1;
   }
   hintCtx.fillStyle = incorrect
-    ? colors!.incorrect
+    ? BOARD_COLORS!.incorrect
     : solved
-      ? colors!.solvedHint
-      : colors!.text;
+      ? BOARD_COLORS!.solvedHint
+      : BOARD_COLORS!.text;
   hintCtx.fillText(text, x, y);
 }
 
-const columnHintsCanvas = shallowRef<HTMLCanvasElement | null>(null);
-const rowHintsCanvas = shallowRef<HTMLCanvasElement | null>(null);
-
+/**
+ * Prepares a hint canvas for drawing by setting its size and context.
+ * @param canvas The canvas element to prepare.
+ * @param width The desired width of the canvas in CSS pixels.
+ * @param height The desired height of the canvas in CSS pixels.
+ * @returns The prepared canvas rendering context, or null if it couldn't be obtained.
+ */
 function prepareHintCanvas(
   canvas: HTMLCanvasElement,
   width: number,
   height: number,
-) {
+): CanvasRenderingContext2D | null {
   const dpr = window.devicePixelRatio || 1;
   canvas.width = Math.max(1, Math.ceil(width * dpr));
   canvas.height = Math.max(1, Math.ceil(height * dpr));
@@ -304,13 +355,15 @@ function prepareHintCanvas(
   return hintCtx;
 }
 
+/**
+ * Draws the column and row hints on their respective canvases.
+ */
 function drawHints() {
   const columnCanvas = columnHintsCanvas.value;
   const rowCanvas = rowHintsCanvas.value;
   if (!columnCanvas || !rowCanvas) return;
 
   const { hints, size } = props.game;
-  colors ??= readColors();
   const fontFamily = window.getComputedStyle(columnCanvas).fontFamily;
   const font = `${HINT_FONT_SIZE}px ${fontFamily}`;
 
@@ -346,7 +399,7 @@ function drawHints() {
       });
       // if solved, draw a line through the column hints
       if (isColumnSolved && !unmarkedLines.value.columns[column]) {
-        columnCtx.strokeStyle = colors?.solvedHint ?? "black";
+        columnCtx.strokeStyle = BOARD_COLORS!.solvedHint ?? "black";
         columnCtx.lineWidth = 2;
         columnCtx.beginPath();
         const bottom = columnHeight - COLUMN_HINTS_PADDING;
@@ -361,7 +414,7 @@ function drawHints() {
   }
 
   // Measure with a scratch context so the canvas can be sized before drawing
-  const measureCtx = rowCanvas.getContext("2d");
+  const measureCtx = new OffscreenCanvas(1, 1).getContext("2d");
   if (!measureCtx) return;
   measureCtx.font = font;
   const rowWidths = hints.rows.map((rowHints) =>
@@ -404,7 +457,7 @@ function drawHints() {
 
     // if solved, draw a line through the row hints
     if (isRowSolved && !unmarkedLines.value.rows[row]) {
-      rowCtx.strokeStyle = colors?.solvedHint ?? "black";
+      rowCtx.strokeStyle = BOARD_COLORS!.solvedHint ?? "black";
       rowCtx.lineWidth = 2;
       rowCtx.beginPath();
       const lineRight = rowWidth - ROW_HINTS_PADDING;
@@ -421,11 +474,27 @@ function drawHints() {
 
 // #region MAIN CANVAS
 
+/**
+ * The main game board canvas element.
+ */
 const gameBoard = shallowRef<HTMLCanvasElement | null>(null);
+/**
+ * The 2D rendering context for the main game board canvas.
+ */
 let ctx: CanvasRenderingContext2D | null = null;
+/**
+ * The offscreen canvas used for drawing marks on the game board.
+ */
 let markCanvas: OffscreenCanvas | null = null;
+/**
+ * The 2D rendering context for the offscreen mark canvas.
+ */
 let markCtx: OffscreenCanvasRenderingContext2D | null = null;
 
+/**
+ * Initializes the main game board canvas and the offscreen mark canvas.
+ * Called when the component is mounted to set up the canvases.
+ */
 function initializeCanvas() {
   if (gameBoard.value) {
     ctx = gameBoard.value.getContext("2d");
@@ -434,38 +503,15 @@ function initializeCanvas() {
   }
 }
 
-interface BoardColors {
-  line: string;
-  tile: string;
-  stripe: string;
-  completed: string;
-  text: string;
-  solvedHint: string;
-  incorrect: string;
-}
-
-// Cached so drawing doesn't hit getComputedStyle
-let colors: BoardColors | null = null;
-
-function readColors(): BoardColors {
-  const style = window.getComputedStyle(document.documentElement);
-  const invertedSolid = style.getPropertyValue("--inverted-solid").trim();
-  const solid = style.getPropertyValue("--solid").trim();
-  return {
-    line: style.getPropertyValue("--distant"),
-    tile: style.getPropertyValue("--text"),
-    stripe: invertedSolid,
-    completed: style.getPropertyValue("--primary"),
-    text: style.getPropertyValue("--text"),
-    // Canvas can't resolve var() inside color-mix, so substitute the values
-    solvedHint: `color-mix(in srgb, ${invertedSolid} 40%, ${solid})`,
-    incorrect: style.getPropertyValue("--red"),
-  };
-}
-
-// Redraws are coalesced to at most one per frame
+/**
+ * The `requestAnimationFrame` ID for the scheduled board redraw.
+ */
 let boardFrame: number | null = null;
 
+/**
+ * The board should only be drawn **AT MOST** once per animation frame.
+ * This function schedules a board redraw using requestAnimationFrame.
+ */
 function scheduleDrawBoard() {
   if (boardFrame !== null) return;
   boardFrame = requestAnimationFrame(() => {
@@ -474,6 +520,9 @@ function scheduleDrawBoard() {
   });
 }
 
+/**
+ * Actually draws the game board on the main canvas.
+ */
 function drawBoard() {
   if (!ctx || !gameBoard.value) return;
   const { board, size, palette } = props.game;
@@ -481,11 +530,10 @@ function drawBoard() {
   const CANVAS_WIDTH = size.width * TILE_SIZE;
   const CANVAS_HEIGHT = size.height * TILE_SIZE;
   const DPR = window.devicePixelRatio || 1;
-  colors ??= readColors();
-
-  // Resizing clears and reallocates the canvas, so only do it when needed
   const pixelWidth = Math.ceil(CANVAS_WIDTH * DPR);
   const pixelHeight = Math.ceil(CANVAS_HEIGHT * DPR);
+
+  // Resizing clears and reallocates the canvas, so only do it when needed
   if (
     gameBoard.value.width !== pixelWidth ||
     gameBoard.value.height !== pixelHeight
@@ -498,11 +546,10 @@ function drawBoard() {
 
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  ctx.strokeStyle = colors.line;
-  ctx.lineCap = "round";
+  ctx.strokeStyle = BOARD_COLORS!.line;
 
   // Draw checkered background for the grid
-  ctx.fillStyle = colors.stripe;
+  ctx.fillStyle = BOARD_COLORS!.stripe;
   ctx.globalAlpha = 0.05;
   for (let y = 0; y < size.height; y++) {
     for (let x = 0; x < size.width; x++) {
@@ -529,13 +576,14 @@ function drawBoard() {
     ctx.stroke();
   }
 
-  // Draw tiles. Once completed, colored tiles reveal their color underneath,
-  // and the placed tiles and marks on top of them pulse in and out.
+  // Draw tiles. Once completed, the palette colors appear over the user's placed
+  // tiles, then periodically pulse out to reveal those tiles underneath.
   const completed = props.game.isCompleted;
   if (!completed) revealStart = null;
   const overlayAlpha = completed ? getRevealAlpha() : 1;
-  let pulsing = false;
+  const fading = completed && !prefersReducedMotion();
   const hovered = hoveredTile.value;
+  /** If the mark image is ready to be drawn. */
   const markReady =
     markImage?.complete && markImage.naturalWidth > 0 && markCtx && markCanvas;
   if (markReady) {
@@ -543,25 +591,50 @@ function drawBoard() {
     markCtx!.globalCompositeOperation = "source-over";
     markCtx!.drawImage(markImage!, 0, 0, TILE_SIZE, TILE_SIZE);
     markCtx!.globalCompositeOperation = "source-in";
-    markCtx!.fillStyle = colors.tile;
+    markCtx!.fillStyle = BOARD_COLORS!.tile;
     markCtx!.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
     markCtx!.globalCompositeOperation = "source-over";
   }
 
+  // This is terrible and spaghetti
   for (let y = 0; y < size.height; y++) {
     for (let x = 0; x < size.width; x++) {
       const state = board[y]?.[x];
       const tileColor = getPaletteColor(palette, palette.indices[y]?.[x]);
       const left = x * TILE_SIZE;
       const top = y * TILE_SIZE;
-      const revealed = completed && tileColor !== null;
-      if (revealed) pulsing ||= state !== "empty";
 
+      /** If the current tile is revealed. */
+      const revealed = completed && tileColor !== null;
+
+      // Always draw filled and marked tiles.
+      if (state === "filled") {
+        if (props.editable) {
+          ctx.fillStyle = tileColor ?? BOARD_COLORS!.tile;
+        } else {
+          ctx.fillStyle = BOARD_COLORS!.tile;
+        }
+        const TILE_INSET = 1;
+        ctx.fillRect(
+          left + TILE_INSET,
+          top + TILE_INSET,
+          TILE_SIZE - 2 * TILE_INSET,
+          TILE_SIZE - 2 * TILE_INSET,
+        );
+      } else if (state === "marked" && markReady) {
+        ctx.globalAlpha = completed ? 0.25 : 1;
+        ctx.drawImage(markCanvas!, left, top);
+        ctx.globalAlpha = 1;
+      }
+
+      // If the puzzle is completed and the image is revealed, draw the tile color over it.
       if (revealed) {
         ctx.fillStyle = tileColor;
+        ctx.globalAlpha = overlayAlpha;
         ctx.fillRect(left, top, TILE_SIZE, TILE_SIZE);
+        ctx.globalAlpha = 1;
       } else if (props.editable && tileColor && state !== "filled") {
-        // Painted but not part of the solution; solid while hovered
+        // Otherwise, if the tile is editable and painted but not filled, draw the small dot.
         const isHovered = hovered?.x === x && hovered.y === y;
         const inset = (TILE_SIZE - PAINT_DOT_SIZE - (isHovered ? 6 : 0)) / 2;
         ctx.fillStyle = tileColor;
@@ -571,74 +644,60 @@ function drawBoard() {
           PAINT_DOT_SIZE + (isHovered ? 6 : 0),
           PAINT_DOT_SIZE + (isHovered ? 6 : 0),
         );
-        ctx.globalAlpha = 1;
-      }
-
-      if (state === "filled") {
-        if (props.editable) {
-          ctx.fillStyle = tileColor ?? colors.tile;
-        } else if (pulsing) {
-          ctx.fillStyle = rgbToHex(getContrastColor(tileColor ?? colors.tile));
-        } else {
-          ctx.fillStyle = colors.tile;
-        }
-        const TILE_INSET = pulsing ? 4 : 1;
-        ctx.globalAlpha = revealed ? overlayAlpha : 1;
-        ctx.fillRect(
-          left + TILE_INSET,
-          top + TILE_INSET,
-          TILE_SIZE - 2 * TILE_INSET,
-          TILE_SIZE - 2 * TILE_INSET,
-        );
-        ctx.globalAlpha = 1;
-      } else if (state === "marked" && markReady) {
-        ctx.globalAlpha =
-          (completed ? 0.25 : 1) * (revealed ? overlayAlpha : 1);
-        ctx.drawImage(markCanvas!, left, top);
-        ctx.globalAlpha = 1;
       }
     }
   }
 
-  if (pulsing && !prefersReducedMotion()) scheduleDrawBoard();
+  if (fading) scheduleDrawBoard();
 }
 
-// The completed image rests fully revealed, and every so often the placed tiles
-// fade back in and out over it on a cosine wave so the player can see their placed tiles clearly
-const REVEAL_PAUSE_MS = 8000;
-const REVEAL_PULSE_MS = 3000;
+/**
+ * The timestamp when the reveal animation started. Used to calculate the reveal alpha.
+ */
 let revealStart: number | null = null;
 
-function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
+/**
+ * Helper function to calculate the color overlay alpha for the animation.
+ * The colors are fully visible on completion, and periodically pulse out and
+ * back in to reveal the placed tiles underneath.
+ * @returns The overlay alpha value between 0 and 1.
+ */
 function getRevealAlpha() {
-  if (prefersReducedMotion()) return 0;
+  if (prefersReducedMotion()) return 1;
   const now = performance.now();
   revealStart ??= now;
-  const cycle = REVEAL_PAUSE_MS + REVEAL_PULSE_MS;
-  const time = (now - revealStart) % cycle;
-  if (time < REVEAL_PAUSE_MS) return 0;
+  const time = (now - revealStart) % (REVEAL_PAUSE_MS + REVEAL_PULSE_MS);
+  if (time < REVEAL_PAUSE_MS) return 1;
   const progress = (time - REVEAL_PAUSE_MS) / REVEAL_PULSE_MS;
-  return 0.5 - 0.5 * Math.cos(progress * 2 * Math.PI);
+  return 0.5 + 0.5 * Math.cos(progress * 2 * Math.PI);
 }
-
+/**
+ * The pointer ID of the currently held pointer, or null if none.
+ */
 let heldPointer: number | null = null;
+/** The current action being applied to the board, or null if none. */
 let action: PicrossTileChange | null = null;
-// The hover outline is a DOM overlay so moving the cursor never redraws the canvas
+
+/** The currently hovered tile, or null if none. */
 const hoveredTile = ref<{ x: number; y: number } | null>(null);
 
 // #endregion MAIN CANVAS
 
 // #region GAME LOGIC
+
+/** Rechecks if the board is completed and updates the game state accordingly. */
 function checkIfCompleted() {
   if (props.editable || !isBoardSolved(props.game)) return;
   props.game.isCompleted = true;
   stopHold();
 }
 
-function getTileAt(event: PointerEvent) {
+/**
+ * Gets the tile at the given pointer event coordinates.
+ * @param event The pointer event.
+ * @returns The tile coordinates { x, y } if a tile exists at the event location, otherwise null.
+ */
+function getTileAt(event: PointerEvent): { x: number; y: number } | null {
   if (!gameBoard.value) return null;
   const rect = gameBoard.value.getBoundingClientRect();
   const x = Math.floor(
@@ -649,7 +708,12 @@ function getTileAt(event: PointerEvent) {
   );
   return props.game.board[y]?.[x] ? { x, y } : null;
 }
-
+/**
+ * Gets the tile at the given board coordinates.
+ * @param x The x-coordinate of the tile.
+ * @param y The y-coordinate of the tile.
+ * @returns The tile at the specified coordinates.
+ */
 function getTile(x: number, y: number): PicrossTile {
   return {
     state: props.game.board[y]?.[x] ?? "empty",
@@ -657,6 +721,12 @@ function getTile(x: number, y: number): PicrossTile {
   };
 }
 
+/**
+ * Sets the tile at the given board coordinates.
+ * @param x The x-coordinate of the tile.
+ * @param y The y-coordinate of the tile.
+ * @param tile The tile data to set.
+ */
 function setTile(x: number, y: number, tile: PicrossTile) {
   const row = props.game.board[y];
   if (!row) return;
@@ -673,6 +743,11 @@ function setTile(x: number, y: number, tile: PicrossTile) {
   }
 }
 
+/**
+ * Applies the current action to the tile at the given board coordinates.
+ * @param x The x-coordinate of the tile.
+ * @param y The y-coordinate of the tile.
+ */
 function applyAction(x: number, y: number) {
   if (!action) return;
   const prev = getTile(x, y);
@@ -698,15 +773,25 @@ function applyAction(x: number, y: number) {
   checkIfCompleted();
 }
 
+/**
+ * Resolves the tile change based on the current input mode and button pressed.
+ * @param current The current tile state.
+ * @param button The mouse button pressed (0 for left, 2 for right).
+ * @returns The resulting tile change.
+ */
 function resolveTile(current: PicrossTile, button: number): PicrossTileChange {
-  return getInputModeDefinition(inputMode.value).resolve(
+  return INPUT_MODES[inputMode.value].resolve(
     current,
-    button === 2,
+    button,
     props.editable,
     props.paintIndex,
   );
 }
 
+/**
+ * Handles the pointer down event on the game board.
+ * @param event The pointer event.
+ */
 function handlePointerDown(event: PointerEvent) {
   if (props.game.isCompleted || props.locked) return;
   if (event.button !== 0 && event.button !== 2) return;
@@ -715,12 +800,15 @@ function handlePointerDown(event: PointerEvent) {
   event.preventDefault();
   heldPointer = event.pointerId;
   stroke = [];
-  strokeActive.value = true;
   gameBoard.value?.setPointerCapture(event.pointerId);
   action = resolveTile(getTile(tile.x, tile.y), event.button);
   applyAction(tile.x, tile.y);
 }
 
+/**
+ * Handles the pointer move event on the game board.
+ * @param event The pointer event.
+ */
 function handlePointerMove(event: PointerEvent) {
   if (props.game.isCompleted || props.locked) return;
   const tile = getTileAt(event);
@@ -729,10 +817,17 @@ function handlePointerMove(event: PointerEvent) {
   applyAction(tile.x, tile.y);
 }
 
+/**
+ * Handles the pointer leave event on the game board.
+ */
 function handlePointerLeave() {
   setHoveredTile(null);
 }
 
+/**
+ * Handles keyboard events for input mode switching and undo/redo.
+ * @param event The keyboard event.
+ */
 function handleKeys(event: KeyboardEvent) {
   // Don't hijack typing or native undo inside form fields
   const target = event.target;
@@ -767,10 +862,17 @@ function handleKeys(event: KeyboardEvent) {
   }
 }
 
+/**
+ * Determines if the history can be edited (undo/redo).
+ * @returns True if history can be edited, false otherwise.
+ */
 function canEditHistory() {
   return !props.game.isCompleted && !props.locked && heldPointer === null;
 }
 
+/**
+ * Handles the undo action.
+ */
 function handleUndo() {
   if (!canEditHistory()) return;
   const changes = undoStack.pop();
@@ -783,6 +885,9 @@ function handleUndo() {
   syncHistoryCounts();
 }
 
+/**
+ * Handles the redo action.
+ */
 function handleRedo() {
   if (!canEditHistory()) return;
   const changes = redoStack.pop();
@@ -792,19 +897,10 @@ function handleRedo() {
   syncHistoryCounts();
 }
 
-defineExpose({
-  inputMode,
-  setInputMode: (mode: InputMode) => {
-    inputMode.value = mode;
-  },
-  undo: handleUndo,
-  redo: handleRedo,
-  clearHistory,
-  strokeActive,
-  canUndo: computed(() => undoCount.value > 0 && canEditHistory()),
-  canRedo: computed(() => redoCount.value > 0 && canEditHistory()),
-});
-
+/**
+ * Sets the currently hovered tile.
+ * @param tile The tile coordinates or null if no tile is hovered.
+ */
 function setHoveredTile(tile: { x: number; y: number } | null) {
   if (hoveredTile.value?.x === tile?.x && hoveredTile.value?.y === tile?.y)
     return;
@@ -817,6 +913,19 @@ function stopHold() {
   commitStroke();
 }
 // #endregion GAME LOGIC
+// We expose certain functions and reactive properties to the parent component for UI purposes
+defineExpose({
+  inputMode,
+  setInputMode: (mode: InputMode) => {
+    inputMode.value = mode;
+  },
+  undo: handleUndo,
+  redo: handleRedo,
+  clearHistory,
+  stroke,
+  canUndo: computed(() => undoCount.value > 0 && canEditHistory()),
+  canRedo: computed(() => redoCount.value > 0 && canEditHistory()),
+});
 
 onMounted(() => {
   markImage = new Image();
@@ -826,14 +935,16 @@ onMounted(() => {
   const player = createSoundPlayer();
   sound = player;
   Promise.all(
+    // why 1, 3, and 5? IDK this works fine though
     [1, 3, 5].map((i) => player.load(`/sounds/picross/click${i}.wav`)),
   ).then((buffers) => {
     placeSounds = buffers.filter((b): b is AudioBuffer => b !== null);
   });
+  initializeBoardColors();
   initializeCanvas();
   drawBoard();
   drawHints();
-  document.fonts?.load(`${HINT_FONT_SIZE}px Lotl`).then(drawHints);
+  document.fonts?.load(`${HINT_FONT_SIZE}px Lotl`).then(drawHints); // Make sure the font is loaded before drawing hints
   window.addEventListener("pointerup", stopHold);
   window.addEventListener("pointercancel", stopHold);
   window.addEventListener("keydown", handleKeys);
@@ -860,23 +971,22 @@ watch(
 );
 
 watch(
-  [theme, () => props.game, () => props.game.isCompleted],
-  () => {
-    colors = null;
-    scheduleDrawBoard();
+  [() => targetColumnHintsHeight.value, () => stroke],
+  ([height, currentStroke]) => {
+    if (currentStroke === null) columnHintsHeight.value = height;
   },
-  { flush: "post" },
+  { flush: "sync" },
 );
 
-watch(() => props.game.board, scheduleDrawBoard, {
-  deep: true,
-  flush: "post",
-});
-
-watch(() => props.game.palette, scheduleDrawBoard, {
-  deep: true,
-  flush: "post",
-});
+watch(
+  [theme, () => props.game],
+  () => {
+    initializeBoardColors(true);
+    scheduleDrawBoard();
+    drawHints();
+  },
+  { flush: "post", deep: true },
+);
 
 // Painted tiles in the editor react to hover
 watch(hoveredTile, () => {
@@ -888,14 +998,6 @@ watch(solvedHintsKey, drawHints, { flush: "post" });
 watch(columnHintsHeight, drawHints, { flush: "post" });
 // The hint canvases are recreated when unlocking, so they need a fresh draw
 watch(() => props.locked, drawHints, { flush: "post" });
-watch(
-  [theme, () => props.game],
-  () => {
-    colors = null;
-    drawHints();
-  },
-  { flush: "post" },
-);
 </script>
 
 <style scoped>
