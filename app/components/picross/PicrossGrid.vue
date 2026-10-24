@@ -580,7 +580,7 @@ function drawBoard() {
         } else if (pulsing) {
           ctx.fillStyle = rgbToHex(getContrastColor(tileColor ?? colors.tile));
         } else {
-          ctx.fillStyle = tileColor ?? colors.tile;
+          ctx.fillStyle = colors.tile;
         }
         const TILE_INSET = pulsing ? 4 : 1;
         ctx.globalAlpha = revealed ? overlayAlpha : 1;
