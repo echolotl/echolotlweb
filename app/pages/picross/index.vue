@@ -109,12 +109,12 @@ function regeneratePuzzle() {
   const solution = generateSolvableSolution(size, getHints);
   game.value = createPicrossGame(size, solution);
 
-  // fill with random colors
-  game.value.palette.colors = Array.from({ length: 4 }, () =>
-    rgbToHex(randomColor(0.5, 0.5)),
+  // solution tiles get random bright colors, everything else gets the darker 4th color
+  game.value.palette.colors = Array.from({ length: 4 }, (_, i) =>
+    rgbToHex(randomColor(0.5, i === 3 ? 0.25 : 0.5)),
   );
-  game.value.palette.indices = Array.from({ length: size.height }, () =>
-    Array.from({ length: size.width }, () => Math.floor(Math.random() * 4)),
+  game.value.palette.indices = solution.map((row) =>
+    row.map((filled) => (filled ? Math.floor(Math.random() * 3) : 3)),
   );
 }
 
