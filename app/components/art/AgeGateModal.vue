@@ -1,12 +1,12 @@
 <template>
   <Modal
-    :model-value="modelValue"
+    v-model="open"
     max-width="440px"
     aria-label="Age verification"
     icon="warning"
     icon-color="var(--orange)"
     :close-button="false"
-    @update:model-value="onUpdate"
+    @close="emit('deny')"
   >
     <div class="age-gate">
       <h2 class="age-gate__title lotl-font">Hang on...</h2>
@@ -33,10 +33,9 @@ import Modal from "../common/Modal.vue";
 import { useAgeVerification } from "../../composables/useAgeVerification.js";
 import Icon from "../common/Icon.vue";
 
-defineProps<{ modelValue: boolean }>();
+const open = defineModel<boolean>({ required: true });
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: boolean): void;
   (e: "confirm"): void;
   (e: "deny"): void;
 }>();
@@ -46,18 +45,13 @@ const dontAskAgain = ref(false);
 
 function onYes() {
   confirm(dontAskAgain.value);
-  emit("update:modelValue", false);
+  open.value = false;
   emit("confirm");
 }
 
 function onNo() {
-  emit("update:modelValue", false);
+  open.value = false;
   emit("deny");
-}
-
-function onUpdate(value: boolean) {
-  if (!value) emit("deny");
-  emit("update:modelValue", value);
 }
 </script>
 

@@ -65,7 +65,23 @@
 import SketchFilter from "~/components/common/SketchFilter.vue";
 import { useTheme } from "~/composables/useTheme";
 import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
-import { toSafeHTTPUrl } from "~/utils/index";
+import {
+  BOARD_COLORS,
+  COLUMN_HINTS_PADDING,
+  DEFAULT_INPUT_MODE,
+  HINT_FONT_SIZE,
+  HINT_LINE_HEIGHT,
+  initializeBoardColors,
+  INPUT_MODES,
+  PAINT_DOT_SIZE,
+  REVEAL_PAUSE_MS,
+  REVEAL_PULSE_MS,
+  ROW_HINT_GAP,
+  ROW_HINTS_PADDING,
+  TILE_SIZE,
+  UNDO_HISTORY_LIMIT,
+} from "~/utils/constants";
+import { prefersReducedMotion, toSafeHTTPUrl } from "~/utils/index";
 import {
   applyTileChange,
   getHints,
@@ -780,7 +796,8 @@ function applyAction(x: number, y: number) {
  * @returns The resulting tile change.
  */
 function resolveTile(current: PicrossTile, button: number): PicrossTileChange {
-  return INPUT_MODES[inputMode.value].resolve(
+  const mode = INPUT_MODES[inputMode.value as keyof typeof INPUT_MODES];
+  return mode.resolve(
     current,
     button,
     props.editable,

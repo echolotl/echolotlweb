@@ -1,6 +1,7 @@
-type RGBColor = { r: number; g: number; b: number };
-type OKLCHColor = { l: number; c: number; h: number };
-type HSLColor = { h: number; s: number; l: number };
+export type RGBColor = { r: number; g: number; b: number };
+export type OKLCHColor = { l: number; c: number; h: number };
+export type HSLColor = { h: number; s: number; l: number };
+export type HSVColor = { h: number; s: number; v: number };
 
 // I lost the gist from where some of these functions were taken from... but credit to those who made them
 
@@ -100,7 +101,7 @@ export function oklchToRgb({ l, c, h }: OKLCHColor): RGBColor {
   return { r, g, b };
 }
 
-function hslToRgb({ h, s, l }: HSLColor): RGBColor {
+export function hslToRgb({ h, s, l }: HSLColor): RGBColor {
   let a = s * Math.min(l, 1 - l);
   let f = (n: number, k = (n + h / 30) % 12) =>
     l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
@@ -111,8 +112,77 @@ function hslToRgb({ h, s, l }: HSLColor): RGBColor {
   };
 }
 
-function hslToHex({ h, s, l }: HSLColor): string {
-  return rgbToHex(hslToRgb({ h, s, l }));
+export function rgbToHsl({ r, g, b }: RGBColor): HSLColor {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0,
+    s = 0,
+    l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h *= 60;
+  }
+  return { h, s, l };
+}
+
+export function hexToHsl(hex: string): HSLColor {
+  const { r, g, b } = hexToRgb(hex);
+  return rgbToHsl({ r, g, b });
+}
+
+export function hsvToRgb({ h, s, v }: HSVColor): RGBColor {
+  let c = v * s;
+  let x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  let m = v - c;
+  let r = 0,
+    g = 0,
+    b = 0;
+  if (h >= 0 && h < 60) {
+    r = c;
+    g = x;
+  } else if (h >= 60 && h < 120) {
+    r = x;
+    g = c;
+  } else if (h >= 120 && h < 180) {
+    g = c;
+    b = x;
+  } else if (h >= 180 && h < 240) {
+    g = x;
+    b = c;
+  } else if (h >= 240 && h < 300) {
+    r = x;
+    b = c;
+  } else if (h >= 300 && h < 360) {
+    r = c;
+    b = x;
+  }
+  return {
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255),
+  };
+}
+
+export function rgbToHsv({ r, g, b }: RGBColor): HSVColor {
+  const { h } = rgbToHsl({ r, g, b });
+  const max = Math.max(r, g, b) / 255;
+  const min = Math.min(r, g, b) / 255;
+  return { h, s: max === 0 ? 0 : (max - min) / max, v: max };
 }
 
 export function rgbToNumber(rgb: RGBColor): number {

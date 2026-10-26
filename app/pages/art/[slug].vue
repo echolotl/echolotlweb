@@ -87,7 +87,7 @@
       <CommentSection :slug="art.slug" />
     </template>
     <AgeGateModal
-      :model-value="needsAgeGate"
+      v-model="needsAgeGate"
       @confirm="ageConfirmed = true"
       @deny="leavePage"
     />
@@ -123,7 +123,11 @@ onMounted(() => {
 });
 
 const canView = computed(() => !art.value?.nsfw || ageConfirmed.value);
-const needsAgeGate = computed(() => ageChecked.value && !canView.value);
+const needsAgeGate = computed({
+  get: () => ageChecked.value && !canView.value,
+  // Dismissal is handled by the modal's confirm/deny events
+  set: () => {},
+});
 
 function leavePage() {
   if (window.history.state?.back) router.back();

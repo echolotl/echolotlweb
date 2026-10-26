@@ -2,7 +2,7 @@
   <Teleport to="body">
     <Transition name="modal">
       <div
-        v-if="modelValue"
+        v-if="open"
         ref="overlayRef"
         class="modal-overlay"
         popover="manual"
@@ -54,7 +54,6 @@ import SketchFilter from "./SketchFilter.vue";
 
 const props = withDefaults(
   defineProps<{
-    modelValue: boolean;
     closeOnBackdrop?: boolean;
     closeOnEscape?: boolean;
     closeButton?: boolean;
@@ -76,8 +75,9 @@ const props = withDefaults(
   },
 );
 
+const open = defineModel<boolean>({ required: true });
+
 const emit = defineEmits<{
-  (e: "update:modelValue", value: boolean): void;
   (e: "close"): void;
 }>();
 
@@ -86,7 +86,7 @@ const boxRef = ref<HTMLElement | null>(null);
 const overlayRef = ref<HTMLElement | null>(null);
 
 function close() {
-  emit("update:modelValue", false);
+  open.value = false;
   emit("close");
 }
 
@@ -95,11 +95,11 @@ function onKeydown(event: KeyboardEvent) {
 }
 
 watch(
-  () => props.modelValue,
-  (open) => {
+  open,
+  (isOpen) => {
     if (!import.meta.client) return;
-    document.body.style.overflow = open ? "hidden" : "";
-    if (open) {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) {
       window.addEventListener("keydown", onKeydown);
       nextTick(() => {
         // Top layer, so the modal also appears above open popovers

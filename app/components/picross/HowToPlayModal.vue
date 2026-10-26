@@ -1,7 +1,6 @@
 <template>
   <Modal
-    :model-value="modelValue"
-    @update:model-value="emit('update:modelValue', $event)"
+    v-model="open"
     icon="help"
     icon-color="var(--blue)"
   >
@@ -62,11 +61,7 @@
 import Modal from "~/components/common/Modal.vue";
 import Icon from "../common/Icon.vue";
 
-defineProps<{ modelValue: boolean }>();
-
-const emit = defineEmits<{
-  (e: "update:modelValue", value: boolean): void;
-}>();
+const open = defineModel<boolean>({ required: true });
 
 const exampleHints = [2, 1];
 const exampleRow = ["filled", "filled", "empty", "empty", "filled"];
