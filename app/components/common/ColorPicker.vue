@@ -14,8 +14,19 @@
       @pointermove="handlePointerMove"
       @pointerup="handlePointerUp"
       @pointercancel="handlePointerUp"
+      :class="{ dragging }"
     >
       <circle
+        class="wheel-hit-area"
+        :cx="WHEEL_SIZE / 2 + WHEEL_OFFSET"
+        :cy="WHEEL_SIZE / 2 + WHEEL_OFFSET"
+        :r="WHEEL_SIZE / 2"
+        fill="transparent"
+        stroke="var(--distant)"
+        stroke-width="3"
+      />
+      <circle
+        class="chooser-handle"
         :cx="chooserCenter.x"
         :cy="chooserCenter.y"
         r="7.5"
@@ -96,6 +107,8 @@ const trackGradient = computed(() => {
 });
 
 let heldPointerId: number | null = null;
+// Keeps the custom cursor while dragging outside the wheel
+const dragging = ref(false);
 let heldSliderPointerId: number | null = null;
 
 const model = defineModel<string>({ default: "#ffffff" });
@@ -207,6 +220,7 @@ function updateFromPointer(event: PointerEvent) {
 
 function handlePointerDown(event: PointerEvent) {
   heldPointerId = event.pointerId;
+  dragging.value = true;
   (event.currentTarget as SVGSVGElement).setPointerCapture(event.pointerId);
   updateFromPointer(event);
 }
@@ -219,6 +233,7 @@ function handlePointerMove(event: PointerEvent) {
 function handlePointerUp(event: PointerEvent) {
   if (heldPointerId !== event.pointerId) return;
   heldPointerId = null;
+  dragging.value = false;
 }
 
 function setBrightness(value: number) {
@@ -278,6 +293,10 @@ onBeforeUnmount(() => {
   top: -10px;
   left: -10px;
   touch-action: none;
+}
+.color-chooser-overlay .wheel-hit-area,
+.color-chooser-overlay .chooser-handle,
+.color-chooser-overlay.dragging {
   cursor:
     url("/images/icons/add.webp") 8 8,
     auto;

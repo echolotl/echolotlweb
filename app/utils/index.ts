@@ -33,6 +33,10 @@ export function formatTime(total: number) {
   return parts.join(":");
 }
 
+export function formatWithZeros(num: number, length: number) {
+  return String(num).padStart(length, "0");
+}
+
 /**
  * Converts a URL string or URL object to a safe URL if it uses the http or https protocol.
  * @returns A safe URL string if the input is a valid http(s) URL, otherwise null.

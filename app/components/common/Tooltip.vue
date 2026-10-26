@@ -16,12 +16,15 @@ const anchorName = `--tooltip-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
 .tooltip .tooltiptext {
   visibility: hidden;
   position: absolute;
-  z-index: 1;
-  position-area: bottom center;
-  margin: 8px;
-  background: var(--foreground);
+  z-index: 10;
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 0;
+  width: max-content;
+  margin: 8px 0 0;
+  background: var(--surface);
   padding: 5px 10px;
-  border: 2px solid var(--background);
+  border: 2px solid var(--distant);
   border-radius: 12px;
   opacity: 0;
   transform: scale(0.5);
@@ -38,7 +41,17 @@ const anchorName = `--tooltip-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
     transform: translateX(-50%);
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent var(--foreground) transparent;
+    border-color: transparent transparent var(--surface) transparent;
+  }
+  /** bigger hover area, bridging the gap to the anchor */
+  &:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: calc(100% + 10px);
   }
 }
 

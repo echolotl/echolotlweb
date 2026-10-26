@@ -207,6 +207,7 @@ function commitStroke() {
     syncHistoryCounts();
   }
   stroke = null;
+  columnHintsHeight.value = targetColumnHintsHeight.value;
 }
 
 /**
@@ -216,6 +217,7 @@ function clearHistory() {
   undoStack = [];
   redoStack = [];
   stroke = null;
+  columnHintsHeight.value = targetColumnHintsHeight.value;
   syncHistoryCounts();
 }
 
@@ -987,10 +989,11 @@ watch(
   },
 );
 
+// `stroke` isn't reactive, so commitStroke/clearHistory apply the deferred height
 watch(
-  [() => targetColumnHintsHeight.value, () => stroke],
-  ([height, currentStroke]) => {
-    if (currentStroke === null) columnHintsHeight.value = height;
+  targetColumnHintsHeight,
+  (height) => {
+    if (stroke === null) columnHintsHeight.value = height;
   },
   { flush: "sync" },
 );

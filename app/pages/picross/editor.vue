@@ -28,7 +28,17 @@
         <div class="new-color-container">
           <Icon icon="palette" width="24px" height="24px" />
           <div class="new-color">
-            <input type="color" v-model="newColor" />
+            <Tooltip>
+              <div
+                class="add-color-swatch"
+                :style="{ '--paint-color': newColor }"
+              ></div>
+              <template #text>
+                <div class="tooltip">
+                  <ColorPicker v-model="newColor" />
+                </div>
+              </template>
+            </Tooltip>
             <button @click="addColor()" title="Add to pallete">
               <Icon icon="small-arrow" width="20px" height="20px" />
             </button>
@@ -44,8 +54,6 @@
             :aria-pressed="selectedIndex === null"
             @click="selectedIndex = null"
           ></button>
-        </div>
-        <div v-if="palette.length" class="swatches">
           <Tooltip v-for="(color, index) in palette" :key="index">
             <div
               class="color-swatch"
@@ -54,14 +62,16 @@
               @click="selectedIndex = index"
             ></div>
             <template #text
-              ><div class="tooltip">
-                <input
-                  type="color"
-                  v-model="game!.palette.colors[index]"
-                /><button @click="deleteColor(index)">
-                  <Icon icon="trash" width="20px" height="20px" />
-                </button></div
-            ></template>
+              ><div class="swatch-tooltip">
+                <div class="tooltip-header">
+                  <span class="lotl-font">#{{ formatWithZeros(index, 2) }}</span
+                  ><button @click="deleteColor(index)">
+                    <Icon icon="trash" width="20px" height="20px" />
+                  </button>
+                </div>
+                <ColorPicker v-model="palette[index]" />
+              </div>
+            </template>
           </Tooltip>
         </div>
       </div>
@@ -154,6 +164,7 @@ import Icon from "~/components/common/Icon.vue";
 import PicrossPage from "~/components/picross/PicrossPage.vue";
 import PicrossInputControls from "~/components/picross/PicrossInputControls.vue";
 import PicrossSizeInput from "~/components/picross/PicrossSizeInput.vue";
+import ColorPicker from "~/components/common/ColorPicker.vue";
 import {
   createPicrossGame,
   clearBoard,
@@ -462,15 +473,21 @@ useSeoMeta({
 
 .palette {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 16px;
-  align-items: center;
+  align-items: flex-start;
   color: var(--text-secondary);
 
   .new-color-container {
     display: flex;
+    width: 100%;
     align-items: center;
+    justify-content: space-between;
     gap: 6px;
+
+    button {
+      transform: rotate(90deg);
+    }
   }
 
   button {
@@ -509,45 +526,38 @@ useSeoMeta({
     display: flex;
     align-items: center;
     gap: 6px;
+
+    .add-color-swatch {
+      width: 48px;
+      height: 24px;
+      background-color: var(--paint-color);
+      box-shadow: 0 0 0 2px
+        color-mix(in srgb, var(--paint-color) 33%, var(--inverted-solid));
+      border-radius: 16px;
+      cursor: pointer;
+      transition: none;
+    }
   }
   .swatches {
-    align-self: flex-start;
     border: 1px solid var(--foreground);
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(7, 24px);
     gap: 1px;
     background: var(--surface);
 
-    .tooltip {
+    .swatch-tooltip {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       gap: 4px;
-    }
 
-    input {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-      border: 0;
-      background: none;
-
-      mask-image: url("/images/icons/edit.webp");
-      -webkit-mask-image: url("/images/icons/edit.webp");
-
-      mask-repeat: no-repeat;
-      -webkit-mask-repeat: no-repeat;
-
-      mask-size: cover;
-
-      &::-webkit-color-swatch {
-        border: none;
-      }
-
-      &::-moz-color-swatch,
-      & ::-moz-focus-inner {
-        border: none;
+      .tooltip-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding-top: 0.25rem;
       }
     }
 
