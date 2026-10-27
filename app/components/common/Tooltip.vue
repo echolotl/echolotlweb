@@ -19,7 +19,6 @@ const anchorName = `--tooltip-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   z-index: 10;
   top: anchor(bottom);
   left: anchor(center);
-  translate: -50% 0;
   width: max-content;
   margin: 8px 0 0;
   background: var(--surface);
@@ -27,7 +26,7 @@ const anchorName = `--tooltip-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   border: 2px solid var(--distant);
   border-radius: 12px;
   opacity: 0;
-  transform: scale(0.5);
+  transform: translateX(-50%) scale(0.5);
   transform-origin: top center;
   transition:
     opacity 0.3s,
@@ -58,6 +57,6 @@ const anchorName = `--tooltip-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
-  transform: scale(1);
+  transform: translateX(-50%) scale(1);
 }
 </style>
