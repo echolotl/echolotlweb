@@ -245,7 +245,14 @@
                     step="0.1"
                     placeholder="%"
                     v-model.number="slice.percent" />
-                  <input type="color" v-model="slice.color" />
+                  <Tooltip>
+                    <div
+                      class="slice-color-swatch"
+                      :style="{ '--slice-editor-color': slice.color }"></div>
+                    <template #text>
+                      <ColorPicker v-model="slice.color" />
+                    </template>
+                  </Tooltip>
                 </div>
                 <div>
                   <button
@@ -271,8 +278,10 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { type Character } from "~~/types";
+import ColorPicker from "~/components/common/ColorPicker.vue";
 import Icon from "~/components/common/Icon.vue";
 import SketchFilter from "~/components/common/SketchFilter.vue";
+import Tooltip from "~/components/common/Tooltip.vue";
 import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 // Types
 type Slice = {
@@ -1017,32 +1026,14 @@ useSeoMeta({
   input[type="text"] {
     flex: 1;
   }
-  input[type="color"] {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
+  .slice-color-swatch {
     width: 48px;
-    padding: 0;
-    border: 0;
-    background: none;
-
-    &::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-
-    &::-webkit-color-swatch {
-      border: 1px solid var(--distant);
-      border-radius: 0;
-    }
-
-    &::-moz-color-swatch,
-    & ::-moz-focus-inner {
-      border: 1px solid var(--distant);
-    }
-
-    &::-moz-focus-inner {
-      padding: 0;
-    }
+    height: 24px;
+    background-color: var(--slice-editor-color);
+    box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--slice-editor-color) 33%, var(--inverted-solid));
+    border-radius: 16px;
+    cursor: pointer;
   }
 }
 .action-button {

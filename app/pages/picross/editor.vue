@@ -26,7 +26,13 @@
     <template v-if="grid?.inputMode === 'paint'">
       <div class="palette">
         <div class="new-color-container">
-          <Icon icon="palette" width="24px" height="24px" />
+          <div class="palette-header">
+            <Icon icon="palette" width="24px" height="24px" />
+            <button @click="loadColorsFromImage" title="Load colors from image">
+              <Icon icon="upload" width="24px" height="24px" />
+            </button>
+          </div>
+
           <div class="new-color">
             <Tooltip>
               <div
@@ -39,7 +45,11 @@
                 </div>
               </template>
             </Tooltip>
-            <button @click="addColor()" title="Add to pallete">
+            <button
+              class="add-button"
+              @click="addColor()"
+              title="Add to pallete"
+            >
               <Icon icon="small-arrow" width="20px" height="20px" />
             </button>
           </div>
@@ -340,6 +350,60 @@ async function handleLoad(event: Event) {
   }
 }
 
+async function loadColorsFromImage() {
+  if (!game.value) return;
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.click();
+  const file = await new Promise<File | null>((resolve) => {
+    input.onchange = (event) => {
+      resolve((event.target as HTMLInputElement).files?.[0] ?? null);
+    };
+  });
+
+  if (!file) return;
+  try {
+    const WIDTH = game.value.size.width;
+    const HEIGHT = game.value.size.height;
+    const imageBitmap = await createImageBitmap(file);
+    // Draw the image onto a canvas the size of the puzzle
+    const processingCanvas = new OffscreenCanvas(WIDTH, HEIGHT);
+    const ctx = processingCanvas.getContext("2d");
+    if (!ctx) throw new Error("Failed to get canvas context");
+    ctx.drawImage(imageBitmap, 0, 0, WIDTH, HEIGHT);
+
+    // Process the canvas to extract colors and update the palette
+    const imageData = ctx.getImageData(0, 0, WIDTH, HEIGHT);
+    const colors = new Set<string>();
+    const indices: (number | null)[][] = [];
+    for (let y = 0; y < HEIGHT; y++) {
+      const row: (number | null)[] = [];
+      for (let x = 0; x < WIDTH; x++) {
+        const i = (y * WIDTH + x) * 4;
+        const r = imageData.data[i];
+        const g = imageData.data[i + 1];
+        const b = imageData.data[i + 2];
+        if (r === undefined || g === undefined || b === undefined) {
+          row.push(null);
+          continue;
+        }
+        const color = rgbToHex({ r, g, b });
+        colors.add(color);
+        row.push([...colors].indexOf(color));
+      }
+      indices.push(row);
+    }
+    game.value.palette = {
+      indices: indices,
+      colors: Array.from(colors),
+    };
+  } catch (error) {
+    fileError.value =
+      error instanceof Error ? error.message : "Couldn't load image";
+  }
+}
+
 // Solvability is only checked once a stroke finishes, not on every tile painted
 let solvePending = false;
 
@@ -485,7 +549,13 @@ useSeoMeta({
     justify-content: space-between;
     gap: 6px;
 
-    button {
+    .palette-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .add-button {
       transform: rotate(90deg);
     }
   }
