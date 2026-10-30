@@ -1,10 +1,12 @@
 <template>
-  <Modal
-    v-model="open"
-    icon="help"
-    icon-color="var(--blue)"
-  >
+  <Modal v-model="open" icon="help" icon-color="var(--blue)">
     <div class="how-to-play-modal">
+      <div
+        class="nautilus"
+        ref="nautilusEl"
+        aria-hidden="true"
+        @click="playChipSound()"
+      />
       <h2 class="how-to-play-modal__title lotl-font">
         How to Picross
         <span class="text-secondary">with Nautilus</span>
@@ -60,11 +62,38 @@
 <script lang="ts" setup>
 import Modal from "~/components/common/Modal.vue";
 import Icon from "../common/Icon.vue";
+import { createSoundPlayer, type SoundPlayer } from "~/utils/audio";
 
 const open = defineModel<boolean>({ required: true });
+const nautilusEl = ref<HTMLElement | null>(null);
+let soundPlayer: SoundPlayer;
+let chipSounds: AudioBuffer[] = [];
 
 const exampleHints = [2, 1];
 const exampleRow = ["filled", "filled", "empty", "empty", "filled"];
+
+onMounted(() => {
+  soundPlayer = createSoundPlayer();
+  Promise.all(
+    [1, 2, 3].map((i) =>
+      soundPlayer.load(`/sounds/picross/nautilus/chip${i}.wav`),
+    ),
+  ).then((buffers) => {
+    chipSounds = buffers.filter((b): b is AudioBuffer => b !== null);
+  });
+});
+
+function playChipSound() {
+  if (chipSounds.length > 0) {
+    const index = Math.floor(Math.random() * chipSounds.length);
+    soundPlayer.play(chipSounds[index]);
+    if (!nautilusEl.value) return;
+    nautilusEl.value.classList.add("speaking");
+    setTimeout(() => {
+      nautilusEl.value?.classList.remove("speaking");
+    }, 100);
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -73,8 +102,7 @@ const exampleRow = ["filled", "filled", "empty", "empty", "filled"];
   flex-direction: column;
   gap: 12px;
 
-  &::after {
-    content: "";
+  .nautilus {
     position: absolute;
     display: block;
     background-image: url("/images/picross/nautilus_how_to_play.webp");
@@ -82,6 +110,11 @@ const exampleRow = ["filled", "filled", "empty", "empty", "filled"];
     background-repeat: no-repeat;
     left: -264px;
     top: -6px;
+    pointer-events: auto;
+    transform-origin: right center;
+    &.speaking {
+      animation: speaking 0.1s;
+    }
 
     width: 300px;
     height: 400px;
@@ -187,6 +220,17 @@ const exampleRow = ["filled", "filled", "empty", "empty", "filled"];
   &__list {
     padding-left: 20px;
     margin: 0;
+  }
+}
+@keyframes speaking {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 </style>
